@@ -55,10 +55,10 @@ export const UserProfile = ({ user }: UserProfileProps) => {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
+      <DropdownMenuContent className="w-56 bg-background border-border" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal bg-muted/20 border-b border-border">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{displayName}</p>
+            <p className="text-sm font-medium leading-none text-foreground">{displayName}</p>
             {email && (
               <p className="text-xs leading-none text-muted-foreground">
                 {email}
@@ -67,20 +67,20 @@ export const UserProfile = ({ user }: UserProfileProps) => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="https://app.cubent.dev" className="flex items-center">
+        <DropdownMenuItem asChild className="hover:bg-muted/30 focus:bg-muted/30">
+          <Link href="https://app.cubent.dev" className="flex items-center text-foreground">
             <User className="mr-2 h-4 w-4" />
             <span>Dashboard</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="https://app.cubent.dev/settings" className="flex items-center">
+        <DropdownMenuItem asChild className="hover:bg-muted/30 focus:bg-muted/30">
+          <Link href="https://app.cubent.dev/settings" className="flex items-center text-foreground">
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut} className="flex items-center">
+        <DropdownMenuItem onClick={handleSignOut} className="flex items-center hover:bg-muted/30 focus:bg-muted/30 text-foreground">
           <LogOut className="mr-2 h-4 w-4" />
           <span>Sign out</span>
         </DropdownMenuItem>

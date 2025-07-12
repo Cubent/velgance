@@ -1,8 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { MoveRight, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useState } from 'react';
 
 // Feature data
@@ -55,21 +54,10 @@ export const Mockup = () => {
   const [selectedFeature, setSelectedFeature] = useState<typeof features[0] | null>(null);
 
   return (
-  <div className="w-full relative">
-    {/* Grid background for GIF section */}
-    <div
-      className="absolute inset-0 opacity-20"
-      style={{
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-        `,
-        backgroundSize: '40px 40px'
-      }}
-    />
-    <div className="container mx-auto px-2 sm:px-4 lg:px-6 relative z-10">
-      <div className="flex flex-col items-center justify-center gap-2 py-4">
-        <div className="relative w-full max-w-7xl">
+  <>
+    <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
+      <div className="hidden flex-col items-center justify-center gap-2 py-6">
+        <div className="relative w-full max-w-8xl">
           <div className="relative overflow-hidden">
             <Image
               src="/images/Cubent.Dev.gif"
@@ -88,20 +76,18 @@ export const Mockup = () => {
     </div>
 
     {/* Made for modern product teams section */}
-    <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-      {/* Grid background */}
+    <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
       <div
-        className="absolute inset-0 opacity-20"
+        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-24 lg:pt-36 pb-0 relative"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px'
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderTop: 'none',
+          backgroundColor: 'transparent'
         }}
-      />
-      {/* Top section - Title on left, description on right */}
-      <div className="relative z-10 flex flex-col lg:flex-row gap-8 lg:gap-16 items-start mb-16 lg:mb-20 max-w-5xl mx-auto">
+      >
+
+        {/* Top section - Title on left, description on right */}
+        <div className="relative z-10 flex flex-col lg:flex-row gap-10 lg:gap-20 items-start mb-20 lg:mb-24">
         {/* Left side - Title */}
         <div className="flex-1 max-w-md">
           <h2 className="text-4xl lg:text-5xl font-regular tracking-tighter text-white">
@@ -109,88 +95,139 @@ export const Mockup = () => {
           </h2>
         </div>
 
-        {/* Right side - Description and link */}
+        {/* Right side - Description */}
         <div className="flex-1 max-w-lg">
-          <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+          <p className="text-lg text-muted-foreground leading-relaxed">
             Cubent transforms how developers work by providing intelligent, context-aware assistance that learns from your codebase. From instant screenshot-to-code conversion to deep architectural understanding, we're building the future of software development.
           </p>
-          <Link href="#" className="text-white hover:text-muted-foreground transition-colors inline-flex items-center gap-2">
-            Make the switch <MoveRight className="h-4 w-4" />
-          </Link>
         </div>
       </div>
 
-      {/* Bottom section - Three feature cards in a row */}
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
+      {/* Vertical lines section */}
+      <div className="relative z-10 mb-20 lg:mb-24 -mx-6 sm:-mx-8 lg:-mx-12">
+        <div className="h-16 lg:h-20 w-full relative overflow-hidden" style={{ backgroundColor: '#161616' }}>
+          {/* Top horizontal line */}
+          <div
+            className="absolute top-0 left-0 right-0 h-px"
+            style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+          />
+          {/* Thin vertical lines pattern - extending to edges */}
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+              backgroundSize: '8px 100%'
+            }}
+          />
+          {/* Bottom horizontal line */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-px"
+            style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+          />
+        </div>
+      </div>
+
+      {/* Two images section - attached to lined bar bottom */}
+      <div className="relative z-10 -mt-20 lg:-mt-24 mb-8 -mx-6 sm:-mx-8 lg:-mx-12">
+        <div className="grid grid-cols-2 gap-0" style={{ backgroundColor: '#161616' }}>
+          {/* Left image */}
+          <div className="relative">
+            <Image
+              src="/images/Cubent (2).png"
+              alt="Real-time project context panel"
+              width={800}
+              height={600}
+              className="w-full h-auto object-cover border border-gray-600"
+            />
+          </div>
+          {/* Right image */}
+          <div className="relative">
+            <Image
+              src="/images/Cubent (3).png"
+              alt="Autonomous multi-step coding workflows"
+              width={800}
+              height={600}
+              className="w-full h-auto object-cover border border-gray-600"
+            />
+          </div>
+        </div>
+
+        {/* Text content directly below images with more spacing */}
+        <div className="grid grid-cols-2 gap-8 px-6 sm:px-8 lg:px-12 mt-16 mb-0 relative">
+          {/* Center divider line */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 transform -translate-x-1/2"></div>
+
+          {/* Left text */}
+          <div className="max-w-md mx-auto text-left">
+            <h3 className="text-4xl font-normal text-white mb-6 leading-tight">
+              Real-time project context panel
+            </h3>
+            <p className="text-gray-400 text-sm leading-relaxed pb-6">
+              A single overlay that pulses with your repo's heartbeat—files, problems, Git, terminals and folders always a glance away.
+            </p>
+          </div>
+          {/* Right text */}
+          <div className="max-w-md mx-auto text-left">
+            <h3 className="text-4xl font-normal text-white mb-6 leading-tight">
+              Autonomous multi-step coding workflows
+            </h3>
+            <p className="text-gray-400 text-sm leading-relaxed pb-6">
+              Let Cubent chain terminal commands, edit files, run tests and open pull requests while you sip your coffee—true hands-free automation.
+            </p>
+          </div>
+        </div>
+
+        {/* Vertical lines section - inside the container with proper limits */}
+        <div className="relative z-10 mt-16">
+          <div className="h-16 lg:h-20 w-full relative overflow-hidden" style={{ backgroundColor: '#161616' }}>
+            {/* Top horizontal line */}
             <div
-              key={feature.id}
-              onClick={() => setSelectedFeature(feature)}
-              className={`group relative bg-[#1a1a1a] rounded-3xl overflow-hidden hover:bg-[#222222] transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50 cursor-pointer ${
-                index === 2 ? 'md:col-span-2 lg:col-span-1' : ''
-              }`}
-            >
-              <div className="relative aspect-square w-full overflow-hidden">
-                <Image
-                  src={feature.image}
-                  alt={feature.alt}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6 pr-16">
-                <h3 className="text-xl font-medium text-white mb-2 leading-tight break-words">
-                  {feature.title}
-                </h3>
-              </div>
-              <div className="absolute bottom-5 right-5 w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/70 group-hover:bg-white/10 group-hover:text-white transition-all duration-300">
-                <span className="text-2xl leading-none">+</span>
-              </div>
-            </div>
-          ))}
+              className="absolute top-0 left-0 right-0 h-px"
+              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            />
+            {/* Thin vertical lines pattern - extending to edges */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+                backgroundSize: '8px 100%'
+              }}
+            />
+            {/* Bottom horizontal line */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-px"
+              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            />
+          </div>
         </div>
       </div>
     </div>
+    </div>
 
-    {/* Database Explorer Section - Same background as community section */}
-    <div className="w-full py-6 lg:py-8 bg-[#0a0a0a] relative overflow-hidden border-t border-white/20">
-      {/* Grid background - exact same as community section */}
+    {/* MCP Tools Section - Bordered box like AI-powered section */}
+    <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
       <div
-        className="absolute inset-0 opacity-20"
+        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-24 lg:pt-36 pb-12 lg:pb-16 relative"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px'
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderTop: 'none',
+          backgroundColor: 'transparent'
         }}
-      />
-      {/* Background gradient effects - same as community */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/11 to-transparent" />
+      >
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-7xl mx-auto relative">
-          {/* Vertical center dividing line - extended to connect sections */}
-          <div
-            className="absolute left-1/2 -top-24 -bottom-24 w-px transform -translate-x-1/2 hidden lg:block"
-            style={{
-              background: 'linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%)'
-            }}
-          ></div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center group transition-all duration-500 grayscale hover:grayscale-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start">
             {/* Left side - Content only */}
-            <div className="space-y-8 pr-8 lg:pr-16">
+            <div className="space-y-8 pr-10 lg:pr-20 py-4 -mt-8">
               {/* MCP Tools label */}
-              <div className="text-white/60 text-sm font-medium tracking-wider group-hover:text-orange-500 transition-colors duration-500">
+              <div className="text-white/60 text-sm font-medium tracking-wider">
                 — MCP Tools
               </div>
 
               {/* Main heading */}
               <div className="space-y-4">
                 <h2 className="text-4xl lg:text-5xl font-regular tracking-tight text-white leading-tight">
-                  Integrate with the tools <span className="group-hover:text-orange-500 transition-colors duration-500">you already use</span>
+                  Integrate with the tools you already use
                 </h2>
                 <p className="text-white/70 text-lg leading-relaxed max-w-md">
                   Cubent brings together your essential apps with MCP from GitHub to Notion — into one powerful interface. Discover, connect, and explore your data like never before.
@@ -198,77 +235,182 @@ export const Mockup = () => {
               </div>
             </div>
 
-            {/* Right side - Database interface image */}
-            <div className="hidden lg:block pl-8 lg:pl-16">
-              <div className="relative">
+            {/* Right side - Square image touching top and right borders */}
+            <div className="hidden lg:block relative h-full -mr-6 sm:-mr-8 lg:-mr-12">
+              <div className="aspect-square w-full absolute -top-24 lg:-top-36 right-0">
                 <img
-                  src="/images/cubent-database-interface.png"
-                  alt="Database interface showing table explorer and query editor"
-                  className="w-full h-auto rounded-lg shadow-2xl transition-all duration-500"
+                  src="/images/Cubent.Dev (25).png"
+                  alt="Cubent MCP Tools interface"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
+          </div>
+
+        {/* Vertical lines section - boxed within bordered container */}
+        <div className="relative z-10 mt-32 lg:mt-36 -mx-6 sm:-mx-8 lg:-mx-12">
+          <div className="h-16 lg:h-20 w-full relative overflow-hidden" style={{ backgroundColor: '#161616' }}>
+            {/* Top horizontal line */}
+            <div
+              className="absolute top-0 left-0 right-0 h-px"
+              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            />
+            {/* Thin vertical lines pattern - extending to edges */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+                backgroundSize: '8px 100%'
+              }}
+            />
+            {/* Bottom horizontal line */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-px"
+              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            />
           </div>
         </div>
       </div>
     </div>
 
-    {/* Inverted MCP Tools Section - Image on left, content on right */}
-    <div className="w-full py-6 lg:py-8 bg-[#0a0a0a] relative overflow-hidden border-t border-white/20">
-      {/* Grid background - same as above */}
+    {/* Speed with context awareness section */}
+    <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
       <div
-        className="absolute inset-0 opacity-20"
+        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-20 relative"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px'
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderTop: 'none',
+          backgroundColor: 'transparent'
         }}
-      />
-      {/* Background gradient effects */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/11 to-transparent" />
+      >
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 mb-16 lg:mb-20">
+          {/* Left side - Title and description */}
+          <div className="flex-1">
+            <h2 className="text-4xl lg:text-5xl font-regular tracking-tight text-white leading-tight mb-4">
+              Speed with context awareness
+            </h2>
+            <p className="text-white/70 text-lg leading-relaxed max-w-lg">
+              With a Time-to-First-Audio of 40ms, Sonic is the fastest generative voice model built for streaming.
+            </p>
+          </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-7xl mx-auto relative">
-          {/* Vertical center dividing line - extended to connect sections */}
-          <div
-            className="absolute left-1/2 -top-24 -bottom-24 w-px transform -translate-x-1/2 hidden lg:block"
-            style={{
-              background: 'linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%)'
-            }}
-          ></div>
+          {/* Right side - Percentage */}
+          <div className="flex-shrink-0 text-right">
+            <div
+              className="text-6xl lg:text-7xl font-normal leading-none"
+              style={{
+                background: 'linear-gradient(135deg, #ff8c00, #ff4500)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              *145%
+            </div>
+            <p className="text-white/60 text-sm mt-2">
+              faster than the next best competitor
+            </p>
+          </div>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center group transition-all duration-500 grayscale hover:grayscale-0">
-            {/* Left side - Autocomplete interface image (inverted) */}
-            <div className="hidden lg:block pr-8 lg:pr-16">
-              <div className="relative">
+        {/* Image below the content */}
+        <div className="w-full flex justify-center mb-16 lg:mb-20">
+          <img
+            src="/images/Cubent.Dev (30).png"
+            alt="Cubent speed demonstration"
+            className="w-full max-w-6xl h-auto object-contain"
+          />
+        </div>
+
+        {/* Vertical lines section - inside the same container */}
+        <div className="relative z-10 -mx-6 sm:-mx-8 lg:-mx-12">
+          <div className="h-16 lg:h-20 w-full relative overflow-hidden" style={{ backgroundColor: '#161616' }}>
+            {/* Top horizontal line */}
+            <div
+              className="absolute top-0 left-0 right-0 h-px"
+              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            />
+            {/* Thin vertical lines pattern - extending to edges */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+                backgroundSize: '8px 100%'
+              }}
+            />
+            {/* Bottom horizontal line */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-px"
+              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Duplicated MCP Tools Section - Image on left, content on right */}
+    <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
+      <div
+        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 lg:py-36 pb-16 lg:pb-20 relative"
+        style={{
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderTop: 'none',
+          backgroundColor: 'transparent'
+        }}
+      >
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start">
+            {/* Left side - Square image touching top and left borders */}
+            <div className="hidden lg:block relative h-full -ml-6 sm:-ml-8 lg:-ml-12">
+              <div className="aspect-square w-full absolute -top-24 lg:-top-36 left-0">
                 <img
-                  src="/images/cubent-autocomplete-interface.png"
-                  alt="Code editor showing intelligent autocomplete suggestions"
-                  className="w-full h-auto rounded-lg shadow-2xl transition-all duration-500"
+                  src="/images/Cubent.Dev (29).png"
+                  alt="Cubent Autocomplete interface"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
 
-            {/* Right side - Content (inverted) */}
-            <div className="space-y-8 pl-8 lg:pl-16">
+            {/* Right side - Content only */}
+            <div className="space-y-8 pl-10 lg:pl-20 py-4 -mt-8">
               {/* Autocomplete label */}
-              <div className="text-white/60 text-sm font-medium tracking-wider group-hover:text-orange-500 transition-colors duration-500">
+              <div className="text-white/60 text-sm font-medium tracking-wider">
                 — Autocomplete
               </div>
 
               {/* Main heading */}
               <div className="space-y-4">
                 <h2 className="text-4xl lg:text-5xl font-regular tracking-tight text-white leading-tight">
-                  Code smarter<br />
-                  with <span className="group-hover:text-orange-500 transition-colors duration-500">context-aware autocomplete</span>
+                  Code smarter with context-aware autocomplete
                 </h2>
                 <p className="text-white/70 text-lg leading-relaxed max-w-md">
-                  MCP Tools helps you write faster and cleaner code with intelligent suggestions that adapt to your workflow — just start typing, and let the magic happen.
+                  Experience intelligent code completion that understands your project context. Cubent's autocomplete adapts to your coding patterns and suggests the most relevant completions — just start typing, and let the magic happen.
                 </p>
               </div>
             </div>
+          </div>
+
+        {/* Vertical lines section - boxed within bordered container */}
+        <div className="relative z-10 mt-28 lg:mt-32 -mx-6 sm:-mx-8 lg:-mx-12">
+          <div className="h-16 lg:h-20 w-full relative overflow-hidden" style={{ backgroundColor: '#161616' }}>
+            {/* Top horizontal line */}
+            <div
+              className="absolute top-0 left-0 right-0 h-px"
+              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            />
+            {/* Thin vertical lines pattern - extending to edges */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+                backgroundSize: '8px 100%'
+              }}
+            />
+            {/* Bottom horizontal line */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-px"
+              style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+            />
           </div>
         </div>
       </div>
@@ -326,6 +468,6 @@ export const Mockup = () => {
         </div>
       </div>
     )}
-  </div>
+  </>
   );
 };

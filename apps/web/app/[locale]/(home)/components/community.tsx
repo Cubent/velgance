@@ -308,22 +308,15 @@ export const Community = ({ dictionary }: CommunityProps) => {
   };
 
   return (
-    <div className="w-full py-8 lg:py-12 bg-[#0a0a0a] relative overflow-hidden">
-      {/* Grid background */}
+    <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
       <div
-        className="absolute inset-0 opacity-20"
+        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 lg:py-36 relative overflow-hidden"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px'
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderTop: 'none',
+          backgroundColor: 'transparent'
         }}
-      />
-      {/* Background gradient effects */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/11 to-transparent" />
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      >
         <div className="flex flex-col items-center gap-10">
           {/* Header */}
           <div className="text-center">

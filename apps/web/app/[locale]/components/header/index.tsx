@@ -139,7 +139,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                         <Button
                           variant="ghost"
                           asChild
-                          className={isActiveItem(item.href) ? 'bg-neutral-800/50 text-orange-400 hover:bg-neutral-700/50 hover:text-orange-300' : ''}
+                          className={isActiveItem(item.href) ? 'bg-muted/30 text-foreground hover:bg-muted/40' : 'hover:bg-muted/20'}
                         >
                           <Link
                             href={item.href}
@@ -153,7 +153,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                     </>
                   ) : (
                     <>
-                      <NavigationMenuTrigger className={`font-medium text-sm bg-transparent hover:bg-transparent data-[state=open]:bg-transparent ${isCompanyActive() ? 'text-orange-400' : ''}`}>
+                      <NavigationMenuTrigger className={`font-medium text-sm bg-transparent hover:bg-muted/20 data-[state=open]:bg-muted/30 ${isCompanyActive() ? 'text-foreground bg-muted/30' : ''}`}>
                         {item.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent className="!w-[500px] p-6">
@@ -203,15 +203,15 @@ export const Header = ({ dictionary }: HeaderProps) => {
           ) : isAuthenticated && user ? (
             <UserProfile user={user} />
           ) : (
-            <Button variant="ghost" asChild className="text-white hover:text-white hover:bg-white/10 h-10 flex items-center">
+            <Button variant="outline" asChild className="text-white hover:text-white hover:bg-white/10 h-10 flex items-center border border-white/20 rounded-full px-6">
               <Link href="https://app.cubent.dev/sign-in">
                 Sign In
               </Link>
             </Button>
           )}
-          <Button asChild className="hidden md:inline-flex h-10 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white border-0">
-            <Link href="https://marketplace.visualstudio.com/items?itemName=cubent.cubent" className="flex flex-row items-center gap-2 px-4 py-2 whitespace-nowrap">
-              <span className="shrink-0 text-sm">Download Cubent</span>
+          <Button asChild className="hidden md:inline-flex h-10 bg-white hover:bg-gray-100 text-black border-0 rounded-full px-6">
+            <Link href="https://marketplace.visualstudio.com/items?itemName=cubent.cubent" className="flex flex-row items-center gap-2 whitespace-nowrap">
+              <span className="shrink-0 text-sm font-medium">Download Cubent</span>
             </Link>
           </Button>
         </div>
@@ -228,7 +228,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                       <Link
                         href={item.href}
                         className={`flex items-center justify-between ${
-                          isActiveItem(item.href) ? 'bg-neutral-800/50 text-orange-400 rounded px-2 py-1' : ''
+                          isActiveItem(item.href) ? 'bg-muted/30 text-foreground rounded px-2 py-1' : ''
                         }`}
                         target={
                           item.href.startsWith('http') ? '_blank' : undefined
@@ -243,7 +243,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                         <MoveRight className="h-4 w-4 stroke-1 text-muted-foreground" />
                       </Link>
                     ) : (
-                      <p className={`text-lg ${isCompanyActive() ? 'text-orange-400' : ''}`}>{item.title}</p>
+                      <p className={`text-lg ${isCompanyActive() ? 'text-foreground' : ''}`}>{item.title}</p>
                     )}
                     {item.sections?.map((section) => (
                       <div key={section.title} className="ml-4 flex flex-col gap-2">

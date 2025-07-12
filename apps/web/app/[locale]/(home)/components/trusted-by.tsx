@@ -32,76 +32,30 @@ export const TrustedBy = ({ dictionary }: TrustedByProps) => {
   }, []);
 
   return (
-  <div className="w-full relative overflow-hidden py-12 lg:py-24">
-    {/* Grid background pattern */}
-    <div
-      className="absolute inset-0 opacity-20"
-      style={{
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-        `,
-        backgroundSize: '40px 40px'
-      }}
-    />
+  <div className="w-full relative overflow-hidden py-6 lg:py-8">
 
-    {/* Grid lines with more transparency */}
-    <div className="absolute inset-0 pointer-events-none z-10">
-      {/* Left vertical dashed line */}
-      <div
-        className="absolute top-0 bottom-0 w-px"
-        style={{
-          left: '10%',
-          background: 'repeating-linear-gradient(to bottom, rgba(62, 62, 62, 0.3) 0 5px, transparent 5px 11px)'
-        }}
-      />
-
-      {/* Right vertical dashed line */}
-      <div
-        className="absolute top-0 bottom-0 w-px"
-        style={{
-          right: '10%',
-          background: 'repeating-linear-gradient(to bottom, rgba(62, 62, 62, 0.3) 0 5px, transparent 5px 11px)'
-        }}
-      />
-
-      {/* Top horizontal dashed line */}
-      <div
-        className="absolute left-0 right-0 h-px"
-        style={{
-          top: '92px',
-          background: 'repeating-linear-gradient(to right, rgba(62, 62, 62, 0.3) 0 5px, transparent 5px 11px)'
-        }}
-      />
-
-      {/* Bottom horizontal dashed line */}
-      <div
-        className="absolute left-0 right-0 h-px"
-        style={{
-          bottom: '92px',
-          background: 'repeating-linear-gradient(to right, rgba(62, 62, 62, 0.3) 0 5px, transparent 5px 11px)'
-        }}
-      />
-    </div>
 
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-      <div className="flex flex-col items-center justify-center gap-12">
-        <div className="flex flex-col gap-4 text-center">
-          <h2 className="font-regular text-3xl tracking-tighter md:text-4xl">
-            Trusted by developers worldwide
-          </h2>
-          <p className="max-w-2xl text-lg text-muted-foreground leading-relaxed tracking-tight">
-            Join thousands of developers who rely on Cubent to enhance their coding workflow
-          </p>
-        </div>
+      <div className="flex flex-col items-center justify-center gap-6">
+
 
         {/* Company logos - animated horizontal scroll showing 4 at a time */}
         <div className="w-full max-w-2xl relative overflow-hidden mx-auto">
           {/* Left shadow gradient */}
-          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
+          <div
+            className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to right, #161616, transparent)'
+            }}
+          ></div>
 
           {/* Right shadow gradient */}
-          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+          <div
+            className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to left, #161616, transparent)'
+            }}
+          ></div>
 
           <div className="flex gap-24 animate-scroll-companies opacity-60 hover:opacity-80 transition-opacity">
             {/* First set of all 6 companies */}

@@ -2,8 +2,15 @@ import React from 'react';
 
 export const ModelProviders = () => {
   return (
-    <div className="w-full py-20 lg:py-32">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
+      <div
+        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 lg:py-36 relative"
+        style={{
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderTop: 'none',
+          backgroundColor: 'transparent'
+        }}
+      >
         <div className="flex flex-col items-center justify-center gap-12">
           {/* Header */}
           <div className="flex flex-col gap-4 text-center max-w-4xl mx-auto">
@@ -93,8 +100,6 @@ export const ModelProviders = () => {
 
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
