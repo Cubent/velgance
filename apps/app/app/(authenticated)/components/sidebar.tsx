@@ -65,9 +65,10 @@ const data = {
       icon: UserIcon,
     },
     {
-      title: 'Usage Analytics',
+      title: 'Cubent Units',
       url: '/profile/usage',
-      icon: PieChartIcon,
+      icon: BarChart3,
+      locked: false,
     },
   ],
   navUsageMetrics: [
@@ -133,6 +134,9 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
+                      {item.locked !== undefined && (
+                        <Lock className="h-3 w-3 ml-auto" />
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
