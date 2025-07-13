@@ -64,19 +64,14 @@ const data = {
       url: '/profile',
       icon: UserIcon,
     },
+  ],
+  navUsageMetrics: [
     {
       title: 'Cubent Units',
       url: '/profile/usage',
       icon: BarChart3,
       locked: false,
-    },
-  ],
-  navUsageMetrics: [
-    {
-      title: 'Cubent Units',
-      url: '/usage/cubent-units',
-      icon: BarChart3,
-      locked: true,
+      grey: true,
     },
     {
       title: 'Request Tracking',
@@ -154,7 +149,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                     tooltip={item.title}
                     isActive={pathname === item.url}
                     size="lg"
-                    className={`h-12 px-4 ${item.locked ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`h-12 px-4 ${item.locked ? 'opacity-50 cursor-not-allowed' : ''} ${item.grey ? 'text-gray-400' : ''}`}
                   >
                     {item.locked ? (
                       <div className="flex items-center gap-2 w-full">
@@ -166,6 +161,9 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                       <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
+                        {item.grey && (
+                          <Lock className="h-3 w-3 ml-auto" />
+                        )}
                       </Link>
                     )}
                   </SidebarMenuButton>
