@@ -8,7 +8,7 @@ import { useState } from 'react';
 const features = [
   {
     id: 1,
-    title: "Autonomous multi-step coding workflows",
+    title: "Sit back while it handles the heavy lifting, step by step",
     image: "/images/cubent-feature-1.png",
     alt: "Context Intelligence",
     description: "Let Cubent chain terminal commands, edit files, run tests and open pull requests while you sip your coffee—true hands-free automation.",
@@ -22,7 +22,7 @@ const features = [
   },
   {
     id: 2,
-    title: "Real-time project context panel",
+    title: "Stay in sync with a real-time panel that knows your project",
     image: "/images/cubent-feature-2.png",
     alt: "AI Screenshot Analysis",
     description: "A single overlay that pulses with your repo’s heartbeat—files, problems, Git, terminals and folders always a glance away.",
@@ -91,7 +91,7 @@ export const Mockup = () => {
         {/* Left side - Title */}
         <div className="flex-1 max-w-md">
           <h2 className="text-4xl lg:text-5xl font-regular tracking-tighter text-white">
-            AI-powered development that understands your code
+            An AI that vibes with your code and keeps up with your flow.
           </h2>
         </div>
 
@@ -134,7 +134,7 @@ export const Mockup = () => {
           <div className="relative">
             <Image
               src="/images/Cubent (2).png"
-              alt="Real-time project context panel"
+              alt="Stay in sync with a real-time panel that knows your project"
               width={800}
               height={600}
               className="w-full h-auto object-cover border border-gray-600"
@@ -144,7 +144,7 @@ export const Mockup = () => {
           <div className="relative">
             <Image
               src="/images/Cubent (3).png"
-              alt="Autonomous multi-step coding workflows"
+              alt="Sit back while it handles the heavy lifting, step by step"
               width={800}
               height={600}
               className="w-full h-auto object-cover border border-gray-600"
@@ -159,8 +159,8 @@ export const Mockup = () => {
 
           {/* Left text */}
           <div className="max-w-md mx-auto text-left">
-            <h3 className="text-4xl font-normal text-white mb-6 leading-tight">
-              Real-time project context panel
+            <h3 className="text-4xl font-normal text-white/90 mb-6 leading-tight">
+              Stay in sync with a real-time panel that knows your project
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed pb-6">
               A single overlay that pulses with your repo's heartbeat—files, problems, Git, terminals and folders always a glance away.
@@ -168,8 +168,8 @@ export const Mockup = () => {
           </div>
           {/* Right text */}
           <div className="max-w-md mx-auto text-left">
-            <h3 className="text-4xl font-normal text-white mb-6 leading-tight">
-              Autonomous multi-step coding workflows
+            <h3 className="text-4xl font-normal text-white/90 mb-6 leading-tight">
+              Sit back while it handles the heavy lifting, step by step
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed pb-6">
               Let Cubent chain terminal commands, edit files, run tests and open pull requests while you sip your coffee—true hands-free automation.
@@ -314,7 +314,7 @@ export const Mockup = () => {
         </div>
 
         {/* Image below the content */}
-        <div className="w-full flex justify-center mb-16 lg:mb-20">
+        <div className="w-full flex justify-center mb-8 lg:mb-10">
           <img
             src="/images/Cubent.Dev (30).png"
             alt="Cubent speed demonstration"
@@ -391,7 +391,7 @@ export const Mockup = () => {
           </div>
 
         {/* Vertical lines section - boxed within bordered container */}
-        <div className="relative z-10 mt-28 lg:mt-32 -mx-6 sm:-mx-8 lg:-mx-12">
+        <div className="relative z-10 mt-16 lg:mt-20 -mx-6 sm:-mx-8 lg:-mx-12">
           <div className="h-16 lg:h-20 w-full relative overflow-hidden" style={{ backgroundColor: '#161616' }}>
             {/* Top horizontal line */}
             <div

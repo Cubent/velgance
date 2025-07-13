@@ -167,95 +167,32 @@ const Home = async ({ params }: HomeProps) => {
             borderTop: 'none'
           }}
         >
-            {/* Colorful vertical bars background for entire section */}
-            <div className="absolute inset-0 flex items-end justify-center overflow-hidden">
-              <div className="flex items-end gap-2 h-full w-full">
-                {/* Generate multiple bars with segmented cuts */}
-                {[
-                  { width: '18px', height: '45%', bg: 'linear-gradient(to top, #ff0844, #ff1744, #ff5722)', segments: 3 },
-                  { width: '22px', height: '65%', bg: 'linear-gradient(to top, #e91e63, #ad1457, #880e4f)', segments: 4 },
-                  { width: '16px', height: '35%', bg: 'linear-gradient(to top, #9c27b0, #7b1fa2, #4a148c)', segments: 2 },
-                  { width: '25px', height: '70%', bg: 'linear-gradient(to top, #673ab7, #512da8, #311b92)', segments: 4 },
-                  { width: '19px', height: '50%', bg: 'linear-gradient(to top, #3f51b5, #303f9f, #1a237e)', segments: 3 },
-                  { width: '21px', height: '60%', bg: 'linear-gradient(to top, #2196f3, #1976d2, #0d47a1)', segments: 3 },
-                  { width: '17px', height: '40%', bg: 'linear-gradient(to top, #00bcd4, #0097a7, #006064)', segments: 2 },
-                  { width: '24px', height: '75%', bg: 'linear-gradient(to top, #009688, #00695c, #004d40)', segments: 4 },
-                  { width: '20px', height: '55%', bg: 'linear-gradient(to top, #4caf50, #388e3c, #1b5e20)', segments: 3 },
-                  { width: '23px', height: '65%', bg: 'linear-gradient(to top, #8bc34a, #689f38, #33691e)', segments: 4 },
-                  { width: '18px', height: '45%', bg: 'linear-gradient(to top, #ffeb3b, #fbc02d, #f57f17)', segments: 3 },
-                  { width: '26px', height: '80%', bg: 'linear-gradient(to top, #ffc107, #ff8f00, #e65100)', segments: 4 },
-                  { width: '15px', height: '30%', bg: 'linear-gradient(to top, #ff9800, #f57c00, #e65100)', segments: 2 },
-                  { width: '22px', height: '60%', bg: 'linear-gradient(to top, #ff5722, #d84315, #bf360c)', segments: 3 },
-                  { width: '19px', height: '50%', bg: 'linear-gradient(to top, #f44336, #c62828, #b71c1c)', segments: 3 },
-                  { width: '21px', height: '55%', bg: 'linear-gradient(to top, #00e676, #00c853, #00695c)', segments: 3 },
-                  { width: '17px', height: '40%', bg: 'linear-gradient(to top, #ff6d00, #ff3d00, #dd2c00)', segments: 2 },
-                  { width: '25px', height: '70%', bg: 'linear-gradient(to top, #d500f9, #aa00ff, #6200ea)', segments: 4 },
-                  { width: '20px', height: '55%', bg: 'linear-gradient(to top, #ff0844, #ff1744, #ff5722)', segments: 3 },
-                  { width: '18px', height: '45%', bg: 'linear-gradient(to top, #e91e63, #ad1457, #880e4f)', segments: 3 },
-                  { width: '23px', height: '65%', bg: 'linear-gradient(to top, #9c27b0, #7b1fa2, #4a148c)', segments: 4 },
-                  { width: '16px', height: '35%', bg: 'linear-gradient(to top, #673ab7, #512da8, #311b92)', segments: 2 },
-                  { width: '24px', height: '75%', bg: 'linear-gradient(to top, #3f51b5, #303f9f, #1a237e)', segments: 4 },
-                  { width: '19px', height: '50%', bg: 'linear-gradient(to top, #2196f3, #1976d2, #0d47a1)', segments: 3 },
-                  { width: '22px', height: '60%', bg: 'linear-gradient(to top, #00bcd4, #0097a7, #006064)', segments: 3 },
-                  { width: '17px', height: '40%', bg: 'linear-gradient(to top, #009688, #00695c, #004d40)', segments: 2 },
-                  { width: '26px', height: '80%', bg: 'linear-gradient(to top, #4caf50, #388e3c, #1b5e20)', segments: 4 },
-                  { width: '15px', height: '30%', bg: 'linear-gradient(to top, #8bc34a, #689f38, #33691e)', segments: 2 },
-                  { width: '21px', height: '55%', bg: 'linear-gradient(to top, #ffeb3b, #fbc02d, #f57f17)', segments: 3 },
-                  { width: '18px', height: '45%', bg: 'linear-gradient(to top, #ffc107, #ff8f00, #e65100)', segments: 3 },
-                  { width: '25px', height: '70%', bg: 'linear-gradient(to top, #ff9800, #f57c00, #e65100)', segments: 4 },
-                  { width: '20px', height: '55%', bg: 'linear-gradient(to top, #ff5722, #d84315, #bf360c)', segments: 3 },
-                  { width: '23px', height: '65%', bg: 'linear-gradient(to top, #f44336, #c62828, #b71c1c)', segments: 4 },
-                  { width: '16px', height: '35%', bg: 'linear-gradient(to top, #00e676, #00c853, #00695c)', segments: 2 },
-                  { width: '24px', height: '75%', bg: 'linear-gradient(to top, #ff6d00, #ff3d00, #dd2c00)', segments: 4 },
-                  { width: '19px', height: '50%', bg: 'linear-gradient(to top, #d500f9, #aa00ff, #6200ea)', segments: 3 },
-                  { width: '22px', height: '60%', bg: 'linear-gradient(to top, #ff0844, #ff1744, #ff5722)', segments: 3 },
-                  { width: '17px', height: '40%', bg: 'linear-gradient(to top, #e91e63, #ad1457, #880e4f)', segments: 2 },
-                  { width: '26px', height: '80%', bg: 'linear-gradient(to top, #9c27b0, #7b1fa2, #4a148c)', segments: 4 },
-                  { width: '15px', height: '30%', bg: 'linear-gradient(to top, #673ab7, #512da8, #311b92)', segments: 2 },
-                ].map((bar, i) => (
-                  <div
-                    key={i}
-                    className="relative opacity-60 flex flex-col justify-end gap-1"
-                    style={{
-                      width: bar.width,
-                      height: bar.height,
-                    }}
-                  >
-                    {/* Create segments with gaps */}
-                    {Array.from({ length: bar.segments }).map((_, segmentIndex) => (
-                      <div
-                        key={segmentIndex}
-                        className="relative"
-                        style={{
-                          height: `${100 / bar.segments - 2}%`,
-                          background: bar.bg,
-                        }}
-                      >
-                        {/* Heavy noise texture overlay */}
-                        <div
-                          className="absolute inset-0 opacity-90"
-                          style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter${i}${segmentIndex}'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter${i}${segmentIndex})'/%3E%3C/svg%3E")`,
-                            mixBlendMode: 'multiply'
-                          }}
-                        />
-                        {/* Additional grain layer */}
-                        <div
-                          className="absolute inset-0 opacity-70"
-                          style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grainFilter${i}${segmentIndex}'%3E%3CfeTurbulence type='turbulence' baseFrequency='3.0' numOctaves='10' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grainFilter${i}${segmentIndex})'/%3E%3C/svg%3E")`,
-                            mixBlendMode: 'overlay'
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
+            {/* Light blue, green & orange gradient background with grain filter */}
+            <div className="absolute inset-0 overflow-hidden">
+              {/* Gradient background that fades from bottom */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: 'linear-gradient(to top, rgba(0, 188, 212, 0.7) 0%, rgba(255, 152, 0, 0.6) 35%, rgba(76, 175, 80, 0.65) 60%, rgba(32, 32, 32, 1) 80%)',
+                }}
+              />
+              {/* Grain filter overlay */}
+              <div
+                className="absolute inset-0 opacity-65"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilterCodeSection'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilterCodeSection)'/%3E%3C/svg%3E")`,
+                  mixBlendMode: 'overlay'
+                }}
+              />
             </div>
 
             {/* Subtle gradient overlay on top of bars */}
-            <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-black/30 pointer-events-none" />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: 'linear-gradient(to bottom right, rgba(22, 22, 22, 0.4) 0%, transparent 50%, rgba(22, 22, 22, 0.3) 100%)'
+              }}
+            />
 
             <div className="relative z-10 p-12">
               <div className="text-center mb-10">

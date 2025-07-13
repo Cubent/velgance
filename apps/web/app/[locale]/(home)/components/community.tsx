@@ -273,8 +273,24 @@ export const Community = ({ dictionary }: CommunityProps) => {
         {reviews.map((review, index) => (
           <div
             key={`${review.id}-${index}`}
-            className="flex-shrink-0 w-80 bg-neutral-700/50 backdrop-blur-sm rounded-lg p-6 border border-neutral-600/40 shadow-lg hover:border-orange-600 hover:shadow-[0_0_10px_rgba(234,88,12,0.6)] hover:bg-neutral-600/60 transition-all duration-300"
+            className="flex-shrink-0 w-80 bg-neutral-700/50 backdrop-blur-sm rounded-lg p-6 border border-neutral-600/40 shadow-lg transition-all duration-300 relative overflow-hidden group"
           >
+            {/* Gradient blue-orange background with very grainy texture for hover */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg -z-10"
+              style={{
+                background: 'linear-gradient(135deg, #2563eb 0%, #ea580c 100%)'
+              }}
+            >
+              {/* Grain overlay that doesn't darken the gradient */}
+              <div
+                className="absolute inset-0 opacity-55"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilterHover'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='6.5' numOctaves='16' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilterHover)'/%3E%3C/svg%3E")`,
+                  mixBlendMode: 'overlay'
+                }}
+              />
+            </div>
             <div className="flex items-start gap-3">
               <Avatar className="h-10 w-10 flex-shrink-0">
                 <AvatarImage src={review.avatar} alt={review.username} />

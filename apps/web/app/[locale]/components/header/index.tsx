@@ -122,11 +122,11 @@ export const Header = ({ dictionary }: HeaderProps) => {
           <Image
             src={Logo}
             alt="Cubent Logo"
-            width={36}
-            height={36}
+            width={39}
+            height={39}
             className="dark:invert"
           />
-          <p className="whitespace-nowrap font-semibold text-lg">Cubent</p>
+          <p className="whitespace-nowrap font-medium text-lg">Cubent</p>
         </Link>
         <div className="hidden flex-row items-center justify-center gap-3 lg:flex absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
           <NavigationMenu className="flex items-center justify-center">

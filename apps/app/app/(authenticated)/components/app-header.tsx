@@ -17,11 +17,11 @@ export const AppHeader = () => {
           <Image
             src={Logo}
             alt="Cubent Logo"
-            width={28}
-            height={28}
+            width={32}
+            height={32}
             className="dark:invert"
           />
-          <span className="font-semibold text-base">Cubent</span>
+          <span className="font-medium text-base">Cubent</span>
         </Link>
 
         {/* Right side - User menu and notifications */}

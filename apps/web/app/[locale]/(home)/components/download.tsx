@@ -17,7 +17,7 @@ export const Download = () => {
         <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
           {/* Header */}
           <div className="space-y-4">
-            <div className="text-orange-500 text-sm font-medium tracking-wider uppercase">
+            <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 bg-clip-text text-transparent text-sm font-medium tracking-wider uppercase">
               — Let's Code
             </div>
             <h2 className="text-white font-regular text-3xl tracking-tighter md:text-5xl leading-tight">
@@ -29,11 +29,11 @@ export const Download = () => {
             </p>
           </div>
 
-          {/* Download Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+          {/* Download Button */}
+          <div className="flex justify-center w-full max-w-md">
             <Button
               size="lg"
-              className="flex-1 bg-neutral-700/50 backdrop-blur-sm text-white border-0 rounded-lg px-8 py-4 text-lg font-medium transition-all duration-300 hover:scale-105 hover:bg-neutral-600/60"
+              className="bg-neutral-700/50 backdrop-blur-sm text-white border-0 rounded-lg px-8 py-4 text-lg font-medium transition-all duration-300 hover:scale-105 hover:bg-neutral-600/60"
               asChild
             >
               <Link
@@ -49,33 +49,9 @@ export const Download = () => {
                 </div>
               </Link>
             </Button>
-
-            <Button
-              size="lg"
-              className="flex-1 bg-neutral-700/50 backdrop-blur-sm text-white border border-neutral-600/40 rounded-lg px-8 py-4 text-lg font-medium transition-all duration-300 hover:scale-105 hover:bg-neutral-600/60"
-              asChild
-            >
-              <Link
-                href="https://plugins.jetbrains.com/plugin/cubent"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="flex items-center gap-3">
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M0 0v24h24V0H0zm3.723 3.111h5v1.834h-1.39v6.277h1.39v1.834h-5v-1.834h1.444V4.945H3.723V3.111zm11.055 0H17v1.834h-1.389v6.277H17v1.834h-2.222V3.111zm-8.334 8.944H9.61v1.833H6.444v-1.833z"/>
-                  </svg>
-                  JetBrains
-                </div>
-              </Link>
-            </Button>
           </div>
 
-          {/* Additional info */}
-          <div className="text-center">
-            <p className="text-white/50 text-sm">
-              Not using Windows? <Link href="#" className="text-orange-500 hover:text-orange-400 transition-colors">View all download options</Link>
-            </p>
-          </div>
+
         </div>
       </div>
     </div>
