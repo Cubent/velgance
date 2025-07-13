@@ -69,11 +69,6 @@ const data = {
       url: '/profile/usage',
       icon: PieChartIcon,
     },
-    {
-      title: 'Conversations',
-      url: '/conversations',
-      icon: MessageSquareIcon,
-    },
   ],
   navUsageMetrics: [
     {
@@ -101,28 +96,7 @@ const data = {
       locked: false,
     },
   ],
-  navAccount: [
-    {
-      title: 'Extension',
-      url: '/profile/extension',
-      icon: BotIcon,
-    },
-    {
-      title: 'Billing',
-      url: '/billing',
-      icon: CreditCardIcon,
-    },
-    {
-      title: 'Settings',
-      url: '/profile/settings',
-      icon: Settings2Icon,
-    },
-    {
-      title: 'Notifications',
-      url: '/settings/notifications',
-      icon: BellIcon,
-    },
-  ],
+
   navSecondary: [
     {
       title: 'Documentation',
@@ -145,7 +119,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
         {/* Search hidden */}
         <SidebarContent className="flex-1 overflow-y-auto">
           <SidebarGroup>
-            <SidebarGroupLabel className="text-orange-300">Dashboard</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-gray-400">Dashboard</SidebarGroupLabel>
             <SidebarMenu>
               {data.navMain.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -153,6 +127,8 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                     asChild
                     tooltip={item.title}
                     isActive={pathname === item.url}
+                    size="lg"
+                    className="h-12 px-4"
                   >
                     <Link href={item.url}>
                       <item.icon />
@@ -165,7 +141,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
           </SidebarGroup>
 
           <SidebarGroup>
-            <SidebarGroupLabel className="text-orange-300">Usage Metrics</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-gray-400">Usage Metrics</SidebarGroupLabel>
             <SidebarMenu>
               {data.navUsageMetrics.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -173,7 +149,8 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                     asChild
                     tooltip={item.title}
                     isActive={pathname === item.url}
-                    className={item.locked ? 'opacity-50 cursor-not-allowed' : ''}
+                    size="lg"
+                    className={`h-12 px-4 ${item.locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
                     {item.locked ? (
                       <div className="flex items-center gap-2 w-full">
@@ -193,25 +170,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
             </SidebarMenu>
           </SidebarGroup>
 
-          <SidebarGroup>
-            <SidebarGroupLabel className="text-orange-300">Account</SidebarGroupLabel>
-            <SidebarMenu>
-              {data.navAccount.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    tooltip={item.title}
-                    isActive={pathname === item.url}
-                  >
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroup>
+
 
           <SidebarGroup className="mt-auto">
             <SidebarGroupContent>
