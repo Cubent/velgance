@@ -199,7 +199,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
           {/* User profile moved to header */}
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="flex-1">
+      <SidebarInset className="flex-1 w-full overflow-hidden">
         {children}
       </SidebarInset>
     </>
