@@ -17,8 +17,6 @@ export const Footer = () => (
             { title: 'Pricing', href: '/pricing' },
             { title: 'Features', href: '/features' },
             { title: 'Enterprise', href: '/enterprise' },
-            { title: 'Downloads', href: '/downloads' },
-            { title: 'Students', href: '/students' },
           ],
         },
         {
@@ -33,8 +31,7 @@ export const Footer = () => (
         {
           title: 'Company',
           items: [
-            { title: 'Anysphere', href: '/company' },
-            { title: 'Careers', href: '/careers' },
+            { title: 'Contact us', href: '/contact' },
             { title: 'Community', href: '/community' },
             { title: 'Customers', href: '/customers' },
           ],

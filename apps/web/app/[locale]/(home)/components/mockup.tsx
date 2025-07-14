@@ -328,8 +328,8 @@ export const Mockup = () => {
       </div>
     </div>
 
-    {/* Speed with context awareness section */}
-    <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
+    {/* Speed with context awareness section - Hidden on mobile */}
+    <div className="hidden md:block w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
       <div
         className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-20 relative"
         style={{
@@ -349,32 +349,52 @@ export const Mockup = () => {
             </p>
           </div>
 
-          {/* Right side - Percentage */}
-          <div className="flex-shrink-0 text-right">
-            <div
-              className="text-6xl lg:text-7xl font-normal leading-none"
-              style={{
-                background: 'linear-gradient(135deg, #ff8c00, #ff4500)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
-              *145%
+          {/* Right side - Percentage - Hidden on mobile */}
+          <div className="hidden md:flex flex-shrink-0 text-right">
+            <div>
+              <div
+                className="text-4xl md:text-6xl lg:text-7xl font-normal leading-none"
+                style={{
+                  background: 'linear-gradient(135deg, #ff8c00, #ff4500)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                *145%
+              </div>
+              <p className="text-white/60 text-sm mt-2">
+                faster than the next best competitor
+              </p>
             </div>
-            <p className="text-white/60 text-sm mt-2">
-              faster than the next best competitor
-            </p>
           </div>
         </div>
 
-        {/* Image below the content */}
-        <div className="w-full flex justify-center mb-8 lg:mb-10">
+        {/* Image below the content - Much bigger on mobile */}
+        <div className="w-full flex justify-center mb-6 md:mb-8 lg:mb-10 -mx-4 md:mx-0">
           <img
             src="/images/Cubent.Dev (30).png"
             alt="Cubent speed demonstration"
-            className="w-full max-w-6xl h-auto object-contain"
+            className="w-[130%] md:w-full max-w-none md:max-w-6xl h-auto object-contain"
           />
+        </div>
+
+        {/* Mobile percentage - Below image, smaller text */}
+        <div className="md:hidden text-center mb-8">
+          <div
+            className="text-2xl font-normal leading-none mb-2"
+            style={{
+              background: 'linear-gradient(135deg, #ff8c00, #ff4500)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
+          >
+            *145%
+          </div>
+          <p className="text-white/60 text-xs">
+            faster than the next best competitor
+          </p>
         </div>
 
         {/* Vertical lines section - inside the same container */}

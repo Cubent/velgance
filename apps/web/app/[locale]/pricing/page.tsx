@@ -39,15 +39,9 @@ const Pricing = () => {
   return (
   <div className="w-full min-h-screen relative -mt-20 pt-20" style={{ backgroundColor: '#161616', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
     <div
-      className="max-w-7xl mx-auto relative"
+      className="max-w-7xl mx-auto relative md:border md:border-white/8 md:bg-transparent md:px-12 md:py-20 px-0 py-8"
       style={{
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-        backgroundColor: 'transparent',
-        paddingLeft: '3rem',
-        paddingRight: '3rem',
-        paddingTop: '5rem',
-        paddingBottom: '4rem'
+        backgroundColor: 'transparent'
       }}
     >
       <div className="flex flex-col items-center justify-center gap-6 text-center">

@@ -39,8 +39,7 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
           </h1>
           <p className="text-white text-sm leading-relaxed">{description}</p>
         </div>
-        {/* Orange accent line */}
-        <div className="mx-auto w-16 h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-60" />
+
       </div>
       <SignIn fallbackRedirectUrl={fallbackRedirectUrl} />
       {/* Privacy and Terms text */}
@@ -50,7 +49,13 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
           href="/legal/terms"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-orange-500 hover:text-orange-600 underline transition-colors"
+          className="font-medium no-underline"
+          style={{
+            background: 'linear-gradient(135deg, #1e3a8a 0%, #f97316 50%, #1e40af 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}
         >
           Terms of Service
         </a>{' '}
@@ -59,7 +64,13 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
           href="/legal/privacy"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-orange-500 hover:text-orange-600 underline transition-colors"
+          className="font-medium no-underline"
+          style={{
+            background: 'linear-gradient(135deg, #1e3a8a 0%, #f97316 50%, #1e40af 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}
         >
           Privacy Policy
         </a>
