@@ -158,9 +158,9 @@ const Home = async ({ params }: HomeProps) => {
       </div>
 
       {/* New section attached to hero */}
-      <div className="w-full px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
+      <div className="w-full px-0 md:px-4 lg:px-6" style={{ backgroundColor: '#161616' }}>
         <div
-          className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative overflow-hidden"
+          className="w-full md:max-w-7xl md:mx-auto px-0 md:px-6 lg:px-12 relative overflow-hidden"
           style={{
             backgroundColor: '#161616',
             border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -194,56 +194,56 @@ const Home = async ({ params }: HomeProps) => {
               }}
             />
 
-            <div className="relative z-10 p-12">
-              <div className="text-center mb-10">
+            <div className="relative z-10 p-4 md:p-12 pt-16 md:pt-12">
+              <div className="text-center mb-16 md:mb-10">
                 <h2 className="text-3xl md:text-4xl text-white leading-tight">
                   Code faster and smarter
                 </h2>
-                <p className="text-xl md:text-2xl text-white/60 mt-1">
+                <p className="text-xl md:text-2xl text-white/60 -mt-1">
                   without leaving your editor
                 </p>
               </div>
 
               {/* Feature tabs */}
-              <div className="flex justify-center gap-3 mb-6 flex-wrap">
-                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs">
+              <div className="flex justify-center gap-3 mb-6 flex-wrap md:flex-wrap">
+                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs whitespace-nowrap">
                   AI Assistant
                 </div>
-                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs">
+                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs whitespace-nowrap">
                   Code Generation
                 </div>
-                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs">
+                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs whitespace-nowrap">
                   Smart Completion
                 </div>
               </div>
 
               {/* Feature checkmarks */}
-              <div className="flex justify-center gap-6 mb-10 flex-wrap text-xs">
-                <div className="flex items-center gap-1.5 text-white/60">
+              <div className="flex justify-center gap-6 mb-10 flex-wrap md:flex-wrap text-xs">
+                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
                   <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   Real-time Assistance
                 </div>
-                <div className="flex items-center gap-1.5 text-white/60">
+                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
                   <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   Context Aware
                 </div>
-                <div className="flex items-center gap-1.5 text-white/60">
+                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
                   <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   Multi-Language
                 </div>
-                <div className="flex items-center gap-1.5 text-white/60">
+                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
                   <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   Instant Debugging
                 </div>
-                <div className="flex items-center gap-1.5 text-white/60">
+                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
                   <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
@@ -252,8 +252,8 @@ const Home = async ({ params }: HomeProps) => {
               </div>
 
               {/* GIF with border */}
-              <div className="flex justify-center items-center w-full px-2">
-                <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm max-w-6xl w-full">
+              <div className="flex justify-center items-center w-full px-0 md:px-2">
+                <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm w-full md:max-w-6xl">
                   {/* Window header with dots */}
                   <div className="flex items-center justify-between px-4 py-3 bg-black/20 border-b border-white/10">
                     <div className="flex items-center gap-2">

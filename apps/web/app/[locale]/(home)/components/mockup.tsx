@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // Feature data
 const features = [
@@ -52,6 +52,31 @@ const features = [
 
 export const Mockup = () => {
   const [selectedFeature, setSelectedFeature] = useState<typeof features[0] | null>(null);
+  const imagesScrollRef = useRef<HTMLDivElement>(null);
+  const textScrollRef = useRef<HTMLDivElement>(null);
+
+  // Sync scroll between images and text containers
+  const syncScroll = (source: HTMLDivElement, target: HTMLDivElement) => {
+    target.scrollLeft = source.scrollLeft;
+  };
+
+  useEffect(() => {
+    const imagesContainer = imagesScrollRef.current;
+    const textContainer = textScrollRef.current;
+
+    if (!imagesContainer || !textContainer) return;
+
+    const handleImagesScroll = () => syncScroll(imagesContainer, textContainer);
+    const handleTextScroll = () => syncScroll(textContainer, imagesContainer);
+
+    imagesContainer.addEventListener('scroll', handleImagesScroll);
+    textContainer.addEventListener('scroll', handleTextScroll);
+
+    return () => {
+      imagesContainer.removeEventListener('scroll', handleImagesScroll);
+      textContainer.removeEventListener('scroll', handleTextScroll);
+    };
+  }, []);
 
   return (
   <>
@@ -129,7 +154,8 @@ export const Mockup = () => {
 
       {/* Two images section - attached to lined bar bottom */}
       <div className="relative z-10 -mt-20 lg:-mt-24 mb-8 -mx-6 sm:-mx-8 lg:-mx-12">
-        <div className="grid grid-cols-2 gap-0" style={{ backgroundColor: '#161616' }}>
+        {/* Desktop only: Grid */}
+        <div ref={imagesScrollRef} className="hidden md:grid md:grid-cols-2 md:gap-0" style={{ backgroundColor: '#161616' }}>
           {/* Left image */}
           <div className="relative">
             <Image
@@ -153,12 +179,22 @@ export const Mockup = () => {
         </div>
 
         {/* Text content directly below images with more spacing */}
-        <div className="grid grid-cols-2 gap-8 px-6 sm:px-8 lg:px-12 mt-16 mb-0 relative">
-          {/* Center divider line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 transform -translate-x-1/2"></div>
+        <div ref={textScrollRef} className="md:grid md:grid-cols-2 md:gap-8 flex md:flex-none overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none px-6 sm:px-8 lg:px-12 mt-16 mb-0 relative">
+          {/* Center divider line - only on desktop */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 transform -translate-x-1/2"></div>
 
-          {/* Left text */}
-          <div className="max-w-md mx-auto text-left">
+          {/* Left section - Image + Text */}
+          <div className="flex-shrink-0 w-[85vw] md:w-auto snap-center md:snap-align-none max-w-md mx-auto text-left">
+            {/* Mobile only image */}
+            <div className="block md:hidden mb-6">
+              <Image
+                src="/images/Cubent (2).png"
+                alt="Stay in sync with a real-time panel that knows your project"
+                width={800}
+                height={600}
+                className="w-full h-auto object-cover border border-gray-600 rounded"
+              />
+            </div>
             <h3 className="text-4xl font-normal text-white/90 mb-6 leading-tight">
               Stay in sync with a real-time panel that knows your project
             </h3>
@@ -166,8 +202,18 @@ export const Mockup = () => {
               A single overlay that pulses with your repo's heartbeat—files, problems, Git, terminals and folders always a glance away.
             </p>
           </div>
-          {/* Right text */}
-          <div className="max-w-md mx-auto text-left">
+          {/* Right section - Image + Text */}
+          <div className="flex-shrink-0 w-[85vw] md:w-auto snap-center md:snap-align-none max-w-md mx-auto text-left">
+            {/* Mobile only image */}
+            <div className="block md:hidden mb-6">
+              <Image
+                src="/images/Cubent (3).png"
+                alt="Sit back while it handles the heavy lifting, step by step"
+                width={800}
+                height={600}
+                className="w-full h-auto object-cover border border-gray-600 rounded"
+              />
+            </div>
             <h3 className="text-4xl font-normal text-white/90 mb-6 leading-tight">
               Sit back while it handles the heavy lifting, step by step
             </h3>
@@ -218,7 +264,16 @@ export const Mockup = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start">
             {/* Left side - Content only */}
-            <div className="space-y-8 pr-10 lg:pr-20 py-4 -mt-8">
+            <div className="space-y-8 pr-0 lg:pr-20 py-4 -mt-8">
+              {/* Mobile image - shown only on mobile at top */}
+              <div className="block lg:hidden mb-6">
+                <img
+                  src="/images/Cubent.Dev (25).png"
+                  alt="Cubent MCP Tools interface"
+                  className="w-full h-auto object-cover border border-gray-600 rounded"
+                />
+              </div>
+
               {/* MCP Tools label */}
               <div className="text-white/60 text-sm font-medium tracking-wider">
                 — MCP Tools
@@ -235,7 +290,7 @@ export const Mockup = () => {
               </div>
             </div>
 
-            {/* Right side - Square image touching top and right borders */}
+            {/* Right side - Square image touching top and right borders - desktop only */}
             <div className="hidden lg:block relative h-full -mr-6 sm:-mr-8 lg:-mr-12">
               <div className="aspect-square w-full absolute -top-24 lg:-top-36 right-0">
                 <img
@@ -372,7 +427,16 @@ export const Mockup = () => {
             </div>
 
             {/* Right side - Content only */}
-            <div className="space-y-8 pl-10 lg:pl-20 py-4 -mt-8">
+            <div className="space-y-8 pl-0 lg:pl-20 py-4 -mt-8">
+              {/* Mobile image - shown only on mobile at top */}
+              <div className="block lg:hidden mb-6">
+                <img
+                  src="/images/Cubent.Dev (29).png"
+                  alt="Cubent Autocomplete interface"
+                  className="w-full h-auto object-cover border border-gray-600 rounded"
+                />
+              </div>
+
               {/* Autocomplete label */}
               <div className="text-white/60 text-sm font-medium tracking-wider">
                 — Autocomplete
@@ -471,3 +535,5 @@ export const Mockup = () => {
   </>
   );
 };
+
+export default Mockup;

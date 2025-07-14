@@ -53,7 +53,7 @@ const Pricing = () => {
       <div className="flex flex-col items-center justify-center gap-6 text-center">
         {/* Header Section */}
         <div className="flex flex-col gap-4">
-          <h1 className="max-w-4xl text-center font-regular text-4xl tracking-tighter md:text-5xl">
+          <h1 className="max-w-4xl text-center font-regular text-5xl tracking-tighter md:text-5xl">
             Simple pricing for powerful AI
           </h1>
           <p className="max-w-2xl text-center text-lg text-muted-foreground leading-relaxed tracking-tight">
@@ -337,27 +337,8 @@ const Pricing = () => {
 
 
         </div>
-      </div>
-    </div>
 
-    {/* CONTINUE WITH FAQ SECTION */}
-    <div className="w-full min-h-screen relative" style={{ backgroundColor: '#161616', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-      <div
-        className="max-w-7xl mx-auto relative"
-        style={{
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderTop: 'none',
-          backgroundColor: 'transparent',
-          paddingLeft: '3rem',
-          paddingRight: '3rem',
-          paddingTop: '2rem',
-          paddingBottom: '4rem'
-        }}
-      >
-        <div className="flex flex-col items-center justify-center gap-6 text-center">
-        </div>
-
-        {/* FAQ Section */}
+        {/* FAQ Section - MOVED INSIDE SAME CONTAINER */}
         <div className="w-full max-w-6xl pt-20">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
             {/* Left side - Title and description */}
@@ -394,50 +375,52 @@ const Pricing = () => {
             </div>
           </div>
 
-          {/* Download Section */}
-          <div className="w-full relative px-4 sm:px-6 mt-16" style={{ backgroundColor: '#161616' }}>
+          {/* Let's Code Section - MOVED INSIDE SAME CONTAINER */}
+          <div className="w-full pt-20">
             <div
-              className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-16 lg:pt-20 relative overflow-hidden"
+              className="relative overflow-hidden"
               style={{
-                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-                backgroundColor: 'transparent'
+                background: 'linear-gradient(135deg, #1e3a8a 0%, #f97316 50%, #1e40af 100%)',
+                borderRadius: '12px',
+                padding: '4rem 2rem'
               }}
             >
-              <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
-                {/* Header */}
-                <div className="space-y-4">
-                  <div className="bg-gradient-to-r from-blue-400 via-blue-500 via-orange-400 to-blue-300 bg-clip-text text-transparent text-sm font-medium tracking-wider uppercase">
-                    — Let's Code
+              {/* Grain overlay */}
+              <div
+                className="absolute inset-0 opacity-30"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                }}
+              />
+              <div className="relative z-10">
+                <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
+                  {/* Header */}
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-blue-400 via-blue-500 via-orange-400 to-blue-300 bg-clip-text text-transparent text-sm font-medium tracking-wider uppercase">
+                      — Let's Code
+                    </div>
+                    <h2 className="text-white font-regular text-3xl tracking-tighter md:text-5xl leading-tight">
+                      Install our extension and<br />
+                      start coding today
+                    </h2>
+                    <p className="text-white/70 text-lg leading-relaxed max-w-2xl mx-auto">
+                      Get started with AI-powered development. Choose your preferred editor and experience the future of coding.
+                    </p>
                   </div>
-                  <h2 className="text-white font-regular text-3xl tracking-tighter md:text-5xl leading-tight">
-                    Install our extension and<br />
-                    start coding today
-                  </h2>
-                  <p className="text-white/70 text-lg leading-relaxed max-w-2xl mx-auto">
-                    Get started with AI-powered development. Choose your preferred editor and experience the future of coding.
-                  </p>
-                </div>
 
-                {/* Download Button */}
-                <div className="flex justify-center w-full max-w-md">
-                  <Button
-                    size="lg"
-                    className="bg-neutral-700/50 backdrop-blur-sm text-white border-0 rounded-lg px-8 py-4 text-lg font-medium transition-all duration-300 hover:scale-105 hover:bg-neutral-600/60"
-                    asChild
-                  >
-                    <Link
-                      href="https://marketplace.visualstudio.com/items?itemName=cubent.cubent"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/>
-                        </svg>
-                        VS Code
-                      </div>
-                    </Link>
-                  </Button>
+                  {/* Download Button */}
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button size="lg" asChild className="bg-white text-black hover:bg-gray-100 h-12 px-8">
+                      <Link href="https://marketplace.visualstudio.com/items?itemName=cubent.cubent" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/>
+                          </svg>
+                          VS Code
+                        </div>
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

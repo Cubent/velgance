@@ -104,6 +104,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
   };
 
   const [isOpen, setOpen] = useState(false);
+  const [isCompanyExpanded, setCompanyExpanded] = useState(false);
   return (
     <header className="sticky top-0 left-0 z-40 w-full bg-background/20 backdrop-blur-md supports-[backdrop-filter]:bg-background/10">
       {/* Early Access Banner */}
@@ -197,30 +198,39 @@ export const Header = ({ dictionary }: HeaderProps) => {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <div className="flex justify-end gap-2">
-          {isLoading ? (
-            <div className="h-10 w-10 animate-pulse bg-gray-200 rounded-full"></div>
-          ) : isAuthenticated && user ? (
-            <UserProfile user={user} />
-          ) : (
-            <Button variant="outline" asChild className="text-white hover:text-white hover:bg-white/10 h-10 flex items-center border border-white/20 rounded-full px-6">
-              <Link href="https://app.cubent.dev/sign-in">
-                Sign In
-              </Link>
-            </Button>
-          )}
+        {/* Right side - Desktop and Mobile */}
+        <div className="flex items-center gap-2">
+          {/* Sign In / User Profile */}
+          <div className="flex justify-end">
+            {isLoading ? (
+              <div className="h-10 w-10 animate-pulse bg-gray-200 rounded-full"></div>
+            ) : isAuthenticated && user ? (
+              <UserProfile user={user} />
+            ) : (
+              <Button variant="outline" asChild className="text-white hover:text-white hover:bg-white/10 h-10 flex items-center border border-white/20 rounded-full px-6">
+                <Link href="https://app.cubent.dev/sign-in">
+                  Sign In
+                </Link>
+              </Button>
+            )}
+          </div>
+
+          {/* Download Button - Hidden on mobile */}
           <Button asChild className="hidden md:inline-flex h-10 bg-white hover:bg-gray-100 text-black border-0 rounded-full px-6">
             <Link href="https://marketplace.visualstudio.com/items?itemName=cubent.cubent" className="flex flex-row items-center gap-2 whitespace-nowrap">
               <span className="shrink-0 text-sm font-medium">Download Cubent</span>
             </Link>
           </Button>
+
+          {/* Mobile Menu Button */}
+          <div className="flex lg:hidden">
+            <Button variant="ghost" onClick={() => setOpen(!isOpen)}>
+              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
+          </div>
         </div>
-        <div className="flex w-12 shrink items-end justify-end lg:hidden">
-          <Button variant="ghost" onClick={() => setOpen(!isOpen)}>
-            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
           {isOpen && (
-            <div className="container absolute top-20 right-0 flex w-full flex-col gap-8 border-t bg-background py-4 shadow-lg px-4 sm:px-6 lg:px-8">
+            <div className="container absolute top-20 right-0 flex w-full flex-col gap-8 border-t py-4 shadow-lg px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#161616' }}>
               {navigationItems.map((item) => (
                 <div key={item.title}>
                   <div className="flex flex-col gap-2">
@@ -238,14 +248,21 @@ export const Header = ({ dictionary }: HeaderProps) => {
                             ? 'noopener noreferrer'
                             : undefined
                         }
+                        onClick={() => setOpen(false)}
                       >
                         <span className="text-lg">{item.title}</span>
                         <MoveRight className="h-4 w-4 stroke-1 text-muted-foreground" />
                       </Link>
                     ) : (
-                      <p className={`text-lg ${isCompanyActive() ? 'text-foreground' : ''}`}>{item.title}</p>
+                      <button
+                        onClick={() => setCompanyExpanded(!isCompanyExpanded)}
+                        className={`text-lg ${isCompanyActive() ? 'text-foreground' : ''} flex items-center justify-between w-full text-left`}
+                      >
+                        <span>{item.title}</span>
+                        <MoveRight className={`h-4 w-4 stroke-1 text-muted-foreground transition-transform ${isCompanyExpanded ? 'rotate-90' : ''}`} />
+                      </button>
                     )}
-                    {item.sections?.map((section) => (
+                    {!item.href && isCompanyExpanded && item.sections?.map((section) => (
                       <div key={section.title} className="ml-4 flex flex-col gap-2">
                         <p className="text-sm font-medium text-muted-foreground">{section.title}</p>
                         {section.items?.map((subItem) => (
@@ -253,6 +270,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                             key={subItem.title}
                             href={subItem.href}
                             className="flex items-center justify-between ml-2"
+                            onClick={() => setOpen(false)}
                           >
                             <span className="text-muted-foreground text-sm">
                               {subItem.title}
@@ -280,7 +298,6 @@ export const Header = ({ dictionary }: HeaderProps) => {
             </div>
           )}
         </div>
-      </div>
       </div>
     </header>
   );
