@@ -96,7 +96,7 @@ const data = {
   navSecondary: [
     {
       title: 'Documentation',
-      url: '/docs',
+      url: 'https://docs.cubent.dev',
       icon: BookOpenIcon,
     },
   ],
@@ -108,7 +108,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
 
   return (
     <>
-      <Sidebar variant="inset" className="h-full max-h-[calc(100vh-4rem)] mt-16">
+      <Sidebar variant="inset" className="h-full max-h-[calc(100vh-4rem)] mt-16" collapsible="icon">
         <SidebarHeader>
           {/* Organization selector removed */}
         </SidebarHeader>
@@ -180,7 +180,11 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                       asChild
                       isActive={pathname === item.url}
                     >
-                      <Link href={item.url}>
+                      <Link
+                        href={item.url}
+                        target={item.url.startsWith('http') ? '_blank' : undefined}
+                        rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      >
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>

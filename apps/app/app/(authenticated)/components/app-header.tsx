@@ -3,6 +3,7 @@
 import { Button } from '@repo/design-system/components/ui/button';
 import { UserButton } from '@repo/auth/client';
 import { NotificationsTrigger } from '@repo/notifications/components/trigger';
+import { SidebarTrigger } from '@repo/design-system/components/ui/sidebar';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -12,17 +13,24 @@ export const AppHeader = () => {
   return (
     <header className="sticky top-0 left-0 z-50 w-full bg-sidebar backdrop-blur-sm border-b border-sidebar-border supports-[backdrop-filter]:bg-sidebar/95">
       <div className="flex h-14 items-center justify-between px-4">
-        {/* Left side - Logo */}
-        <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <Image
-            src={Logo}
-            alt="Cubent Logo"
-            width={32}
-            height={32}
-            className="dark:invert"
-          />
-          <span className="font-medium text-base">Cubent</span>
-        </Link>
+        {/* Left side - Mobile menu trigger and Logo */}
+        <div className="flex items-center gap-2">
+          {/* Mobile hamburger menu - only visible on mobile */}
+          <div className="lg:hidden">
+            <SidebarTrigger className="h-8 w-8" />
+          </div>
+
+          <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <Image
+              src={Logo}
+              alt="Cubent Logo"
+              width={32}
+              height={32}
+              className="dark:invert"
+            />
+            <span className="font-medium text-base">Cubent</span>
+          </Link>
+        </div>
 
         {/* Right side - User menu and notifications */}
         <div className="flex items-center gap-3">

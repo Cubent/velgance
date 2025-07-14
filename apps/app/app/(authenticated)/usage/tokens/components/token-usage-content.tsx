@@ -71,16 +71,16 @@ export const TokenUsageContent = ({ data }: TokenUsageContentProps) => {
   };
 
   return (
-    <div className="space-y-6 p-6 bg-[#1f1f1f] min-h-screen">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 bg-[#1f1f1f] min-h-screen">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-white">Token Usage</h1>
           <p className="text-gray-400 mt-1">Track your input and output token consumption</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <Select defaultValue="30d">
-            <SelectTrigger className="w-32 bg-[#1a1a1a] border-[#333] text-white">
+            <SelectTrigger className="w-full sm:w-32 bg-[#1a1a1a] border-[#333] text-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-[#1a1a1a] border-[#333]">
@@ -96,7 +96,7 @@ export const TokenUsageContent = ({ data }: TokenUsageContentProps) => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
         <Card className="bg-[#1a1a1a] border border-[#333]">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">Total Tokens</CardTitle>
@@ -165,7 +165,7 @@ export const TokenUsageContent = ({ data }: TokenUsageContentProps) => {
       </Card>
 
       {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Tokens by Model */}
         <Card className="bg-[#1a1a1a] border border-[#333]">
           <CardHeader>
