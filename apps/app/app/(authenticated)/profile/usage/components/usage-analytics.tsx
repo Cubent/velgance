@@ -149,7 +149,7 @@ export function UsageAnalytics({ initialData }: UsageAnalyticsProps) {
         {/* Shadcn-Admin Style Stats Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {/* Cubent Units Card */}
-          <Card>
+          <Card className="bg-[#161616]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Total Cubent Units
@@ -172,7 +172,7 @@ export function UsageAnalytics({ initialData }: UsageAnalyticsProps) {
           </Card>
 
           {/* Messages Card */}
-          <Card>
+          <Card className="bg-[#161616]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Messages</CardTitle>
               <MessageSquare className="h-4 w-4 text-muted-foreground" />
@@ -186,7 +186,7 @@ export function UsageAnalytics({ initialData }: UsageAnalyticsProps) {
           </Card>
 
           {/* Efficiency Card */}
-          <Card>
+          <Card className="bg-[#161616]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Efficiency</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
@@ -202,7 +202,7 @@ export function UsageAnalytics({ initialData }: UsageAnalyticsProps) {
           </Card>
 
           {/* Subscription Card */}
-          <Card>
+          <Card className="bg-[#161616]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Subscription</CardTitle>
               <TierIcon className="h-4 w-4 text-muted-foreground" />
@@ -227,7 +227,7 @@ export function UsageAnalytics({ initialData }: UsageAnalyticsProps) {
             <TabsTrigger value="reports">Reports</TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
-            <Card>
+            <Card className="bg-[#161616]">
               <CardHeader>
                 <CardTitle>Usage Overview</CardTitle>
                 <CardDescription>
@@ -240,7 +240,7 @@ export function UsageAnalytics({ initialData }: UsageAnalyticsProps) {
             </Card>
           </TabsContent>
           <TabsContent value="analytics" className="space-y-4">
-            <Card>
+            <Card className="bg-[#161616]">
               <CardHeader>
                 <CardTitle>Detailed Analytics</CardTitle>
                 <CardDescription>
@@ -255,7 +255,7 @@ export function UsageAnalytics({ initialData }: UsageAnalyticsProps) {
             </Card>
           </TabsContent>
           <TabsContent value="reports" className="space-y-4">
-            <Card>
+            <Card className="bg-[#161616]">
               <CardHeader>
                 <CardTitle>Usage Reports</CardTitle>
                 <CardDescription>

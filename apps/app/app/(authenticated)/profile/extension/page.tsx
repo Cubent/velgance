@@ -57,7 +57,7 @@ const ExtensionPage = async () => {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Connection Status */}
-        <Card>
+        <Card className="bg-[#161616]">
           <CardHeader>
             <CardTitle>Connection Status</CardTitle>
             <CardDescription>
@@ -119,7 +119,7 @@ const ExtensionPage = async () => {
         </Card>
 
         {/* API Key Management */}
-        <Card>
+        <Card className="bg-[#161616]">
           <CardHeader>
             <CardTitle>API Key</CardTitle>
             <CardDescription>
@@ -127,7 +127,7 @@ const ExtensionPage = async () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ApiKeyManager 
+            <ApiKeyManager
               apiKey={dbUser.extensionApiKey}
               userId={dbUser.id}
             />
@@ -136,7 +136,7 @@ const ExtensionPage = async () => {
       </div>
 
       {/* Extension Sessions */}
-      <Card>
+      <Card className="bg-[#161616]">
         <CardHeader>
           <CardTitle>Extension Sessions</CardTitle>
           <CardDescription>
@@ -144,7 +144,7 @@ const ExtensionPage = async () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ExtensionSessionsList 
+          <ExtensionSessionsList
             activeSessions={activeSessions}
             inactiveSessions={inactiveSessions}
           />
@@ -152,7 +152,7 @@ const ExtensionPage = async () => {
       </Card>
 
       {/* Connection Instructions */}
-      <Card>
+      <Card className="bg-[#161616]">
         <CardHeader>
           <CardTitle>Connection Instructions</CardTitle>
           <CardDescription>

@@ -47,7 +47,7 @@ const SettingsPage = async () => {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Extension Settings */}
-        <Card>
+        <Card className="bg-[#161616]">
           <CardHeader>
             <CardTitle>Extension Settings</CardTitle>
             <CardDescription>
@@ -55,7 +55,7 @@ const SettingsPage = async () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <SettingsForm 
+            <SettingsForm
               userId={dbUser.id}
               extensionSettings={dbUser.extensionSettings as Record<string, any> || {}}
               preferences={dbUser.preferences as Record<string, any> || {}}
@@ -64,7 +64,7 @@ const SettingsPage = async () => {
         </Card>
 
         {/* Account Settings */}
-        <Card>
+        <Card className="bg-[#161616]">
           <CardHeader>
             <CardTitle>Account Settings</CardTitle>
             <CardDescription>
@@ -101,7 +101,7 @@ const SettingsPage = async () => {
       </div>
 
       {/* Sync Information */}
-      <Card>
+      <Card className="bg-[#161616]">
         <CardHeader>
           <CardTitle>Sync Information</CardTitle>
           <CardDescription>
@@ -147,7 +147,7 @@ const SettingsPage = async () => {
       </Card>
 
       {/* Danger Zone */}
-      <Card className="border-destructive">
+      <Card className="border-destructive bg-[#161616]">
         <CardHeader>
           <CardTitle className="text-destructive">Danger Zone</CardTitle>
           <CardDescription>

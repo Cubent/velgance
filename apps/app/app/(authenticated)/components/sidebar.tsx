@@ -70,7 +70,7 @@ const data = {
       title: 'Cubent Units',
       url: '/profile/usage',
       icon: BarChart3,
-      locked: false,
+      locked: true,
       grey: true,
     },
     {
@@ -103,7 +103,6 @@ const data = {
 };
 
 export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
-  const sidebar = useSidebar();
   const pathname = usePathname();
 
   return (

@@ -72,7 +72,7 @@ const ProfilePage = async () => {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* User Info Card */}
-        <Card className="md:col-span-2 lg:col-span-1">
+        <Card className="md:col-span-2 lg:col-span-1 bg-[#161616]">
           <CardHeader>
             <CardTitle>Account Information</CardTitle>
             <CardDescription>Your profile details</CardDescription>
@@ -115,13 +115,13 @@ const ProfilePage = async () => {
         </Card>
 
         {/* Extension Connection Status */}
-        <Card>
+        <Card className="bg-[#161616]">
           <CardHeader>
             <CardTitle>VS Code Extension</CardTitle>
             <CardDescription>Connection status and management</CardDescription>
           </CardHeader>
           <CardContent>
-            <ExtensionConnectionStatus 
+            <ExtensionConnectionStatus
               isConnected={isExtensionConnected}
               lastSync={dbUser.lastExtensionSync}
               activeSessions={dbUser.extensionSessions.length}
@@ -131,7 +131,7 @@ const ProfilePage = async () => {
         </Card>
 
         {/* Quick Stats */}
-        <Card>
+        <Card className="bg-[#161616]">
           <CardHeader>
             <CardTitle>Usage Overview</CardTitle>
             <CardDescription>Last 30 days</CardDescription>
@@ -144,7 +144,7 @@ const ProfilePage = async () => {
 
       {/* Action Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="bg-[#161616]">
           <CardContent className="p-6">
             <h3 className="font-semibold mb-2">Extension Settings</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -156,7 +156,7 @@ const ProfilePage = async () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#161616]">
           <CardContent className="p-6">
             <h3 className="font-semibold mb-2">Usage Analytics</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -168,7 +168,7 @@ const ProfilePage = async () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#161616]">
           <CardContent className="p-6">
             <h3 className="font-semibold mb-2">Settings</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -180,7 +180,7 @@ const ProfilePage = async () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#161616]">
           <CardContent className="p-6">
             <h3 className="font-semibold mb-2">Terms & Privacy</h3>
             <p className="text-sm text-muted-foreground mb-4">
