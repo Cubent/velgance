@@ -108,7 +108,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
 
   return (
     <>
-      <Sidebar variant="inset" className="h-full max-h-[calc(100vh-4rem)] mt-16" collapsible="icon">
+      <Sidebar variant="inset" className="h-full max-h-[calc(100vh-4rem)] mt-16">
         <SidebarHeader>
           {/* Organization selector removed */}
         </SidebarHeader>
@@ -182,8 +182,10 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
                     >
                       <Link
                         href={item.url}
-                        target={item.url.startsWith('http') ? '_blank' : undefined}
-                        rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        {...(item.url.startsWith('http') && {
+                          target: '_blank',
+                          rel: 'noopener noreferrer'
+                        })}
                       >
                         <item.icon />
                         <span>{item.title}</span>
@@ -199,7 +201,7 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
           {/* User profile moved to header */}
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="flex-1 w-full overflow-hidden">
+      <SidebarInset className="flex-1">
         {children}
       </SidebarInset>
     </>
