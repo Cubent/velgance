@@ -28,10 +28,10 @@ const AppLayout = async ({ children }: AppLayoutProperties) => {
 
   return (
     <NotificationsProvider userId={user.id}>
-      <div className="min-h-screen flex flex-col">
-        <AppHeader />
-        <div className="flex-1 flex">
-          <SidebarProvider>
+      <SidebarProvider>
+        <div className="min-h-screen flex flex-col">
+          <AppHeader />
+          <div className="flex-1 flex">
             <GlobalSidebar>
               {betaFeature && (
                 <div className="m-4 rounded-full bg-blue-500 p-1.5 text-center text-sm text-white">
@@ -41,9 +41,9 @@ const AppLayout = async ({ children }: AppLayoutProperties) => {
               {children}
             </GlobalSidebar>
             <PostHogIdentifier />
-          </SidebarProvider>
+          </div>
         </div>
-      </div>
+      </SidebarProvider>
     </NotificationsProvider>
   );
 };
