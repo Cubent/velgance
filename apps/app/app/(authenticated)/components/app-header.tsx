@@ -3,26 +3,42 @@
 import { Button } from '@repo/design-system/components/ui/button';
 import { UserButton } from '@repo/auth/client';
 import { NotificationsTrigger } from '@repo/notifications/components/trigger';
+import { useSidebar } from '@repo/design-system/components/ui/sidebar';
+import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import Logo from './logo.svg';
 
 export const AppHeader = () => {
+  const { toggleSidebar } = useSidebar();
+  
   return (
     <header className="sticky top-0 left-0 z-50 w-full bg-sidebar backdrop-blur-sm border-b border-sidebar-border supports-[backdrop-filter]:bg-sidebar/95">
       <div className="flex h-14 items-center justify-between px-4">
-        {/* Left side - Logo */}
-        <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <Image
-            src={Logo}
-            alt="Cubent Logo"
-            width={32}
-            height={32}
-            className="dark:invert"
-          />
-          <span className="font-medium text-base">Cubent</span>
-        </Link>
+        {/* Left side - Mobile Menu Button + Logo */}
+        <div className="flex items-center gap-2">
+          {/* Mobile Menu Button - Only visible on mobile */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden shrink-0"
+            onClick={toggleSidebar}
+          >
+            <Menu className="h-4 w-4" />
+          </Button>
+          
+          <Link href="/dashboard" className="md:hidden flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <Image
+              src={Logo}
+              alt="Cubent Logo"
+              width={32}
+              height={32}
+              className="dark:invert"
+            />
+            <span className="font-medium text-base">Cubent</span>
+          </Link>
+        </div>
 
         {/* Right side - User menu and notifications */}
         <div className="flex items-center gap-3">

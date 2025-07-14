@@ -108,7 +108,12 @@ export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
 
   return (
     <>
-      <Sidebar variant="inset" className="h-full max-h-[calc(100vh-4rem)] mt-16">
+      <Sidebar variant="inset" className="h-full max-h-[calc(100vh-4rem)]">
+        {/* Logo positioned at header height */}
+        <div className="hidden md:flex items-center gap-2 px-4 py-3 h-14 border-b border-sidebar-border bg-sidebar">
+          <img src="/logo.svg" alt="Cubent" width="32" height="32" className="dark:invert" />
+          <span className="font-medium text-base">Cubent</span>
+        </div>
         <SidebarHeader>
           {/* Organization selector removed */}
         </SidebarHeader>
