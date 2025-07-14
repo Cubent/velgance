@@ -8,9 +8,20 @@ import { useState } from 'react';
 
 const Pricing = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const { user } = useUser();
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
+  };
+  const handleStartForFree = () => {
+    if (!user) {
+      // Redirect to sign-in if user is not authenticated
+      window.location.href = `${env.NEXT_PUBLIC_APP_URL}/sign-in`;
+      return;
+    }
+
+    // Redirect to Clerk billing checkout for the free plan
+    window.location.href = `https://billing.clerk.com/checkout?plan=cplan_2zLFR32IKfBMjizqcvVF6b3xmzu`;
   };
 
   const faqData = [
@@ -91,7 +102,7 @@ const Pricing = () => {
                       7-day free trial included
                     </div>
                   </div>
-                  <Button variant="outline" asChild className="w-full bg-white/5 hover:bg-white/10 h-10 flex items-center border border-white/20 px-6 mb-4">
+                  <Button variant="outline" onClick={handleStartForFree} className="w-full bg-white/5 hover:bg-white/10 h-10 flex items-center border border-white/20 px-6 mb-4">
                     <Link href={env.NEXT_PUBLIC_APP_URL} className="bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent hover:text-transparent">
                       Start for Free
                     </Link>
