@@ -5,6 +5,7 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { Check, MoveRight, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useUser } from '@clerk/nextjs';
 
 const Pricing = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
