@@ -24,7 +24,8 @@ export async function POST(request: Request) {
 
     // Here you would typically save the trial information to your database
     // For now, we'll use Clerk's user metadata to store trial info
-    await clerkClient.users.updateUserMetadata(userId, {
+    const client = await clerkClient();
+    await client.users.updateUserMetadata(userId, {
       publicMetadata: {
         trialStartDate: new Date().toISOString(),
         trialEndDate: trialEndDate.toISOString(),
