@@ -472,6 +472,9 @@ importers:
       shiki:
         specifier: ^3.4.2
         version: 3.4.2
+      stripe:
+        specifier: ^18.1.1
+        version: 18.1.1(@types/node@22.15.21)
       svix:
         specifier: ^1.66.0
         version: 1.66.0
