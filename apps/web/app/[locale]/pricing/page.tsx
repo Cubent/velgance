@@ -14,38 +14,16 @@ const Pricing = () => {
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
-  const handleStartForFree = async () => {
+  const handleStartForFree = () => {
     if (!user) {
-      // Redirect to sign-in if user is not authenticated
-      window.location.href = 'https://app.cubent.dev/sign-in';
+      // Redirect to sign-up - free trial will be automatically created via webhook
+      window.location.href = 'https://app.cubent.dev/sign-up';
       return;
     }
 
-    try {
-      // Start 7-day free trial without credit card
-      const response = await fetch('/api/start-free-trial', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user.id,
-        }),
-      });
-
-      if (response.ok) {
-        // Redirect to app dashboard after starting trial
-        window.location.href = 'https://app.cubent.dev/dashboard';
-      } else {
-        console.error('Failed to start free trial');
-        // Fallback to Clerk billing if API fails
-        window.location.href = `https://billing.clerk.com/checkout?plan=cplan_2zLFR32IKfBMjizqcvVF6b3xmzu`;
-      }
-    } catch (error) {
-      console.error('Error starting free trial:', error);
-      // Fallback to Clerk billing if API fails
-      window.location.href = `https://billing.clerk.com/checkout?plan=cplan_2zLFR32IKfBMjizqcvVF6b3xmzu`;
-    }
+    // User is already signed in, redirect to dashboard
+    // Free trial was already created when they signed up
+    window.location.href = 'https://app.cubent.dev/dashboard';
   };
 
   const faqData = [

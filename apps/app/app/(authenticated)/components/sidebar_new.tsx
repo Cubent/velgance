@@ -103,7 +103,6 @@ const data = {
 };
 
 export const GlobalSidebar = ({ children }: GlobalSidebarProperties) => {
-  const sidebar = useSidebar();
   const pathname = usePathname();
 
   return (
