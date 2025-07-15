@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs/server';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -24,8 +24,6 @@ export async function POST(request: Request) {
 
     // Here you would typically save the trial information to your database
     // For now, we'll use Clerk's user metadata to store trial info
-    const { clerkClient } = await import('@clerk/nextjs/server');
-    
     await clerkClient.users.updateUserMetadata(userId, {
       publicMetadata: {
         trialStartDate: new Date().toISOString(),
