@@ -14,15 +14,38 @@ const Pricing = () => {
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
-  const handleStartForFree = () => {
+  const handleStartForFree = async () => {
     if (!user) {
       // Redirect to sign-in if user is not authenticated
       window.location.href = 'https://app.cubent.dev/sign-in';
       return;
     }
 
-    // Redirect to Clerk billing checkout for the free plan
-    window.location.href = `https://billing.clerk.com/checkout?plan=cplan_2zLFR32IKfBMjizqcvVF6b3xmzu`;
+    try {
+      // Start 7-day free trial without credit card
+      const response = await fetch('/api/start-free-trial', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+        }),
+      });
+
+      if (response.ok) {
+        // Redirect to app dashboard after starting trial
+        window.location.href = 'https://app.cubent.dev/dashboard';
+      } else {
+        console.error('Failed to start free trial');
+        // Fallback to Clerk billing if API fails
+        window.location.href = `https://billing.clerk.com/checkout?plan=cplan_2zLFR32IKfBMjizqcvVF6b3xmzu`;
+      }
+    } catch (error) {
+      console.error('Error starting free trial:', error);
+      // Fallback to Clerk billing if API fails
+      window.location.href = `https://billing.clerk.com/checkout?plan=cplan_2zLFR32IKfBMjizqcvVF6b3xmzu`;
+    }
   };
 
   const faqData = [
