@@ -1,0 +1,11 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "dependabot/**": false
+    }
+  },
+  "github": {
+    "autoAlias": false
+  }
+}
