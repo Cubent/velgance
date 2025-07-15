@@ -13,7 +13,10 @@ export function useTrialStatus(): TrialStatus {
   const { user } = useUser();
 
   return useMemo(() => {
-    if (!user?.privateMetadata) {
+    // Check if user has private metadata
+    const privateMetadata = (user as any)?.privateMetadata;
+
+    if (!privateMetadata) {
       return {
         isInTrial: false,
         trialExpired: false,
@@ -23,9 +26,8 @@ export function useTrialStatus(): TrialStatus {
       };
     }
 
-    const metadata = user.privateMetadata;
-    const subscriptionStatus = metadata.subscriptionStatus as string | null;
-    const trialEndDateStr = metadata.trialEndDate as string | null;
+    const subscriptionStatus = privateMetadata.subscriptionStatus as string | null;
+    const trialEndDateStr = privateMetadata.trialEndDate as string | null;
     
     const trialEndDate = trialEndDateStr ? new Date(trialEndDateStr) : null;
     const now = new Date();
@@ -44,5 +46,5 @@ export function useTrialStatus(): TrialStatus {
       daysRemaining,
       subscriptionStatus,
     };
-  }, [user?.privateMetadata]);
+  }, [(user as any)?.privateMetadata]);
 }
