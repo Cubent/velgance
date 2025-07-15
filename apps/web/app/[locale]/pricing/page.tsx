@@ -17,7 +17,7 @@ const Pricing = () => {
   const handleStartForFree = () => {
     if (!user) {
       // Redirect to sign-in if user is not authenticated
-      window.location.href = `${env.NEXT_PUBLIC_APP_URL}/sign-in`;
+      window.location.href = 'https://app.cubent.dev/sign-in';
       return;
     }
 
