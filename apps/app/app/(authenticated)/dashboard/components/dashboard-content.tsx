@@ -21,7 +21,7 @@ import {
 import { ApiChart } from './api-chart';
 import { RequestsTable } from './requests-table';
 import { ModelBreakdown } from './model-breakdown';
-import { TrialBanner } from '../../../../components/TrialBanner';
+
 
 interface DashboardData {
   totalRequests: number;
@@ -61,8 +61,6 @@ export function DashboardContent({ data }: DashboardContentProps) {
 
   return (
     <div className="space-y-6 p-6 bg-[#1f1f1f] min-h-screen">
-      {/* Trial Banner */}
-      <TrialBanner />
 
       {/* Header */}
       <div className="flex items-center justify-between">

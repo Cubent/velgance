@@ -7,6 +7,7 @@ import { useSidebar } from '@repo/design-system/components/ui/sidebar';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { CompactTrialBadge } from '../../../components/CompactTrialBadge';
 
 import Logo from './logo.svg';
 
@@ -40,8 +41,11 @@ export const AppHeader = () => {
           </Link>
         </div>
 
-        {/* Right side - User menu and notifications */}
+        {/* Right side - Trial badge, notifications, and user menu */}
         <div className="flex items-center gap-3">
+          {/* Compact Trial Badge */}
+          <CompactTrialBadge />
+
           {/* Notifications */}
           <Button variant="ghost" size="icon" className="shrink-0">
             <div className="h-4 w-4">
