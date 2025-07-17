@@ -21,7 +21,7 @@ import {
 import { ApiChart } from './api-chart';
 import { RequestsTable } from './requests-table';
 import { ModelBreakdown } from './model-breakdown';
-import { TrialBanner } from '../../../../../web/components/TrialBanner';
+import { TrialBanner } from '../../../components/TrialBanner';
 
 interface DashboardData {
   totalRequests: number;
