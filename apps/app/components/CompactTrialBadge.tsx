@@ -79,7 +79,7 @@ export function CompactTrialBadge() {
       onClick={handleUpgrade}
       variant="outline"
       size="sm"
-      className="bg-white/90 border-gray-300 text-gray-800 hover:bg-white hover:text-gray-900 text-xs px-3 py-1 h-7 flex items-center gap-1"
+      className="bg-white border-gray-300 text-black hover:bg-gray-50 hover:text-black text-xs px-3 py-1 h-7 flex items-center gap-1"
     >
       <Clock className="h-3 w-3" />
       Byak: {trialStatus.daysRemaining} days left
