@@ -108,22 +108,22 @@ export async function POST(request: Request) {
       const customer = await stripe.customers.create(customerProps);
       console.log('✅ Stripe customer created:', customer.id);
 
-      // Get the free plan price using lookup key
-      console.log('🔍 Looking for Stripe price with lookup_key "free"...');
+      // Get the Byak plan price using lookup key
+      console.log('🔍 Looking for Stripe price with lookup_key "byak"...');
       const {
         data: [price],
-      } = await stripe.prices.list({ lookup_keys: ['free'] });
+      } = await stripe.prices.list({ lookup_keys: ['byak'] });
 
       if (!price) {
-        console.error('❌ Free plan price not found. Make sure you have a price with lookup_key "free" in Stripe.');
-        return NextResponse.json({ error: 'Free plan not configured' }, { status: 500 });
+        console.error('❌ Byak plan price not found. Make sure you have a price with lookup_key "byak" in Stripe.');
+        return NextResponse.json({ error: 'Byak plan not configured' }, { status: 500 });
       }
 
       console.log('✅ Found Stripe price:', price.id);
 
-      // Create subscription with free plan
-      console.log('📋 Creating Stripe subscription...');
-      await stripe.subscriptions.create({
+      // Create subscription with Byak plan and 7-day trial
+      console.log('📋 Creating Stripe subscription with 7-day trial...');
+      const subscription = await stripe.subscriptions.create({
         customer: customer.id,
         items: [
           {
@@ -131,33 +131,33 @@ export async function POST(request: Request) {
             quantity: 1,
           },
         ],
+        trial_period_days: 7, // Stripe native 7-day trial
       });
-      console.log('✅ Stripe subscription created');
+      console.log('✅ Stripe subscription created with trial');
 
-      // Calculate trial end date (7 days from now)
-      const trialEndDate = new Date();
-      trialEndDate.setDate(trialEndDate.getDate() + 7);
-
-      // Store Stripe customer ID and trial info in Clerk user metadata
+      // Store Stripe customer ID and subscription info in Clerk user metadata
       console.log('👤 Updating Clerk user metadata...');
       await client.users.updateUserMetadata(newUserId, {
         privateMetadata: {
           stripeCustomerId: customer.id,
-          trialStartDate: new Date().toISOString(),
-          trialEndDate: trialEndDate.toISOString(),
-          subscriptionStatus: 'trial',
+          stripeSubscriptionId: subscription.id,
+          subscriptionStatus: 'trialing',
+          planType: 'byak',
         },
       });
 
-      console.log(`🎉 TRIAL CREATED SUCCESSFULLY for user ${newUserId}`);
+      console.log(`🎉 BYAK TRIAL CREATED SUCCESSFULLY for user ${newUserId}`);
       console.log(`💳 Stripe customer: ${customer.id}`);
-      console.log(`📅 Trial ends: ${trialEndDate.toISOString()}`);
+      console.log(`📋 Subscription: ${subscription.id}`);
+      console.log(`📅 Trial ends: ${new Date(subscription.trial_end! * 1000).toISOString()}`);
 
       return NextResponse.json({
-        message: 'Trial created successfully',
+        message: 'Byak trial created successfully',
         userId: newUserId,
         customerId: customer.id,
-        trialEndDate: trialEndDate.toISOString()
+        subscriptionId: subscription.id,
+        planType: 'byak',
+        trialEndDate: new Date(subscription.trial_end! * 1000).toISOString()
       });
     }
 

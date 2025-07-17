@@ -1,6 +1,6 @@
-# 7-Day Free Trial Setup Guide
+# Byak Plan 7-Day Trial Setup Guide
 
-This guide explains how to set up the 7-day free trial system using Clerk webhooks and Stripe.
+This guide explains how to set up the Byak plan with 7-day trial system using Clerk webhooks and Stripe native trials.
 
 ## Prerequisites
 
@@ -24,26 +24,26 @@ CLERK_WEBHOOK_SECRET=whsec_*****
 
 ## Stripe Setup
 
-### 1. Create Free Plan Product
+### 1. Create Byak Plan Product
 
 1. Go to **Stripe Dashboard** → **Products**
 2. Click **"Add product"**
 3. Set up the product:
-   - **Name**: "Free Plan" or "Free Trial"
-   - **Description**: "7-day free trial"
+   - **Name**: "Byak Plan"
+   - **Description**: "Bring Your API Key plan with 7-day trial"
 
 ### 2. Create Price with Lookup Key
 
 1. In the product, click **"Add price"**
 2. Configure the price:
-   - **Price**: $0.00
+   - **Price**: $29.00 (or your desired Byak plan price)
    - **Billing period**: Monthly
-   - **Lookup key**: `free` (this is crucial!)
+   - **Lookup key**: `byak` (this is crucial!)
 3. Save the price
 
 ### 3. Verify Lookup Key
 
-Make sure the price has the lookup key `free` - this is how the webhook finds the correct price.
+Make sure the price has the lookup key `byak` - this is how the webhook finds the correct price.
 
 ## Clerk Webhook Setup
 
@@ -69,16 +69,17 @@ Make sure the price has the lookup key `free` - this is how the webhook finds th
 2. **User completes registration** → Clerk sends `user.created` webhook
 3. **Webhook handler**:
    - Creates Stripe customer
-   - Assigns free subscription ($0/month)
-   - Stores trial dates in user metadata
+   - Assigns Byak plan subscription with 7-day trial
+   - Stores subscription info in user metadata
    - Links Clerk user ID ↔ Stripe customer ID
 
 ### Trial Management
 
-- **Trial status** is stored in Clerk user metadata
-- **Trial duration** is 7 days from registration
-- **Trial banner** shows remaining days
+- **Trial status** is managed natively by Stripe
+- **Trial duration** is 7 days using Stripe's trial_period_days
+- **Trial banner** shows remaining days for Byak plan
 - **Upgrade button** opens Stripe billing portal
+- **After trial** automatically converts to paid Byak plan
 
 ### User Deletion
 
@@ -131,8 +132,8 @@ When a user deletes their account:
 
 ### Common Issues
 
-1. **"Free plan price not found"**
-   - Verify Stripe price has lookup key `free`
+1. **"Byak plan price not found"**
+   - Verify Stripe price has lookup key `byak`
    - Check STRIPE_SECRET_KEY is correct
 
 2. **Webhook verification failed**

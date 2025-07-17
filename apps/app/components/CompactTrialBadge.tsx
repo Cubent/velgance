@@ -10,6 +10,7 @@ interface TrialStatus {
   trialExpired: boolean;
   daysRemaining: number;
   subscriptionStatus: string | null;
+  planType: string | null;
 }
 
 export function CompactTrialBadge() {
@@ -19,6 +20,7 @@ export function CompactTrialBadge() {
     trialExpired: false,
     daysRemaining: 0,
     subscriptionStatus: null,
+    planType: null,
   });
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export function CompactTrialBadge() {
           trialExpired: data.trialExpired,
           daysRemaining: data.daysRemaining,
           subscriptionStatus: data.subscriptionStatus,
+          planType: data.planType,
         });
       })
       .catch(error => {
@@ -66,7 +69,7 @@ export function CompactTrialBadge() {
         size="sm"
         className="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 h-7"
       >
-        Trial Expired
+        Byak Trial Expired
       </Button>
     );
   }
@@ -79,7 +82,7 @@ export function CompactTrialBadge() {
       className="border-blue-600/30 text-blue-400 hover:bg-blue-600/10 text-xs px-3 py-1 h-7 flex items-center gap-1"
     >
       <Clock className="h-3 w-3" />
-      {trialStatus.daysRemaining} days left
+      Byak: {trialStatus.daysRemaining} days left
     </Button>
   );
 }
