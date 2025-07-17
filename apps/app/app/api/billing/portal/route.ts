@@ -1,34 +1,26 @@
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
+import { stripe } from '@repo/payments';
 
 export async function POST(request: Request) {
   try {
     // Get the authenticated user
     const { userId } = await auth();
-    
+
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
-    if (!STRIPE_SECRET_KEY) {
-      throw new Error('STRIPE_SECRET_KEY is not set');
     }
 
     // Get user from Clerk
     const client = await clerkClient();
     const user = await client.users.getUser(userId);
-    
+
     // Get Stripe customer ID from user metadata
     const stripeCustomerId = user.privateMetadata?.stripeCustomerId as string;
 
     if (!stripeCustomerId) {
       return NextResponse.json({ error: 'No billing account found' }, { status: 404 });
     }
-
-    // Initialize Stripe
-    const stripe = new Stripe(STRIPE_SECRET_KEY);
 
     // Get the request URL to determine the return URL
     const url = new URL(request.url);
