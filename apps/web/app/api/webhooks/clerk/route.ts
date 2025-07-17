@@ -1,17 +1,28 @@
-import { WebhookEvent } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import { Webhook } from 'svix';
-import Stripe from 'stripe';
-import { clerkClient } from '@clerk/nextjs/server';
 
-// Add GET method for testing webhook endpoint
+// Simple GET method for testing webhook endpoint
 export async function GET() {
   return NextResponse.json({
     message: 'Clerk webhook endpoint is accessible and ready for POST requests',
     timestamp: new Date().toISOString(),
     methods: ['GET', 'POST'],
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    route: '/api/webhooks/clerk'
   });
+}
+
+// Simple POST method for webhook
+export async function POST(request: Request) {
+  try {
+    console.log('🔔 Webhook POST received');
+    return NextResponse.json({
+      message: 'Webhook received successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Webhook error:', error);
+    return NextResponse.json({ error: 'Webhook failed' }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
