@@ -15,6 +15,7 @@ export async function GET() {
 export async function POST(request: Request) {
   console.log('🔔 Clerk webhook received');
   const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+  const CLERK_SECRET_KEY = process.env.CLERK_SECRET_KEY;
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 
   if (!CLERK_WEBHOOK_SECRET) {
