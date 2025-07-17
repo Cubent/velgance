@@ -47,11 +47,9 @@ export const AppHeader = () => {
           <CompactTrialBadge />
 
           {/* Notifications */}
-          <Button variant="ghost" size="icon" className="shrink-0">
-            <div className="h-4 w-4">
-              <NotificationsTrigger />
-            </div>
-          </Button>
+          <div className="shrink-0">
+            <NotificationsTrigger />
+          </div>
 
           {/* User Button */}
           <UserButton
