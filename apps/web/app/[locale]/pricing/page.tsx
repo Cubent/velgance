@@ -17,13 +17,13 @@ const Pricing = () => {
   const handleStartForFree = () => {
     if (!user) {
       // Redirect to sign-up - free trial will be automatically created via webhook
-      window.location.href = 'https://app.cubent.dev/sign-up';
+      window.location.href = `${env.NEXT_PUBLIC_APP_URL}/sign-up`;
       return;
     }
 
     // User is already signed in, redirect to dashboard
     // Free trial was already created when they signed up
-    window.location.href = 'https://app.cubent.dev/dashboard';
+    window.location.href = `${env.NEXT_PUBLIC_APP_URL}/dashboard`;
   };
 
   const faqData = [
