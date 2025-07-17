@@ -59,9 +59,9 @@ export const AppHeader = () => {
                 rootBox: 'flex overflow-hidden',
                 userButtonBox: 'flex-row-reverse',
                 userButtonOuterIdentifier: 'truncate pl-0 !text-white',
-                userPreviewMainIdentifier: '!text-white',
-                userPreviewSecondaryIdentifier: '!text-white/90',
                 userButtonTrigger: '!text-white',
+                // Remove hardcoded white colors for dropdown content
+                // Let Clerk use default colors for dropdown text
               },
             }}
           />
