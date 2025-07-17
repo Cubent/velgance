@@ -1,6 +1,7 @@
 import { auth } from '@repo/auth/server';
 import { database } from '@repo/database';
 // Updated: Dashboard now includes TrialBanner for free trial users
+// Debug: Investigating webhook failures and trial creation issues
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DashboardContent } from './components/dashboard-content';

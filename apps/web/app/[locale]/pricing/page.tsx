@@ -1,6 +1,7 @@
 'use client';
 
 // Updated: Fixed Start for Free button to use correct production URLs
+// Debug: Added webhook logging to track trial creation process
 import { env } from '@/env';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Check, MoveRight, Plus } from 'lucide-react';

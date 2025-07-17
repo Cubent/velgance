@@ -5,6 +5,7 @@ import Stripe from 'stripe';
 import { clerkClient } from '@clerk/nextjs/server';
 
 export async function POST(request: Request) {
+  console.log('🔔 Clerk webhook received');
   const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 
@@ -57,6 +58,7 @@ export async function POST(request: Request) {
 
   try {
     if (evt.type === 'user.created') {
+      console.log('👤 User created event received for user:', evt.data.id);
       const {
         id: newUserId,
         username,

@@ -30,6 +30,7 @@ export function TrialBanner() {
     fetch('/api/user/trial-status')
       .then(res => res.json())
       .then(data => {
+        console.log('🔍 Trial status API response:', data);
         setTrialStatus({
           isInTrial: data.isInTrial,
           trialExpired: data.trialExpired,
