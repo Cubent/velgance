@@ -1,5 +1,5 @@
 import { useUser } from '@clerk/nextjs';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
 interface TrialStatus {
   isInTrial: boolean;
@@ -11,40 +11,33 @@ interface TrialStatus {
 
 export function useTrialStatus(): TrialStatus {
   const { user } = useUser();
+  const [trialStatus, setTrialStatus] = useState<TrialStatus>({
+    isInTrial: false,
+    trialExpired: false,
+    trialEndDate: null,
+    daysRemaining: 0,
+    subscriptionStatus: null,
+  });
 
-  return useMemo(() => {
-    // Check if user has private metadata
-    const privateMetadata = (user as any)?.privateMetadata;
+  useEffect(() => {
+    if (!user) return;
 
-    if (!privateMetadata) {
-      return {
-        isInTrial: false,
-        trialExpired: false,
-        trialEndDate: null,
-        daysRemaining: 0,
-        subscriptionStatus: null,
-      };
-    }
+    // Fetch trial status from API endpoint
+    fetch('/api/user/trial-status')
+      .then(res => res.json())
+      .then(data => {
+        setTrialStatus({
+          isInTrial: data.isInTrial,
+          trialExpired: data.trialExpired,
+          trialEndDate: data.trialEndDate ? new Date(data.trialEndDate) : null,
+          daysRemaining: data.daysRemaining,
+          subscriptionStatus: data.subscriptionStatus,
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching trial status:', error);
+      });
+  }, [user]);
 
-    const subscriptionStatus = privateMetadata.subscriptionStatus as string | null;
-    const trialEndDateStr = privateMetadata.trialEndDate as string | null;
-    
-    const trialEndDate = trialEndDateStr ? new Date(trialEndDateStr) : null;
-    const now = new Date();
-    
-    const isInTrial = subscriptionStatus === 'trial';
-    const trialExpired = trialEndDate ? now > trialEndDate : false;
-    
-    const daysRemaining = trialEndDate 
-      ? Math.max(0, Math.ceil((trialEndDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)))
-      : 0;
-
-    return {
-      isInTrial,
-      trialExpired,
-      trialEndDate,
-      daysRemaining,
-      subscriptionStatus,
-    };
-  }, [(user as any)?.privateMetadata]);
+  return trialStatus;
 }
