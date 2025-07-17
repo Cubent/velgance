@@ -4,6 +4,14 @@ import { Webhook } from 'svix';
 import Stripe from 'stripe';
 import { clerkClient } from '@clerk/nextjs/server';
 
+// Add GET method for testing webhook endpoint
+export async function GET() {
+  return NextResponse.json({
+    message: 'Clerk webhook endpoint is accessible',
+    timestamp: new Date().toISOString()
+  });
+}
+
 export async function POST(request: Request) {
   console.log('🔔 Clerk webhook received');
   const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -46,7 +54,8 @@ export async function POST(request: Request) {
       'svix-signature': svixSignature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error('Error verifying webhook:', err);
+    console.error('🚨 Error verifying webhook:', err);
+    console.error('🔍 Webhook verification failed - check CLERK_WEBHOOK_SECRET');
     return new Response('Error occurred', {
       status: 400,
     });
@@ -151,7 +160,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ message: 'Webhook processed successfully' });
   } catch (error) {
-    console.error('Error processing webhook:', error);
+    console.error('🚨 Error processing webhook:', error);
+    console.error('🔍 Full error details:', JSON.stringify(error, null, 2));
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
