@@ -199,6 +199,12 @@ importers:
       sonner:
         specifier: ^2.0.3
         version: 2.0.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      stripe:
+        specifier: ^18.1.1
+        version: 18.1.1(@types/node@22.15.21)
+      svix:
+        specifier: ^1.66.0
+        version: 1.66.0
       zod:
         specifier: ^3.25.28
         version: 3.25.28
