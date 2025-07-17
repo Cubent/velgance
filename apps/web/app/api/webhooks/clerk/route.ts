@@ -7,8 +7,10 @@ import { clerkClient } from '@clerk/nextjs/server';
 // Add GET method for testing webhook endpoint
 export async function GET() {
   return NextResponse.json({
-    message: 'Clerk webhook endpoint is accessible',
-    timestamp: new Date().toISOString()
+    message: 'Clerk webhook endpoint is accessible and ready for POST requests',
+    timestamp: new Date().toISOString(),
+    methods: ['GET', 'POST'],
+    status: 'ACTIVE'
   });
 }
 
