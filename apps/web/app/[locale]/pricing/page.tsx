@@ -3,6 +3,7 @@
 // Updated: Fixed Start for Free button to use correct production URLs
 // Debug: Added webhook logging to track trial creation process
 // Enhanced: Added detailed error logging and webhook accessibility testing
+// Testing: Enhanced webhook responses to identify trial creation failures
 import { env } from '@/env';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Check, MoveRight, Plus } from 'lucide-react';

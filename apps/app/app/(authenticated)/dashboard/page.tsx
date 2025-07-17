@@ -3,6 +3,7 @@ import { database } from '@repo/database';
 // Updated: Dashboard now includes TrialBanner for free trial users
 // Debug: Investigating webhook failures and trial creation issues
 // Enhanced: Added webhook accessibility testing and detailed error logging
+// Testing: Enhanced webhook debugging to identify missing Stripe configuration
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DashboardContent } from './components/dashboard-content';

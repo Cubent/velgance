@@ -68,6 +68,11 @@ export async function POST(request: Request) {
   try {
     if (evt.type === 'user.created') {
       console.log('👤 User created event received for user:', evt.data.id);
+      console.log('📧 User email:', evt.data.email_addresses?.[0]?.email_address);
+      console.log('🔧 Environment check:', {
+        hasClerkSecret: !!CLERK_SECRET_KEY,
+        hasStripeSecret: !!STRIPE_SECRET_KEY
+      });
       const {
         id: newUserId,
         username,
@@ -99,14 +104,17 @@ export async function POST(request: Request) {
       const customer = await stripe.customers.create(customerProps);
 
       // Get the free plan price using lookup key
+      console.log('🔍 Looking for Stripe price with lookup_key "free"...');
       const {
         data: [price],
       } = await stripe.prices.list({ lookup_keys: ['free'] });
 
       if (!price) {
-        console.error('Free plan price not found. Make sure you have a price with lookup_key "free" in Stripe.');
-        return NextResponse.json({ error: 'Free plan not configured' }, { status: 500 });
+        console.error('❌ Free plan price not found. Make sure you have a price with lookup_key "free" in Stripe.');
+        return NextResponse.json({ error: 'Free plan not configured - missing Stripe price with lookup_key "free"' }, { status: 500 });
       }
+
+      console.log('✅ Found Stripe price:', price.id);
 
       // Create subscription with free plan
       await stripe.subscriptions.create({
@@ -133,7 +141,15 @@ export async function POST(request: Request) {
         },
       });
 
-      console.log(`Created free trial for user ${newUserId} with Stripe customer ${customer.id}`);
+      console.log(`✅ Created free trial for user ${newUserId} with Stripe customer ${customer.id}`);
+
+      // Return success with trial info for debugging
+      return NextResponse.json({
+        message: 'Trial created successfully',
+        userId: newUserId,
+        customerId: customer.id,
+        trialEndDate: trialEndDate.toISOString()
+      });
     } else if (evt.type === 'user.deleted') {
       const deletedUserId = evt.data.id;
 
