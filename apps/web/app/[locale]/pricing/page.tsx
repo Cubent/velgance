@@ -1,5 +1,6 @@
 'use client';
 
+// Updated: Fixed Start for Free button to use correct production URLs
 import { env } from '@/env';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Check, MoveRight, Plus } from 'lucide-react';
@@ -17,13 +18,14 @@ const Pricing = () => {
   const handleStartForFree = () => {
     if (!user) {
       // Redirect to sign-up - free trial will be automatically created via webhook
-      window.location.href = `${env.NEXT_PUBLIC_APP_URL}/sign-up`;
+      // Temporary fix: use correct production URL until env vars are updated
+      window.location.href = 'https://app.cubent.dev/sign-up';
       return;
     }
 
     // User is already signed in, redirect to dashboard
     // Free trial was already created when they signed up
-    window.location.href = `${env.NEXT_PUBLIC_APP_URL}/dashboard`;
+    window.location.href = 'https://app.cubent.dev/dashboard';
   };
 
   const faqData = [
