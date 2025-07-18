@@ -67,23 +67,27 @@ export async function GET() {
       },
     });
 
-    // Get subscription data from Stripe
+    // Get subscription data from Clerk metadata and Stripe
     let subscriptionTier = 'free_trial';
     let subscriptionStatus = 'trial';
 
-    if (userProfile.stripeCustomerId) {
+    // Get Stripe customer ID from Clerk metadata
+    const privateMetadata = user.privateMetadata;
+    const stripeCustomerId = privateMetadata.stripeCustomerId as string | null;
+    const stripeSubscriptionId = privateMetadata.stripeSubscriptionId as string | null;
+
+    if (stripeCustomerId && stripeSubscriptionId) {
       try {
-        const subscriptions = await stripe.subscriptions.list({
-          customer: userProfile.stripeCustomerId,
-          status: 'all',
-          limit: 1,
-        });
+        // Get subscription from Stripe
+        const subscription = await stripe.subscriptions.retrieve(stripeSubscriptionId);
+        subscriptionStatus = subscription.status;
 
-        if (subscriptions.data.length > 0) {
-          const subscription = subscriptions.data[0];
-          subscriptionStatus = subscription.status;
-
-          // Get plan type from price lookup key
+        // Get plan type from Clerk metadata (set during subscription creation)
+        const planType = privateMetadata.planType as string | null;
+        if (planType) {
+          subscriptionTier = planType;
+        } else {
+          // Fallback: get plan type from Stripe price lookup key
           if (subscription.items.data.length > 0) {
             const priceId = subscription.items.data[0].price.id;
             const price = await stripe.prices.retrieve(priceId);
