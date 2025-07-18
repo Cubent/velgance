@@ -70,6 +70,8 @@ export async function GET() {
     // Get subscription data ONLY from Stripe - search for active subscriptions
     let subscriptionTier = 'free';
     let subscriptionStatus = 'inactive';
+    let trialEndDate: Date | null = null;
+    let daysLeftInTrial: number | null = null;
 
     // Get Stripe customer ID from Clerk metadata
     const privateMetadata = user.privateMetadata;
@@ -91,6 +93,19 @@ export async function GET() {
 
         if (activeSubscription) {
           subscriptionStatus = activeSubscription.status;
+
+          // Handle trial information
+          if (activeSubscription.status === 'trialing' && activeSubscription.trial_end) {
+            trialEndDate = new Date(activeSubscription.trial_end * 1000);
+            const now = new Date();
+            const timeDiff = trialEndDate.getTime() - now.getTime();
+            daysLeftInTrial = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            // Ensure we don't show negative days
+            if (daysLeftInTrial < 0) {
+              daysLeftInTrial = 0;
+            }
+          }
 
           // Get plan type from Stripe price lookup key
           if (activeSubscription.items.data.length > 0) {
@@ -141,6 +156,8 @@ export async function GET() {
       profile: {
         subscriptionTier,
         subscriptionStatus,
+        trialEndDate: trialEndDate?.toISOString() || null,
+        daysLeftInTrial,
         termsAccepted: userProfile.termsAccepted,
         extensionEnabled: userProfile.extensionEnabled,
         settings: userProfile.settings,
