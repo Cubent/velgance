@@ -7,14 +7,17 @@ import { useSidebar } from '@repo/design-system/components/ui/sidebar';
 import { Menu, CreditCard } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { CompactTrialBadge } from '../../../components/CompactTrialBadge';
 
 import Logo from './logo.svg';
 
 export const AppHeader = () => {
   const { toggleSidebar } = useSidebar();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleManageSubscription = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch('/api/billing/portal', {
         method: 'POST',
@@ -24,10 +27,15 @@ export const AppHeader = () => {
         const { url } = await response.json();
         window.open(url, '_blank');
       } else {
-        console.error('Failed to create billing portal session');
+        const errorData = await response.json();
+        console.error('Failed to create billing portal session:', errorData);
+        alert(`Failed to open billing portal: ${errorData.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error opening billing portal:', error);
+      alert('Failed to open billing portal. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
   
@@ -68,10 +76,11 @@ export const AppHeader = () => {
             variant="outline"
             size="sm"
             onClick={handleManageSubscription}
-            className="hidden sm:flex items-center gap-2 text-xs px-3 py-1 h-8 border-white/20 text-white hover:bg-white/10"
+            disabled={isLoading}
+            className="hidden sm:flex items-center gap-2 text-xs px-3 py-1 h-8 border-white/20 text-white hover:bg-white/10 disabled:opacity-50"
           >
             <CreditCard className="h-3 w-3" />
-            Manage Subscription
+            {isLoading ? 'Loading...' : 'Manage Subscription'}
           </Button>
 
           {/* Notifications */}
