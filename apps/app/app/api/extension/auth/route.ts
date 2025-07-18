@@ -189,20 +189,27 @@ export async function GET(request: NextRequest) {
         const subscription = await stripe.subscriptions.retrieve(stripeSubscriptionId);
         subscriptionStatus = subscription.status;
 
-        // Get plan type from Clerk metadata (set during subscription creation)
-        const planType = privateMetadata.planType as string | null;
-        if (planType) {
-          subscriptionTier = planType;
-        } else {
-          // Fallback: get plan type from Stripe price lookup key
-          if (subscription.items.data.length > 0) {
-            const priceId = subscription.items.data[0].price.id;
-            const price = await stripe.prices.retrieve(priceId);
+        // Only set paid plan if subscription is actually active
+        if (subscription.status === 'active' || subscription.status === 'trialing') {
+          // Get plan type from Clerk metadata (set during subscription creation)
+          const planType = privateMetadata.planType as string | null;
+          if (planType) {
+            subscriptionTier = planType;
+          } else {
+            // Fallback: get plan type from Stripe price lookup key
+            if (subscription.items.data.length > 0) {
+              const priceId = subscription.items.data[0].price.id;
+              const price = await stripe.prices.retrieve(priceId);
 
-            if (price.lookup_key) {
-              subscriptionTier = price.lookup_key;
+              if (price.lookup_key) {
+                subscriptionTier = price.lookup_key;
+              }
             }
           }
+        } else {
+          // Subscription exists but is not active (canceled, past_due, etc.)
+          subscriptionTier = 'free_trial';
+          subscriptionStatus = 'trial';
         }
       } catch (error) {
         console.error('Error fetching Stripe subscription:', error);
