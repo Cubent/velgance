@@ -4,7 +4,7 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { UserButton } from '@repo/auth/client';
 import { NotificationsTrigger } from '@repo/notifications/components/trigger';
 import { useSidebar } from '@repo/design-system/components/ui/sidebar';
-import { Menu } from 'lucide-react';
+import { Menu, CreditCard } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CompactTrialBadge } from '../../../components/CompactTrialBadge';
@@ -13,6 +13,23 @@ import Logo from './logo.svg';
 
 export const AppHeader = () => {
   const { toggleSidebar } = useSidebar();
+
+  const handleManageSubscription = async () => {
+    try {
+      const response = await fetch('/api/billing/portal', {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const { url } = await response.json();
+        window.open(url, '_blank');
+      } else {
+        console.error('Failed to create billing portal session');
+      }
+    } catch (error) {
+      console.error('Error opening billing portal:', error);
+    }
+  };
   
   return (
     <header className="sticky top-0 left-0 z-50 w-full bg-sidebar backdrop-blur-sm border-b border-sidebar-border supports-[backdrop-filter]:bg-sidebar/95">
@@ -41,10 +58,21 @@ export const AppHeader = () => {
           </Link>
         </div>
 
-        {/* Right side - Trial badge, notifications, and user menu */}
+        {/* Right side - Trial badge, manage subscription, notifications, and user menu */}
         <div className="flex items-center gap-3">
           {/* Compact Trial Badge */}
           <CompactTrialBadge />
+
+          {/* Manage Subscription Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleManageSubscription}
+            className="hidden sm:flex items-center gap-2 text-xs px-3 py-1 h-8 border-white/20 text-white hover:bg-white/10"
+          >
+            <CreditCard className="h-3 w-3" />
+            Manage Subscription
+          </Button>
 
           {/* Notifications */}
           <div className="shrink-0">
