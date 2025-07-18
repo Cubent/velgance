@@ -170,9 +170,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get subscription data ONLY from Stripe - ignore Clerk metadata
-    let subscriptionTier = 'free_trial';
-    let subscriptionStatus = 'trial';
+    // Get subscription data ONLY from Stripe - search for active subscriptions
+    let subscriptionTier = 'free';
+    let subscriptionStatus = 'inactive';
 
     // Get user from Clerk to access metadata
     const client = await clerkClient();
@@ -181,46 +181,62 @@ export async function GET(request: NextRequest) {
     // Get Stripe customer ID from Clerk metadata
     const privateMetadata = clerkUser.privateMetadata;
     const stripeCustomerId = privateMetadata.stripeCustomerId as string | null;
-    const stripeSubscriptionId = privateMetadata.stripeSubscriptionId as string | null;
 
-    if (stripeCustomerId && stripeSubscriptionId) {
+    if (stripeCustomerId) {
       try {
-        // Get subscription from Stripe
-        const subscription = await stripe.subscriptions.retrieve(stripeSubscriptionId);
-        subscriptionStatus = subscription.status;
+        // Search for ALL subscriptions for this customer directly from Stripe
+        const subscriptions = await stripe.subscriptions.list({
+          customer: stripeCustomerId,
+          status: 'all',
+          limit: 10
+        });
 
-        // Only set paid plan if subscription is actually active
-        if (subscription.status === 'active' || subscription.status === 'trialing') {
-          // Get plan type ONLY from Stripe price lookup key - ignore Clerk metadata
-          if (subscription.items.data.length > 0) {
-            const priceId = subscription.items.data[0].price.id;
+        // Find the most recent active or trialing subscription
+        const activeSubscription = subscriptions.data.find(sub =>
+          sub.status === 'active' || sub.status === 'trialing'
+        );
+
+        if (activeSubscription) {
+          subscriptionStatus = activeSubscription.status;
+
+          // Get plan type from Stripe price lookup key
+          if (activeSubscription.items.data.length > 0) {
+            const priceId = activeSubscription.items.data[0].price.id;
             const price = await stripe.prices.retrieve(priceId);
 
             if (price.lookup_key) {
-              subscriptionTier = price.lookup_key;
+              subscriptionTier = price.lookup_key; // This should be 'pro', 'byak', etc.
             } else {
-              // If no lookup key, stay as free_trial
-              subscriptionTier = 'free_trial';
-              subscriptionStatus = 'trial';
+              // Fallback: try to determine from price amount or product name
+              const product = await stripe.products.retrieve(price.product as string);
+              console.log('No lookup key found, product name:', product.name);
+
+              // Try to map product name to tier
+              const productName = product.name.toLowerCase();
+              if (productName.includes('pro')) {
+                subscriptionTier = 'pro';
+              } else if (productName.includes('byak')) {
+                subscriptionTier = 'byak';
+              } else if (productName.includes('enterprise')) {
+                subscriptionTier = 'enterprise';
+              } else {
+                subscriptionTier = 'pro'; // Default to pro for paid plans
+              }
             }
-          } else {
-            // No subscription items, stay as free_trial
-            subscriptionTier = 'free_trial';
-            subscriptionStatus = 'trial';
           }
         } else {
-          // Subscription exists but is not active (canceled, past_due, etc.)
-          subscriptionTier = 'free_trial';
-          subscriptionStatus = 'trial';
+          // No active subscription found
+          subscriptionTier = 'free';
+          subscriptionStatus = 'inactive';
         }
       } catch (error) {
-        console.error('Error fetching Stripe subscription:', error);
-        // If Stripe fails, default to free trial
-        subscriptionTier = 'free_trial';
-        subscriptionStatus = 'trial';
+        console.error('Error fetching Stripe subscriptions:', error);
+        // If Stripe fails, default to free
+        subscriptionTier = 'free';
+        subscriptionStatus = 'inactive';
       }
     }
-    // If no Stripe data at all, keep default free_trial values
+    // If no Stripe customer ID, keep default free values
 
     return NextResponse.json({
       user: {
