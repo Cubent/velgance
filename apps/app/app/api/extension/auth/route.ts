@@ -1,5 +1,6 @@
-import { auth, currentUser } from '@repo/auth/server';
+import { auth, currentUser, clerkClient } from '@repo/auth/server';
 import { database } from '@repo/database';
+import { stripe } from '@repo/payments';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -169,14 +170,56 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Get subscription data from Clerk metadata and Stripe
+    let subscriptionTier = 'free_trial';
+    let subscriptionStatus = 'trial';
+
+    // Get Stripe customer ID from Clerk metadata
+    const privateMetadata = user.privateMetadata;
+    const stripeCustomerId = privateMetadata.stripeCustomerId as string | null;
+    const stripeSubscriptionId = privateMetadata.stripeSubscriptionId as string | null;
+
+    if (stripeCustomerId && stripeSubscriptionId) {
+      try {
+        // Get subscription from Stripe
+        const subscription = await stripe.subscriptions.retrieve(stripeSubscriptionId);
+        subscriptionStatus = subscription.status;
+
+        // Get plan type from Clerk metadata (set during subscription creation)
+        const planType = privateMetadata.planType as string | null;
+        if (planType) {
+          subscriptionTier = planType;
+        } else {
+          // Fallback: get plan type from Stripe price lookup key
+          if (subscription.items.data.length > 0) {
+            const priceId = subscription.items.data[0].price.id;
+            const price = await stripe.prices.retrieve(priceId);
+
+            if (price.lookup_key) {
+              subscriptionTier = price.lookup_key;
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching Stripe subscription:', error);
+        // Fall back to database values if Stripe fails
+        subscriptionTier = dbUser.subscriptionTier || 'free_trial';
+        subscriptionStatus = dbUser.subscriptionStatus || 'trial';
+      }
+    } else {
+      // Fall back to database values if no Stripe data
+      subscriptionTier = dbUser.subscriptionTier || 'free_trial';
+      subscriptionStatus = dbUser.subscriptionStatus || 'trial';
+    }
+
     return NextResponse.json({
       user: {
         id: dbUser.id,
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.picture,
-        subscriptionTier: dbUser.subscriptionTier,
-        subscriptionStatus: dbUser.subscriptionStatus,
+        subscriptionTier,
+        subscriptionStatus,
         termsAccepted: dbUser.termsAccepted,
         lastExtensionSync: dbUser.lastExtensionSync,
       },

@@ -1,5 +1,6 @@
 import { auth, currentUser } from '@repo/auth/server';
 import { database } from '@repo/database';
+import { stripe } from '@repo/payments';
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -66,6 +67,40 @@ export async function GET() {
       },
     });
 
+    // Get subscription data from Stripe
+    let subscriptionTier = 'free_trial';
+    let subscriptionStatus = 'trial';
+
+    if (userProfile.stripeCustomerId) {
+      try {
+        const subscriptions = await stripe.subscriptions.list({
+          customer: userProfile.stripeCustomerId,
+          status: 'all',
+          limit: 1,
+        });
+
+        if (subscriptions.data.length > 0) {
+          const subscription = subscriptions.data[0];
+          subscriptionStatus = subscription.status;
+
+          // Get plan type from price lookup key
+          if (subscription.items.data.length > 0) {
+            const priceId = subscription.items.data[0].price.id;
+            const price = await stripe.prices.retrieve(priceId);
+
+            if (price.lookup_key) {
+              subscriptionTier = price.lookup_key;
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching Stripe subscription:', error);
+        // Fall back to database values if Stripe fails
+        subscriptionTier = userProfile.subscriptionTier || 'free_trial';
+        subscriptionStatus = userProfile.subscriptionStatus || 'trial';
+      }
+    }
+
     const response = {
       user: {
         id: userId,
@@ -74,8 +109,8 @@ export async function GET() {
         imageUrl: user.imageUrl,
       },
       profile: {
-        subscriptionTier: userProfile.subscriptionTier,
-        subscriptionStatus: userProfile.subscriptionStatus,
+        subscriptionTier,
+        subscriptionStatus,
         termsAccepted: userProfile.termsAccepted,
         extensionEnabled: userProfile.extensionEnabled,
         settings: userProfile.settings,
