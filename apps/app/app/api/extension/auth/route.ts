@@ -174,8 +174,12 @@ export async function GET(request: NextRequest) {
     let subscriptionTier = 'free_trial';
     let subscriptionStatus = 'trial';
 
+    // Get user from Clerk to access metadata
+    const client = await clerkClient();
+    const clerkUser = await client.users.getUser(userId);
+
     // Get Stripe customer ID from Clerk metadata
-    const privateMetadata = user.privateMetadata;
+    const privateMetadata = clerkUser.privateMetadata;
     const stripeCustomerId = privateMetadata.stripeCustomerId as string | null;
     const stripeSubscriptionId = privateMetadata.stripeSubscriptionId as string | null;
 
