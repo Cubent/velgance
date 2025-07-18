@@ -170,7 +170,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get subscription data from Clerk metadata and Stripe
+    // Get subscription data ONLY from Stripe - ignore Clerk metadata
     let subscriptionTier = 'free_trial';
     let subscriptionStatus = 'trial';
 
@@ -191,20 +191,22 @@ export async function GET(request: NextRequest) {
 
         // Only set paid plan if subscription is actually active
         if (subscription.status === 'active' || subscription.status === 'trialing') {
-          // Get plan type from Clerk metadata (set during subscription creation)
-          const planType = privateMetadata.planType as string | null;
-          if (planType) {
-            subscriptionTier = planType;
-          } else {
-            // Fallback: get plan type from Stripe price lookup key
-            if (subscription.items.data.length > 0) {
-              const priceId = subscription.items.data[0].price.id;
-              const price = await stripe.prices.retrieve(priceId);
+          // Get plan type ONLY from Stripe price lookup key - ignore Clerk metadata
+          if (subscription.items.data.length > 0) {
+            const priceId = subscription.items.data[0].price.id;
+            const price = await stripe.prices.retrieve(priceId);
 
-              if (price.lookup_key) {
-                subscriptionTier = price.lookup_key;
-              }
+            if (price.lookup_key) {
+              subscriptionTier = price.lookup_key;
+            } else {
+              // If no lookup key, stay as free_trial
+              subscriptionTier = 'free_trial';
+              subscriptionStatus = 'trial';
             }
+          } else {
+            // No subscription items, stay as free_trial
+            subscriptionTier = 'free_trial';
+            subscriptionStatus = 'trial';
           }
         } else {
           // Subscription exists but is not active (canceled, past_due, etc.)
@@ -213,15 +215,12 @@ export async function GET(request: NextRequest) {
         }
       } catch (error) {
         console.error('Error fetching Stripe subscription:', error);
-        // Fall back to database values if Stripe fails
-        subscriptionTier = dbUser.subscriptionTier || 'free_trial';
-        subscriptionStatus = dbUser.subscriptionStatus || 'trial';
+        // If Stripe fails, default to free trial
+        subscriptionTier = 'free_trial';
+        subscriptionStatus = 'trial';
       }
-    } else {
-      // Fall back to database values if no Stripe data
-      subscriptionTier = dbUser.subscriptionTier || 'free_trial';
-      subscriptionStatus = dbUser.subscriptionStatus || 'trial';
     }
+    // If no Stripe data at all, keep default free_trial values
 
     return NextResponse.json({
       user: {
