@@ -24,13 +24,20 @@ export const AutocompleteChart = ({ data }: AutocompleteChartProps) => {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-          <p className="text-sm font-medium mb-2">{formatDate(label)}</p>
-          {payload.map((entry: any, index: number) => (
-            <p key={index} className="text-sm" style={{ color: entry.color }}>
-              {entry.name}: {entry.value.toLocaleString()}
-            </p>
-          ))}
+        <div className="bg-[#1a1a1a] border border-[#333] rounded-lg p-3 shadow-lg">
+          <p className="text-white font-medium">{formatDate(label)}</p>
+          <div className="space-y-1 mt-2">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-[#10b981]" />
+              <span className="text-gray-300 text-sm">Completions:</span>
+              <span className="text-white font-medium">{payload[0]?.value?.toLocaleString() || 0}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-[#3b82f6]" />
+              <span className="text-gray-300 text-sm">Lines Written:</span>
+              <span className="text-white font-medium">{payload[1]?.value?.toLocaleString() || 0}</span>
+            </div>
+          </div>
         </div>
       );
     }
@@ -50,32 +57,33 @@ export const AutocompleteChart = ({ data }: AutocompleteChartProps) => {
       >
         <defs>
           <linearGradient id="completionsGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-            <stop offset="95%" stopColor="#8884d8" stopOpacity={0.1}/>
+            <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+            <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
           </linearGradient>
           <linearGradient id="linesGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0.1}/>
+            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
           </linearGradient>
         </defs>
-        <XAxis 
-          dataKey="date" 
+        <CartesianGrid strokeDasharray="3 3" stroke="#333" className="opacity-50" />
+        <XAxis
+          dataKey="date"
           tickFormatter={formatDate}
           axisLine={false}
           tickLine={false}
-          className="text-xs"
+          tick={{ fill: '#9ca3af', fontSize: 12 }}
         />
-        <YAxis 
+        <YAxis
           axisLine={false}
           tickLine={false}
-          className="text-xs"
+          tick={{ fill: '#9ca3af', fontSize: 12 }}
         />
         <Tooltip content={<CustomTooltip />} />
         <Area
           type="monotone"
           dataKey="completions"
           stackId="1"
-          stroke="#8884d8"
+          stroke="#10b981"
           fill="url(#completionsGradient)"
           name="Completions"
         />
@@ -83,7 +91,7 @@ export const AutocompleteChart = ({ data }: AutocompleteChartProps) => {
           type="monotone"
           dataKey="linesWritten"
           stackId="2"
-          stroke="#82ca9d"
+          stroke="#3b82f6"
           fill="url(#linesGradient)"
           name="Lines Written"
         />
