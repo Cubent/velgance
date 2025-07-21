@@ -38,6 +38,7 @@ import {
   Zap,
   DollarSign,
   Lock,
+  Code,
 } from 'lucide-react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -89,6 +90,12 @@ const data = {
       title: 'Cost Tracking',
       url: '/usage/cost',
       icon: DollarSign,
+      locked: false,
+    },
+    {
+      title: 'Autocomplete',
+      url: '/usage/autocomplete',
+      icon: Code,
       locked: false,
     },
   ],

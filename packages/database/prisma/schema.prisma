@@ -84,14 +84,18 @@ model UsageMetrics {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  tokensUsed      Int   @default(0)
-  inputTokens     Int   @default(0)
-  outputTokens    Int   @default(0)
-  cacheReadTokens Int   @default(0)
-  cacheWriteTokens Int  @default(0)
-  cubentUnitsUsed Float @default(0)
-  requestsMade    Int   @default(0)
-  costAccrued     Float @default(0)
+  tokensUsed       Int   @default(0)
+  inputTokens      Int   @default(0)
+  outputTokens     Int   @default(0)
+  cacheReadTokens  Int   @default(0)
+  cacheWriteTokens Int   @default(0)
+  cubentUnitsUsed  Float @default(0)
+  requestsMade     Int   @default(0)
+  costAccrued      Float @default(0)
+
+  // Autocomplete specific metrics
+  autocompleteCompletions  Int @default(0)
+  autocompleteLinesWritten Int @default(0)
 
   date DateTime @default(now())
 
@@ -104,23 +108,29 @@ model UsageAnalytics {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  modelId         String
-  tokensUsed      Int     @default(0)
-  inputTokens     Int     @default(0)
-  outputTokens    Int     @default(0)
-  cacheReadTokens Int     @default(0)
-  cacheWriteTokens Int    @default(0)
-  cubentUnitsUsed Float   @default(0)
-  requestsMade    Int     @default(0)
-  costAccrued     Float   @default(0)
-  sessionId       String?
-  metadata        Json?
+  modelId          String
+  tokensUsed       Int     @default(0)
+  inputTokens      Int     @default(0)
+  outputTokens     Int     @default(0)
+  cacheReadTokens  Int     @default(0)
+  cacheWriteTokens Int     @default(0)
+  cubentUnitsUsed  Float   @default(0)
+  requestsMade     Int     @default(0)
+  costAccrued      Float   @default(0)
+  sessionId        String?
+  metadata         Json?
+
+  // Autocomplete specific fields
+  isAutocomplete   Boolean @default(false)
+  completionsCount Int     @default(0)
+  linesWritten     Int     @default(0)
 
   createdAt DateTime @default(now())
 
   @@index([userId])
   @@index([modelId])
   @@index([createdAt])
+  @@index([isAutocomplete])
 }
 
 model ApiKey {
