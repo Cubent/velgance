@@ -359,27 +359,6 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    // Calculate model breakdown
-    const modelBreakdown = await database.autocompleteAnalytics.groupBy({
-      by: ['modelId', 'provider'],
-      where: { userId: dbUser.id },
-      _sum: {
-        completionsGenerated: true,
-        completionsAccepted: true,
-        linesAdded: true,
-        charactersAdded: true,
-      },
-      _avg: {
-        avgLatency: true,
-        acceptanceRate: true,
-      },
-      orderBy: {
-        _sum: {
-          completionsGenerated: 'desc'
-        }
-      }
-    });
-
     // Prepare chart data for the last N days
     const chartData = dbUser.autocompleteMetrics.map((metric) => ({
       date: metric.date.toISOString().split('T')[0],
@@ -400,18 +379,7 @@ export async function GET(request: NextRequest) {
       avgDailyCompletions: Math.round((totalMetrics._sum.completionsGenerated || 0) / Math.max(days, 1)),
       completionsPerSession: totalMetrics._sum.completionsGenerated || 0,
       chartData,
-      modelBreakdown: modelBreakdown.map(model => ({
-        modelId: model.modelId,
-        provider: model.provider,
-        completions: model._sum.completionsGenerated || 0,
-        accepted: model._sum.completionsAccepted || 0,
-        lines: model._sum.linesAdded || 0,
-        characters: model._sum.charactersAdded || 0,
-        sessions: 1, // For now, we'll count each record as a session
-        avgLatency: model._avg.avgLatency || 0,
-        acceptanceRate: model._avg.acceptanceRate || 0,
-      })),
-      recentSessions: dbUser.autocompleteAnalytics.map(analytics => ({
+      recentUsage: dbUser.autocompleteAnalytics.map(analytics => ({
         id: analytics.id,
         modelId: analytics.modelId,
         provider: analytics.provider,

@@ -22,15 +22,7 @@ interface AutocompleteData {
   avgAcceptanceRate: number;
   avgDailyCompletions: number;
   completionsPerSession: number;
-  modelBreakdown: Array<{
-    modelId: string;
-    provider: string;
-    completions: number;
-    accepted: number;
-    lines: number;
-    characters: number;
-    sessions: number;
-  }>;
+
   recentUsage: Array<{
     id: string;
     modelId: string;
@@ -154,47 +146,6 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
           </CardContent>
         </Card>
       </div>
-
-      {/* Model Breakdown */}
-      <Card className="bg-[#1a1a1a] border border-[#333]">
-        <CardHeader>
-          <CardTitle className="text-white">Model Breakdown</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {data.modelBreakdown.map((model, index) => (
-              <div key={model.modelId} className="flex items-center justify-between p-4 bg-[#111] rounded-lg border border-[#333]">
-                <div className="flex items-center space-x-4">
-                  <div className="flex flex-col">
-                    <span className="text-white font-medium capitalize">{model.modelId}</span>
-                    <span className="text-gray-400 text-sm capitalize">{model.provider}</span>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-8 text-sm">
-                  <div className="text-center">
-                    <div className="text-white font-medium">{formatNumber(model.completions)}</div>
-                    <div className="text-gray-400">Completions</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-white font-medium">{formatNumber(model.accepted)}</div>
-                    <div className="text-gray-400">Accepted</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-white font-medium">{formatNumber(model.lines)}</div>
-                    <div className="text-gray-400">Lines</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-white font-medium">
-                      {model.completions > 0 ? `${((model.accepted / model.completions) * 100).toFixed(1)}%` : '0%'}
-                    </div>
-                    <div className="text-gray-400">Acceptance</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Recent Usage */}
       <Card className="bg-[#1a1a1a] border border-[#333]">
