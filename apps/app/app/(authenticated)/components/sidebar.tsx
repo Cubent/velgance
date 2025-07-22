@@ -38,6 +38,7 @@ import {
   Zap,
   DollarSign,
   Lock,
+  Code2,
 } from 'lucide-react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -83,6 +84,12 @@ const data = {
       title: 'Token Usage',
       url: '/usage/tokens',
       icon: Zap,
+      locked: false,
+    },
+    {
+      title: 'Autocomplete',
+      url: '/usage/autocomplete',
+      icon: Code2,
       locked: false,
     },
     {

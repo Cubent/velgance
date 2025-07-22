@@ -44,10 +44,12 @@ model User {
   preferences       Json?
 
   // Relations
-  extensionSessions ExtensionSession[]
-  usageMetrics      UsageMetrics[]
-  apiKeys           ApiKey[]
-  usageAnalytics    UsageAnalytics[]
+  extensionSessions     ExtensionSession[]
+  usageMetrics          UsageMetrics[]
+  apiKeys               ApiKey[]
+  usageAnalytics        UsageAnalytics[]
+  autocompleteAnalytics AutocompleteAnalytics[]
+  autocompleteMetrics   AutocompleteMetrics[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -121,6 +123,66 @@ model UsageAnalytics {
   @@index([userId])
   @@index([modelId])
   @@index([createdAt])
+}
+
+model AutocompleteAnalytics {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Autocomplete specific fields
+  modelId              String   // e.g., "codestral", "mercury-coder", "qwen-coder"
+  provider             String   // e.g., "mistral", "inception-labs", "ollama"
+  completionsGenerated Int      @default(0) // Number of completions generated
+  completionsAccepted  Int      @default(0) // Number of completions accepted by user
+  linesAdded           Int      @default(0) // Total lines of code added through autocomplete
+  charactersAdded      Int      @default(0) // Total characters added through autocomplete
+
+  // Context and metadata
+  language             String?  // Programming language (e.g., "typescript", "python")
+  filepath             String?  // File path where completion occurred
+  sessionId            String?  // Session identifier
+
+  // Performance metrics
+  avgLatency           Float?   @default(0) // Average completion latency in ms
+  successRate          Float?   @default(0) // Success rate (completions generated / requests)
+  acceptanceRate       Float?   @default(0) // Acceptance rate (accepted / generated)
+
+  // Additional metadata
+  metadata             Json?    // Additional context (file type, project info, etc.)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([modelId])
+  @@index([provider])
+  @@index([language])
+  @@index([createdAt])
+}
+
+model AutocompleteMetrics {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Daily aggregated autocomplete metrics
+  completionsGenerated Int   @default(0) // Total completions generated this day
+  completionsAccepted  Int   @default(0) // Total completions accepted this day
+  linesAdded           Int   @default(0) // Total lines added this day
+  charactersAdded      Int   @default(0) // Total characters added this day
+
+  // Performance aggregates
+  avgLatency           Float @default(0) // Average latency for the day
+  avgSuccessRate       Float @default(0) // Average success rate for the day
+  avgAcceptanceRate    Float @default(0) // Average acceptance rate for the day
+
+  // Model breakdown (JSON object with model usage stats)
+  modelBreakdown       Json? // { "codestral": { completions: 50, accepted: 30 }, ... }
+
+  date DateTime @default(now())
+
+  @@index([userId])
+  @@index([date])
 }
 
 model ApiKey {
