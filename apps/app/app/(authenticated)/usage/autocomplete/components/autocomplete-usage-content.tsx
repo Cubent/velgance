@@ -48,6 +48,8 @@ interface AutocompleteUsageContentProps {
 }
 
 export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps) => {
+  const [linesPerPage, setLinesPerPage] = useState('10');
+
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('en-US', {
       month: 'short',
@@ -200,7 +202,7 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
             <CardTitle className="text-white text-lg">Recent Usage</CardTitle>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
               <span>LINES PER PAGE</span>
-              <Select defaultValue="10">
+              <Select value={linesPerPage} onValueChange={setLinesPerPage}>
                 <SelectTrigger className="w-16 h-8 bg-[#111] border-[#333] text-white text-xs">
                   <SelectValue />
                 </SelectTrigger>
@@ -216,11 +218,11 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
         </CardHeader>
         <CardContent className="p-0">
           <div className="space-y-0">
-            {data.recentUsage.slice(0, 10).map((usage, index) => (
-              <div key={usage.id} className={`flex items-center justify-center px-4 py-2 ${index !== data.recentUsage.slice(0, 10).length - 1 ? 'border-b border-[#333]' : ''}`}>
+            {data.recentUsage.slice(0, parseInt(linesPerPage)).map((usage, index) => (
+              <div key={usage.id} className={`flex items-center justify-center px-4 py-2 ${index !== data.recentUsage.slice(0, parseInt(linesPerPage)).length - 1 ? 'border-b border-[#333]' : ''}`}>
                 <div className="grid grid-cols-6 gap-4 w-full max-w-5xl items-center">
                   <div className="text-left">
-                    <span className="text-white text-sm">
+                    <span className="text-white text-xs">
                       {formatDate(usage.timestamp)} at {formatTime(usage.timestamp)}
                     </span>
                   </div>
