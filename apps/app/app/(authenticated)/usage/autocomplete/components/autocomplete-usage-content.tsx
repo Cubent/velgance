@@ -22,7 +22,6 @@ interface AutocompleteData {
   avgAcceptanceRate: number;
   avgDailyCompletions: number;
   completionsPerSession: number;
-
   recentUsage: Array<{
     id: string;
     modelId: string;
