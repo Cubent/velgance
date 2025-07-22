@@ -29,16 +29,22 @@ const autocompleteTrackingSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('[Autocomplete API] POST request received');
+
     const { userId } = await auth();
 
     if (!userId) {
+      console.log('[Autocomplete API] Unauthorized - no userId');
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
+    console.log('[Autocomplete API] User authenticated:', userId);
+
     const body = await request.json();
+    console.log('[Autocomplete API] Request body:', body);
     const {
       modelId,
       provider,
@@ -82,27 +88,35 @@ export async function POST(request: NextRequest) {
     const acceptanceRate = completionsGenerated > 0 ? (completionsAccepted / completionsGenerated) * 100 : 0;
 
     // Create autocomplete analytics record
+    console.log('[Autocomplete API] Creating autocomplete analytics record for user:', dbUser.id);
+
+    const analyticsData = {
+      userId: dbUser.id,
+      modelId,
+      provider,
+      completionsGenerated,
+      completionsAccepted,
+      linesAdded,
+      charactersAdded,
+      language,
+      filepath,
+      sessionId,
+      avgLatency: latency || 0,
+      successRate,
+      acceptanceRate,
+      metadata: {
+        timestamp: timestamp || Date.now(),
+        ...metadata
+      }
+    };
+
+    console.log('[Autocomplete API] Analytics data:', analyticsData);
+
     await database.autocompleteAnalytics.create({
-      data: {
-        userId: dbUser.id,
-        modelId,
-        provider,
-        completionsGenerated,
-        completionsAccepted,
-        linesAdded,
-        charactersAdded,
-        language,
-        filepath,
-        sessionId,
-        avgLatency: latency || 0,
-        successRate,
-        acceptanceRate,
-        metadata: {
-          timestamp: timestamp || Date.now(),
-          ...metadata
-        }
-      },
+      data: analyticsData,
     });
+
+    console.log('[Autocomplete API] Autocomplete analytics record created successfully');
 
     // Update or create daily autocomplete metrics
     const today = new Date();
@@ -197,9 +211,11 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Autocomplete tracking error:', error);
-    
+    console.error('[Autocomplete API] Autocomplete tracking error:', error);
+    console.error('[Autocomplete API] Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+
     if (error instanceof z.ZodError) {
+      console.error('[Autocomplete API] Validation error:', error.errors);
       return NextResponse.json(
         { error: 'Invalid request data', details: error.errors },
         { status: 400 }
@@ -207,7 +223,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
