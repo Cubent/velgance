@@ -31,10 +31,53 @@ export async function POST(request: NextRequest) {
   try {
     console.log('[Autocomplete API] POST request received');
 
-    const { userId } = await auth();
+    // Handle extension authentication (same as other extension endpoints)
+    let userId: string | null = null;
+    const authHeader = request.headers.get('authorization');
+
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+      console.log('[Autocomplete API] Bearer token found, validating...');
+
+      try {
+        // First try to validate as Clerk JWT directly
+        const { clerkClient } = await import('@repo/auth/server');
+        const client = await clerkClient();
+        const session = await client.sessions.getSession(token);
+        userId = session.userId;
+        console.log('[Autocomplete API] Direct Clerk JWT validation successful:', { userId });
+      } catch (clerkError) {
+        console.log('[Autocomplete API] Direct Clerk JWT validation failed, trying PendingLogin table:', clerkError);
+
+        // Fallback: Check if token exists in PendingLogin table (for new auth flow)
+        const pendingLogin = await database.pendingLogin.findFirst({
+          where: {
+            token,
+            expiresAt: { gt: new Date() }, // Not expired
+          },
+        });
+
+        if (pendingLogin) {
+          // Token is valid, get the user ID from the pending login record
+          userId = pendingLogin.userId;
+          console.log('[Autocomplete API] PendingLogin validation successful:', { userId });
+        } else {
+          console.error('[Autocomplete API] Token not found in PendingLogin table and direct validation failed');
+          return NextResponse.json(
+            { error: 'Invalid or expired token' },
+            { status: 401 }
+          );
+        }
+      }
+    } else {
+      // Fallback to regular Clerk auth for web requests
+      const authResult = await auth();
+      userId = authResult.userId;
+      console.log('[Autocomplete API] Using regular Clerk auth:', { userId });
+    }
 
     if (!userId) {
-      console.log('[Autocomplete API] Unauthorized - no userId');
+      console.log('[Autocomplete API] Unauthorized - no userId after all auth attempts');
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -232,7 +275,42 @@ export async function POST(request: NextRequest) {
 // GET endpoint to retrieve autocomplete statistics
 export async function GET(request: NextRequest) {
   try {
-    const { userId } = await auth();
+    // Handle extension authentication (same as POST endpoint)
+    let userId: string | null = null;
+    const authHeader = request.headers.get('authorization');
+
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+
+      try {
+        // First try to validate as Clerk JWT directly
+        const { clerkClient } = await import('@repo/auth/server');
+        const client = await clerkClient();
+        const session = await client.sessions.getSession(token);
+        userId = session.userId;
+      } catch (clerkError) {
+        // Fallback: Check if token exists in PendingLogin table
+        const pendingLogin = await database.pendingLogin.findFirst({
+          where: {
+            token,
+            expiresAt: { gt: new Date() }, // Not expired
+          },
+        });
+
+        if (pendingLogin) {
+          userId = pendingLogin.userId;
+        } else {
+          return NextResponse.json(
+            { error: 'Invalid or expired token' },
+            { status: 401 }
+          );
+        }
+      }
+    } else {
+      // Fallback to regular Clerk auth for web requests
+      const authResult = await auth();
+      userId = authResult.userId;
+    }
 
     if (!userId) {
       return NextResponse.json(
