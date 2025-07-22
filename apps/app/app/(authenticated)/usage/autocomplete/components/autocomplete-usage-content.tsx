@@ -49,6 +49,7 @@ interface AutocompleteUsageContentProps {
 
 export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps) => {
   const [linesPerPage, setLinesPerPage] = useState('10');
+  const [currentPage, setCurrentPage] = useState(0);
 
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -202,7 +203,10 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
             <CardTitle className="text-white text-lg">Recent Usage</CardTitle>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
               <span>LINES PER PAGE</span>
-              <Select value={linesPerPage} onValueChange={setLinesPerPage}>
+              <Select value={linesPerPage} onValueChange={(value) => {
+                setLinesPerPage(value);
+                setCurrentPage(0); // Reset to first page when changing lines per page
+              }}>
                 <SelectTrigger className="w-16 h-8 bg-[#111] border-[#333] text-white text-xs">
                   <SelectValue />
                 </SelectTrigger>
@@ -217,9 +221,33 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
           </div>
         </CardHeader>
         <CardContent className="p-0">
+          {/* Column Headers */}
+          <div className="flex items-center justify-center px-4 py-3 border-b border-[#333] bg-[#111]">
+            <div className="grid grid-cols-6 gap-4 w-full max-w-5xl items-center">
+              <div className="text-left">
+                <span className="text-gray-400 text-xs font-medium uppercase">Date & Time</span>
+              </div>
+              <div className="text-center">
+                <span className="text-gray-400 text-xs font-medium uppercase">Model</span>
+              </div>
+              <div className="text-center">
+                <span className="text-gray-400 text-xs font-medium uppercase">Generated</span>
+              </div>
+              <div className="text-center">
+                <span className="text-gray-400 text-xs font-medium uppercase">Accepted</span>
+              </div>
+              <div className="text-center">
+                <span className="text-gray-400 text-xs font-medium uppercase">Lines</span>
+              </div>
+              <div className="text-center">
+                <span className="text-gray-400 text-xs font-medium uppercase">Language</span>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-0">
-            {data.recentUsage.slice(0, parseInt(linesPerPage)).map((usage, index) => (
-              <div key={usage.id} className={`flex items-center justify-center px-4 py-2 ${index !== data.recentUsage.slice(0, parseInt(linesPerPage)).length - 1 ? 'border-b border-[#333]' : ''}`}>
+            {data.recentUsage.slice(currentPage * parseInt(linesPerPage), (currentPage + 1) * parseInt(linesPerPage)).map((usage, index, array) => (
+              <div key={usage.id} className={`flex items-center justify-center px-4 py-2 ${index !== array.length - 1 ? 'border-b border-[#333]' : ''}`}>
                 <div className="grid grid-cols-6 gap-4 w-full max-w-5xl items-center">
                   <div className="text-left">
                     <span className="text-white text-xs">
@@ -256,6 +284,35 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
               </div>
             )}
           </div>
+
+          {/* Pagination Controls */}
+          {data.recentUsage.length > parseInt(linesPerPage) && (
+            <div className="flex items-center justify-center px-4 py-3 border-t border-[#333] bg-[#111]">
+              <div className="flex items-center space-x-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+                  disabled={currentPage === 0}
+                  className="bg-[#1a1a1a] border-[#333] text-white hover:bg-[#333] text-xs"
+                >
+                  Previous
+                </Button>
+                <span className="text-gray-400 text-xs">
+                  Page {currentPage + 1} of {Math.ceil(data.recentUsage.length / parseInt(linesPerPage))}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(Math.min(Math.ceil(data.recentUsage.length / parseInt(linesPerPage)) - 1, currentPage + 1))}
+                  disabled={currentPage >= Math.ceil(data.recentUsage.length / parseInt(linesPerPage)) - 1}
+                  className="bg-[#1a1a1a] border-[#333] text-white hover:bg-[#333] text-xs"
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
