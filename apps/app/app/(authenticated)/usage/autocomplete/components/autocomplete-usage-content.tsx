@@ -104,7 +104,7 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-[#1a1a1a] border border-[#333]">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">Total Completions</CardTitle>
@@ -119,7 +119,7 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
         <Card className="bg-[#1a1a1a] border border-[#333]">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">Accepted</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-400" />
+            <CheckCircle className="h-4 w-4 text-gray-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">{formatNumber(data.totalAccepted)}</div>
@@ -132,22 +132,11 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
         <Card className="bg-[#1a1a1a] border border-[#333]">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">Lines Added</CardTitle>
-            <FileText className="h-4 w-4 text-blue-400" />
+            <FileText className="h-4 w-4 text-gray-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">{formatNumber(data.totalLinesAdded)}</div>
             <p className="text-xs text-gray-400 mt-1">Code lines generated</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#1a1a1a] border border-[#333]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-400">Daily Average</CardTitle>
-            <TrendingUp className="h-4 w-4 text-gray-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-white">{formatNumber(data.avgDailyCompletions)}</div>
-            <p className="text-xs text-gray-400 mt-1">Completions per day (7-day avg)</p>
           </CardContent>
         </Card>
 
@@ -206,43 +195,43 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
 
       {/* Recent Usage */}
       <Card className="bg-[#1a1a1a] border border-[#333]">
-        <CardHeader>
-          <CardTitle className="text-white">Recent Usage</CardTitle>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-white text-lg">Recent Usage</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {data.recentUsage.slice(0, 10).map((usage) => (
-              <div key={usage.id} className="flex items-center justify-between p-3 bg-[#111] rounded-lg border border-[#333]">
-                <div className="flex items-center space-x-4">
-                  <div className="flex flex-col">
+        <CardContent className="p-0">
+          <div className="space-y-0">
+            {data.recentUsage.slice(0, 10).map((usage, index) => (
+              <div key={usage.id} className={`flex items-center justify-between px-6 py-3 ${index !== data.recentUsage.slice(0, 10).length - 1 ? 'border-b border-[#333]' : ''}`}>
+                <div className="flex items-center space-x-4 flex-1">
+                  <div className="flex flex-col min-w-0">
                     <span className="text-white text-sm font-medium capitalize">{usage.modelId}</span>
                     <span className="text-gray-400 text-xs">
                       {formatDate(usage.timestamp)} at {formatTime(usage.timestamp)}
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center space-x-6 text-sm">
-                  <div className="text-center">
-                    <div className="text-white">{usage.completions}</div>
+                <div className="flex items-center space-x-8 text-sm">
+                  <div className="text-center min-w-[60px]">
+                    <div className="text-white font-medium">{usage.completions}</div>
                     <div className="text-gray-400 text-xs">Generated</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-white">{usage.accepted}</div>
+                  <div className="text-center min-w-[60px]">
+                    <div className="text-white font-medium">{usage.accepted}</div>
                     <div className="text-gray-400 text-xs">Accepted</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-white">{usage.lines}</div>
+                  <div className="text-center min-w-[60px]">
+                    <div className="text-white font-medium">{usage.lines}</div>
                     <div className="text-gray-400 text-xs">Lines</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-gray-400 text-xs uppercase">{usage.language || 'Unknown'}</div>
+                  <div className="text-center min-w-[80px]">
+                    <div className="text-gray-300 text-xs uppercase font-medium">{usage.language || 'UNKNOWN'}</div>
                     <div className="text-gray-500 text-xs">Language</div>
                   </div>
                 </div>
               </div>
             ))}
             {data.recentUsage.length === 0 && (
-              <div className="text-center py-8">
+              <div className="text-center py-12 px-6">
                 <Code2 className="h-12 w-12 text-gray-600 mx-auto mb-4" />
                 <p className="text-gray-400">No recent autocomplete usage</p>
                 <p className="text-gray-500 text-sm">Start using autocomplete in VS Code to see activity here</p>
