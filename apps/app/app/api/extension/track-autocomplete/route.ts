@@ -303,6 +303,8 @@ export async function GET(request: NextRequest) {
       totalCharactersAdded: totalMetrics._sum.charactersAdded || 0,
       avgLatency: totalMetrics._avg.avgLatency || 0,
       avgAcceptanceRate: totalMetrics._avg.avgAcceptanceRate || 0,
+      avgDailyCompletions: Math.round((totalMetrics._sum.completionsGenerated || 0) / Math.max(days, 1)),
+      completionsPerSession: totalMetrics._sum.completionsGenerated || 0,
       chartData,
       modelBreakdown: modelBreakdown.map(model => ({
         modelId: model.modelId,
@@ -311,6 +313,7 @@ export async function GET(request: NextRequest) {
         accepted: model._sum.completionsAccepted || 0,
         lines: model._sum.linesAdded || 0,
         characters: model._sum.charactersAdded || 0,
+        sessions: 1, // For now, we'll count each record as a session
         avgLatency: model._avg.avgLatency || 0,
         acceptanceRate: model._avg.acceptanceRate || 0,
       })),
