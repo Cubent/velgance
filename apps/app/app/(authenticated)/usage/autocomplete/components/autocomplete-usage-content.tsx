@@ -201,13 +201,15 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
         <CardContent className="p-0">
           <div className="space-y-0">
             {data.recentUsage.slice(0, 10).map((usage, index) => (
-              <div key={usage.id} className={`flex items-center justify-between px-6 py-3 ${index !== data.recentUsage.slice(0, 10).length - 1 ? 'border-b border-[#333]' : ''}`}>
-                <div className="flex items-center space-x-4 flex-1">
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-white text-sm font-medium capitalize">{usage.modelId}</span>
-                    <span className="text-gray-400 text-xs">
+              <div key={usage.id} className={`flex items-center px-6 py-3 ${index !== data.recentUsage.slice(0, 10).length - 1 ? 'border-b border-[#333]' : ''}`}>
+                <div className="flex items-center space-x-8 flex-1">
+                  <div className="flex flex-col min-w-[200px]">
+                    <span className="text-white text-sm font-medium">
                       {formatDate(usage.timestamp)} at {formatTime(usage.timestamp)}
                     </span>
+                  </div>
+                  <div className="flex flex-col min-w-[120px]">
+                    <span className="text-white text-sm font-medium capitalize">{usage.modelId}</span>
                   </div>
                 </div>
                 <div className="flex items-center space-x-8 text-sm">
