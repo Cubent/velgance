@@ -196,37 +196,51 @@ export const AutocompleteUsageContent = ({ data }: AutocompleteUsageContentProps
       {/* Recent Usage */}
       <Card className="bg-[#1a1a1a] border border-[#333]">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-lg">Recent Usage</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-white text-lg">Recent Usage</CardTitle>
+            <div className="flex items-center space-x-2 text-sm text-gray-400">
+              <span>LINES PER PAGE</span>
+              <Select defaultValue="10">
+                <SelectTrigger className="w-16 h-8 bg-[#111] border-[#333] text-white text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#111] border-[#333]">
+                  <SelectItem value="5" className="text-white hover:bg-[#333] text-xs">5</SelectItem>
+                  <SelectItem value="10" className="text-white hover:bg-[#333] text-xs">10</SelectItem>
+                  <SelectItem value="20" className="text-white hover:bg-[#333] text-xs">20</SelectItem>
+                  <SelectItem value="50" className="text-white hover:bg-[#333] text-xs">50</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="p-0">
           <div className="space-y-0">
             {data.recentUsage.slice(0, 10).map((usage, index) => (
-              <div key={usage.id} className={`flex items-center px-6 py-3 ${index !== data.recentUsage.slice(0, 10).length - 1 ? 'border-b border-[#333]' : ''}`}>
-                <div className="flex items-center space-x-8 flex-1">
-                  <div className="flex flex-col min-w-[200px]">
-                    <span className="text-white text-sm font-medium">
+              <div key={usage.id} className={`flex items-center justify-center px-4 py-2 ${index !== data.recentUsage.slice(0, 10).length - 1 ? 'border-b border-[#333]' : ''}`}>
+                <div className="grid grid-cols-6 gap-4 w-full max-w-5xl items-center">
+                  <div className="text-left">
+                    <span className="text-white text-sm">
                       {formatDate(usage.timestamp)} at {formatTime(usage.timestamp)}
                     </span>
                   </div>
-                  <div className="flex flex-col min-w-[120px]">
-                    <span className="text-white text-sm font-medium capitalize">{usage.modelId}</span>
+                  <div className="text-center">
+                    <span className="text-white text-sm capitalize">{usage.modelId}</span>
                   </div>
-                </div>
-                <div className="flex items-center space-x-8 text-sm">
-                  <div className="text-center min-w-[60px]">
-                    <div className="text-white font-medium">{usage.completions}</div>
+                  <div className="text-center">
+                    <div className="text-white text-sm">{usage.completions}</div>
                     <div className="text-gray-400 text-xs">Generated</div>
                   </div>
-                  <div className="text-center min-w-[60px]">
-                    <div className="text-white font-medium">{usage.accepted}</div>
+                  <div className="text-center">
+                    <div className="text-white text-sm">{usage.accepted}</div>
                     <div className="text-gray-400 text-xs">Accepted</div>
                   </div>
-                  <div className="text-center min-w-[60px]">
-                    <div className="text-white font-medium">{usage.lines}</div>
+                  <div className="text-center">
+                    <div className="text-white text-sm">{usage.lines}</div>
                     <div className="text-gray-400 text-xs">Lines</div>
                   </div>
-                  <div className="text-center min-w-[80px]">
-                    <div className="text-gray-300 text-xs uppercase font-medium">{usage.language || 'UNKNOWN'}</div>
+                  <div className="text-center">
+                    <div className="text-gray-300 text-xs uppercase">{usage.language || 'UNKNOWN'}</div>
                     <div className="text-gray-500 text-xs">Language</div>
                   </div>
                 </div>
