@@ -2,7 +2,7 @@ import { auth, currentUser } from '@repo/auth/server';
 import { database } from '@repo/database';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/design-system/components/ui/card';
-import { createMetadata } from '@repo/seo/metadata';
+import { createAppMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ import { SettingsForm } from './components/settings-form';
 const title = 'Settings';
 const description = 'Manage your preferences and extension settings.';
 
-export const metadata: Metadata = createMetadata({ title, description });
+export const metadata: Metadata = createAppMetadata({ title, description });
 
 const SettingsPage = async () => {
   const { userId } = await auth();
