@@ -70,3 +70,59 @@ export const createMetadata = ({
 
   return metadata;
 };
+
+// Separate metadata function for the web app (apps/app) with "Cubent Console" branding
+export const createAppMetadata = ({
+  title,
+  description,
+  image,
+  ...properties
+}: MetadataGenerator): Metadata => {
+  const appName = 'Cubent Console';
+  const parsedTitle = `${title} | ${appName}`;
+  const defaultMetadata: Metadata = {
+    title: parsedTitle,
+    description,
+    applicationName: appName,
+    metadataBase: productionUrl
+      ? new URL(`${protocol}://${productionUrl}`)
+      : undefined,
+    authors: [author],
+    creator: author.name,
+    formatDetection: {
+      telephone: false,
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'default',
+      title: parsedTitle,
+    },
+    openGraph: {
+      title: parsedTitle,
+      description,
+      type: 'website',
+      siteName: appName,
+      locale: 'en_US',
+    },
+    publisher,
+    twitter: {
+      card: 'summary_large_image',
+      creator: twitterHandle,
+    },
+  };
+
+  const metadata: Metadata = merge(defaultMetadata, properties);
+
+  if (image && metadata.openGraph) {
+    metadata.openGraph.images = [
+      {
+        url: image,
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ];
+  }
+
+  return metadata;
+};
