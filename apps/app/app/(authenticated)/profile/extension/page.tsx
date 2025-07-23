@@ -3,7 +3,7 @@ import { database } from '@repo/database';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/design-system/components/ui/card';
 import { Badge } from '@repo/design-system/components/ui/badge';
-import { createAppMetadata } from '@repo/seo/metadata';
+import { createMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ import { ApiKeyManager } from './components/api-key-manager';
 const title = 'Extension Management';
 const description = 'Manage your VS Code extension connection and settings.';
 
-export const metadata: Metadata = createAppMetadata({ title, description });
+export const metadata: Metadata = createMetadata({ title, description });
 
 const ExtensionPage = async () => {
   const { userId } = await auth();

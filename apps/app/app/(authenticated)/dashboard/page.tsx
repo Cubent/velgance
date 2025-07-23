@@ -4,15 +4,17 @@ import { database } from '@repo/database';
 // Debug: Investigating webhook failures and trial creation issues
 // Enhanced: Added webhook accessibility testing and detailed error logging
 // Testing: Enhanced webhook debugging to identify missing Stripe configuration
-import { createAppMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DashboardContent } from './components/dashboard-content';
 
-const title = 'Dashboard';
+const title = 'Dashboard - Cubent';
 const description = 'API analytics and extension usage metrics';
 
-export const metadata: Metadata = createAppMetadata({ title, description });
+export const metadata: Metadata = {
+  title,
+  description,
+};
 
 const Dashboard = async () => {
   const { userId } = await auth();

@@ -1,6 +1,6 @@
 import { auth, currentUser } from '@repo/auth/server';
 import { database } from '@repo/database';
-import { createAppMetadata } from '@repo/seo/metadata';
+import { createMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { UsageAnalytics } from './components/usage-analytics';
@@ -8,7 +8,7 @@ import { UsageAnalytics } from './components/usage-analytics';
 const title = 'Cubent Units Usage';
 const description = 'View your VS Code extension usage statistics and analytics.';
 
-export const metadata: Metadata = createAppMetadata({ title, description });
+export const metadata: Metadata = createMetadata({ title, description });
 
 const UsagePage = async () => {
   const { userId } = await auth();
