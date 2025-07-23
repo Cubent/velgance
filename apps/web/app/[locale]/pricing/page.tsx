@@ -47,11 +47,11 @@ const Pricing = () => {
   const faqData = [
     {
       question: "What happens when I run out of Cubent Units?",
-      answer: "You can upgrade your plan, wait for the monthly reset, or switch to BYAK models with your own API keys."
+      answer: "You can upgrade your plan, wait for the monthly reset, or switch to BYOK models with your own API keys."
     },
     {
-      question: "Can I mix built-in and BYAK models?",
-      answer: "Yes! You can use both built-in models (with Cubent Units) and BYAK models (with your API keys) in the same workspace."
+      question: "Can I mix built-in and BYOK models?",
+      answer: "Yes! You can use both built-in models (with Cubent Units) and BYOK models (with your API keys) in the same workspace."
     },
     {
       question: "Can I change plans anytime?",
@@ -92,7 +92,7 @@ const Pricing = () => {
         <div className="w-full pt-8">
           <div className="relative">
             <div className="flex flex-col lg:flex-row bg-gray-900/30 backdrop-blur-sm overflow-hidden">
-              {/* BYAK Plan */}
+              {/* BYOK Plan */}
               <div className="relative flex-1 border border-white/10" style={{
                 backgroundColor: '#161616'
               }}>
@@ -111,7 +111,7 @@ const Pricing = () => {
                 </div>
                 <div className="p-8 pt-12 h-full flex flex-col text-left">
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-2">Byak</h3>
+                  <h3 className="text-lg font-semibold mb-2">Byok</h3>
                   <div className="mb-4">
                     <p className="text-sm text-muted-foreground mb-1">Pricing:</p>
                     <div className="flex items-baseline gap-1">
@@ -189,7 +189,7 @@ const Pricing = () => {
                   </div>
 
                   <div className="mb-4">
-                    <p className="text-sm text-white/60 mb-3">Everything in Byak, plus:</p>
+                    <p className="text-sm text-white/60 mb-3">Everything in Byok, plus:</p>
                   </div>
 
                   <ul className="space-y-2 flex-grow text-sm">

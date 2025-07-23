@@ -220,7 +220,7 @@ export async function GET(request: NextRequest) {
             const price = await stripe.prices.retrieve(priceId);
 
             if (price.lookup_key) {
-              subscriptionTier = price.lookup_key; // This should be 'pro', 'byak', etc.
+              subscriptionTier = price.lookup_key; // This should be 'pro', 'byok', etc.
             } else {
               // Fallback: try to determine from price amount or product name
               const product = await stripe.products.retrieve(price.product as string);
@@ -230,8 +230,8 @@ export async function GET(request: NextRequest) {
               const productName = product.name.toLowerCase();
               if (productName.includes('pro')) {
                 subscriptionTier = 'pro';
-              } else if (productName.includes('byak')) {
-                subscriptionTier = 'byak';
+              } else if (productName.includes('byok')) {
+                subscriptionTier = 'byok';
               } else if (productName.includes('enterprise')) {
                 subscriptionTier = 'enterprise';
               } else {

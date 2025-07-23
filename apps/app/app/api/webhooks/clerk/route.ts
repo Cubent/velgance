@@ -108,20 +108,20 @@ export async function POST(request: Request) {
       const customer = await stripe.customers.create(customerProps);
       console.log('✅ Stripe customer created:', customer.id);
 
-      // Get the Byak plan price using lookup key
-      console.log('🔍 Looking for Stripe price with lookup_key "byak"...');
+      // Get the Byok plan price using lookup key
+      console.log('🔍 Looking for Stripe price with lookup_key "byok"...');
       const {
         data: [price],
-      } = await stripe.prices.list({ lookup_keys: ['byak'] });
+      } = await stripe.prices.list({ lookup_keys: ['byok'] });
 
       if (!price) {
-        console.error('❌ Byak plan price not found. Make sure you have a price with lookup_key "byak" in Stripe.');
-        return NextResponse.json({ error: 'Byak plan not configured' }, { status: 500 });
+        console.error('❌ Byok plan price not found. Make sure you have a price with lookup_key "byok" in Stripe.');
+        return NextResponse.json({ error: 'Byok plan not configured' }, { status: 500 });
       }
 
       console.log('✅ Found Stripe price:', price.id);
 
-      // Create subscription with Byak plan and 7-day trial
+      // Create subscription with Byok plan and 7-day trial
       console.log('📋 Creating Stripe subscription with 7-day trial...');
       const subscription = await stripe.subscriptions.create({
         customer: customer.id,
@@ -142,21 +142,21 @@ export async function POST(request: Request) {
           stripeCustomerId: customer.id,
           stripeSubscriptionId: subscription.id,
           subscriptionStatus: 'trialing',
-          planType: 'byak',
+          planType: 'byok',
         },
       });
 
-      console.log(`🎉 BYAK TRIAL CREATED SUCCESSFULLY for user ${newUserId}`);
+      console.log(`🎉 BYOK TRIAL CREATED SUCCESSFULLY for user ${newUserId}`);
       console.log(`💳 Stripe customer: ${customer.id}`);
       console.log(`📋 Subscription: ${subscription.id}`);
       console.log(`📅 Trial ends: ${new Date(subscription.trial_end! * 1000).toISOString()}`);
 
       return NextResponse.json({
-        message: 'Byak trial created successfully',
+        message: 'Byok trial created successfully',
         userId: newUserId,
         customerId: customer.id,
         subscriptionId: subscription.id,
-        planType: 'byak',
+        planType: 'byok',
         trialEndDate: new Date(subscription.trial_end! * 1000).toISOString()
       });
     }

@@ -109,7 +109,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
     <header className="sticky top-0 left-0 z-40 w-full bg-background/20 backdrop-blur-md supports-[backdrop-filter]:bg-background/10">
       {/* Early Access Banner */}
       <div className="w-full bg-gray-800/60 border-b border-gray-600/20 text-gray-200 py-2.5 px-4 text-center text-sm backdrop-blur-sm">
-        <span className="font-medium">Early Access:</span> We released the Byak plan -
+        <span className="font-medium">Early Access:</span> We released the Byok plan -
         <Button variant="link" className="text-gray-200 hover:text-white underline p-0 ml-1 h-auto font-medium text-sm" asChild>
           <Link href="https://app.cubent.dev/sign-in">
             Start your free trial

@@ -43,7 +43,7 @@ export async function GET() {
       daysRemaining,
       trialEndDate: trialEndDate?.toISOString() || null,
       subscriptionStatus: subscription.status,
-      planType: privateMetadata.planType || 'byak'
+      planType: privateMetadata.planType || 'byok'
     });
 
   } catch (error) {

@@ -69,7 +69,7 @@ export function CompactTrialBadge() {
         size="sm"
         className="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 h-7"
       >
-        Byak Trial Expired
+        Byok Trial Expired
       </Button>
     );
   }
@@ -82,7 +82,7 @@ export function CompactTrialBadge() {
       className="bg-white border-gray-300 text-white hover:bg-gray-50 hover:text-white text-xs px-3 py-1 h-7 flex items-center gap-1"
     >
       <Clock className="h-3 w-3" />
-      Byak: {trialStatus.daysRemaining} days left
+      Byok: {trialStatus.daysRemaining} days left
     </Button>
   );
 }

@@ -1,6 +1,6 @@
-# Byak Plan 7-Day Trial Setup Guide
+# Byok Plan 7-Day Trial Setup Guide
 
-This guide explains how to set up the Byak plan with 7-day trial system using Clerk webhooks and Stripe native trials.
+This guide explains how to set up the Byok plan with 7-day trial system using Clerk webhooks and Stripe native trials.
 
 ## Prerequisites
 
@@ -24,26 +24,26 @@ CLERK_WEBHOOK_SECRET=whsec_*****
 
 ## Stripe Setup
 
-### 1. Create Byak Plan Product
+### 1. Create Byok Plan Product
 
 1. Go to **Stripe Dashboard** → **Products**
 2. Click **"Add product"**
 3. Set up the product:
-   - **Name**: "Byak Plan"
+   - **Name**: "Byok Plan"
    - **Description**: "Bring Your API Key plan with 7-day trial"
 
 ### 2. Create Price with Lookup Key
 
 1. In the product, click **"Add price"**
 2. Configure the price:
-   - **Price**: $29.00 (or your desired Byak plan price)
+   - **Price**: $29.00 (or your desired Byok plan price)
    - **Billing period**: Monthly
-   - **Lookup key**: `byak` (this is crucial!)
+   - **Lookup key**: `byok` (this is crucial!)
 3. Save the price
 
 ### 3. Verify Lookup Key
 
-Make sure the price has the lookup key `byak` - this is how the webhook finds the correct price.
+Make sure the price has the lookup key `byok` - this is how the webhook finds the correct price.
 
 ## Clerk Webhook Setup
 
@@ -69,7 +69,7 @@ Make sure the price has the lookup key `byak` - this is how the webhook finds th
 2. **User completes registration** → Clerk sends `user.created` webhook
 3. **Webhook handler**:
    - Creates Stripe customer
-   - Assigns Byak plan subscription with 7-day trial
+   - Assigns Byok plan subscription with 7-day trial
    - Stores subscription info in user metadata
    - Links Clerk user ID ↔ Stripe customer ID
 
@@ -77,9 +77,9 @@ Make sure the price has the lookup key `byak` - this is how the webhook finds th
 
 - **Trial status** is managed natively by Stripe
 - **Trial duration** is 7 days using Stripe's trial_period_days
-- **Trial banner** shows remaining days for Byak plan
+- **Trial banner** shows remaining days for Byok plan
 - **Upgrade button** opens Stripe billing portal
-- **After trial** automatically converts to paid Byak plan
+- **After trial** automatically converts to paid Byok plan
 
 ### User Deletion
 
@@ -132,8 +132,8 @@ When a user deletes their account:
 
 ### Common Issues
 
-1. **"Byak plan price not found"**
-   - Verify Stripe price has lookup key `byak`
+1. **"Byok plan price not found"**
+   - Verify Stripe price has lookup key `byok`
    - Check STRIPE_SECRET_KEY is correct
 
 2. **Webhook verification failed**
