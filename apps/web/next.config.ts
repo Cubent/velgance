@@ -41,25 +41,6 @@ nextConfig.experimental = {
 nextConfig.compress = true;
 nextConfig.poweredByHeader = false;
 
-// Webpack optimizations for images
-nextConfig.webpack = (config, { isServer }) => {
-  // Optimize images at build time
-  config.module.rules.push({
-    test: /\.(png|jpe?g|gif|svg)$/,
-    use: [
-      {
-        loader: 'file-loader',
-        options: {
-          publicPath: '/_next/static/images/',
-          outputPath: 'static/images/',
-        },
-      },
-    ],
-  });
-
-  return config;
-};
-
 if (process.env.NODE_ENV === 'production') {
   const redirects: NextConfig['redirects'] = async () => [
     {
