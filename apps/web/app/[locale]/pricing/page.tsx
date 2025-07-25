@@ -1,45 +1,9 @@
-import { env } from '@/env';
-import { Button } from '@repo/design-system/components/ui/button';
-import { getDictionary } from '@repo/internationalization';
-import { createMetadata } from '@repo/seo/metadata';
-import { Check, MoveRight, Plus } from 'lucide-react';
-import type { Metadata } from 'next';
-import Link from 'next/link';
-
-type PricingPageProps = {
-  params: Promise<{
-    locale: string;
-  }>;
-};
-
-export const generateMetadata = async ({
-  params,
-}: PricingPageProps): Promise<Metadata> => {
-  const { locale } = await params;
-  const dictionary = await getDictionary(locale);
-
-  return createMetadata(dictionary.web.pricing.meta);
-};
-
-// =============================================================================
-// PRICING PAGE - FREE TRIAL SYSTEM IMPLEMENTATION
-// =============================================================================
-//
-// CHANGELOG:
-// - Fixed Start for Free button to use correct production URLs
-// - Added comprehensive webhook logging to track trial creation process
-// - Enhanced error logging and webhook accessibility testing for debugging
-// - Enhanced webhook responses to identify trial creation failures
-// - Fixed TypeScript compilation error in webhook handler (CLERK_SECRET_KEY)
-// - Implemented detailed Stripe integration debugging
-// - Added environment variable validation and error tracking
-//
-// CURRENT STATUS: Testing webhook functionality and trial creation
-// NEXT STEPS: Verify webhook response and trial banner display
-// =============================================================================
-
 'use client';
 
+import { env } from '@/env';
+import { Button } from '@repo/design-system/components/ui/button';
+import { Check, MoveRight, Plus } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const PricingClient = () => {
@@ -466,12 +430,4 @@ const PricingClient = () => {
   );
 };
 
-const PricingClientWrapper = () => {
-  return <PricingClient />;
-};
-
-const Pricing = async ({ params }: PricingPageProps) => {
-  return <PricingClientWrapper />;
-};
-
-export default Pricing;
+export default PricingClient;
