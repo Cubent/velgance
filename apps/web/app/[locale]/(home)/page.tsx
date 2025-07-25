@@ -263,7 +263,7 @@ const Home = async ({ params }: HomeProps) => {
                     </div>
                   </div>
                   <Image
-                    src="/images/Cubent.Dev (6).gif"
+                    src="/images/Cubent.Dev (6).webp"
                     alt="Cubent Dev Demo"
                     width={1400}
                     height={787}
@@ -271,7 +271,6 @@ const Home = async ({ params }: HomeProps) => {
                     style={{
                       maxWidth: '100%'
                     }}
-                    unoptimized
                   />
                 </div>
               </div>
