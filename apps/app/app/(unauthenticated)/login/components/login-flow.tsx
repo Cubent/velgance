@@ -24,6 +24,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
   const [termsAccepted, setTermsAccepted] = useState(false); // Always start unselected
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [showFullTerms, setShowFullTerms] = useState(false);
 
   const handleAcceptTerms = async () => {
     if (!termsAccepted) {
@@ -124,22 +125,40 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
       <Card className="w-full max-w-sm bg-white border-gray-200">
         <CardContent className="space-y-5 pt-4">
           <div className="space-y-3">
-            <h3 className="font-semibold text-gray-900">Terms of Use</h3>
-            <div className="max-h-48 overflow-y-auto rounded border border-gray-200 bg-gray-50 p-4 text-sm">
-              <p className="mb-4 text-gray-700">
-                By using the Cubent VS Code extension, you agree to the following terms:
-              </p>
-              <ul className="list-disc space-y-2 pl-4 text-gray-700">
-                <li>You will use the extension in accordance with our usage policies</li>
-                <li>You understand that AI-generated code should be reviewed before use</li>
-                <li>You agree to our data collection and processing practices</li>
-                <li>You will not use the extension for malicious or harmful purposes</li>
-                <li>You acknowledge that the service is provided "as is"</li>
-              </ul>
-              <p className="mt-4 text-xs text-gray-500">
-                For full terms, visit our website's Terms of Service page.
-              </p>
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-gray-900">Terms of Use</h3>
+              <button
+                type="button"
+                onClick={() => setShowFullTerms(!showFullTerms)}
+                className="text-xs text-gray-600 hover:text-gray-800 underline"
+              >
+                {showFullTerms ? 'Show less' : 'Show more'}
+              </button>
             </div>
+
+            {!showFullTerms ? (
+              <div className="rounded border border-gray-200 bg-gray-50 p-3 text-sm">
+                <p className="text-gray-700">
+                  By using the Cubent VS Code extension, you agree to our usage policies, data practices, and terms of service.
+                </p>
+              </div>
+            ) : (
+              <div className="max-h-40 overflow-y-auto rounded border border-gray-200 bg-gray-50 p-3 text-sm">
+                <p className="mb-3 text-gray-700">
+                  By using the Cubent VS Code extension, you agree to the following terms:
+                </p>
+                <ul className="list-disc space-y-1 pl-4 text-gray-700">
+                  <li>You will use the extension in accordance with our usage policies</li>
+                  <li>You understand that AI-generated code should be reviewed before use</li>
+                  <li>You agree to our data collection and processing practices</li>
+                  <li>You will not use the extension for malicious or harmful purposes</li>
+                  <li>You acknowledge that the service is provided "as is"</li>
+                </ul>
+                <p className="mt-3 text-xs text-gray-500">
+                  For full terms, visit our website's Terms of Service page.
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center space-x-2">
