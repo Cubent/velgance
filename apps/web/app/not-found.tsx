@@ -1,3 +1,4 @@
+import { Button } from '@repo/design-system/components/ui/button';
 import Link from 'next/link';
 
 export default function GlobalNotFound() {
@@ -18,48 +19,46 @@ export default function GlobalNotFound() {
 
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md transition-colors"
-            >
-              Go Home
-            </Link>
-            <Link 
-              href="/contact"
-              className="border border-gray-300 hover:border-gray-400 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-md transition-colors"
-            >
-              Contact Support
-            </Link>
+            <Button asChild className="bg-blue-600 hover:bg-blue-700">
+              <Link href="/">
+                Go Home
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/contact">
+                Contact Support
+              </Link>
+            </Button>
           </div>
-          
+
           <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               Popular pages:
             </p>
             <div className="flex flex-wrap gap-2 justify-center">
-              <Link 
-                href="/pricing" 
+              <Link
+                href="/pricing"
                 className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
               >
                 Pricing
               </Link>
               <span className="text-gray-300">•</span>
-              <Link 
-                href="/blog" 
+              <Link
+                href="/blog"
                 className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
               >
                 Blog
               </Link>
               <span className="text-gray-300">•</span>
-              <Link 
-                href="/legal/privacy" 
+              <Link
+                href="/legal/privacy"
                 className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
               >
                 Privacy Policy
               </Link>
               <span className="text-gray-300">•</span>
-              <Link 
-                href="/legal/terms" 
+              <Link
+                href="/legal/terms"
                 className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
               >
                 Terms of Service
