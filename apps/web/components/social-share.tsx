@@ -1,9 +1,8 @@
 'use client';
 
 import { Button } from '@repo/design-system/components/ui/button';
-import { Share2, Twitter, Linkedin, Facebook, Link2 } from 'lucide-react';
+import { Share2, X, Link2 } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 type SocialShareProps = {
   url?: string;
@@ -41,10 +40,11 @@ export const SocialShare = ({
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success('Link copied to clipboard!');
+      // Simple alert instead of toast for now
+      alert('Link copied to clipboard!');
       setIsOpen(false);
     } catch (error) {
-      toast.error('Failed to copy link');
+      alert('Failed to copy link');
     }
   };
 
@@ -78,23 +78,23 @@ export const SocialShare = ({
               onClick={() => openShareWindow(shareUrls.twitter)}
               className="flex items-center gap-3 w-full p-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             >
-              <Twitter className="w-4 h-4 text-blue-500" />
-              <span className="text-sm">Share on Twitter</span>
+              <X className="w-4 h-4 text-blue-500" />
+              <span className="text-sm">Share on X (Twitter)</span>
             </button>
-            
+
             <button
               onClick={() => openShareWindow(shareUrls.linkedin)}
               className="flex items-center gap-3 w-full p-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             >
-              <Linkedin className="w-4 h-4 text-blue-600" />
+              <Share2 className="w-4 h-4 text-blue-600" />
               <span className="text-sm">Share on LinkedIn</span>
             </button>
-            
+
             <button
               onClick={() => openShareWindow(shareUrls.facebook)}
               className="flex items-center gap-3 w-full p-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             >
-              <Facebook className="w-4 h-4 text-blue-700" />
+              <Share2 className="w-4 h-4 text-blue-700" />
               <span className="text-sm">Share on Facebook</span>
             </button>
             
