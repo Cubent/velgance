@@ -38,14 +38,18 @@ const LoginPage = async ({ searchParams }: LoginPageProps) => {
   // Validate required parameters
   if (!params.device_id || !params.state) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600">Invalid Request</h1>
-          <p className="mt-2 text-gray-600">
-            Missing required parameters: device_id and state
-          </p>
+      <>
+        <div className="flex flex-col space-y-3 text-center">
+          <div className="space-y-2">
+            <h1 className="font-semibold text-2xl tracking-tight text-red-400">
+              Invalid Request
+            </h1>
+            <p className="text-white text-sm leading-relaxed">
+              Missing required parameters: device_id and state
+            </p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 

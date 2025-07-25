@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@repo/design-system/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/design-system/components/ui/card';
+import { Card, CardContent } from '@repo/design-system/components/ui/card';
 import { Checkbox } from '@repo/design-system/components/ui/checkbox';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -83,7 +83,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
             </p>
           </div>
         </div>
-
+        
         <Card className="w-full max-w-md bg-white border-gray-200">
           <CardContent className="pt-6 text-center space-y-4">
             <div className="mb-4">
@@ -120,7 +120,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
           </p>
         </div>
       </div>
-
+      
       <Card className="w-full max-w-md bg-white border-gray-200">
         <CardContent className="space-y-6 pt-6">
           <div className="space-y-4">
@@ -171,7 +171,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
             </p>
           </div>
         </CardContent>
-        </Card>
-      </>
-    );
+      </Card>
+    </>
+  );
 };
