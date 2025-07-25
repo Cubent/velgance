@@ -84,8 +84,8 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
           </div>
         </div>
         
-        <Card className="w-full max-w-md bg-white border-gray-200">
-          <CardContent className="pt-6 text-center space-y-4">
+        <Card className="w-full max-w-sm bg-white border-gray-200">
+          <CardContent className="pt-4 text-center space-y-4">
             <div className="mb-4">
               <div className="mx-auto h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
                 <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,7 +98,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
             </p>
             <Button
               onClick={() => window.location.href = 'https://app.cubent.dev/dashboard'}
-              className="w-full bg-transparent hover:bg-transparent text-gray-900 border border-gray-300 hover:border-gray-400"
+              className="w-full bg-[#1c1c1c] hover:bg-[#2a2a2a] text-white border border-gray-300 hover:border-gray-400"
             >
               Back to Dashboard
             </Button>
@@ -121,9 +121,9 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
         </div>
       </div>
       
-      <Card className="w-full max-w-md bg-white border-gray-200">
-        <CardContent className="space-y-6 pt-6">
-          <div className="space-y-4">
+      <Card className="w-full max-w-sm bg-white border-gray-200">
+        <CardContent className="space-y-5 pt-4">
+          <div className="space-y-3">
             <h3 className="font-semibold text-gray-900">Terms of Use</h3>
             <div className="max-h-48 overflow-y-auto rounded border border-gray-200 bg-gray-50 p-4 text-sm">
               <p className="mb-4 text-gray-700">
@@ -160,7 +160,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
           <Button
             onClick={handleAcceptTerms}
             disabled={!termsAccepted || isLoading}
-            className="w-full bg-transparent hover:bg-transparent text-gray-900 border border-gray-300 hover:border-gray-400"
+            className="w-full bg-[#1c1c1c] hover:bg-[#2a2a2a] text-white border border-gray-300 hover:border-gray-400"
           >
             {isLoading ? 'Authorizing...' : 'Authorize Extension'}
           </Button>
