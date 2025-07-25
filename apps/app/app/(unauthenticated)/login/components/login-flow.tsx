@@ -75,7 +75,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
       <>
         <div className="flex flex-col space-y-3 text-center">
           <div className="space-y-2">
-            <h1 className="font-semibold text-2xl tracking-tight text-green-400">
+            <h1 className="font-semibold text-2xl tracking-tight text-white">
               Login Successful!
             </h1>
             <p className="text-white text-sm leading-relaxed">
@@ -87,8 +87,8 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
         <Card className="w-full max-w-sm bg-white border-gray-200">
           <CardContent className="pt-4 text-center space-y-4">
             <div className="mb-4">
-              <div className="mx-auto h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
-                <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="mx-auto h-16 w-16 rounded-full bg-[#1c1c1c] flex items-center justify-center">
+                <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -116,7 +116,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
             Authorize VS Code Extension
           </h1>
           <p className="text-white text-sm leading-relaxed">
-            Welcome, <span className="bg-gradient-to-r from-blue-400 via-rose-400 via-orange-300 via-blue-400 to-rose-400 bg-clip-text text-transparent">{user.name || user.email}</span>! Please review and accept our terms to continue.
+            Welcome, <span className="text-white">{user.name || user.email}</span>! Please review and accept our terms to continue.
           </p>
         </div>
       </div>
