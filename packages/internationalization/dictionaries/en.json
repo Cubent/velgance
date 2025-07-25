@@ -19,8 +19,8 @@
     },
     "home": {
       "meta": {
-        "title": "Cubent – Lightning-Fast AI Code Assistant",
-        "description": "Cubent is your AI-native coding assistant, purpose-built for developers. From full-code generation to codebase-aware autocomplete and terminal-ready actions."
+        "title": "Cubent – Next-Gen Agentic AI for Software Engineers",
+        "description": "Cubent is an agentic AI coding platform built for modern developers autonomous, context-aware, lightning-fast, and built to work your way with BYAK support"
       },
       "hero": {
         "announcement": "Cubent.Dev 0.21 Released"
