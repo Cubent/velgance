@@ -1,0 +1,55 @@
+{
+  "name": "Cubent - Lightning-Fast AI Code Assistant",
+  "short_name": "Cubent",
+  "description": "AI-native coding assistant for developers. Full-code generation, codebase-aware autocomplete and terminal-ready actions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["productivity", "developer", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Pricing",
+      "short_name": "Pricing",
+      "description": "View Cubent pricing plans",
+      "url": "/pricing",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read the latest from Cubent",
+      "url": "/blog",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://cubent.dev/sitemap.xml
+
+# Disallow sensitive areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /login/
+
+# Allow important pages
+Allow: /
+Allow: /pricing
+Allow: /blog
+Allow: /contact
+Allow: /legal/
+
+# Crawl delay (optional)
+Crawl-delay: 1

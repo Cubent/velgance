@@ -1,5 +1,6 @@
 // Main layout component for the Cubent website
 import './styles.css';
+import { AnalyticsProvider } from '@repo/analytics';
 import { Toolbar as CMSToolbar } from '@repo/cms/components/toolbar';
 import { DesignSystemProvider } from '@repo/design-system';
 import { fonts } from '@repo/design-system/lib/fonts';
@@ -9,6 +10,8 @@ import { getDictionary } from '@repo/internationalization';
 import type { ReactNode } from 'react';
 import { Footer } from './components/footer';
 import { Header } from './components/header';
+import { PerformanceOptimizer } from '../../components/performance-optimizer';
+import { PerformanceHints } from '../../components/seo-optimizer';
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -27,14 +30,50 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
       className={cn(fonts, 'scroll-smooth')}
       suppressHydrationWarning
     >
+      <head>
+        <PerformanceHints />
+      </head>
       <body>
-        <DesignSystemProvider>
-          <Header dictionary={dictionary} />
-          {children}
-          <Footer />
-        </DesignSystemProvider>
-        <Toolbar />
-        <CMSToolbar />
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Cubent",
+              "description": "Lightning-Fast AI Code Assistant for developers. Purpose-built for full-code generation, codebase-aware autocomplete and terminal-ready actions.",
+              "url": "https://cubent.dev",
+              "logo": "https://cubent.dev/favicon.svg",
+              "sameAs": [
+                "https://twitter.com/cubent",
+                "https://github.com/cubent"
+              ],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "url": "https://cubent.dev/contact"
+              },
+              "founder": {
+                "@type": "Organization",
+                "name": "Cubent Team"
+              },
+              "foundingDate": "2024",
+              "industry": "Software Development Tools",
+              "keywords": "AI code assistant, code generation, autocomplete, developer tools, artificial intelligence, programming assistant"
+            })
+          }}
+        />
+        <AnalyticsProvider>
+          <DesignSystemProvider>
+            <PerformanceOptimizer />
+            <Header dictionary={dictionary} />
+            {children}
+            <Footer />
+          </DesignSystemProvider>
+          <Toolbar />
+          <CMSToolbar />
+        </AnalyticsProvider>
       </body>
     </html>
   );
