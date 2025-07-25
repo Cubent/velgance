@@ -78,7 +78,9 @@ export const PerformanceOptimizer = () => {
       let node;
       while (node = walker.nextNode()) {
         if (node.nextSibling && node.nextSibling.nodeType === Node.TEXT_NODE) {
-          node.textContent += node.nextSibling.textContent;
+          const currentText = node.textContent || '';
+          const nextText = node.nextSibling.textContent || '';
+          node.textContent = currentText + nextText;
           node.nextSibling.remove();
         }
       }
