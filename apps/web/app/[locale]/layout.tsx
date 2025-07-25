@@ -12,6 +12,7 @@ import { Footer } from './components/footer';
 import { Header } from './components/header';
 import { PerformanceOptimizer } from '../../components/performance-optimizer';
 import { PerformanceHints } from '../../components/seo-optimizer';
+import { ErrorBoundary, ConsoleErrorSuppressor } from '../../components/error-boundary';
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -32,8 +33,10 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
     >
       <head>
         <PerformanceHints />
+        <link rel="canonical" href={`https://cubent.dev/${locale === 'en' ? '' : locale}`} />
       </head>
       <body>
+        <ConsoleErrorSuppressor />
         {/* Structured Data for SEO */}
         <script
           type="application/ld+json"
@@ -64,16 +67,18 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
             })
           }}
         />
-        <AnalyticsProvider>
-          <DesignSystemProvider>
-            <PerformanceOptimizer />
-            <Header dictionary={dictionary} />
-            {children}
-            <Footer />
-          </DesignSystemProvider>
-          <Toolbar />
-          <CMSToolbar />
-        </AnalyticsProvider>
+        <ErrorBoundary>
+          <AnalyticsProvider>
+            <DesignSystemProvider>
+              <PerformanceOptimizer />
+              <Header dictionary={dictionary} />
+              {children}
+              <Footer />
+            </DesignSystemProvider>
+            <Toolbar />
+            <CMSToolbar />
+          </AnalyticsProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
