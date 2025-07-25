@@ -190,14 +190,7 @@ export const PerformanceHints = () => {
       {/* Resource hints */}
       <link rel="prefetch" href="/api/health" />
       
-      {/* Critical CSS preload */}
-      <link
-        rel="preload"
-        href="/fonts/inter-var.woff2"
-        as="font"
-        type="font/woff2"
-        crossOrigin="anonymous"
-      />
+      {/* Note: Font preloading removed as fonts may not exist at these paths */}
     </>
   );
 };
