@@ -1,22 +1,36 @@
 User-agent: *
-Allow: /
-
-# Sitemaps
-Sitemap: https://cubent.dev/sitemap.xml
-
-# Disallow sensitive areas
 Disallow: /api/
 Disallow: /_next/
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /login/
-
-# Allow important pages
+Disallow: /sign-in/
+Disallow: /sign-up/
+Disallow: /*.json$
+Disallow: /*?*
 Allow: /
-Allow: /pricing
-Allow: /blog
-Allow: /contact
-Allow: /legal/
 
-# Crawl delay (optional)
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemaps
+Sitemap: https://cubent.dev/sitemap.xml
+Sitemap: https://cubent.dev/en/sitemap.xml
+
+# Crawl delay for aggressive crawlers
+User-agent: *
 Crawl-delay: 1
