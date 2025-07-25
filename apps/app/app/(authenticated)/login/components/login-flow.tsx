@@ -140,7 +140,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
               id="terms"
               checked={termsAccepted}
               onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
-              className="border-[#333] bg-transparent data-[state=checked]:bg-transparent data-[state=checked]:border-[#333] data-[state=checked]:text-white"
+              className="border-[#333] bg-transparent data-[state=checked]:bg-transparent data-[state=checked]:border-[#333] data-[state=checked]:text-white h-4 w-4 [&[data-state=checked]]:bg-transparent"
             />
             <label
               htmlFor="terms"

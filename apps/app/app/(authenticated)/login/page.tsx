@@ -74,11 +74,13 @@ const LoginPage = async ({ searchParams }: LoginPageProps) => {
   }
 
   return (
-    <LoginFlow
-      deviceId={params.device_id}
-      state={params.state}
-      user={user}
-    />
+    <div className="min-h-screen">
+      <LoginFlow
+        deviceId={params.device_id}
+        state={params.state}
+        user={user}
+      />
+    </div>
   );
 };
 
