@@ -1,4 +1,25 @@
-'use client';
+import { env } from '@/env';
+import { Button } from '@repo/design-system/components/ui/button';
+import { getDictionary } from '@repo/internationalization';
+import { createMetadata } from '@repo/seo/metadata';
+import { Check, MoveRight, Plus } from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+
+type PricingPageProps = {
+  params: Promise<{
+    locale: string;
+  }>;
+};
+
+export const generateMetadata = async ({
+  params,
+}: PricingPageProps): Promise<Metadata> => {
+  const { locale } = await params;
+  const dictionary = await getDictionary(locale);
+
+  return createMetadata(dictionary.web.pricing.meta);
+};
 
 // =============================================================================
 // PRICING PAGE - FREE TRIAL SYSTEM IMPLEMENTATION
@@ -17,31 +38,19 @@
 // NEXT STEPS: Verify webhook response and trial banner display
 // =============================================================================
 
-import { env } from '@/env';
-import { Button } from '@repo/design-system/components/ui/button';
-import { Check, MoveRight, Plus } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { useUser } from '@clerk/nextjs';
+'use client';
 
-const Pricing = () => {
+import { useState } from 'react';
+
+const PricingClient = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
-  const { user } = useUser();
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
   const handleStartForFree = () => {
-    if (!user) {
-      // Redirect to sign-up - free trial will be automatically created via webhook
-      // Temporary fix: use correct production URL until env vars are updated
-      window.location.href = 'https://app.cubent.dev/sign-up';
-      return;
-    }
-
-    // User is already signed in, redirect to dashboard
-    // Free trial was already created when they signed up
-    window.location.href = 'https://app.cubent.dev/dashboard';
+    // Redirect to sign-up - free trial will be automatically created via webhook
+    window.location.href = 'https://app.cubent.dev/sign-up';
   };
 
   const faqData = [
@@ -455,6 +464,14 @@ const Pricing = () => {
     </div>
   </div>
   );
+};
+
+const PricingClientWrapper = () => {
+  return <PricingClient />;
+};
+
+const Pricing = async ({ params }: PricingPageProps) => {
+  return <PricingClientWrapper />;
 };
 
 export default Pricing;
