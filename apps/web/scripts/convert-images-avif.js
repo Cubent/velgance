@@ -128,23 +128,20 @@ class AVIFConverter {
   // Run conversion
   run() {
     console.log('🚀 Starting AVIF conversion...\n');
-    
+
     // Check if sharp is available
     try {
       execSync('npx sharp --version', { stdio: 'pipe' });
     } catch (error) {
-      console.log('❌ Sharp not found. Installing...');
-      try {
-        execSync('npm install sharp', { stdio: 'inherit' });
-      } catch (installError) {
-        console.log('❌ Failed to install sharp. Please run: npm install sharp');
-        return;
-      }
+      console.log('❌ Sharp not available in build environment');
+      console.log('ℹ️  Skipping AVIF conversion (will use Next.js image optimization instead)');
+      console.log('💡 To convert locally, run: npm install sharp && npm run optimize-images');
+      return;
     }
-    
+
     this.convertDirectory();
     this.generateReport();
-    
+
     console.log('\n✅ AVIF conversion complete!');
   }
 }

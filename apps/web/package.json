@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
-    "build": "node scripts/convert-images-avif.js && next build",
+    "build": "next build",
+    "build:with-avif": "node scripts/convert-images-avif.js && next build",
     "build:fast": "next build",
     "start": "next start",
     "analyze": "ANALYZE=true npm run build",
