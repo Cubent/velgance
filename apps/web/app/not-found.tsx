@@ -19,47 +19,47 @@ export default function GlobalNotFound() {
 
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="bg-blue-600 hover:bg-blue-700">
+            <Button asChild className="bg-white hover:bg-gray-100 text-black">
               <Link href="/">
                 Go Home
               </Link>
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-black">
               <Link href="/contact">
                 Contact Support
               </Link>
             </Button>
           </div>
 
-          <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          <div className="pt-6 border-t border-gray-700">
+            <p className="text-sm text-gray-400 mb-4">
               Popular pages:
             </p>
             <div className="flex flex-wrap gap-2 justify-center">
               <Link
                 href="/pricing"
-                className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
+                className="text-sm text-white hover:text-gray-300 underline"
               >
                 Pricing
               </Link>
-              <span className="text-gray-300">•</span>
+              <span className="text-gray-600">•</span>
               <Link
                 href="/blog"
-                className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
+                className="text-sm text-white hover:text-gray-300 underline"
               >
                 Blog
               </Link>
-              <span className="text-gray-300">•</span>
+              <span className="text-gray-600">•</span>
               <Link
                 href="/legal/privacy"
-                className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
+                className="text-sm text-white hover:text-gray-300 underline"
               >
                 Privacy Policy
               </Link>
-              <span className="text-gray-300">•</span>
+              <span className="text-gray-600">•</span>
               <Link
                 href="/legal/terms"
-                className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
+                className="text-sm text-white hover:text-gray-300 underline"
               >
                 Terms of Service
               </Link>
