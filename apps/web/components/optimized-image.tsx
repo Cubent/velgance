@@ -25,7 +25,7 @@ export const OptimizedImage = ({
   height,
   className = '',
   priority = false,
-  quality = 85,
+  quality = 60, // Aggressive compression for AVIF
   placeholder = 'empty',
   blurDataURL,
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',

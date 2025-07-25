@@ -1,0 +1,30 @@
+{
+  "timestamp": "2025-07-25T14:21:09.509Z",
+  "bundleSize": {
+    "totalSizeBytes": 930315383,
+    "totalSizeMB": "887.22"
+  },
+  "imageOptimization": {
+    "totalImages": 26,
+    "largeImages": [
+      {
+        "path": "C:\\Users\\anwar\\Documents\\2 FOLDERS FOR CUBENT\\Cubentweb\\cubent\\apps\\web\\public\\images\\Cubent.Dev (25).png",
+        "size": 2032373,
+        "sizeMB": "1.94"
+      },
+      {
+        "path": "C:\\Users\\anwar\\Documents\\2 FOLDERS FOR CUBENT\\Cubentweb\\cubent\\apps\\web\\public\\images\\Cubent.Dev (29).png",
+        "size": 2193221,
+        "sizeMB": "2.09"
+      }
+    ],
+    "totalImageSize": 12741785
+  },
+  "recommendations": [
+    "Consider code splitting to reduce bundle size",
+    "Optimize 2 large images",
+    "Enable gzip/brotli compression",
+    "Implement service worker for caching",
+    "Use CDN for static assets"
+  ]
+}

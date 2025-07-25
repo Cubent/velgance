@@ -3,9 +3,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
-    "build": "next build",
+    "build": "node scripts/convert-images-avif.js && next build",
+    "build:fast": "next build",
     "start": "next start",
     "analyze": "ANALYZE=true npm run build",
+    "optimize-images": "node scripts/convert-images-avif.js",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },

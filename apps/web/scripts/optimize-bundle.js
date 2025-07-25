@@ -50,32 +50,58 @@ class BundleOptimizer {
     }
   }
 
-  // Optimize individual image
+  // Optimize individual image - AUTO CONVERT TO AVIF
   optimizeImage(imagePath) {
     const ext = path.extname(imagePath).toLowerCase();
     const baseName = path.basename(imagePath, ext);
     const dir = path.dirname(imagePath);
-    
+
     try {
-      // Convert to WebP if not already
-      if (ext !== '.webp') {
-        const webpPath = path.join(dir, `${baseName}.webp`);
-        if (!fs.existsSync(webpPath)) {
-          console.log(`Converting ${imagePath} to WebP...`);
-          // Note: This requires sharp or imagemin to be installed
-          // execSync(`npx sharp -i "${imagePath}" -o "${webpPath}" --webp`);
-        }
-      }
-      
       // Check file size
       const stats = fs.statSync(imagePath);
       const fileSizeInMB = stats.size / (1024 * 1024);
-      
+
       if (fileSizeInMB > 1) {
-        console.log(`⚠️  Large image detected: ${imagePath} (${fileSizeInMB.toFixed(2)}MB)`);
+        console.log(`⚠️  LARGE IMAGE: ${imagePath} (${fileSizeInMB.toFixed(2)}MB)`);
       }
+
+      if (fileSizeInMB > 0.1) {
+        console.log(`📸 Processing: ${imagePath} (${fileSizeInMB.toFixed(2)}MB)`);
+      }
+
+      // AUTO CONVERT TO AVIF for maximum compression
+      if (ext !== '.avif' && ext !== '.svg' && ['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
+        const avifPath = path.join(dir, baseName + '.avif');
+
+        if (!fs.existsSync(avifPath)) {
+          console.log(`🔄 Converting to AVIF: ${imagePath}`);
+          try {
+            // Use sharp to convert to AVIF with aggressive compression
+            execSync(`npx sharp -i "${imagePath}" -o "${avifPath}" --avif --quality 50`, { stdio: 'inherit' });
+
+            // Check new file size
+            const newStats = fs.statSync(avifPath);
+            const newSizeInMB = newStats.size / (1024 * 1024);
+            const savings = ((stats.size - newStats.size) / stats.size * 100).toFixed(1);
+
+            console.log(`✅ AVIF created: ${avifPath} (${newSizeInMB.toFixed(2)}MB) - ${savings}% smaller!`);
+
+            // If AVIF is significantly smaller, suggest replacing original
+            if (newStats.size < stats.size * 0.7) {
+              console.log(`💡 Consider replacing ${imagePath} with ${avifPath}`);
+            }
+
+          } catch (error) {
+            console.log(`❌ AVIF conversion failed: ${error.message}`);
+            console.log(`📦 Install sharp: npm install sharp`);
+          }
+        } else {
+          console.log(`✅ AVIF already exists: ${avifPath}`);
+        }
+      }
+
     } catch (error) {
-      console.error(`Error optimizing ${imagePath}:`, error.message);
+      console.error(`Error processing ${imagePath}:`, error.message);
     }
   }
 

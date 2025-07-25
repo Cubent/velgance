@@ -7,18 +7,15 @@ import type { NextConfig } from 'next';
 
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
-// Image optimization
+// Image optimization - AVIF first for maximum compression
 nextConfig.images = {
   ...nextConfig.images,
-  formats: ['image/avif', 'image/webp'],
-  deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+  formats: ['image/avif', 'image/webp'], // AVIF first for best compression
+  deviceSizes: [640, 750, 828, 1080, 1200, 1920],
   imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   dangerouslyAllowSVG: true,
   contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  quality: 85,
-  loader: 'default',
-  unoptimized: false,
 };
 
 nextConfig.images?.remotePatterns?.push({
@@ -43,6 +40,25 @@ nextConfig.experimental = {
 // Compression and caching
 nextConfig.compress = true;
 nextConfig.poweredByHeader = false;
+
+// Webpack optimizations for images
+nextConfig.webpack = (config, { isServer }) => {
+  // Optimize images at build time
+  config.module.rules.push({
+    test: /\.(png|jpe?g|gif|svg)$/,
+    use: [
+      {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/images/',
+          outputPath: 'static/images/',
+        },
+      },
+    ],
+  });
+
+  return config;
+};
 
 if (process.env.NODE_ENV === 'production') {
   const redirects: NextConfig['redirects'] = async () => [
