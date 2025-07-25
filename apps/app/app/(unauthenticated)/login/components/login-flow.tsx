@@ -88,8 +88,8 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
         <Card className="w-full max-w-sm bg-white border-gray-200">
           <CardContent className="pt-4 text-center space-y-4">
             <div className="mb-4">
-              <div className="mx-auto h-16 w-16 rounded-full bg-[#1c1c1c] flex items-center justify-center">
-                <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="mx-auto h-16 w-16 rounded-full bg-white border-2 border-gray-300 flex items-center justify-center">
+                <svg className="h-8 w-8 text-[#1c1c1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -166,7 +166,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
               id="terms"
               checked={termsAccepted}
               onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
-              className="border-gray-400 bg-white data-[state=checked]:bg-white data-[state=checked]:border-gray-500 data-[state=checked]:text-[#1c1c1c] h-5 w-5 rounded-full [&[data-state=checked]]:bg-white"
+              className="border-gray-300 bg-transparent data-[state=checked]:bg-transparent data-[state=checked]:border-gray-400 data-[state=checked]:text-gray-900 h-4 w-4 [&[data-state=checked]]:bg-transparent"
             />
             <label
               htmlFor="terms"
