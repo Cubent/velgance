@@ -24,13 +24,11 @@ export default function Icon() {
           borderRadius: '6px',
         }}
       >
-        {/* Cubent Logo SVG - same as header */}
         <svg
           width="24"
           height="24"
           viewBox="0 0 810 809.999993"
           xmlns="http://www.w3.org/2000/svg"
-          className="dark:invert"
         >
           <defs>
             <clipPath id="cb1ddbaceb">

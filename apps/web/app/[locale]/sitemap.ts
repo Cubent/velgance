@@ -20,18 +20,26 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => [
   {
     url: new URL('/', url).href,
     lastModified: new Date(),
+    changeFrequency: 'daily',
+    priority: 1,
   },
   ...pages.map((page) => ({
     url: new URL(page, url).href,
     lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
   })),
   ...blogs.map((blog) => ({
     url: new URL(`blog/${blog}`, url).href,
     lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
   })),
   ...legals.map((legal) => ({
     url: new URL(`legal/${legal}`, url).href,
     lastModified: new Date(),
+    changeFrequency: 'yearly' as const,
+    priority: 0.3,
   })),
 ];
 
