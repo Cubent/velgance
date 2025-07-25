@@ -172,7 +172,6 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
           </div>
         </CardContent>
         </Card>
-      </div>
-    </>
-  );
+      </>
+    );
 };
