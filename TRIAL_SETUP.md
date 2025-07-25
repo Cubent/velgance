@@ -30,7 +30,7 @@ CLERK_WEBHOOK_SECRET=whsec_*****
 2. Click **"Add product"**
 3. Set up the product:
    - **Name**: "Byok Plan"
-   - **Description**: "Bring Your API Key plan with 7-day trial"
+   - **Description**: "Bring Your Own Key plan with 7-day trial"
 
 ### 2. Create Price with Lookup Key
 

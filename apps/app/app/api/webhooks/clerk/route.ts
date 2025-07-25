@@ -122,6 +122,7 @@ export async function POST(request: Request) {
       console.log('✅ Found Stripe price:', price.id);
 
       // Create subscription with Byok plan and 7-day trial
+      // Configure trial to pause if no payment method is provided at trial end
       console.log('📋 Creating Stripe subscription with 7-day trial...');
       const subscription = await stripe.subscriptions.create({
         customer: customer.id,
@@ -132,6 +133,14 @@ export async function POST(request: Request) {
           },
         ],
         trial_period_days: 7, // Stripe native 7-day trial
+        payment_settings: {
+          save_default_payment_method: 'on_subscription',
+        },
+        trial_settings: {
+          end_behavior: {
+            missing_payment_method: 'pause', // Pause subscription if no payment method at trial end
+          },
+        },
       });
       console.log('✅ Stripe subscription created with trial');
 

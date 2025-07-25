@@ -56,9 +56,9 @@ export function useAuthStatus(): AuthStatus {
           const userData = JSON.parse(atob(token));
           console.log('[AUTH] User data decoded:', userData);
 
-          // Check if token is not too old (7 days)
+          // Check if token is not too old (30 days)
           const tokenAge = Date.now() - userData.timestamp;
-          const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+          const maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
           if (tokenAge > maxAge) {
             console.log('[AUTH] Token expired, setting not authenticated');
