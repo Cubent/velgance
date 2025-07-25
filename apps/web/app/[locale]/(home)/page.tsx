@@ -29,7 +29,39 @@ export const generateMetadata = async ({
   const { locale } = await params;
   const dictionary = await getDictionary(locale);
 
-  return createMetadata(dictionary.web.home.meta);
+  // Use custom metadata for homepage to avoid "| Cubent" suffix
+  const homeMetadata = dictionary.web.home.meta;
+
+  return {
+    title: homeMetadata.title, // Just the title without "| Cubent"
+    description: homeMetadata.description,
+    applicationName: 'Cubent',
+    metadataBase: process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
+      : undefined,
+    authors: [{ name: 'Cubent', url: 'https://cubent.dev/' }],
+    creator: 'Cubent',
+    formatDetection: {
+      telephone: false,
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'default',
+      title: homeMetadata.title,
+    },
+    openGraph: {
+      title: homeMetadata.title,
+      description: homeMetadata.description,
+      type: 'website',
+      siteName: 'Cubent',
+      locale: 'en_US',
+    },
+    publisher: 'Cubent',
+    twitter: {
+      card: 'summary_large_image',
+      creator: '@cubent',
+    },
+  };
 };
 
 const Home = async ({ params }: HomeProps) => {
