@@ -57,32 +57,22 @@ export const Header = ({ dictionary }: HeaderProps) => {
       description: 'Learn more about Cubent',
       sections: [
         {
-          title: 'Company',
+          title: '',
           items: [
             {
               title: 'About Us',
               href: '/about',
               description: 'Learn about our mission and team'
             },
-            {
-              title: 'Careers',
-              href: '/careers',
-              description: 'Join our growing team'
-            },
           ]
         },
         {
-          title: 'Support',
+          title: '',
           items: [
             {
               title: 'Contact',
               href: '/contact',
               description: 'Get in touch with our team'
-            },
-            {
-              title: 'Help Center',
-              href: '/help',
-              description: 'Find answers to common questions'
             },
           ]
         }
@@ -157,38 +147,25 @@ export const Header = ({ dictionary }: HeaderProps) => {
                       <NavigationMenuTrigger className={`font-medium text-sm bg-transparent hover:bg-muted/20 data-[state=open]:bg-muted/30 ${isCompanyActive() ? 'text-foreground bg-muted/30' : ''}`}>
                         {item.title}
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent className="!w-[500px] p-6">
-                        <div className="flex flex-col gap-6">
-                          <div className="flex flex-col">
-                            <p className="text-base font-medium">{item.title}</p>
-                            <p className="text-muted-foreground text-sm">
-                              {item.description}
-                            </p>
-                          </div>
-                          <div className="grid grid-cols-2 gap-6">
-                            {item.sections?.map((section, sectionIdx) => (
-                              <div key={sectionIdx} className="flex flex-col gap-3">
-                                <h4 className="text-sm font-medium text-foreground border-b border-border pb-2">
-                                  {section.title}
-                                </h4>
-                                <div className="flex flex-col gap-1">
-                                  {section.items?.map((subItem, idx) => (
-                                    <NavigationMenuLink
-                                      href={subItem.href}
-                                      key={idx}
-                                      className="flex flex-col gap-1 rounded-lg p-3 hover:bg-muted/50 transition-colors"
-                                    >
-                                      <div className="flex items-center justify-between">
-                                        <span className="text-sm font-medium">{subItem.title}</span>
-                                        <MoveRight className="h-3 w-3 text-muted-foreground" />
-                                      </div>
-                                      <span className="text-xs text-muted-foreground">{subItem.description}</span>
-                                    </NavigationMenuLink>
-                                  ))}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                      <NavigationMenuContent className="!w-[400px] p-8 bg-background/80 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl">
+                        <div className="grid grid-cols-2 gap-0 relative">
+                          {/* Vertical divider line */}
+                          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 transform -translate-x-1/2"></div>
+
+                          {item.sections?.map((section, sectionIdx) => (
+                            <div key={sectionIdx} className={`flex flex-col gap-4 ${sectionIdx === 0 ? 'pr-6' : 'pl-6'}`}>
+                              {section.items?.map((subItem, idx) => (
+                                <NavigationMenuLink
+                                  href={subItem.href}
+                                  key={idx}
+                                  className="flex flex-col gap-2 rounded-lg p-4 hover:bg-white/5 transition-all duration-200 group"
+                                >
+                                  <span className="text-base font-medium text-foreground group-hover:text-white">{subItem.title}</span>
+                                  <span className="text-sm text-muted-foreground group-hover:text-gray-300">{subItem.description}</span>
+                                </NavigationMenuLink>
+                              ))}
+                            </div>
+                          ))}
                         </div>
                       </NavigationMenuContent>
                     </>
