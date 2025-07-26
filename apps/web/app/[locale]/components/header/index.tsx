@@ -106,7 +106,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
   const [isOpen, setOpen] = useState(false);
   const [isCompanyExpanded, setCompanyExpanded] = useState(false);
   return (
-    <header className="sticky top-0 left-0 z-40 w-full bg-background/20 backdrop-blur-md supports-[backdrop-filter]:bg-background/10">
+    <header className="sticky top-0 left-0 z-40 w-full backdrop-blur-md" style={{ backgroundColor: 'rgba(22, 22, 22, 0.95)' }}>
       {/* Early Access Banner */}
       <div className="w-full bg-gray-800/60 border-b border-gray-600/20 text-gray-200 py-2.5 px-4 text-center text-sm backdrop-blur-sm">
         <span className="font-medium">Early Access:</span> We released the Byok plan -

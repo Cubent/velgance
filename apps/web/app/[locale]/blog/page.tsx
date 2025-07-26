@@ -36,14 +36,14 @@ const BlogIndex = async ({ params }: BlogProps) => {
   return (
     <>
       <JsonLd code={jsonLd} />
-      <div className="min-h-screen w-full pt-40 pb-20 lg:pt-48 lg:pb-40" style={{ backgroundColor: '#161616' }}>
-        <div className="container mx-auto px-6 lg:px-8 flex flex-col gap-14">
-          <div className="flex w-full flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
-            <h4 className="max-w-xl font-regular text-3xl tracking-tighter md:text-5xl">
-              {dictionary.web.blog.meta.title}
-            </h4>
+      <div className="min-h-screen w-full pt-24 pb-20 lg:pt-32 lg:pb-40" style={{ backgroundColor: '#161616' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col gap-14">
+          <div className="flex w-full flex-col gap-8 text-center">
+            <h1 className="font-regular text-3xl tracking-tighter md:text-5xl">
+              Blog
+            </h1>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
             <Feed queries={[blog.postsQuery]}>
               {async ([data]) => {
                 'use server';
