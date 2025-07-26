@@ -80,3 +80,8 @@
     transparent 100%
   );
 }
+
+/* Blog page specific header styling */
+.blog-page header {
+  background: rgba(22, 22, 22, 0.95) !important;
+}
