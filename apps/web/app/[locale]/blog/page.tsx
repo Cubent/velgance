@@ -38,7 +38,7 @@ const BlogIndex = async ({ params }: BlogProps) => {
       <JsonLd code={jsonLd} />
       <div className="min-h-screen w-full pt-8 pb-20 lg:pt-12 lg:pb-40" style={{ backgroundColor: '#161616', marginTop: '-80px', paddingTop: '88px' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col gap-14">
-          <div className="flex w-full flex-col gap-4 text-center">
+          <div className="flex w-full flex-col gap-4 text-center pt-4">
             <h1 className="font-regular text-3xl tracking-tighter md:text-5xl">
               Blog
             </h1>
