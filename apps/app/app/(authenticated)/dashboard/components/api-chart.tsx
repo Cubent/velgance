@@ -28,30 +28,42 @@ interface ApiChartProps {
 
 export function ApiChart({ data, timeRange = 'monthly' }: ApiChartProps) {
   const chartData = useMemo(() => {
+    // If we have filtered data, use it directly with proper date formatting
+    if (data && data.length > 0) {
+      return data.map(item => ({
+        date: new Date(item.date).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric'
+        }),
+        requests: item.requests || 0,
+        cubentUnits: item.cubentUnits || 0,
+        tokens: item.tokens || 0,
+        inputTokens: item.inputTokens || 0,
+        outputTokens: item.outputTokens || 0,
+      }));
+    }
+
+    // Fallback: generate empty data for the time range
     const today = new Date();
     const daysToShow = timeRange === '7days' ? 7 : 30;
     const startDate = new Date(today);
     startDate.setDate(today.getDate() - (daysToShow - 1));
 
     const filledData = [];
-    const dataMap = new Map(data.map(item => [item.date, item]));
-
     for (let i = 0; i < daysToShow; i++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(startDate.getDate() + i);
-      const dateStr = currentDate.toISOString().split('T')[0];
 
-      const existingData = dataMap.get(dateStr);
       filledData.push({
         date: currentDate.toLocaleDateString('en-US', {
           month: 'short',
           day: 'numeric'
         }),
-        requests: existingData?.requests || 0,
-        cubentUnits: existingData?.cubentUnits || 0,
-        tokens: existingData?.tokens || 0,
-        inputTokens: existingData?.inputTokens || 0,
-        outputTokens: existingData?.outputTokens || 0,
+        requests: 0,
+        cubentUnits: 0,
+        tokens: 0,
+        inputTokens: 0,
+        outputTokens: 0,
       });
     }
 
