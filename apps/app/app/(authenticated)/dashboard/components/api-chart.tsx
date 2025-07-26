@@ -96,8 +96,8 @@ export function ApiChart({ data, timeRange = 'monthly' }: ApiChartProps) {
         >
           <defs>
             <linearGradient id="colorInputTokens" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity={1}/>
-              <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.3}/>
+              <stop offset="0%" stopColor="#d97706" stopOpacity={1}/>
+              <stop offset="100%" stopColor="#d97706" stopOpacity={0.3}/>
             </linearGradient>
             <linearGradient id="colorOutputTokens" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8}/>
@@ -123,7 +123,7 @@ export function ApiChart({ data, timeRange = 'monthly' }: ApiChartProps) {
             type="monotone"
             dataKey="inputTokens"
             name="Total tokens in"
-            stroke="#3b82f6"
+            stroke="#d97706"
             strokeWidth={0}
             fillOpacity={1}
             fill="url(#colorInputTokens)"

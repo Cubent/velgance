@@ -73,6 +73,8 @@ export function DashboardContent({ data }: DashboardContentProps) {
       newDate.setMonth(newDate.getMonth() + 1);
     }
     setCurrentDate(newDate);
+    // TODO: In a real implementation, this would trigger a data refetch
+    // For now, we'll just update the display
   };
 
   const formatCurrentPeriod = () => {
@@ -83,6 +85,18 @@ export function DashboardContent({ data }: DashboardContentProps) {
         month: 'long',
         year: 'numeric'
       });
+    }
+  };
+
+  // Filter chart data based on current selection
+  const getFilteredChartData = () => {
+    if (timeRange === '7days') {
+      // Show last 7 days of data
+      return data.chartData.slice(-7);
+    } else {
+      // For monthly view, we would normally filter by the selected month
+      // For now, showing all available data
+      return data.chartData;
     }
   };
 
@@ -162,7 +176,7 @@ export function DashboardContent({ data }: DashboardContentProps) {
           <p className="text-sm text-gray-400">Includes usage from both API and Console</p>
         </div>
         <div className="h-[400px]">
-          <ApiChart data={data.chartData} timeRange={timeRange} />
+          <ApiChart data={getFilteredChartData()} timeRange={timeRange} />
         </div>
       </div>
 

@@ -21,14 +21,9 @@ export const generateMetadata = async ({
 
 const PricingLayout = ({ children }: PricingLayoutProps) => {
   return (
-    <>
-      <style jsx global>{`
-        body {
-          background-color: #161616 !important;
-        }
-      `}</style>
+    <div className="min-h-screen" style={{ backgroundColor: '#161616' }}>
       {children}
-    </>
+    </div>
   );
 };
 
