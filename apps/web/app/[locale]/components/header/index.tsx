@@ -147,7 +147,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                       <NavigationMenuTrigger className={`font-medium text-sm bg-transparent hover:bg-muted/20 data-[state=open]:bg-muted/30 ${isCompanyActive() ? 'text-foreground bg-muted/30' : ''}`}>
                         {item.title}
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent className="!w-[400px] p-8 bg-background/80 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl">
+                      <NavigationMenuContent className="!w-[400px] p-8 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl supports-[backdrop-filter]:bg-[#161616]/90" style={{ backgroundColor: '#161616' }}>
                         <div className="grid grid-cols-2 gap-0 relative">
                           {/* Vertical divider line */}
                           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 transform -translate-x-1/2"></div>
