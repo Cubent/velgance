@@ -36,12 +36,15 @@ const BlogIndex = async ({ params }: BlogProps) => {
   return (
     <>
       <JsonLd code={jsonLd} />
-      <div className="min-h-screen w-full pt-24 pb-20 lg:pt-32 lg:pb-40" style={{ backgroundColor: '#161616' }}>
+      <div className="min-h-screen w-full pt-16 pb-20 lg:pt-20 lg:pb-40" style={{ backgroundColor: '#161616' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col gap-14">
-          <div className="flex w-full flex-col gap-8 text-center">
+          <div className="flex w-full flex-col gap-4 text-center">
             <h1 className="font-regular text-3xl tracking-tighter md:text-5xl">
               Blog
             </h1>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Latest insights, updates, and deep dives into AI coding
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
             <Feed queries={[blog.postsQuery]}>
