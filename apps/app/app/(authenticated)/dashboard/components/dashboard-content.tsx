@@ -1,15 +1,16 @@
 'use client';
 
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/design-system/components/ui/card';
 import { Badge } from '@repo/design-system/components/ui/badge';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/design-system/components/ui/tabs';
 import { Progress } from '@repo/design-system/components/ui/progress';
-import { 
-  Activity, 
-  Zap, 
-  Clock, 
-  TrendingUp, 
+import {
+  Activity,
+  Zap,
+  Clock,
+  TrendingUp,
   AlertTriangle,
   RefreshCw,
   Filter,
@@ -36,6 +37,8 @@ interface DashboardData {
     requests: number;
     cubentUnits: number;
     tokens: number;
+    inputTokens: number;
+    outputTokens: number;
   }>;
   modelBreakdown: Array<{
     modelId: string;
@@ -55,9 +58,33 @@ interface DashboardContentProps {
 }
 
 export function DashboardContent({ data }: DashboardContentProps) {
+  const [timeRange, setTimeRange] = useState<'7days' | 'monthly'>('monthly');
+  const [currentDate, setCurrentDate] = useState(new Date());
+
   const usagePercentage = (data.totalCubentUnits / data.userLimit) * 100;
   const isNearLimit = usagePercentage > 80;
   const isOverLimit = usagePercentage > 100;
+
+  const navigateMonth = (direction: 'prev' | 'next') => {
+    const newDate = new Date(currentDate);
+    if (direction === 'prev') {
+      newDate.setMonth(newDate.getMonth() - 1);
+    } else {
+      newDate.setMonth(newDate.getMonth() + 1);
+    }
+    setCurrentDate(newDate);
+  };
+
+  const formatCurrentPeriod = () => {
+    if (timeRange === '7days') {
+      return 'Last 7 days';
+    } else {
+      return currentDate.toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric'
+      });
+    }
+  };
 
   return (
     <div className="space-y-6 p-6 bg-[#1f1f1f] min-h-screen">
@@ -68,41 +95,42 @@ export function DashboardContent({ data }: DashboardContentProps) {
           <h1 className="text-2xl font-semibold text-white">Usage</h1>
         </div>
         <div className="flex items-center space-x-3">
-          <select className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium">
-            <option>All Workspaces</option>
+          <select
+            className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium"
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value as '7days' | 'monthly')}
+          >
+            <option value="monthly">Month</option>
+            <option value="7days">Last 7 days</option>
           </select>
-          <select className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium">
-            <option>All API keys</option>
-          </select>
-          <select className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium">
-            <option>All Models</option>
-          </select>
-          <select className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium">
-            <option>Month</option>
-          </select>
-          <div className="flex items-center space-x-2">
-            <button className="text-white hover:text-gray-300">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-            </button>
-            <span className="text-white font-medium">June 2025</span>
-            <button className="text-white hover:text-gray-300">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-              </svg>
-            </button>
-          </div>
-          <div className="h-6 w-px bg-[#333]"></div>
-          <select className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium">
-            <option>Group by: Model</option>
-          </select>
-          <Button className="bg-white text-black hover:bg-gray-100 px-4 py-1.5 text-sm font-medium">
-            <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            Export
-          </Button>
+          {timeRange === 'monthly' && (
+            <div className="flex items-center space-x-2">
+              <button
+                className="text-white hover:text-gray-300"
+                onClick={() => navigateMonth('prev')}
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </button>
+              <span className="text-white font-medium min-w-[120px] text-center">
+                {formatCurrentPeriod()}
+              </span>
+              <button
+                className="text-white hover:text-gray-300"
+                onClick={() => navigateMonth('next')}
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          )}
+          {timeRange === '7days' && (
+            <span className="text-white font-medium">
+              {formatCurrentPeriod()}
+            </span>
+          )}
         </div>
       </div>
 
@@ -134,7 +162,7 @@ export function DashboardContent({ data }: DashboardContentProps) {
           <p className="text-sm text-gray-400">Includes usage from both API and Console</p>
         </div>
         <div className="h-[400px]">
-          <ApiChart data={data.chartData} />
+          <ApiChart data={data.chartData} timeRange={timeRange} />
         </div>
       </div>
 

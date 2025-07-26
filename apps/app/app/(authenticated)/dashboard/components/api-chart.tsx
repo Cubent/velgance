@@ -17,41 +17,46 @@ interface ChartData {
   requests: number;
   cubentUnits: number;
   tokens: number;
+  inputTokens: number;
+  outputTokens: number;
 }
 
 interface ApiChartProps {
   data: ChartData[];
+  timeRange?: '7days' | 'monthly';
 }
 
-export function ApiChart({ data }: ApiChartProps) {
+export function ApiChart({ data, timeRange = 'monthly' }: ApiChartProps) {
   const chartData = useMemo(() => {
-    // Fill in missing days with zero values for the last 30 days
     const today = new Date();
-    const thirtyDaysAgo = new Date(today);
-    thirtyDaysAgo.setDate(today.getDate() - 29);
+    const daysToShow = timeRange === '7days' ? 7 : 30;
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() - (daysToShow - 1));
 
     const filledData = [];
     const dataMap = new Map(data.map(item => [item.date, item]));
 
-    for (let i = 0; i < 30; i++) {
-      const currentDate = new Date(thirtyDaysAgo);
-      currentDate.setDate(thirtyDaysAgo.getDate() + i);
+    for (let i = 0; i < daysToShow; i++) {
+      const currentDate = new Date(startDate);
+      currentDate.setDate(startDate.getDate() + i);
       const dateStr = currentDate.toISOString().split('T')[0];
-      
+
       const existingData = dataMap.get(dateStr);
       filledData.push({
-        date: currentDate.toLocaleDateString('en-US', { 
-          month: 'short', 
-          day: 'numeric' 
+        date: currentDate.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric'
         }),
         requests: existingData?.requests || 0,
         cubentUnits: existingData?.cubentUnits || 0,
         tokens: existingData?.tokens || 0,
+        inputTokens: existingData?.inputTokens || 0,
+        outputTokens: existingData?.outputTokens || 0,
       });
     }
 
     return filledData;
-  }, [data]);
+  }, [data, timeRange]);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -90,11 +95,11 @@ export function ApiChart({ data }: ApiChartProps) {
           }}
         >
           <defs>
-            <linearGradient id="colorRequests" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#d97706" stopOpacity={1}/>
-              <stop offset="100%" stopColor="#d97706" stopOpacity={0.3}/>
+            <linearGradient id="colorInputTokens" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#3b82f6" stopOpacity={1}/>
+              <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.3}/>
             </linearGradient>
-            <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="colorOutputTokens" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8}/>
               <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.2}/>
             </linearGradient>
@@ -105,7 +110,7 @@ export function ApiChart({ data }: ApiChartProps) {
             tick={{ fontSize: 11, fill: '#9ca3af' }}
             axisLine={false}
             tickLine={false}
-            interval={Math.floor(chartData.length / 6)}
+            interval={timeRange === '7days' ? 0 : Math.floor(chartData.length / 6)}
           />
           <YAxis
             tick={{ fontSize: 11, fill: '#9ca3af' }}
@@ -116,22 +121,22 @@ export function ApiChart({ data }: ApiChartProps) {
           <Tooltip content={<CustomTooltip />} />
           <Area
             type="monotone"
-            dataKey="requests"
-            name="Claude Sonnet 3.7 - Input Tokens per Minute Cache Aware"
-            stroke="#d97706"
+            dataKey="inputTokens"
+            name="Total tokens in"
+            stroke="#3b82f6"
             strokeWidth={0}
             fillOpacity={1}
-            fill="url(#colorRequests)"
+            fill="url(#colorInputTokens)"
             stackId="1"
           />
           <Area
             type="monotone"
-            dataKey="cubentUnits"
-            name="Claude Haiku 3 - Input Tokens per Minute"
+            dataKey="outputTokens"
+            name="Total tokens out"
             stroke="#f59e0b"
             strokeWidth={0}
             fillOpacity={1}
-            fill="url(#colorUnits)"
+            fill="url(#colorOutputTokens)"
             stackId="1"
           />
         </AreaChart>

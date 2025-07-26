@@ -89,6 +89,8 @@ const Dashboard = async () => {
     requests: metric.requestsMade,
     cubentUnits: metric.cubentUnitsUsed,
     tokens: metric.tokensUsed,
+    inputTokens: metric.inputTokens || 0,
+    outputTokens: metric.outputTokens || 0,
   })).reverse();
 
   const dashboardData = {
