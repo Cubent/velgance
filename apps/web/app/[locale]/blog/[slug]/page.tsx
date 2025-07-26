@@ -81,7 +81,8 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                 isAccessibleForFree: true,
               }}
             />
-            <div className="container mx-auto px-8 sm:px-12 lg:px-16 xl:px-24 pt-32 pb-16" style={{paddingTop: '60px'}}>
+            <div className="min-h-screen w-full" style={{ backgroundColor: '#161616', marginTop: '-80px', paddingTop: '120px' }}>
+              <div className="container mx-auto px-8 sm:px-12 lg:px-16 xl:px-24 pb-16">
               <Link
                 className="mb-4 inline-flex items-center gap-1 text-muted-foreground text-sm focus:underline focus:outline-none"
                 href="/blog"
@@ -132,6 +133,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                     date={new Date(page.date)}
                   />
                 </div>
+              </div>
               </div>
             </div>
           </>
