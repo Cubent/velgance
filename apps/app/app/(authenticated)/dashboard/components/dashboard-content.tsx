@@ -73,8 +73,6 @@ export function DashboardContent({ data }: DashboardContentProps) {
       newDate.setMonth(newDate.getMonth() + 1);
     }
     setCurrentDate(newDate);
-    // TODO: In a real implementation, this would trigger a data refetch
-    // For now, we'll just update the display
   };
 
   const formatCurrentPeriod = () => {
@@ -94,9 +92,15 @@ export function DashboardContent({ data }: DashboardContentProps) {
       // Show last 7 days of data
       return data.chartData.slice(-7);
     } else {
-      // For monthly view, we would normally filter by the selected month
-      // For now, showing all available data
-      return data.chartData;
+      // Filter data by selected month and year
+      const selectedYear = currentDate.getFullYear();
+      const selectedMonth = currentDate.getMonth();
+
+      return data.chartData.filter(item => {
+        const itemDate = new Date(item.date);
+        return itemDate.getFullYear() === selectedYear &&
+               itemDate.getMonth() === selectedMonth;
+      });
     }
   };
 
@@ -110,7 +114,7 @@ export function DashboardContent({ data }: DashboardContentProps) {
         </div>
         <div className="flex items-center space-x-3">
           <select
-            className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium"
+            className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium text-center"
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value as '7days' | 'monthly')}
           >

@@ -182,13 +182,15 @@
     "pricing": {
       "meta": {
         "title": "Pricing | Cubent – Next-Gen Agentic AI for Software",
-        "description": "Explore our pricing that's simple, affordable plans with BYAK support. Get started free, then upgrade for powerful agentic AI coding without breaking the bank."
+        "description": "Explore our pricing that's simple, affordable plans with BYAK support. Get started free, then upgrade for powerful agentic AI coding without breaking the bank.",
+        "noSuffix": true
       }
     },
     "contact": {
       "meta": {
-        "title": "Get Support & Connect",
-        "description": "Need help with Cubent Coder? Join our community, report issues, or get in touch with our team for support and guidance."
+        "title": "Contact | Cubent – Next-Gen Agentic AI for Software",
+        "description": "Need help with Cubent? Join our community, report issues, or get in touch with our team for support and guidance with our AI coding platform.",
+        "noSuffix": true
       },
       "hero": {
         "benefits": [

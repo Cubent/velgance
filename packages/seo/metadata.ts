@@ -5,6 +5,7 @@ type MetadataGenerator = Omit<Metadata, 'description' | 'title'> & {
   title: string;
   description: string;
   image?: string;
+  noSuffix?: boolean;
 };
 
 const applicationName = 'Cubent';
@@ -21,9 +22,10 @@ export const createMetadata = ({
   title,
   description,
   image,
+  noSuffix = false,
   ...properties
 }: MetadataGenerator): Metadata => {
-  const parsedTitle = `${title} | ${applicationName}`;
+  const parsedTitle = noSuffix ? title : `${title} | ${applicationName}`;
   const defaultMetadata: Metadata = {
     title: parsedTitle,
     description,
