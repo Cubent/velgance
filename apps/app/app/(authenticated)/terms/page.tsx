@@ -39,8 +39,8 @@ const TermsPage = async () => {
     <div className="container mx-auto p-6 max-w-4xl">
       <div className="space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-bold">{title}</h1>
-          <p className="text-muted-foreground mt-2">{description}</p>
+          <h1 className="text-3xl font-bold">Terms of Service</h1>
+          <p className="text-muted-foreground mt-2">Terms of service for using the Cubent VS Code extension.</p>
         </div>
 
         <div className="prose prose-gray dark:prose-invert max-w-none">
