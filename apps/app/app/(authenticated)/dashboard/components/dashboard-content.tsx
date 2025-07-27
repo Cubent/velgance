@@ -59,8 +59,7 @@ interface DashboardContentProps {
 }
 
 export function DashboardContent({ data }: DashboardContentProps) {
-  const [timeRange, setTimeRange] = useState<'7days' | 'monthly'>('monthly');
-  const [currentDate, setCurrentDate] = useState(new Date());
+
 
   const usagePercentage = (data.totalCubentUnits / data.userLimit) * 100;
   const isNearLimit = usagePercentage > 80;
@@ -81,44 +80,7 @@ export function DashboardContent({ data }: DashboardContentProps) {
     return `${diffInDays}d ago`;
   };
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    const newDate = new Date(currentDate);
-    if (direction === 'prev') {
-      newDate.setMonth(newDate.getMonth() - 1);
-    } else {
-      newDate.setMonth(newDate.getMonth() + 1);
-    }
-    setCurrentDate(newDate);
-  };
 
-  const formatCurrentPeriod = () => {
-    if (timeRange === '7days') {
-      return 'Last 7 days';
-    } else {
-      return currentDate.toLocaleDateString('en-US', {
-        month: 'long',
-        year: 'numeric'
-      });
-    }
-  };
-
-  // Filter chart data based on current selection
-  const getFilteredChartData = () => {
-    if (timeRange === '7days') {
-      // Show last 7 days of data
-      return data.chartData.slice(-7);
-    } else {
-      // Filter data by selected month and year
-      const selectedYear = currentDate.getFullYear();
-      const selectedMonth = currentDate.getMonth();
-
-      return data.chartData.filter(item => {
-        const itemDate = new Date(item.date);
-        return itemDate.getFullYear() === selectedYear &&
-               itemDate.getMonth() === selectedMonth;
-      });
-    }
-  };
 
   return (
     <div className="space-y-6 p-6 bg-[#1f1f1f] min-h-screen">
@@ -128,44 +90,7 @@ export function DashboardContent({ data }: DashboardContentProps) {
         <div>
           <h1 className="text-2xl font-semibold text-white">Usage</h1>
         </div>
-        <div className="flex items-center space-x-3">
-          <select
-            className="bg-[#1a1a1a] border border-[#333] text-white px-3 py-1.5 rounded-md text-sm font-medium text-center"
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value as '7days' | 'monthly')}
-          >
-            <option value="monthly">Month</option>
-            <option value="7days">Last 7 days</option>
-          </select>
-          {timeRange === 'monthly' && (
-            <div className="flex items-center space-x-2">
-              <button
-                className="text-white hover:text-gray-300"
-                onClick={() => navigateMonth('prev')}
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              </button>
-              <span className="text-white font-medium min-w-[120px] text-center">
-                {formatCurrentPeriod()}
-              </span>
-              <button
-                className="text-white hover:text-gray-300"
-                onClick={() => navigateMonth('next')}
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                </svg>
-              </button>
-            </div>
-          )}
-          {timeRange === '7days' && (
-            <span className="text-white font-medium">
-              {formatCurrentPeriod()}
-            </span>
-          )}
-        </div>
+
       </div>
 
       {/* Stats Cards */}
@@ -196,7 +121,7 @@ export function DashboardContent({ data }: DashboardContentProps) {
           <p className="text-sm text-gray-400">Includes usage from both API and Console</p>
         </div>
         <div className="h-[400px]">
-          <ApiChart data={getFilteredChartData()} timeRange={timeRange} />
+          <ApiChart data={data.chartData} timeRange="monthly" />
         </div>
       </div>
 
