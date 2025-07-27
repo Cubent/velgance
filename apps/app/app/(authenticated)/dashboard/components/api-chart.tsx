@@ -38,19 +38,38 @@ export function ApiChart({ data, timeRange = 'monthly' }: ApiChartProps) {
                date.getMonth() === firstDate.getMonth();
       });
 
-      if (isFiltered) {
-        // Data is already filtered for a specific month, use it as-is
-        return data.map(item => ({
-          date: new Date(item.date).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric'
-          }),
-          requests: item.requests || 0,
-          cubentUnits: item.cubentUnits || 0,
-          tokens: item.tokens || 0,
-          inputTokens: item.inputTokens || 0,
-          outputTokens: item.outputTokens || 0,
-        }));
+      if (isFiltered && dates.length > 0) {
+        // Data is filtered for a specific month, fill in all days of that month
+        const firstDate = dates[0];
+        const year = firstDate.getFullYear();
+        const month = firstDate.getMonth();
+
+        // Get the number of days in the selected month
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        // Create a map of existing data for quick lookup
+        const dataMap = new Map(data.map(item => [item.date, item]));
+
+        const filledData = [];
+        for (let day = 1; day <= daysInMonth; day++) {
+          const currentDate = new Date(year, month, day);
+          const dateStr = currentDate.toISOString().split('T')[0];
+
+          const existingData = dataMap.get(dateStr);
+          filledData.push({
+            date: currentDate.toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric'
+            }),
+            requests: existingData?.requests || 0,
+            cubentUnits: existingData?.cubentUnits || 0,
+            tokens: existingData?.tokens || 0,
+            inputTokens: existingData?.inputTokens || 0,
+            outputTokens: existingData?.outputTokens || 0,
+          });
+        }
+
+        return filledData;
       }
     }
 
