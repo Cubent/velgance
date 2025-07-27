@@ -221,9 +221,11 @@ export function DashboardContent({ data }: DashboardContentProps) {
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-green-500" />
                   <div>
-                    <p className="text-sm font-medium text-white">{request.modelId}</p>
-                    <p className="text-xs text-gray-400">
-                      {formatTime(new Date(request.createdAt))} • API Request
+                    <p className="text-sm font-medium text-white">
+                      {request.modelId}
+                      <span className="text-xs text-gray-400 ml-2 font-normal">
+                        {formatTime(new Date(request.createdAt))} • API Request
+                      </span>
                     </p>
                   </div>
                 </div>
