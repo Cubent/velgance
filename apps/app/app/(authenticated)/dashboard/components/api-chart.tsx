@@ -53,7 +53,12 @@ export function ApiChart({ data, timeRange = 'monthly' }: ApiChartProps) {
         const filledData = [];
         for (let day = 1; day <= daysInMonth; day++) {
           const currentDate = new Date(year, month, day);
-          const dateStr = currentDate.toISOString().split('T')[0];
+
+          // Use local date string to avoid timezone issues
+          const dateYear = currentDate.getFullYear();
+          const dateMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+          const dateDay = String(currentDate.getDate()).padStart(2, '0');
+          const dateStr = `${dateYear}-${dateMonth}-${dateDay}`;
 
           const existingData = dataMap.get(dateStr);
           filledData.push({
@@ -73,7 +78,7 @@ export function ApiChart({ data, timeRange = 'monthly' }: ApiChartProps) {
       }
     }
 
-    // Fallback to the original behavior for unfiltered data or 7-day view
+    // Use the same logic as other charts for consistency
     const today = new Date();
     const daysToShow = timeRange === '7days' ? 7 : 30;
     const startDate = new Date(today);
@@ -85,7 +90,12 @@ export function ApiChart({ data, timeRange = 'monthly' }: ApiChartProps) {
     for (let i = 0; i < daysToShow; i++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(startDate.getDate() + i);
-      const dateStr = currentDate.toISOString().split('T')[0];
+
+      // Use local date string to avoid timezone issues
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const dateStr = `${year}-${month}-${day}`;
 
       const existingData = dataMap.get(dateStr);
       filledData.push({
