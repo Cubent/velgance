@@ -65,6 +65,21 @@ export function DashboardContent({ data }: DashboardContentProps) {
   const isNearLimit = usagePercentage > 80;
   const isOverLimit = usagePercentage > 100;
 
+  // Helper function to format time for recent requests
+  const formatTime = (date: Date) => {
+    const now = new Date();
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+
+    if (diffInMinutes < 1) return 'Just now';
+    if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) return `${diffInHours}h ago`;
+
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays}d ago`;
+  };
+
   const navigateMonth = (direction: 'prev' | 'next') => {
     const newDate = new Date(currentDate);
     if (direction === 'prev') {
@@ -184,24 +199,46 @@ export function DashboardContent({ data }: DashboardContentProps) {
         </div>
       </div>
 
-      {/* Rate Limited Requests */}
+      {/* Recent Requests */}
       <div className="bg-[#1a1a1a] border border-[#333] rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-lg font-semibold text-white mb-1">Rate-limited requests</h3>
-            <p className="text-sm text-gray-400">The number of requests that were blocked due to rate limits</p>
+            <h3 className="text-lg font-semibold text-white mb-1">Recent Requests</h3>
+            <p className="text-sm text-gray-400">Latest API activity</p>
           </div>
           <Button variant="outline" className="bg-transparent border-[#333] text-white hover:bg-[#2a2a2a] text-sm">
-            View rate limits
+            <ExternalLink className="w-4 h-4 mr-2" />
+            View all requests
           </Button>
         </div>
-        <div className="h-[300px]">
-          <div className="h-full flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-white mb-2">0</div>
-              <p className="text-gray-400 text-sm">No rate-limited requests in this period</p>
+        <div className="space-y-4">
+          {data.recentAnalytics && data.recentAnalytics.length > 0 ? (
+            data.recentAnalytics.slice(0, 8).map((request: any) => (
+              <div key={request.id} className="flex items-center justify-between p-4 bg-[#161616] rounded-lg border border-[#333]">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-green-500" />
+                  <div>
+                    <p className="text-sm font-medium text-white">{request.modelId}</p>
+                    <p className="text-xs text-gray-400">
+                      {formatTime(new Date(request.createdAt))} • API Request
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-white">{request.requestsMade} req</p>
+                  <p className="text-xs text-gray-400">{request.cubentUnitsUsed.toFixed(2)} units</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="h-[200px] flex items-center justify-center">
+              <div className="text-center">
+                <Activity className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                <div className="text-lg font-medium text-white mb-2">No recent requests</div>
+                <p className="text-gray-400 text-sm">API activity will appear here once you start making requests</p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
