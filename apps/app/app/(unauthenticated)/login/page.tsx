@@ -22,6 +22,12 @@ import { auth, currentUser } from '@repo/auth/server';
 import { database } from '@repo/database';
 import { redirect } from 'next/navigation';
 import { LoginFlow } from './components/login-flow';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Cubent Workspace',
+  description: 'Sign in to connect your VS Code extension to Cubent',
+};
 
 type LoginPageProps = {
   searchParams: Promise<{
