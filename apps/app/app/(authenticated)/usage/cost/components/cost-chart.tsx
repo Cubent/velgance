@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { ComposedChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface CostChartData {
@@ -15,6 +16,36 @@ interface CostChartProps {
 }
 
 export const CostChart = ({ data }: CostChartProps) => {
+  // Fill in missing days with zero values for the last 30 days
+  const chartData = useMemo(() => {
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 29);
+
+    const filledData = [];
+    const dataMap = new Map(data.map(item => [item.date, item]));
+
+    for (let i = 0; i < 30; i++) {
+      const currentDate = new Date(thirtyDaysAgo);
+      currentDate.setDate(thirtyDaysAgo.getDate() + i);
+      const dateStr = currentDate.toISOString().split('T')[0];
+
+      const existingData = dataMap.get(dateStr);
+      filledData.push({
+        date: currentDate.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric'
+        }),
+        cost: existingData?.cost || 0,
+        tokens: existingData?.tokens || 0,
+        requests: existingData?.requests || 0,
+        cubentUnits: existingData?.cubentUnits || 0,
+      });
+    }
+
+    return filledData;
+  }, [data]);
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -64,7 +95,7 @@ export const CostChart = ({ data }: CostChartProps) => {
   return (
     <div className="h-80 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+        <ComposedChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="costGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
@@ -77,10 +108,7 @@ export const CostChart = ({ data }: CostChartProps) => {
             axisLine={false}
             tickLine={false}
             tick={{ fill: '#9ca3af', fontSize: 12 }}
-            tickFormatter={(value) => {
-              const date = new Date(value);
-              return `${date.getMonth() + 1}/${date.getDate()}`;
-            }}
+            interval={Math.floor(chartData.length / 6)}
           />
           <YAxis
             axisLine={false}
