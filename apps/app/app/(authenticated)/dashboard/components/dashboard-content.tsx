@@ -19,6 +19,7 @@ import {
   PieChart,
   Users
 } from 'lucide-react';
+import Link from 'next/link';
 import { ApiChart } from './api-chart';
 import { RequestsTable } from './requests-table';
 import { ModelBreakdown } from './model-breakdown';
@@ -201,21 +202,23 @@ export function DashboardContent({ data }: DashboardContentProps) {
 
       {/* Recent Requests */}
       <div className="bg-[#1a1a1a] border border-[#333] rounded-lg p-6">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-lg font-semibold text-white mb-1">Recent Requests</h3>
             <p className="text-sm text-gray-400">Latest API activity</p>
           </div>
-          <Button variant="outline" className="bg-transparent border-[#333] text-white hover:bg-[#2a2a2a] text-sm">
-            <ExternalLink className="w-4 h-4 mr-2" />
-            View all requests
-          </Button>
+          <Link href="/usage/requests">
+            <Button variant="outline" className="bg-transparent border-[#333] text-white hover:bg-[#2a2a2a] text-sm">
+              <ExternalLink className="w-4 h-4 mr-2" />
+              View all requests
+            </Button>
+          </Link>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-2">
           {data.recentAnalytics && data.recentAnalytics.length > 0 ? (
             data.recentAnalytics.slice(0, 8).map((request: any) => (
-              <div key={request.id} className="flex items-center justify-between p-4 bg-[#161616] rounded-lg border border-[#333]">
-                <div className="flex items-center gap-3">
+              <div key={request.id} className="flex items-center justify-between py-2 px-3 bg-[#161616] rounded border border-[#333]">
+                <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-green-500" />
                   <div>
                     <p className="text-sm font-medium text-white">{request.modelId}</p>
@@ -231,11 +234,11 @@ export function DashboardContent({ data }: DashboardContentProps) {
               </div>
             ))
           ) : (
-            <div className="h-[200px] flex items-center justify-center">
+            <div className="h-[150px] flex items-center justify-center">
               <div className="text-center">
-                <Activity className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                <div className="text-lg font-medium text-white mb-2">No recent requests</div>
-                <p className="text-gray-400 text-sm">API activity will appear here once you start making requests</p>
+                <Activity className="w-8 h-8 text-gray-600 mx-auto mb-2" />
+                <div className="text-sm font-medium text-white mb-1">No recent requests</div>
+                <p className="text-gray-400 text-xs">API activity will appear here once you start making requests</p>
               </div>
             </div>
           )}
