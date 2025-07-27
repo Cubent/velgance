@@ -1,8 +1,6 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@repo/design-system/components/ui/card';
-import { Button } from '@repo/design-system/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/design-system/components/ui/select';
 import { TokenChart } from './token-chart';
 import { Zap, TrendingUp, Calendar, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 
@@ -77,21 +75,6 @@ export const TokenUsageContent = ({ data }: TokenUsageContentProps) => {
         <div>
           <h1 className="text-2xl font-semibold text-white">Token Usage</h1>
           <p className="text-gray-400 mt-1">Track your input and output token consumption</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Select defaultValue="30d">
-            <SelectTrigger className="w-32 bg-[#1a1a1a] border-[#333] text-white">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-[#1a1a1a] border-[#333]">
-              <SelectItem value="7d" className="text-white hover:bg-[#333]">Last 7 days</SelectItem>
-              <SelectItem value="30d" className="text-white hover:bg-[#333]">Last 30 days</SelectItem>
-              <SelectItem value="90d" className="text-white hover:bg-[#333]">Last 90 days</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button variant="outline" className="bg-[#1a1a1a] border-[#333] text-white hover:bg-[#333]">
-            Export
-          </Button>
         </div>
       </div>
 
