@@ -37,6 +37,8 @@ const ProfilePage = async () => {
       email: user.emailAddresses[0]?.emailAddress || '',
       name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || null,
       picture: user.imageUrl,
+      subscriptionTier: 'FREE',
+      subscriptionStatus: 'ACTIVE',
     },
     include: {
       usageMetrics: {
@@ -54,6 +56,41 @@ const ProfilePage = async () => {
     }),
     { tokensUsed: 0, requestsMade: 0, costAccrued: 0 }
   );
+
+  // Format subscription tier for display
+  const formatSubscriptionTier = (tier: string) => {
+    switch (tier?.toUpperCase()) {
+      case 'FREE':
+      case 'FREE_TRIAL':
+        return 'Free Trial';
+      case 'BASIC':
+        return 'Basic';
+      case 'PRO':
+        return 'Pro';
+      case 'ENTERPRISE':
+        return 'Enterprise';
+      default:
+        return tier || 'Free Trial';
+    }
+  };
+
+  // Format subscription status for display
+  const formatSubscriptionStatus = (status: string) => {
+    switch (status?.toUpperCase()) {
+      case 'ACTIVE':
+        return 'Active';
+      case 'TRIAL':
+        return 'Trial';
+      case 'EXPIRED':
+        return 'Expired';
+      case 'CANCELLED':
+        return 'Cancelled';
+      case 'SUSPENDED':
+        return 'Suspended';
+      default:
+        return status || 'Active';
+    }
+  };
 
   return (
     <div className="container mx-auto p-6 space-y-6 bg-[#1f1f1f] min-h-screen">
@@ -89,13 +126,13 @@ const ProfilePage = async () => {
               <div className="flex justify-between">
                 <span className="text-sm">Subscription:</span>
                 <Badge variant={dbUser.subscriptionStatus === 'ACTIVE' ? 'default' : 'secondary'}>
-                  {dbUser.subscriptionTier}
+                  {formatSubscriptionTier(dbUser.subscriptionTier)}
                 </Badge>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Status:</span>
                 <Badge variant={dbUser.subscriptionStatus === 'ACTIVE' ? 'default' : 'outline'}>
-                  {dbUser.subscriptionStatus}
+                  {formatSubscriptionStatus(dbUser.subscriptionStatus)}
                 </Badge>
               </div>
               <div className="flex justify-between">
