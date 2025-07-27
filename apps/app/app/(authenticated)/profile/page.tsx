@@ -65,8 +65,8 @@ const ProfilePage = async () => {
     <div className="container mx-auto p-6 space-y-6 bg-[#1f1f1f] min-h-screen">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">{title}</h1>
-          <p className="text-muted-foreground">{description}</p>
+          <h1 className="text-3xl font-bold">Profile</h1>
+          <p className="text-muted-foreground">Manage your account and extension settings.</p>
         </div>
       </div>
 

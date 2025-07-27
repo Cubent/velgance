@@ -40,8 +40,8 @@ const SettingsPage = async () => {
           </Link>
         </Button>
         <div>
-          <h1 className="text-3xl font-bold">{title}</h1>
-          <p className="text-muted-foreground">{description}</p>
+          <h1 className="text-3xl font-bold">Settings</h1>
+          <p className="text-muted-foreground">Manage your preferences and extension settings.</p>
         </div>
       </div>
 
