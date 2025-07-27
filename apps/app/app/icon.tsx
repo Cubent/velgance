@@ -24,6 +24,7 @@ export default function Icon() {
           borderRadius: '6px',
         }}
       >
+        {/* Cubent Logo SVG - same as header */}
         <svg
           width="24"
           height="24"
