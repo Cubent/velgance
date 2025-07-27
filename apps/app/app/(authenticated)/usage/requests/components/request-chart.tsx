@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface RequestChartData {
@@ -13,6 +14,34 @@ interface RequestChartProps {
 }
 
 export const RequestChart = ({ data }: RequestChartProps) => {
+  // Fill in missing days with zero values for the last 30 days
+  const chartData = useMemo(() => {
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 29);
+
+    const filledData = [];
+    const dataMap = new Map(data.map(item => [item.date, item]));
+
+    for (let i = 0; i < 30; i++) {
+      const currentDate = new Date(thirtyDaysAgo);
+      currentDate.setDate(thirtyDaysAgo.getDate() + i);
+      const dateStr = currentDate.toISOString().split('T')[0];
+
+      const existingData = dataMap.get(dateStr);
+      filledData.push({
+        date: currentDate.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric'
+        }),
+        requests: existingData?.requests || 0,
+        cubentUnits: existingData?.cubentUnits || 0,
+      });
+    }
+
+    return filledData;
+  }, [data]);
+
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -39,7 +68,7 @@ export const RequestChart = ({ data }: RequestChartProps) => {
   return (
     <div className="h-80 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+        <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="requestsGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#d97706" stopOpacity={0.3} />
@@ -51,15 +80,12 @@ export const RequestChart = ({ data }: RequestChartProps) => {
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#333" className="opacity-50" />
-          <XAxis 
-            dataKey="date" 
+          <XAxis
+            dataKey="date"
             axisLine={false}
             tickLine={false}
             tick={{ fill: '#9ca3af', fontSize: 12 }}
-            tickFormatter={(value) => {
-              const date = new Date(value);
-              return `${date.getMonth() + 1}/${date.getDate()}`;
-            }}
+            interval={Math.floor(chartData.length / 6)}
           />
           <YAxis 
             axisLine={false}
