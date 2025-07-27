@@ -2,7 +2,7 @@ import { webhooks } from '@repo/webhooks';
 import { notFound } from 'next/navigation';
 
 export const metadata = {
-  title: 'Webhooks',
+  title: 'Cubent Workspace',
   description: 'Send webhooks to your users.',
 };
 

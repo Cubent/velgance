@@ -2,6 +2,12 @@ import { auth } from '@clerk/nextjs/server';
 import { database } from '@repo/database';
 import { redirect } from 'next/navigation';
 import { RequestTrackingContent } from './components/request-tracking-content';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Cubent Workspace',
+  description: 'Request tracking and analytics for your API usage',
+};
 
 const RequestTrackingPage = async () => {
   const { userId } = await auth();

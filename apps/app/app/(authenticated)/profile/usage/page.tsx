@@ -5,10 +5,10 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { UsageAnalytics } from './components/usage-analytics';
 
-const title = 'Cubent Units Usage';
-const description = 'View your VS Code extension usage statistics and analytics.';
-
-export const metadata: Metadata = createMetadata({ title, description });
+export const metadata: Metadata = {
+  title: 'Cubent Workspace',
+  description: 'View your VS Code extension usage statistics and analytics.',
+};
 
 const UsagePage = async () => {
   const { userId } = await auth();

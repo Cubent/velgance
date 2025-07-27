@@ -15,7 +15,7 @@ export const generateMetadata = async ({
   const { q } = await searchParams;
 
   return {
-    title: `${q} - Search results`,
+    title: 'Cubent Workspace',
     description: `Search results for ${q}`,
   };
 };

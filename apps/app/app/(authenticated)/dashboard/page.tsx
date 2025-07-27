@@ -8,12 +8,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DashboardContent } from './components/dashboard-content';
 
-const title = 'Dashboard - Cubent';
-const description = 'API analytics and extension usage metrics';
-
 export const metadata: Metadata = {
-  title,
-  description,
+  title: 'Cubent Workspace',
+  description: 'API analytics and extension usage metrics',
 };
 
 const Dashboard = async () => {

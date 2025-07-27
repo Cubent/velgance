@@ -11,10 +11,10 @@ import Link from 'next/link';
 import { ExtensionConnectionStatus } from './components/extension-connection-status';
 import { QuickStats } from './components/quick-stats';
 
-const title = 'Profile';
-const description = 'Manage your account and extension settings.';
-
-export const metadata: Metadata = createMetadata({ title, description });
+export const metadata: Metadata = {
+  title: 'Cubent Workspace',
+  description: 'Manage your account and extension settings.',
+};
 
 const ProfilePage = async () => {
   const { userId } = await auth();

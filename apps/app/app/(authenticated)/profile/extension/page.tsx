@@ -11,10 +11,10 @@ import { ArrowLeft, Copy, RefreshCw, Unplug } from 'lucide-react';
 import { ExtensionSessionsList } from './components/extension-sessions-list';
 import { ApiKeyManager } from './components/api-key-manager';
 
-const title = 'Extension Management';
-const description = 'Manage your VS Code extension connection and settings.';
-
-export const metadata: Metadata = createMetadata({ title, description });
+export const metadata: Metadata = {
+  title: 'Cubent Workspace',
+  description: 'Manage your VS Code extension connection and settings.',
+};
 
 const ExtensionPage = async () => {
   const { userId } = await auth();

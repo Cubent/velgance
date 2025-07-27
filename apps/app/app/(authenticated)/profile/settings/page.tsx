@@ -9,10 +9,10 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { SettingsForm } from './components/settings-form';
 
-const title = 'Settings';
-const description = 'Manage your preferences and extension settings.';
-
-export const metadata: Metadata = createMetadata({ title, description });
+export const metadata: Metadata = {
+  title: 'Cubent Workspace',
+  description: 'Manage your preferences and extension settings.',
+};
 
 const SettingsPage = async () => {
   const { userId } = await auth();

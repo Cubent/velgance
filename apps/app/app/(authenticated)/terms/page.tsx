@@ -5,10 +5,10 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { TermsAcceptance } from './components/terms-acceptance';
 
-const title = 'Terms of Service';
-const description = 'Terms of service for using the Cubent VS Code extension.';
-
-export const metadata: Metadata = createMetadata({ title, description });
+export const metadata: Metadata = {
+  title: 'Cubent Workspace',
+  description: 'Terms of service for using the Cubent VS Code extension.',
+};
 
 const TermsPage = async () => {
   const { userId } = await auth();

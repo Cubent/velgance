@@ -2,6 +2,12 @@ import { auth } from '@clerk/nextjs/server';
 import { database } from '@repo/database';
 import { redirect } from 'next/navigation';
 import { TokenUsageContent } from './components/token-usage-content';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Cubent Workspace',
+  description: 'Token usage tracking and analytics for your API consumption',
+};
 
 const TokenUsagePage = async () => {
   const { userId } = await auth();
