@@ -8,7 +8,6 @@ import { createMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
-import { ExtensionConnectionStatus } from './components/extension-connection-status';
 import { QuickStats } from './components/quick-stats';
 
 export const metadata: Metadata = {
@@ -40,10 +39,6 @@ const ProfilePage = async () => {
       picture: user.imageUrl,
     },
     include: {
-      extensionSessions: {
-        where: { isActive: true },
-        orderBy: { lastActiveAt: 'desc' },
-      },
       usageMetrics: {
         orderBy: { date: 'desc' },
         take: 30, // Last 30 days
@@ -51,7 +46,6 @@ const ProfilePage = async () => {
     },
   });
 
-  const isExtensionConnected = dbUser.extensionSessions.length > 0;
   const totalUsage = dbUser.usageMetrics.reduce(
     (acc, metric) => ({
       tokensUsed: acc.tokensUsed + metric.tokensUsed,
@@ -111,22 +105,6 @@ const ProfilePage = async () => {
                 </Badge>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Extension Connection Status */}
-        <Card className="bg-[#161616]">
-          <CardHeader>
-            <CardTitle>VS Code Extension</CardTitle>
-            <CardDescription>Connection status and management</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ExtensionConnectionStatus
-              isConnected={isExtensionConnected}
-              lastSync={dbUser.lastExtensionSync}
-              activeSessions={dbUser.extensionSessions.length}
-              termsAccepted={dbUser.termsAccepted}
-            />
           </CardContent>
         </Card>
 
