@@ -225,7 +225,7 @@ const Home = async ({ params }: HomeProps) => {
               </div>
 
               {/* Feature checkmarks */}
-              <div className="flex justify-center gap-6 mb-10 flex-wrap md:flex-wrap text-xs">
+              <div className="flex justify-center gap-6 mb-6 flex-wrap md:flex-wrap text-xs">
                 <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
                   <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -259,8 +259,8 @@ const Home = async ({ params }: HomeProps) => {
               </div>
             </div>
 
-            {/* Full-width GIF container */}
-            <div className="relative w-full">
+            {/* Full-width GIF container - moved up with reduced spacing */}
+            <div className="relative w-full -mt-4">
               <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm w-full">
                 {/* Window header with dots */}
                 <div className="flex items-center justify-between px-4 py-3 bg-black/20 border-b border-white/10">
