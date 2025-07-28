@@ -295,14 +295,15 @@ const Home = async ({ params }: HomeProps) => {
                     </div>
                   </div>
                   <Image
-                    src="/images/Cubent.Dev (6).webp"
-                    alt="Cubent Dev Demo"
+                    src="/images/Introducing-Cubent-The-Smartest-AI-Coder-4.gif"
+                    alt="Cubent Dev Demo - The Smartest AI Coder"
                     width={1400}
                     height={787}
                     className="w-full h-auto"
                     style={{
                       maxWidth: '100%'
                     }}
+                    unoptimized={true}
                   />
                 </div>
               </div>
