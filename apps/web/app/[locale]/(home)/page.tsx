@@ -199,32 +199,7 @@ const Home = async ({ params }: HomeProps) => {
             borderTop: 'none'
           }}
         >
-            {/* Light blue, green & orange gradient background with grain filter */}
-            <div className="absolute inset-0 overflow-hidden">
-              {/* Gradient background that fades from bottom */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: 'linear-gradient(to top, rgba(0, 188, 212, 0.7) 0%, rgba(255, 152, 0, 0.6) 35%, rgba(76, 175, 80, 0.65) 60%, rgba(32, 32, 32, 1) 80%)',
-                }}
-              />
-              {/* Grain filter overlay */}
-              <div
-                className="absolute inset-0 opacity-65"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilterCodeSection'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilterCodeSection)'/%3E%3C/svg%3E")`,
-                  mixBlendMode: 'overlay'
-                }}
-              />
-            </div>
 
-            {/* Subtle gradient overlay on top of bars */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: 'linear-gradient(to bottom right, rgba(22, 22, 22, 0.4) 0%, transparent 50%, rgba(22, 22, 22, 0.3) 100%)'
-              }}
-            />
 
             <div className="relative z-10 p-4 md:p-12 pt-16 md:pt-12">
               <div className="text-center mb-16 md:mb-10">
@@ -282,30 +257,30 @@ const Home = async ({ params }: HomeProps) => {
                   Easy as typing
                 </div>
               </div>
+            </div>
 
-              {/* GIF with border */}
-              <div className="flex justify-center items-center w-full px-0 md:px-2">
-                <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm w-full md:max-w-6xl">
-                  {/* Window header with dots */}
-                  <div className="flex items-center justify-between px-4 py-3 bg-black/20 border-b border-white/10">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-white/40"></div>
-                      <div className="w-3 h-3 rounded-full bg-white/40"></div>
-                      <div className="w-3 h-3 rounded-full bg-white/40"></div>
-                    </div>
+            {/* Full-width GIF container */}
+            <div className="relative w-full">
+              <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm w-full">
+                {/* Window header with dots */}
+                <div className="flex items-center justify-between px-4 py-3 bg-black/20 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-white/40"></div>
+                    <div className="w-3 h-3 rounded-full bg-white/40"></div>
+                    <div className="w-3 h-3 rounded-full bg-white/40"></div>
                   </div>
-                  <Image
-                    src="/images/Introducing-Cubent-The-Smartest-AI-Coder-4.gif"
-                    alt="Cubent Dev Demo - The Smartest AI Coder"
-                    width={1400}
-                    height={787}
-                    className="w-full h-auto"
-                    style={{
-                      maxWidth: '100%'
-                    }}
-                    unoptimized={true}
-                  />
                 </div>
+                <Image
+                  src="/images/Introducing-Cubent-The-Smartest-AI-Coder-4.gif"
+                  alt="Cubent Dev Demo - The Smartest AI Coder"
+                  width={1400}
+                  height={787}
+                  className="w-full h-auto"
+                  style={{
+                    maxWidth: '100%'
+                  }}
+                  unoptimized={true}
+                />
               </div>
             </div>
         </div>
