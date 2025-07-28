@@ -158,7 +158,7 @@ export const Mockup = () => {
           {/* Left image */}
           <div className="relative">
             <Image
-              src="/images/Cubent (2).png"
+              src="/images/4.png"
               alt="Stay in sync with a real-time panel that knows your project"
               width={800}
               height={600}
@@ -168,7 +168,7 @@ export const Mockup = () => {
           {/* Right image */}
           <div className="relative">
             <Image
-              src="/images/Cubent (3).png"
+              src="/images/3.png"
               alt="Sit back while it handles the heavy lifting, step by step"
               width={800}
               height={600}
@@ -187,7 +187,7 @@ export const Mockup = () => {
             {/* Mobile only image */}
             <div className="block md:hidden mb-6">
               <Image
-                src="/images/Cubent (2).png"
+                src="/images/4.png"
                 alt="Stay in sync with a real-time panel that knows your project"
                 width={800}
                 height={600}
@@ -206,7 +206,7 @@ export const Mockup = () => {
             {/* Mobile only image */}
             <div className="block md:hidden mb-6">
               <Image
-                src="/images/Cubent (3).png"
+                src="/images/3.png"
                 alt="Sit back while it handles the heavy lifting, step by step"
                 width={800}
                 height={600}
