@@ -263,7 +263,7 @@ const Home = async ({ params }: HomeProps) => {
             <div className="relative w-full -mt-8">
               <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm w-full">
                 {/* Window header with dots */}
-                <div className="flex items-center justify-between px-4 py-3 bg-black/20 border-b border-white/10">
+                <div className="flex items-center justify-between px-4 py-3 bg-black/10 border-b border-white/10">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-white/40"></div>
                     <div className="w-3 h-3 rounded-full bg-white/40"></div>
