@@ -53,7 +53,7 @@ export const Hero = async ({ dictionary }: HeroProps) => (
           <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
           <Button
             variant="outline"
-            className="bg-white border-white text-black hover:bg-gray-100 px-8 py-4 text-lg font-medium sm:px-8 sm:py-4 sm:text-lg"
+            className="bg-white border-white text-black hover:bg-gray-100 px-8 py-4 text-lg font-normal sm:px-8 sm:py-4 sm:text-lg !bg-white !border-white"
             asChild
           >
             <Link href="https://marketplace.visualstudio.com/items?itemName=Cubent.cubent" target="_blank" rel="noopener noreferrer">
