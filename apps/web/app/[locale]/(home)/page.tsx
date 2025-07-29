@@ -91,7 +91,7 @@ const Home = async ({ params }: HomeProps) => {
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'radial-gradient(ellipse 800px 600px at center, rgba(255, 255, 255, 0.02) 0%, transparent 50%)'
+              background: 'radial-gradient(ellipse 800px 600px at center, rgba(255, 255, 255, 0.06) 0%, transparent 50%)'
             }}
           ></div>
 
@@ -177,11 +177,11 @@ const Home = async ({ params }: HomeProps) => {
             <div className="relative w-full -mt-8">
               <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm w-full">
                 {/* Window header with dots */}
-                <div className="flex items-center justify-between px-4 py-3 bg-black/10 border-b border-white/10">
+                <div className="flex items-center justify-between px-4 py-3 bg-black/5 border-b border-white/5">
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-white/40"></div>
-                    <div className="w-3 h-3 rounded-full bg-white/40"></div>
-                    <div className="w-3 h-3 rounded-full bg-white/40"></div>
+                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
+                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
+                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
                   </div>
                 </div>
                 <Image
