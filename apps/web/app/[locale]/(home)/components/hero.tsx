@@ -53,18 +53,18 @@ export const Hero = async ({ dictionary }: HeroProps) => (
           <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
           <Button
             variant="outline"
-            className="hover:bg-gray-700 px-8 py-5 text-lg font-medium sm:px-8 sm:py-5 sm:text-lg"
-            style={{ backgroundColor: '#2a2a2a', borderColor: '#2a2a2a', color: '#faf9f6' }}
+            className="hover:bg-gray-200 px-8 py-5 text-lg font-medium sm:px-8 sm:py-5 sm:text-lg"
+            style={{ backgroundColor: '#faf9f6', borderColor: '#faf9f6', color: '#2a2a2a' }}
             asChild
           >
             <Link href="https://marketplace.visualstudio.com/items?itemName=Cubent.cubent" target="_blank" rel="noopener noreferrer">
               <div className="flex items-center gap-3 sm:gap-3">
-                <div className="flex items-center justify-center w-8 h-8 rounded" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}>
-                  <svg className="w-5 h-5 sm:w-5 sm:h-5" style={{ color: '#faf9f6' }} viewBox="0 0 24 24" fill="currentColor">
+                <div className="flex items-center justify-center w-8 h-8 rounded" style={{ backgroundColor: 'rgba(42, 42, 42, 0.1)' }}>
+                  <svg className="w-5 h-5 sm:w-5 sm:h-5" style={{ color: '#2a2a2a' }} viewBox="0 0 24 24" fill="currentColor">
                     <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/>
                   </svg>
                 </div>
-                <span style={{ color: '#faf9f6' }}>Install in VS Code</span>
+                <span style={{ color: '#2a2a2a' }}>Install in VS Code</span>
               </div>
             </Link>
           </Button>
