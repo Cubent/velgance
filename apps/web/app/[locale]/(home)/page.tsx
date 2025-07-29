@@ -11,6 +11,7 @@ import { FAQ } from './components/faq';
 import { Hero } from './components/hero';
 import { Mockup } from './components/mockup';
 import { ModelProviders } from './components/model-providers';
+import { SpeedSection } from './components/speed-section';
 import { Stats } from './components/stats';
 import { Testimonials } from './components/testimonials';
 import { TrustedBy } from './components/trusted-by';
@@ -289,6 +290,7 @@ const Home = async ({ params }: HomeProps) => {
       <Mockup />
 
       <ModelProviders />
+      <SpeedSection />
       <Community dictionary={dictionary} />
       <Download />
     </>
