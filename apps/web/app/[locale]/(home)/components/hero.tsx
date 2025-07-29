@@ -53,7 +53,7 @@ export const Hero = async ({ dictionary }: HeroProps) => (
           <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
           <Button
             variant="outline"
-            className="px-4 py-3 text-lg font-medium sm:px-4 sm:py-3 sm:text-lg transition-all duration-200 group hover:!bg-[#2a2a2a] hover:!border-[#2a2a2a]"
+            className="px-4 py-5 text-lg font-medium sm:px-4 sm:py-5 sm:text-lg transition-all duration-200 group hover:!bg-[#2a2a2a] hover:!border-[#2a2a2a]"
             style={{ backgroundColor: '#faf9f6', borderColor: '#faf9f6', color: '#2a2a2a' }}
             asChild
           >
