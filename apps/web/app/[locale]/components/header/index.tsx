@@ -98,13 +98,29 @@ export const Header = ({ dictionary }: HeaderProps) => {
   return (
     <header className="sticky top-0 left-0 z-40 w-full bg-background/20 backdrop-blur-md supports-[backdrop-filter]:bg-background/10">
       {/* Early Access Banner */}
-      <div className="w-full bg-gray-800/60 border-b border-gray-600/20 text-gray-200 py-2.5 px-4 text-center text-sm backdrop-blur-sm">
-        <span className="font-medium">Early Access:</span> We released the Byok plan -
-        <Button variant="link" className="text-gray-200 hover:text-white underline p-0 ml-1 h-auto font-medium text-sm" asChild>
-          <Link href="https://app.cubent.dev/sign-in">
-            Start your free trial
-          </Link>
-        </Button>
+      <div
+        className="w-full border-b border-gray-600/20 text-gray-200 py-2.5 px-4 text-center text-sm relative overflow-hidden"
+        style={{ backgroundColor: '#161616' }}
+      >
+        {/* Small radial gradient points */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(circle 80px at 15% 50%, rgba(255, 255, 255, 0.04) 0%, transparent 70%),
+              radial-gradient(circle 60px at 85% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%),
+              radial-gradient(circle 70px at 50% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 70%)
+            `
+          }}
+        />
+        <div className="relative z-10">
+          <span className="font-medium">Early Access:</span> We released the Byok plan -
+          <Button variant="link" className="p-0 ml-1 h-auto font-medium text-sm" asChild>
+            <Link href="https://app.cubent.dev/sign-in" className="bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent hover:text-transparent underline">
+              Start your free trial
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="border-b">

@@ -87,13 +87,7 @@ const Home = async ({ params }: HomeProps) => {
             backgroundColor: 'transparent'
           }}
         >
-          {/* Subtle centered white gradient */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(ellipse 800px 600px at center, rgba(255, 255, 255, 0.06) 0%, transparent 50%)'
-            }}
-          ></div>
+
 
 
 
@@ -115,16 +109,32 @@ const Home = async ({ params }: HomeProps) => {
         >
 
 
-            <div className="relative z-10 p-4 md:p-12 pt-16 md:pt-12">
-              <div className="text-center mb-16 md:mb-10">
-                <h2 className="text-3xl md:text-4xl text-white leading-tight">
-                  Code faster and smarter
-                </h2>
-                <p className="text-xl md:text-2xl text-white/60 -mt-1">
-                  without leaving your editor
-                </p>
+            {/* Full-width GIF container */}
+            <div className="relative w-full mt-2 px-4 mb-8">
+              <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm w-full">
+                {/* Window header with dots */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-white/5" style={{backgroundColor: '#161616'}}>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
+                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
+                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
+                  </div>
+                </div>
+                <Image
+                  src="/images/Introducing-Cubent-The-Smartest-AI-Coder-4.gif"
+                  alt="Cubent Dev Demo - The Smartest AI Coder"
+                  width={1400}
+                  height={787}
+                  className="w-full h-auto"
+                  style={{
+                    maxWidth: '100%'
+                  }}
+                  unoptimized={true}
+                />
               </div>
+            </div>
 
+            <div className="relative z-10 p-3 md:p-4 pt-16 md:pt-12">
               {/* Feature tabs */}
               <div className="flex justify-center gap-3 mb-6 flex-wrap md:flex-wrap">
                 <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs whitespace-nowrap">
@@ -139,7 +149,7 @@ const Home = async ({ params }: HomeProps) => {
               </div>
 
               {/* Feature checkmarks */}
-              <div className="flex justify-center gap-6 mb-10 flex-wrap md:flex-wrap text-xs">
+              <div className="flex justify-center gap-3 md:gap-6 mb-10 flex-wrap md:flex-wrap text-xs">
                 <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
                   <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -170,31 +180,6 @@ const Home = async ({ params }: HomeProps) => {
                   </svg>
                   Easy as typing
                 </div>
-              </div>
-            </div>
-
-            {/* Full-width GIF container */}
-            <div className="relative w-full -mt-8">
-              <div className="relative border border-white/20 overflow-hidden bg-black/40 backdrop-blur-sm w-full">
-                {/* Window header with dots */}
-                <div className="flex items-center justify-between px-4 py-3 bg-black/5 border-b border-white/5">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                  </div>
-                </div>
-                <Image
-                  src="/images/Introducing-Cubent-The-Smartest-AI-Coder-4.gif"
-                  alt="Cubent Dev Demo - The Smartest AI Coder"
-                  width={1400}
-                  height={787}
-                  className="w-full h-auto"
-                  style={{
-                    maxWidth: '100%'
-                  }}
-                  unoptimized={true}
-                />
               </div>
             </div>
         </div>

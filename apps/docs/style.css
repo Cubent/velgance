@@ -1,0 +1,45 @@
+/* Custom CSS to make the logo bigger */
+.nav-logo {
+  width: 140px !important;
+  height: auto !important;
+  max-width: 140px !important;
+  min-width: 140px !important;
+  margin-left: -10px !important;
+  margin-top: 8px !important;
+  margin-bottom: -5px !important;
+  padding-bottom: 0 !important;
+}
+
+.nav-logo img {
+  width: 140px !important;
+  height: auto !important;
+  max-width: 140px !important;
+  min-width: 140px !important;
+  margin-bottom: -5px !important;
+  padding-bottom: 0 !important;
+}
+
+.nav-logo svg {
+  width: 140px !important;
+  height: auto !important;
+  max-width: 140px !important;
+  min-width: 140px !important;
+  margin-bottom: -5px !important;
+  padding-bottom: 0 !important;
+}
+
+/* Ensure the navbar can accommodate the larger logo */
+#navbar {
+  min-height: 80px !important;
+  padding-bottom: 5px !important;
+}
+
+/* Make sure the logo container has enough space */
+.nav-logo-container {
+  width: 140px !important;
+  min-width: 140px !important;
+  margin-left: -10px !important;
+  margin-top: 8px !important;
+  margin-bottom: -5px !important;
+  padding-bottom: 0 !important;
+}

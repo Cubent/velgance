@@ -48,24 +48,25 @@ const technologies = [
 
 export const LogoGridRectangular = () => {
   return (
-    <div className="w-full" style={{ backgroundColor: '#161616' }}>
+    <div className="w-full pb-8" style={{ backgroundColor: '#161616' }}>
       <div
         className="mx-auto max-w-6xl"
         style={{
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderTop: 'none'
+          border: '1px solid rgba(255, 255, 255, 0.08)'
         }}
       >
         <div className="grid grid-cols-5">
           {technologies.map((tech, index) => (
             <div
               key={tech.name}
-              className="flex flex-col items-center justify-center py-8 bg-neutral-900 text-white/70"
+              className="flex flex-col items-center justify-center py-6 bg-neutral-900 text-white/70 hover:text-white hover:bg-neutral-800 transition-all duration-300 group"
               style={{
                 borderRight: index < technologies.length - 1 ? '1px solid rgb(64 64 64)' : 'none'
               }}
             >
-              {tech.icon}
+              <div className="transform group-hover:scale-110 transition-transform duration-300">
+                {tech.icon}
+              </div>
               <span className="text-xs font-medium">{tech.name}</span>
             </div>
           ))}

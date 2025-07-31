@@ -175,13 +175,14 @@
     },
     "blog": {
       "meta": {
-        "title": "Blog | Cubent – Next-Gen Agentic AI for Software",
-        "description": "Read the latest from the Cubent blog updates, insights, and deep dives into agentic AI, coding workflows, product launches, and developer tools."
+        "title": "Blog | Cubent",
+        "description": "Read the latest from the Cubent blog updates, insights, and deep dives into agentic AI, coding workflows, product launches, and developer tools.",
+        "noSuffix": true
       }
     },
     "pricing": {
       "meta": {
-        "title": "Pricing | Cubent – Next-Gen Agentic AI for Software",
+        "title": "Pricing | Cubent",
         "description": "Explore our pricing that's simple, affordable plans with BYAK support. Get started free, then upgrade for powerful agentic AI coding without breaking the bank.",
         "noSuffix": true
       }

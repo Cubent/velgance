@@ -394,7 +394,7 @@ const PricingClient = () => {
                 <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
                   {/* Header */}
                   <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-blue-400 via-blue-500 via-orange-400 to-blue-300 bg-clip-text text-transparent text-sm font-medium tracking-wider uppercase">
+                    <div className="bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent text-sm font-medium tracking-wider uppercase">
                       — Let's Code
                     </div>
                     <h2 className="text-white font-regular text-3xl tracking-tighter md:text-5xl leading-tight">

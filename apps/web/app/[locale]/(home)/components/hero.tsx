@@ -7,7 +7,7 @@ import { ExternalLink, MoveRight, PhoneCall, Lock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AnimatedTitle } from './animated-title';
-import { TrustedBy } from './trusted-by';
+import { LogoGridRectangular } from './logo-grid-rectangular';
 
 type HeroProps = {
   dictionary: Dictionary;
@@ -24,8 +24,8 @@ export const Hero = async ({ dictionary }: HeroProps) => (
 
 
 
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col items-center justify-center gap-8 pt-6 pb-8 lg:pt-12 lg:pb-12">
+    <div className="container mx-auto pl-2">
+      <div className="flex flex-col items-start justify-center gap-8 pt-6 pb-8 lg:pt-12 lg:pb-12">
         <div>
           <Feed queries={[blog.latestPostQuery]}>
             {/* biome-ignore lint/suspicious/useAwait: "Server Actions must be async" */}
@@ -43,17 +43,17 @@ export const Hero = async ({ dictionary }: HeroProps) => (
             }}
           </Feed>
         </div>
-        <div className="flex flex-col gap-6 relative">
-          <div className="flex flex-col gap-6 relative">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 relative items-start lg:items-center">
+          <div className="flex flex-col gap-6 relative flex-1">
             <AnimatedTitle />
-            <p className="max-w-3xl mx-auto text-center text-lg text-muted-foreground leading-relaxed tracking-tight md:text-xl relative z-10">
+            <p className="w-full lg:max-w-xl text-left text-base text-muted-foreground leading-relaxed tracking-tight md:text-lg relative z-10">
               Meet Cubent.Dev, your AI coding partner inside the editor. Generate code, solve bugs, document faster, and build smarter with simple language.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
+          <div className="flex flex-col gap-4 lg:flex-shrink-0 lg:ml-60">
           <Button
             variant="outline"
-            className="px-4 py-5 text-lg font-medium sm:px-4 sm:py-5 sm:text-lg transition-all duration-200 group hover:!bg-[#2a2a2a] hover:!border-[#2a2a2a]"
+            className="px-10 py-6 text-sm font-medium transition-all duration-200 group hover:!bg-[#2a2a2a] hover:!border-[#2a2a2a] rounded-full flex items-center"
             style={{ backgroundColor: '#faf9f6', borderColor: '#faf9f6', color: '#2a2a2a' }}
             asChild
           >
@@ -64,13 +64,21 @@ export const Hero = async ({ dictionary }: HeroProps) => (
               className="transition-all duration-200"
             >
               <div className="flex items-center gap-2 sm:gap-2">
-                <div className="flex items-center justify-center w-8 h-8 rounded transition-all duration-200 group-hover:bg-[rgba(250,249,246,0.1)]" style={{ backgroundColor: 'rgba(42, 42, 42, 0.1)' }}>
-                  <svg className="w-5 h-5 sm:w-5 sm:h-5 transition-all duration-200 group-hover:!text-[#faf9f6]" style={{ color: '#2a2a2a' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/>
-                  </svg>
-                </div>
+                <svg className="w-5 h-5 sm:w-5 sm:h-5 transition-all duration-200 group-hover:!text-[#faf9f6]" style={{ color: '#2a2a2a' }} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/>
+                </svg>
                 <span className="transition-all duration-200 group-hover:!text-[#faf9f6]" style={{ color: '#2a2a2a' }}>Install in VS Code</span>
               </div>
+            </Link>
+          </Button>
+
+          <Button
+            variant="outline"
+            asChild
+            className="text-white hover:text-white hover:bg-white/10 py-3 flex items-center border border-white/20 rounded-full px-6"
+          >
+            <Link href="/docs">
+              Read the docs
             </Link>
           </Button>
           </div>
@@ -78,8 +86,8 @@ export const Hero = async ({ dictionary }: HeroProps) => (
       </div>
     </div>
 
-    {/* Company logos section moved above GIF */}
-    <TrustedBy dictionary={dictionary} />
+    {/* Company logos section with rectangular borders */}
+    <LogoGridRectangular />
 
 
 

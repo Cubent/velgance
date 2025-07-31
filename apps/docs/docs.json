@@ -1,15 +1,24 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Cubent Coder Documentation",
+  "name": "Cubent Documentation",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
-  "favicon": "/favicon.svg",
+  "favicon": {
+    "light": "/favicon.png?v=2",
+    "dark": "/favicon.png?v=2"
+  },
   "colors": {
-    "primary": "#f97316",
-    "light": "#fb923c",
-    "dark": "#ea580c"
+    "primary": "#ffffff",
+    "light": "#ffffff",
+    "dark": "#ffffff"
+  },
+  "background": {
+    "color": {
+      "light": "#ffffff",
+      "dark": "#161616"
+    }
   },
   "theme": "mint",
   "topbarLinks": [

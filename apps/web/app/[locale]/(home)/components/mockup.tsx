@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { X } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { AnimatedScrollText } from './animated-scroll-text';
 
 // Feature data
 const features = [
@@ -110,22 +111,11 @@ export const Mockup = () => {
         }}
       >
 
-        {/* Top section - Title on left, description on right */}
-        <div className="relative z-10 flex flex-col lg:flex-row gap-10 lg:gap-20 items-start mb-20 lg:mb-24">
-        {/* Left side - Title */}
-        <div className="flex-1 max-w-md">
-          <h2 className="text-4xl lg:text-5xl font-regular tracking-tighter text-white">
-            An AI that vibes with your code and keeps up with your flow.
-          </h2>
-        </div>
-
-        {/* Right side - Description */}
-        <div className="flex-1 max-w-lg">
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Cubent transforms how developers work by providing intelligent, context-aware assistance that learns from your codebase. From instant screenshot-to-code conversion to deep architectural understanding, we're building the future of software development.
-          </p>
-        </div>
-      </div>
+        {/* Top section - Animated title and description */}
+        <AnimatedScrollText
+          title="An AI that vibes with your code and keeps up with your flow."
+          description="Cubent transforms how developers work by providing intelligent, context-aware assistance that learns from your codebase. From instant screenshot-to-code conversion to deep architectural understanding, we're building the future of software development."
+        />
 
       {/* Vertical lines section */}
       <div className="relative z-10 mb-20 lg:mb-24 -mx-6 sm:-mx-8 lg:-mx-12">
