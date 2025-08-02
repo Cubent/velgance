@@ -77,7 +77,7 @@ export const Hero = async ({ dictionary }: HeroProps) => (
             asChild
             className="text-white hover:text-white hover:bg-white/10 py-3 flex items-center border border-white/20 rounded-full px-6"
           >
-            <Link href="/docs">
+            <Link href="https://docs.cubent.dev">
               Read the docs
             </Link>
           </Button>
