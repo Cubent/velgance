@@ -48,7 +48,7 @@ export const AnimatedTitle = () => {
   }, []);
 
   return (
-    <h1 className="w-full lg:max-w-2xl text-left font-regular text-[56px] tracking-tighter md:text-7xl relative z-10 leading-tight">
+    <h1 className="w-full lg:max-w-2xl text-left font-regular text-[42px] tracking-tighter md:text-7xl relative z-10 leading-tight">
       Built to optimize.<br />
       Trained to <span className="bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent">{currentText}</span>
       <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent`}>|</span>
