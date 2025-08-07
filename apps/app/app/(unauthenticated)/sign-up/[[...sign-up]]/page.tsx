@@ -1,13 +1,32 @@
 import { createMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
 import { SignUp } from '@repo/auth/components/sign-up';
+import { redirect } from 'next/navigation';
 
 const title = 'Create an account';
 const description = 'Enter your details to get started.';
 
 export const metadata: Metadata = createMetadata({ title, description });
 
-const SignUpPage = () => (
+type SignUpPageProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+const SignUpPage = async ({ searchParams }: SignUpPageProps) => {
+  const params = await searchParams;
+
+  // Handle device OAuth flow - redirect to login page with device parameters
+  if (params.device_id && params.state) {
+    redirect(`/login?device_id=${params.device_id}&state=${params.state}`);
+  }
+
+  // Handle redirect_url parameter by updating the fallback redirect URL
+  let fallbackRedirectUrl = '/auth-success';
+  if (params.redirect_url) {
+    fallbackRedirectUrl = `/auth-success?redirect_url=${encodeURIComponent(params.redirect_url)}`;
+  }
+
+  return (
   <>
     <div className="flex flex-col space-y-3 text-center">
       <div className="space-y-2">
@@ -18,7 +37,7 @@ const SignUpPage = () => (
       </div>
 
     </div>
-    <SignUp />
+    <SignUp fallbackRedirectUrl={fallbackRedirectUrl} />
     {/* Privacy and Terms text */}
     <div className="text-center text-xs text-muted-foreground mt-4">
       By creating an account, you agree to our{' '}
@@ -54,6 +73,7 @@ const SignUpPage = () => (
       .
     </div>
   </>
-);
+  );
+};
 
 export default SignUpPage;

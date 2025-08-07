@@ -170,7 +170,7 @@ export const Mockup = () => {
         {/* Text content directly below images with more spacing */}
         <div ref={textScrollRef} className="md:grid md:grid-cols-2 md:gap-8 flex md:flex-none overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none px-6 sm:px-8 lg:px-12 mt-16 mb-0 relative">
           {/* Center divider line - only on desktop */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 transform -translate-x-1/2"></div>
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gray-600 transform -translate-x-1/2"></div>
 
           {/* Left section - Image + Text */}
           <div className="flex-shrink-0 w-[85vw] md:w-auto snap-center md:snap-align-none max-w-md mx-auto text-left">
