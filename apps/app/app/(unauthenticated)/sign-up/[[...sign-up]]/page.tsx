@@ -23,7 +23,8 @@ const SignUpPage = async ({ searchParams }: SignUpPageProps) => {
   // Handle redirect_url parameter by updating the fallback redirect URL
   let fallbackRedirectUrl = '/auth-success';
   if (params.redirect_url) {
-    fallbackRedirectUrl = `/auth-success?redirect_url=${encodeURIComponent(params.redirect_url)}`;
+    const redirectUrl = Array.isArray(params.redirect_url) ? params.redirect_url[0] : params.redirect_url;
+    fallbackRedirectUrl = `/auth-success?redirect_url=${encodeURIComponent(redirectUrl)}`;
   }
 
   return (
