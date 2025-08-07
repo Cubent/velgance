@@ -148,7 +148,7 @@ export const Mockup = () => {
           {/* Left image */}
           <div className="relative">
             <Image
-              src="/images/4.png"
+              src="/images/5.png"
               alt="Stay in sync with a real-time panel that knows your project"
               width={800}
               height={600}
@@ -158,7 +158,7 @@ export const Mockup = () => {
           {/* Right image */}
           <div className="relative">
             <Image
-              src="/images/3.png"
+              src="/images/4.png"
               alt="Sit back while it handles the heavy lifting, step by step"
               width={800}
               height={600}
@@ -177,7 +177,7 @@ export const Mockup = () => {
             {/* Mobile only image */}
             <div className="block md:hidden mb-6">
               <Image
-                src="/images/4.png"
+                src="/images/5.png"
                 alt="Stay in sync with a real-time panel that knows your project"
                 width={800}
                 height={600}
@@ -196,7 +196,7 @@ export const Mockup = () => {
             {/* Mobile only image */}
             <div className="block md:hidden mb-6">
               <Image
-                src="/images/3.png"
+                src="/images/4.png"
                 alt="Sit back while it handles the heavy lifting, step by step"
                 width={800}
                 height={600}
@@ -257,7 +257,7 @@ export const Mockup = () => {
               {/* Mobile image - shown only on mobile at top */}
               <div className="block lg:hidden mb-6">
                 <img
-                  src="/images/Cubent.Dev (62).png"
+                  src="/images/Cubent.Dev (64).png"
                   alt="Cubent MCP Tools interface"
                   className="w-full h-auto object-cover border border-gray-600 rounded"
                 />
@@ -283,7 +283,7 @@ export const Mockup = () => {
             <div className="hidden lg:block relative h-full -mr-6 sm:-mr-8 lg:-mr-12">
               <div className="aspect-square w-full absolute -top-24 lg:-top-36 right-0">
                 <img
-                  src="/images/Cubent.Dev (62).png"
+                  src="/images/Cubent.Dev (64).png"
                   alt="Cubent MCP Tools interface"
                   className="w-full h-full object-cover"
                 />
@@ -335,7 +335,7 @@ export const Mockup = () => {
             <div className="hidden lg:block relative h-full -ml-6 sm:-ml-8 lg:-ml-12">
               <div className="aspect-square w-full absolute -top-24 lg:-top-36 left-0">
                 <img
-                  src="/images/45.png"
+                  src="/images/Cubent.Dev (63).png"
                   alt="Cubent Autocomplete interface"
                   className="w-full h-full object-cover"
                 />
@@ -347,7 +347,7 @@ export const Mockup = () => {
               {/* Mobile image - shown only on mobile at top */}
               <div className="block lg:hidden mb-6">
                 <img
-                  src="/images/45.png"
+                  src="/images/Cubent.Dev (63).png"
                   alt="Cubent Autocomplete interface"
                   className="w-full h-auto object-cover border border-gray-600 rounded"
                 />
