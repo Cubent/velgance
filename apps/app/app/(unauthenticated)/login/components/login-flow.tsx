@@ -77,10 +77,10 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
         <div className="flex flex-col space-y-3 text-center">
           <div className="space-y-2">
             <h1 className="font-semibold text-2xl tracking-tight text-white">
-              Login Successful!
+              Redirecting to VS Code
             </h1>
             <p className="text-white text-sm leading-relaxed">
-              Your VS Code extension has been authorized successfully.
+              Click the popup notification to continue in VS Code.
             </p>
           </div>
         </div>
@@ -95,7 +95,7 @@ export const LoginFlow = ({ deviceId, state, user }: LoginFlowProps) => {
               </div>
             </div>
             <p className="text-sm text-gray-700">
-              You can now return to VS Code. The extension should automatically detect the authorization.
+              Please click on the popup to return to VS Code and complete the authorization.
             </p>
             <Button
               onClick={() => window.location.href = 'https://app.cubent.dev/dashboard'}
