@@ -63,15 +63,7 @@ export function CompactTrialBadge() {
   }
 
   if (trialStatus.trialExpired) {
-    return (
-      <Button
-        onClick={handleUpgrade}
-        size="sm"
-        className="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 h-7"
-      >
-        Byok Trial Expired
-      </Button>
-    );
+    return null; // Just hide it instead of showing "Byok Trial Expired"
   }
 
   return (
