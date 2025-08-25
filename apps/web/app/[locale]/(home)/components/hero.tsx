@@ -13,7 +13,8 @@ type HeroProps = {
   dictionary: Dictionary;
 };
 
-// Hero component for the homepage - updated
+// Hero component for the homepage - updated with new comment
+// This is the main hero section that displays the primary call-to-action and introduction
 export const Hero = async ({ dictionary }: HeroProps) => (
   <div className="w-full relative overflow-hidden">
 
