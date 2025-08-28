@@ -4,6 +4,28 @@ import { useEffect, useRef, useState, createElement, useMemo, useCallback } from
 import { gsap } from "gsap";
 import "./TextType.css";
 
+interface TextTypeProps {
+  text: string | string[];
+  as?: keyof JSX.IntrinsicElements;
+  typingSpeed?: number;
+  initialDelay?: number;
+  pauseDuration?: number;
+  deletingSpeed?: number;
+  loop?: boolean;
+  className?: string;
+  showCursor?: boolean;
+  hideCursorWhileTyping?: boolean;
+  cursorCharacter?: string;
+  cursorClassName?: string;
+  cursorBlinkDuration?: number;
+  textColors?: string[];
+  variableSpeed?: boolean;
+  onSentenceComplete?: (text: string, index: number) => void;
+  startOnVisible?: boolean;
+  reverseMode?: boolean;
+  [key: string]: any;
+}
+
 const TextType = ({
   text,
   as: Component = "div",
@@ -24,7 +46,7 @@ const TextType = ({
   startOnVisible = false,
   reverseMode = false,
   ...props
-}) => {
+}: TextTypeProps) => {
   const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
   const [displayedText, setDisplayedText] = useState(textArray[0] || "");
