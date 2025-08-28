@@ -105,7 +105,7 @@ const TextType = ({
   useEffect(() => {
     if (!isVisible || !isInitialized) return;
 
-    let timeout;
+    let timeout: NodeJS.Timeout;
     const currentText = textArray[currentTextIndex];
     const processedText = reverseMode
       ? currentText.split("").reverse().join("")
