@@ -19,7 +19,7 @@ interface TextTypeProps {
   cursorClassName?: string;
   cursorBlinkDuration?: number;
   textColors?: string[];
-  variableSpeed?: boolean;
+  variableSpeed?: boolean | { min: number; max: number };
   onSentenceComplete?: (text: string, index: number) => void;
   startOnVisible?: boolean;
   reverseMode?: boolean;
@@ -59,7 +59,7 @@ const TextType = ({
   const containerRef = useRef(null);
 
   const getRandomSpeed = useCallback(() => {
-    if (!variableSpeed) return typingSpeed;
+    if (!variableSpeed || typeof variableSpeed === 'boolean') return typingSpeed;
     const { min, max } = variableSpeed;
     return Math.random() * (max - min) + min;
   }, [variableSpeed, typingSpeed]);
