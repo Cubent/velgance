@@ -326,10 +326,8 @@ export const Community = ({ dictionary }: CommunityProps) => {
   return (
     <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
       <div
-        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 lg:py-36 relative overflow-hidden"
+        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-16 relative overflow-hidden"
         style={{
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderTop: 'none',
           backgroundColor: 'transparent'
         }}
       >
@@ -337,7 +335,7 @@ export const Community = ({ dictionary }: CommunityProps) => {
           {/* Header */}
           <div className="text-center">
             <h2 className="text-white font-regular text-3xl tracking-tighter md:text-5xl mb-4">
-              Join the community
+              World-class developers use Cubent
             </h2>
             <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
               Discover what our community has to say about their Cubent experience.

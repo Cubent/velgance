@@ -48,10 +48,17 @@ export const AnimatedTitle = () => {
   }, []);
 
   return (
-    <h1 className="w-full lg:max-w-2xl text-left font-regular text-[42px] tracking-tighter md:text-7xl relative z-10 leading-tight">
-      Built to optimize.<br />
-      Trained to <span className="bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent">{currentText}</span>
-      <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent`}>|</span>
+    <h1 className="w-full text-center font-regular text-[46px] tracking-tighter md:text-8xl relative z-10 leading-tight">
+      <span className="bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
+        Built to optimize.<br />
+        Trained to{' '}
+      </span>
+      <span className="inline-block min-w-[120px] text-left">
+        <span className="bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent">
+          {currentText}
+        </span>
+        <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 bg-gradient-to-r from-blue-600 via-orange-500 to-blue-400 bg-clip-text text-transparent`}>|</span>
+      </span>
     </h1>
   );
 };

@@ -4,10 +4,8 @@ export const ModelProviders = () => {
   return (
     <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
       <div
-        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 lg:py-36 relative"
+        className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 lg:py-16 relative"
         style={{
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderTop: 'none',
           backgroundColor: 'transparent'
         }}
       >
@@ -101,6 +99,9 @@ export const ModelProviders = () => {
             </div>
           </div>
         </div>
+
+        {/* Light separator line */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white/8"></div>
       </div>
     </div>
   );

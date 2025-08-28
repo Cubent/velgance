@@ -85,3 +85,21 @@
 .blog-page header {
   background: rgba(22, 22, 22, 0.95) !important;
 }
+
+/* Aurora Background Animation */
+@keyframes aurora {
+  from {
+    background-position:
+      50% 50%,
+      50% 50%;
+  }
+  to {
+    background-position:
+      350% 50%,
+      350% 50%;
+  }
+}
+
+.animate-aurora {
+  animation: aurora 60s linear infinite;
+}

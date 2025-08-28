@@ -6,8 +6,8 @@ import type { Dictionary } from '@repo/internationalization';
 import { ExternalLink, MoveRight, PhoneCall, Lock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { AnimatedTitle } from './animated-title';
-import { LogoGridRectangular } from './logo-grid-rectangular';
+import LightRays from './LightRays';
+import TextType from './TextType';
 
 type HeroProps = {
   dictionary: Dictionary;
@@ -17,6 +17,21 @@ type HeroProps = {
 // This is the main hero section that displays the primary call-to-action and introduction
 export const Hero = async ({ dictionary }: HeroProps) => (
   <div className="w-full relative overflow-hidden">
+    {/* Light Rays Effect - extends behind header */}
+    {/* <div className="fixed inset-0 z-0" style={{ top: '-100px', height: 'calc(100vh + 200px)' }}>
+      <LightRays
+        raysOrigin="top-center"
+        raysColor="#ffffff"
+        raysSpeed={0.5}
+        lightSpread={0.8}
+        rayLength={1.2}
+        followMouse={true}
+        mouseInfluence={0.1}
+        noiseAmount={0.1}
+        distortion={0.05}
+        className="custom-rays"
+      />
+    </div> */}
 
 
 
@@ -25,12 +40,12 @@ export const Hero = async ({ dictionary }: HeroProps) => (
 
 
 
-    <div className="container mx-auto pl-2">
-      <div className="flex flex-col items-start justify-center gap-8 pt-6 pb-8 lg:pt-12 lg:pb-12">
-        <div>
+    <div className="container mx-auto px-4">
+      <div className="flex flex-col items-center justify-center gap-8 pt-10 pb-4 lg:pt-12 lg:pb-12">
+        {/* <div>
           <Feed queries={[blog.latestPostQuery]}>
             {/* biome-ignore lint/suspicious/useAwait: "Server Actions must be async" */}
-            {async ([data]: [any]) => {
+            {/* {async ([data]: [any]) => {
               'use server';
 
               return (
@@ -43,15 +58,46 @@ export const Hero = async ({ dictionary }: HeroProps) => (
               );
             }}
           </Feed>
-        </div>
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 relative items-start lg:items-center">
-          <div className="flex flex-col gap-6 relative flex-1">
-            <AnimatedTitle />
-            <p className="w-full lg:max-w-xl text-left text-base text-muted-foreground leading-relaxed tracking-tight md:text-lg relative z-10">
-              Meet Cubent.Dev, your AI coding partner inside the editor. Generate code, solve bugs, document faster, and build smarter with simple language.
+        </div> */}
+        <div className="flex flex-col items-center gap-8 relative text-center">
+          <div className="flex flex-col gap-6 relative">
+            {/* Announcement above title */}
+            <div className="mb-4 flex justify-center">
+              <a
+                href="http://localhost:3001/blog/gpt-5-is-now-here-in-cubent"
+                className="inline-flex items-center justify-center gap-3 font-medium text-sm px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-200"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+                </span>
+                <span className="text-white/90">GPT-5 is now here in Cubent</span>
+                <svg className="w-3 h-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+
+            <h1 className="w-full text-center font-regular text-[52px] tracking-tighter md:text-8xl relative z-10 leading-tight">
+              <span style={{ color: '#e3e3e0' }}>
+                Code smarter.<br />
+                {/* @ts-ignore */}
+                <TextType
+                  text={["Ship faster.", "Debug less.", "Scale strong.", "Deploy quicker."]}
+                  typingSpeed={75}
+                  pauseDuration={3000}
+                  showCursor={true}
+                  cursorCharacter="|"
+                  className="inline-block"
+                  initialDelay={3000}
+                />
+              </span>
+            </h1>
+            <p className="w-full max-w-2xl text-center text-base text-muted-foreground leading-relaxed tracking-tight md:text-lg relative z-10 mx-auto">
+              Meet Cubent, your AI coding partner inside the editor. Generate code, solve bugs, document faster, and build smarter with simple language.
             </p>
           </div>
-          <div className="flex flex-col gap-4 lg:flex-shrink-0 lg:ml-60">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
           <Button
             variant="outline"
             className="px-10 py-6 text-sm font-medium transition-all duration-200 group hover:!bg-[#2a2a2a] hover:!border-[#2a2a2a] rounded-full flex items-center"
@@ -87,8 +133,9 @@ export const Hero = async ({ dictionary }: HeroProps) => (
       </div>
     </div>
 
-    {/* Company logos section with rectangular borders */}
-    <LogoGridRectangular />
+
+
+
 
 
 

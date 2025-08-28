@@ -1,8 +1,8 @@
 import { env } from '@/env';
 import { legal } from '@repo/cms';
 import { Feed } from '@repo/cms/components/feed';
-import { Status } from '@repo/observability/status';
 import Link from 'next/link';
+import { TextHoverEffect } from '../(home)/components/TextHoverEffect';
 
 export const Footer = () => (
   <Feed queries={[legal.postsQuery]}>
@@ -47,6 +47,12 @@ export const Footer = () => (
 
       return (
         <footer className="relative border-t border-border overflow-hidden" style={{ backgroundColor: '#161616' }}>
+          {/* TextHoverEffect touching bottom edge and much bigger */}
+          <div className="absolute bottom-0 left-0 right-0 z-0 flex items-end justify-center pointer-events-none" style={{ height: '300px' }}>
+            <div className="w-full max-w-6xl h-48 pointer-events-auto">
+              <TextHoverEffect text="CUBENT" strokeWidth={1} opacity={0.8} />
+            </div>
+          </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
             {/* Contact section on top */}
@@ -138,9 +144,15 @@ export const Footer = () => (
 
             {/* Status and Copyright */}
             <div className="flex flex-col items-center gap-6">
-              <Status />
+              <div className="flex items-center gap-3 font-medium text-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+                </span>
+                <span className="text-muted-foreground">All Systems Operational</span>
+              </div>
               <p className="text-sm text-muted-foreground">
-                © {new Date().getFullYear()} Made by Logicent Ltd
+                All Rights Reserved © {new Date().getFullYear()}
               </p>
             </div>
           </div>
