@@ -80,7 +80,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
     },
   ];
 
-  // Helper function to check if a navigation item thing is active 
+  // Helper function to check if a navigation item thing is active and ready
   const isActiveItem = (href: string) => {
     if (href === '/enterprise') return pathname === '/enterprise';
     if (href === '/pricing') return pathname === '/pricing';
