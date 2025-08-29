@@ -64,7 +64,7 @@ export const Hero = async ({ dictionary }: HeroProps) => (
             {/* Announcement above title */}
             <div className="mb-4 flex justify-center">
               <a
-                href="http://localhost:3001/blog/gpt-5-is-now-here-in-cubent"
+                href="https://cubent.dev/blog/gpt-5-is-now-here-in-cubent"
                 className="inline-flex items-center justify-center gap-3 font-medium text-sm px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-200"
               >
                 <span className="relative flex h-2 w-2">
