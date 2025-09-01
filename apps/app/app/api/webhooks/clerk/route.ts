@@ -3,6 +3,46 @@ import { NextResponse } from 'next/server';
 import { Webhook } from 'svix';
 import Stripe from 'stripe';
 import { clerkClient } from '@clerk/nextjs/server';
+import { resend } from '@repo/email';
+
+// Welcome email template
+const createWelcomeEmailHTML = (name?: string) => `
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
+    <div style="background-color: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <h1 style="color: #1f2937; margin-bottom: 24px; font-size: 28px;">
+        Welcome to Cubent${name ? `, ${name}` : ''}! 🎉
+      </h1>
+
+      <p style="color: #4b5563; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+        Thanks for signing up! We're excited to have you on board with Cubent's AI-powered coding assistant.
+      </p>
+
+      <div style="background-color: #f3f4f6; padding: 20px; border-radius: 6px; margin: 24px 0;">
+        <h3 style="color: #1f2937; margin-top: 0; margin-bottom: 16px;">🚀 Your 7-day free trial has started!</h3>
+        <ul style="color: #4b5563; margin: 0; padding-left: 20px;">
+          <li style="margin-bottom: 8px;">Install our VS Code extension</li>
+          <li style="margin-bottom: 8px;">Connect your first project</li>
+          <li style="margin-bottom: 8px;">Start coding with AI assistance</li>
+          <li style="margin-bottom: 8px;">Explore all premium features during your trial</li>
+        </ul>
+      </div>
+
+      <p style="color: #4b5563; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+        Need help getting started? Check out our
+        <a href="https://docs.cubent.dev" style="color: #3b82f6; text-decoration: none;">documentation</a>
+        or reach out to us at
+        <a href="mailto:support@cubent.dev" style="color: #3b82f6; text-decoration: none;">support@cubent.dev</a>
+      </p>
+
+      <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 30px;">
+        <p style="color: #6b7280; font-size: 14px; margin: 0;">
+          Best regards,<br>
+          The Cubent Team
+        </p>
+      </div>
+    </div>
+  </div>
+`;
 
 // Simple GET method for testing webhook endpoint
 export async function GET() {
@@ -159,6 +199,28 @@ export async function POST(request: Request) {
       console.log(`💳 Stripe customer: ${customer.id}`);
       console.log(`📋 Subscription: ${subscription.id}`);
       console.log(`📅 Trial ends: ${new Date(subscription.trial_end! * 1000).toISOString()}`);
+
+      // Send welcome email
+      if (emailAddresses && emailAddresses.length > 0) {
+        try {
+          const userEmail = emailAddresses[0].email_address;
+          const userName = [firstName, lastName].filter(Boolean).join(' ') || username;
+
+          console.log(`📧 Sending welcome email to ${userEmail}...`);
+
+          await resend.emails.send({
+            from: process.env.RESEND_FROM!,
+            to: userEmail,
+            subject: 'Welcome to Cubent! Your free trial has started 🚀',
+            html: createWelcomeEmailHTML(userName),
+          });
+
+          console.log(`✅ Welcome email sent successfully to ${userEmail}`);
+        } catch (emailError) {
+          console.error('❌ Failed to send welcome email:', emailError);
+          // Don't fail the webhook if email fails
+        }
+      }
 
       return NextResponse.json({
         message: 'Byok trial created successfully',
