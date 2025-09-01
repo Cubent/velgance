@@ -204,7 +204,7 @@ export async function POST(request: Request) {
       if (emailAddresses && emailAddresses.length > 0) {
         try {
           const userEmail = emailAddresses[0].email_address;
-          const userName = [firstName, lastName].filter(Boolean).join(' ') || username;
+          const userName = [firstName, lastName].filter(Boolean).join(' ') || username || undefined;
 
           console.log(`📧 Sending welcome email to ${userEmail}...`);
 
