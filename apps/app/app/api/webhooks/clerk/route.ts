@@ -18,7 +18,7 @@ const createWelcomeEmailHTML = (name?: string) => `
       </p>
 
       <div style="background-color: #f3f4f6; padding: 20px; border-radius: 6px; margin: 24px 0;">
-        <h3 style="color: #1f2937; margin-top: 0; margin-bottom: 16px;">🚀 Your 7-day free trial has started!</h3>
+        <h3 style="color: #1f2937; margin-top: 0; margin-bottom: 16px;">Your 7-day free trial has started!</h3>
         <ul style="color: #4b5563; margin: 0; padding-left: 20px;">
           <li style="margin-bottom: 8px;">Install our VS Code extension</li>
           <li style="margin-bottom: 8px;">Connect your first project</li>
@@ -31,7 +31,7 @@ const createWelcomeEmailHTML = (name?: string) => `
         Need help getting started? Check out our
         <a href="https://docs.cubent.dev" style="color: #3b82f6; text-decoration: none;">documentation</a>
         or reach out to us at
-        <a href="mailto:support@cubent.dev" style="color: #3b82f6; text-decoration: none;">support@cubent.dev</a>
+        <a href="mailto:info@cubent.dev" style="color: #3b82f6; text-decoration: none;">support@cubent.dev</a>
       </p>
 
       <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 30px;">
@@ -209,9 +209,9 @@ export async function POST(request: Request) {
           console.log(`📧 Sending welcome email to ${userEmail}...`);
 
           await resend.emails.send({
-            from: process.env.RESEND_FROM!,
+            from: 'Mark from Cubent <noreply@cubent.dev>',
             to: userEmail,
-            subject: 'Welcome to Cubent! Your free trial has started 🚀',
+            subject: 'Welcome to Cubent! Your 7 day free trial has started',
             html: createWelcomeEmailHTML(userName),
           });
 
