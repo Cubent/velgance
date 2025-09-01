@@ -31,13 +31,13 @@ const createWelcomeEmailHTML = (name?: string) => `
         Need help getting started? Check out our
         <a href="https://docs.cubent.dev" style="color: #3b82f6; text-decoration: none;">documentation</a>
         or reach out to us at
-        <a href="mailto:info@cubent.dev" style="color: #3b82f6; text-decoration: none;">support@cubent.dev</a>
+        <a href="mailto:info@cubent.dev" style="color: #3b82f6; text-decoration: none;">info@cubent.dev</a>
       </p>
 
       <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 30px;">
         <p style="color: #6b7280; font-size: 14px; margin: 0;">
           Best regards,<br>
-          The Cubent Team
+          Mark from Cubent
         </p>
       </div>
     </div>
@@ -209,10 +209,10 @@ export async function POST(request: Request) {
           console.log(`📧 Sending welcome email to ${userEmail}...`);
 
           await resend.emails.send({
-            from: 'Mark from Cubent <noreply@cubent.dev>',
+            from: `Mark from Cubent <${process.env.RESEND_FROM}>`,
             to: userEmail,
-            subject: 'Welcome to Cubent! Your 7 day free trial has started',
-            html: createWelcomeEmailHTML(userName),
+            subject: 'Welcome to Cubent! Your 7-day free trial has started',
+            html: createWelcomeEmailHTML(userName), 
           });
 
           console.log(`✅ Welcome email sent successfully to ${userEmail}`);
