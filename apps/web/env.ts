@@ -35,7 +35,7 @@ export const env = createEnv({
     CRON_SECRET_TOKEN: z.string().min(32, 'Cron secret token must be at least 32 characters'),
 
     // App Configuration
-    NEXT_PUBLIC_APP_URL: z.string().url('Valid app URL is required').default('https://www.travira.net'),
+    // NEXT_PUBLIC_ variables should only be in client schema
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url('Valid app URL is required').default('https://www.travira.net'),
