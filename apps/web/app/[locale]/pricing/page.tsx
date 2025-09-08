@@ -12,7 +12,7 @@ export default function PricingPage() {
 
   const handleSubscribe = async () => {
     if (!user) {
-      router.push('/sign-in');
+      router.push('/sign-up?redirect_url=/pricing');
       return;
     }
 
@@ -24,7 +24,7 @@ export default function PricingPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          successUrl: `${window.location.origin}/dashboard?success=true`,
+          successUrl: `${window.location.origin}/onboarding?success=true`,
           cancelUrl: `${window.location.origin}/pricing?canceled=true`,
         }),
       });

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { db } from '@repo/database';
 
 export async function POST(request: NextRequest) {
@@ -32,34 +32,66 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Delivery frequency is required' }, { status: 400 });
     }
 
-    // Find the user by Clerk ID
-    const user = await db.user.findUnique({
+    // Find or create the user by Clerk ID
+    let user = await db.user.findUnique({
       where: { clerkId: userId },
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      try {
+        // Get user details from Clerk
+        const clerkUser = await clerkClient.users.getUser(userId);
+
+        // Create user in our database
+        user = await db.user.create({
+          data: {
+            clerkId: userId,
+            email: clerkUser.emailAddresses[0]?.emailAddress || '',
+            name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
+            picture: clerkUser.imageUrl,
+          },
+        });
+
+        console.log('Created new user in database:', user.id);
+      } catch (createError) {
+        console.error('Error creating user:', createError);
+        return NextResponse.json({ error: 'Failed to create user account' }, { status: 500 });
+      }
     }
 
+    console.log('Attempting to save preferences for user:', user.id);
+    console.log('Preferences data:', { homeAirports, dreamDestinations, deliveryFrequency, maxBudget, preferredAirlines });
+
     // Create or update user travel preferences
-    const travelPreferences = await db.userPreferences.upsert({
-      where: { userId: user.id },
-      update: {
-        homeAirports: homeAirports,
-        dreamDestinations: dreamDestinations,
-        deliveryFrequency: deliveryFrequency,
-        maxBudget: maxBudget || null,
-        preferredAirlines: preferredAirlines || [],
-      },
-      create: {
-        userId: user.id,
-        homeAirports: homeAirports,
-        dreamDestinations: dreamDestinations,
-        deliveryFrequency: deliveryFrequency,
-        maxBudget: maxBudget || null,
-        preferredAirlines: preferredAirlines || [],
-      },
-    });
+    let travelPreferences;
+    try {
+      travelPreferences = await db.userPreferences.upsert({
+        where: { userId: user.id },
+        update: {
+          homeAirports: homeAirports,
+          dreamDestinations: dreamDestinations,
+          deliveryFrequency: deliveryFrequency,
+          maxBudget: maxBudget || null,
+          preferredAirlines: preferredAirlines || [],
+        },
+        create: {
+          userId: user.id,
+          homeAirports: homeAirports,
+          dreamDestinations: dreamDestinations,
+          deliveryFrequency: deliveryFrequency,
+          maxBudget: maxBudget || null,
+          preferredAirlines: preferredAirlines || [],
+        },
+      });
+
+      console.log('Successfully saved preferences:', travelPreferences.id);
+    } catch (prefsError) {
+      console.error('Error saving preferences:', prefsError);
+      return NextResponse.json({
+        error: 'Failed to save preferences',
+        details: prefsError instanceof Error ? prefsError.message : 'Unknown error'
+      }, { status: 500 });
+    }
 
     return NextResponse.json({
       success: true,
@@ -90,8 +122,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Find the user by Clerk ID
-    const user = await db.user.findUnique({
+    // Find or create the user by Clerk ID
+    let user = await db.user.findUnique({
       where: { clerkId: userId },
       include: {
         travelPreferences: true,
@@ -99,7 +131,28 @@ export async function GET(request: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      try {
+        // Get user details from Clerk
+        const clerkUser = await clerkClient.users.getUser(userId);
+
+        // Create user in our database
+        user = await db.user.create({
+          data: {
+            clerkId: userId,
+            email: clerkUser.emailAddresses[0]?.emailAddress || '',
+            name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
+            picture: clerkUser.imageUrl,
+          },
+          include: {
+            travelPreferences: true,
+          },
+        });
+
+        console.log('Created new user in database for GET:', user.id);
+      } catch (createError) {
+        console.error('Error creating user in GET:', createError);
+        return NextResponse.json({ error: 'Failed to create user account' }, { status: 500 });
+      }
     }
 
     return NextResponse.json({

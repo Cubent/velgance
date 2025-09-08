@@ -11,10 +11,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@repo/design-system/components/ui/navigation-menu';
-import { Menu, MoveRight, X } from 'lucide-react';
+import { Menu, MoveRight, X, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useUser } from '@clerk/nextjs';
 
 import type { Dictionary } from '@repo/internationalization';
 import Image from 'next/image';
@@ -28,8 +29,10 @@ type HeaderProps = {
 };
 
 export const Header = ({ dictionary }: HeaderProps) => {
-  const { isAuthenticated, user, isLoading } = useAuthStatus();
+  const { user, isLoaded } = useUser();
   const pathname = usePathname();
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   const navigationItems = [
     {
@@ -59,9 +62,23 @@ export const Header = ({ dictionary }: HeaderProps) => {
 
   const [isOpen, setOpen] = useState(false);
   const [isCompanyExpanded, setCompanyExpanded] = useState(false);
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   return (
     <header className="sticky top-1 z-40 w-full flex justify-center">
-      <div className="mx-auto w-[92%] max-w-5xl rounded-full bg-white shadow-md px-3 py-1">
+      <div className="mx-auto w-[92%] max-w-5xl rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-white/20 px-3 py-1">
 
 
 
@@ -76,15 +93,56 @@ export const Header = ({ dictionary }: HeaderProps) => {
         <div className="flex items-center gap-2">
           {/* Sign In / User Profile */}
           <div className="flex justify-end">
-            {isLoading ? (
+            {!isLoaded ? (
               <div className="h-10 w-10 animate-pulse bg-gray-200 rounded-full"></div>
-            ) : isAuthenticated && user ? (
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-gray-600">Signed in as {user.firstName || user.emailAddresses[0]?.emailAddress}</span>
-                </div>
-                <UserProfile user={user} />
+            ) : user ? (
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
+                >
+                  <img
+                    src={user.imageUrl}
+                    alt={user.fullName || 'User'}
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <ChevronDown className="w-4 h-4 text-gray-600" />
+                </button>
+
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg border border-gray-200 py-1 z-50">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-900">{user.fullName || user.firstName}</p>
+                      <p className="text-xs text-gray-600">{user.primaryEmailAddress?.emailAddress}</p>
+                    </div>
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      Profile & Settings
+                    </Link>
+                    <Link
+                      href="/dashboard"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    <div className="border-t border-gray-100 mt-1">
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          // Add sign out functionality here
+                          window.location.href = '/sign-out';
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex items-center gap-2">
@@ -94,7 +152,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                   </Link>
                 </Button>
                 <Button asChild className="bg-green-600 hover:bg-green-700 text-white h-10 rounded-full px-6">
-                  <Link href="/pricing">
+                  <Link href="/sign-up?redirect_url=/pricing">
                     Get Started
                   </Link>
                 </Button>

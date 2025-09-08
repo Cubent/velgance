@@ -10,6 +10,7 @@ import { getDictionary } from '@repo/internationalization';
 import type { ReactNode } from 'react';
 import { Footer } from './components/footer';
 import { Header } from './components/header';
+import { PageWrapper } from './components/page-wrapper';
 import { PerformanceOptimizer } from '../../components/performance-optimizer';
 import { PerformanceHints } from '../../components/seo-optimizer';
 import { ErrorBoundary, ConsoleErrorSuppressor } from '../../components/error-boundary';
@@ -71,9 +72,11 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
           <AnalyticsProvider>
             <DesignSystemProvider>
               <PerformanceOptimizer />
-              <Header dictionary={dictionary} />
-              {children}
-              <Footer />
+              <PageWrapper>
+                <Header dictionary={dictionary} />
+                {children}
+                <Footer />
+              </PageWrapper>
             </DesignSystemProvider>
             <Toolbar />
           </AnalyticsProvider>

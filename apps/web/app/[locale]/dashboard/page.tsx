@@ -61,28 +61,45 @@ export default function DashboardPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch user preferences
       const preferencesResponse = await fetch('/api/onboarding');
+
+      if (!preferencesResponse.ok) {
+        if (preferencesResponse.status === 401) {
+          router.push('/sign-in');
+          return;
+        }
+        throw new Error(`Failed to fetch preferences: ${preferencesResponse.status}`);
+      }
+
       const preferencesData = await preferencesResponse.json();
-      
+
       if (!preferencesData.preferences) {
         // User hasn't completed onboarding
         router.push('/onboarding');
         return;
       }
-      
+
       setPreferences(preferencesData.preferences);
-      
+
       // Fetch flight recommendations
-      const recommendationsResponse = await fetch('/api/recommendations');
-      const recommendationsData = await recommendationsResponse.json();
-      
-      if (recommendationsData.success) {
-        setRecommendations(recommendationsData.recommendations || []);
+      try {
+        const recommendationsResponse = await fetch('/api/recommendations');
+        if (recommendationsResponse.ok) {
+          const recommendationsData = await recommendationsResponse.json();
+          if (recommendationsData.success) {
+            setRecommendations(recommendationsData.recommendations || []);
+          }
+        }
+      } catch (recError) {
+        console.error('Error fetching recommendations:', recError);
+        // Continue without recommendations - don't block the page
       }
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
+      // Show a user-friendly error instead of blocking
+      setPreferences(null);
     } finally {
       setLoading(false);
     }
@@ -184,11 +201,44 @@ export default function DashboardPage() {
     );
   }
 
+  // Show error state if preferences failed to load
+  if (!preferences && !loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <div className="bg-white rounded-lg shadow-sm p-8">
+            <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Unable to load preferences</h3>
+            <p className="text-gray-600 mb-4">
+              We're having trouble loading your travel preferences. Please try refreshing the page or complete your onboarding.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Refresh Page
+              </button>
+              <button
+                onClick={() => router.push('/onboarding')}
+                className="border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-50 transition-colors"
+              >
+                Complete Onboarding
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="bg-white shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Flight Deals Dashboard</h1>
@@ -208,7 +258,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Filters and Search */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Search */}
@@ -300,7 +350,7 @@ export default function DashboardPage() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredAndSortedRecommendations.map((recommendation) => (
               <RecommendationCard
                 key={recommendation.id}

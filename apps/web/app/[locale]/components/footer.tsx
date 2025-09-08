@@ -3,28 +3,11 @@ import { TextHoverEffect } from '../(home)/components/TextHoverEffect';
 
 export const Footer = () => {
   const navigationItems = [
-    {
-      title: 'Product',
-      items: [
-        { title: 'Home', href: '/' },
-        { title: 'Pricing', href: '/pricing' },
-        { title: 'Dashboard', href: '/dashboard' },
-      ],
-    },
-    {
-      title: 'Support',
-      items: [
-        { title: 'Contact', href: '/contact' },
-        { title: 'Help Center', href: '/contact' },
-      ],
-    },
-    {
-      title: 'Legal',
-      items: [
-        { title: 'Privacy Policy', href: '/legal/privacy' },
-        { title: 'Terms of Service', href: '/legal/terms' },
-      ],
-    },
+    { title: 'Pricing', href: '/pricing' },
+    { title: 'Contact', href: '/contact' },
+    { title: 'FAQ', href: '/#faq' },
+    { title: 'Terms', href: '/terms-and-conditions' },
+    { title: 'Privacy', href: '/privacy-policy' },
   ];
 
   return (
@@ -45,35 +28,17 @@ export const Footer = () => {
 
         </div>
 
-        {/* Navigation columns */}
+        {/* Navigation links */}
         <div className="flex justify-center mb-12">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 max-w-2xl">
-            {navigationItems.map((section) => (
-              <div key={section.title} className="flex flex-col gap-4">
-                <h3 className="text-sm font-medium text-gray-900">
-                  {section.title}
-                </h3>
-                <ul className="flex flex-col gap-3">
-                  {section.items?.map((item: any) => (
-                    <li key={item.title}>
-                      <Link
-                        href={item.href}
-                        className="text-sm text-gray-600 hover:text-green-600 transition-colors"
-                        target={
-                          item.href.includes('http') ? '_blank' : undefined
-                        }
-                        rel={
-                          item.href.includes('http')
-                            ? 'noopener noreferrer'
-                            : undefined
-                        }
-                      >
-                        {item.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="flex flex-wrap justify-center gap-8">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="text-sm text-gray-600 hover:text-green-600 transition-colors font-medium"
+              >
+                {item.title}
+              </Link>
             ))}
           </div>
         </div>

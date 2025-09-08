@@ -86,7 +86,7 @@ const Home = async ({ params }: HomeProps) => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
-                href="/pricing"
+                href="/sign-up?redirect_url=/pricing"
                 className="bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors shadow-lg"
               >
                 Start Your Journey
@@ -255,38 +255,62 @@ const Home = async ({ params }: HomeProps) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl">🎯</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Steps */}
+            <div className="space-y-8">
+              {/* Step 1 */}
+              <div className="flex items-start gap-6">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#22c55e'}}>
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Set Your Preferences</h3>
+                  <p className="text-gray-600">
+                    Tell us your home airports, dream destinations, and travel preferences. Our AI learns what you love.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Set Your Preferences</h3>
-              <p className="text-gray-600">
-                Tell us your home airports, dream destinations, and travel preferences. Our AI learns what you love.
-              </p>
+
+              {/* Step 2 */}
+              <div className="flex items-start gap-6">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#22c55e'}}>
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">AI Finds the Best Deals</h3>
+                  <p className="text-gray-600">
+                    Our advanced algorithms continuously scan millions of flight combinations to find incredible deals.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex items-start gap-6">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#22c55e'}}>
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Get Personalized Alerts</h3>
+                  <p className="text-gray-600">
+                    Receive curated flight deals in your inbox based on your preferences and travel style.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl">🤖</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">AI Finds the Best Deals</h3>
-              <p className="text-gray-600">
-                Our advanced algorithms continuously scan millions of flight combinations to find incredible deals.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl">📧</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Get Personalized Alerts</h3>
-              <p className="text-gray-600">
-                Receive curated flight deals in your inbox based on your preferences and travel style.
-              </p>
+            {/* Right Column - Image */}
+            <div className="flex justify-center">
+              <img
+                src="https://i.postimg.cc/HxGLV8gz/Gemini-Generated-Image-tvshcstvshcstvsh.png"
+                alt="How Travira Works"
+                className="w-full max-w-md h-auto rounded-3xl shadow-lg"
+              />
             </div>
           </div>
         </div>
@@ -304,8 +328,12 @@ const Home = async ({ params }: HomeProps) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-green-600 text-3xl mb-4">🧠</div>
+            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Smart AI Recommendations</h3>
               <p className="text-gray-600">
                 Our AI learns from your preferences and booking history to suggest the perfect trips.
@@ -313,8 +341,12 @@ const Home = async ({ params }: HomeProps) => {
             </div>
 
             {/* Feature 2 */}
-            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-green-600 text-3xl mb-4">💰</div>
+            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Guaranteed Savings</h3>
               <p className="text-gray-600">
                 We find deals that save you hundreds on flights, often beating other sites by 20-40%.
@@ -322,8 +354,12 @@ const Home = async ({ params }: HomeProps) => {
             </div>
 
             {/* Feature 3 */}
-            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-green-600 text-3xl mb-4">⚡</div>
+            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Real-Time Alerts</h3>
               <p className="text-gray-600">
                 Get notified instantly when prices drop for your favorite destinations.
@@ -331,8 +367,12 @@ const Home = async ({ params }: HomeProps) => {
             </div>
 
             {/* Feature 4 */}
-            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-green-600 text-3xl mb-4">🌍</div>
+            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Global Coverage</h3>
               <p className="text-gray-600">
                 We monitor flights to over 1000 destinations worldwide, from major cities to hidden gems.
@@ -340,8 +380,12 @@ const Home = async ({ params }: HomeProps) => {
             </div>
 
             {/* Feature 5 */}
-            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-green-600 text-3xl mb-4">📱</div>
+            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Mobile Optimized</h3>
               <p className="text-gray-600">
                 Access your deals anywhere with our mobile-optimized dashboard and email alerts.
@@ -349,8 +393,12 @@ const Home = async ({ params }: HomeProps) => {
             </div>
 
             {/* Feature 6 */}
-            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-green-600 text-3xl mb-4">🎯</div>
+            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Flexible Dates</h3>
               <p className="text-gray-600">
                 Find the best deals with flexible date options and travel window recommendations.
@@ -507,7 +555,7 @@ const Home = async ({ params }: HomeProps) => {
             Join thousands of travelers who save hundreds on every trip with Travira's AI-powered flight deals.
           </p>
           <Link
-            href="/pricing"
+            href="/sign-up?redirect_url=/pricing"
             className="bg-white text-green-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg inline-block"
           >
             Get Started for $99/year
