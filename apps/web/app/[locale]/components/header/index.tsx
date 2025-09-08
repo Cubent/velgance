@@ -34,7 +34,18 @@ export const Header = ({ dictionary }: HeaderProps) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  const navigationItems = [
+  const navigationItems: Array<{
+    title: string;
+    href?: string;
+    description: string;
+    sections?: Array<{
+      title: string;
+      items?: Array<{
+        title: string;
+        href: string;
+      }>;
+    }>;
+  }> = [
     {
       title: 'Pricing',
       href: '/pricing',
