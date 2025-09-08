@@ -1,7 +1,7 @@
-import sgMail from '@sendgrid/mail';
+import { Resend } from 'resend';
 
-// Initialize SendGrid
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_TOKEN);
 
 export interface FlightDeal {
   origin: string;
@@ -189,27 +189,14 @@ Update preferences: ${process.env.NEXT_PUBLIC_APP_URL}/onboarding
  */
 export async function sendFlightDealsEmail(data: EmailNotificationData): Promise<boolean> {
   try {
-    const msg = {
-      to: data.userEmail,
-      from: {
-        email: process.env.SENDGRID_FROM_EMAIL || 'deals@travira.net',
-        name: 'Travira Flight Deals',
-      },
+    const result = await resend.emails.send({
+      from: process.env.RESEND_FROM || 'deals@travira.net',
+      to: [data.userEmail],
       subject: `✈️ ${data.deals.length} New Flight Deal${data.deals.length > 1 ? 's' : ''} Found!`,
-      text: generateFlightDealsEmailText(data),
       html: generateFlightDealsEmailHTML(data),
-      trackingSettings: {
-        clickTracking: {
-          enable: true,
-        },
-        openTracking: {
-          enable: true,
-        },
-      },
-    };
+    });
 
-    await sgMail.send(msg);
-    console.log(`Flight deals email sent to ${data.userEmail}`);
+    console.log(`Flight deals email sent to ${data.userEmail}`, result);
     return true;
   } catch (error) {
     console.error('Error sending flight deals email:', error);
@@ -259,8 +246,13 @@ export async function sendSubscriptionConfirmationEmail(
       `,
     };
 
-    await sgMail.send(msg);
-    console.log(`Subscription confirmation email sent to ${userEmail}`);
+    const result = await resend.emails.send({
+      from: process.env.RESEND_FROM || 'welcome@travira.net',
+      to: [userEmail],
+      subject: msg.subject,
+      html: msg.html,
+    });
+    console.log(`Subscription confirmation email sent to ${userEmail}`, result);
     return true;
   } catch (error) {
     console.error('Error sending subscription confirmation email:', error);
