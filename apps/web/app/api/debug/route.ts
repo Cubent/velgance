@@ -30,7 +30,8 @@ export async function GET() {
     // Test Clerk connection
     if (userId) {
       try {
-        const clerkUser = await clerkClient.users.getUser(userId);
+        const client = await clerkClient();
+        const clerkUser = await client.users.getUser(userId);
         debugInfo.clerk = {
           connected: true,
           userExists: true,
