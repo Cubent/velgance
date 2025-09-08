@@ -86,7 +86,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   }
 
   // Get subscription details from Stripe
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription;
 
   // Update subscription in database
   await database.stripeSubscription.update({
@@ -157,13 +157,13 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   if (!invoice.subscription) return;
 
-  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string) as Stripe.Subscription;
   await handleSubscriptionUpdated(subscription);
 }
 
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
   if (!invoice.subscription) return;
 
-  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string) as Stripe.Subscription;
   await handleSubscriptionUpdated(subscription);
 }
