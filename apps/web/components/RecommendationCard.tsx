@@ -269,7 +269,7 @@ export default function RecommendationCard({
           </button>
           {recommendation.otaUrl && (
             <button
-              onClick={() => onBook(recommendation.otaUrl)}
+              onClick={() => onBook(recommendation.otaUrl!)}
               className="flex-1 border border-green-600 text-green-600 py-3 px-4 rounded-lg font-medium hover:bg-green-50 transition-colors"
             >
               Compare Prices
