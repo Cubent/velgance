@@ -75,8 +75,15 @@ export async function POST(request: NextRequest) {
             price: rec.price,
             currency: rec.currency,
             airline: rec.airline,
-            dealQuality: rec.dealQuality,
+            dealQuality: (rec.dealQuality as 'excellent' | 'good' | 'fair') || 'good',
             bookingUrl: rec.bookingUrl,
+            layovers: (rec.layovers as Array<{ airport: string; duration: string }>) || [],
+            duration: rec.duration || 'N/A',
+            baggageInfo: (rec.baggageInfo as { carry_on: string; checked: string }) || {
+              carry_on: 'Standard',
+              checked: 'Standard'
+            },
+            confidenceScore: rec.confidenceScore || 0.8,
           }));
 
           // Generate AI summary for this user's deals
