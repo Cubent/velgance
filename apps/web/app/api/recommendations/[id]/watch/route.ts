@@ -4,7 +4,7 @@ import { db } from '@repo/database';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -13,7 +13,7 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const recommendationId = params.id;
+    const { id: recommendationId } = await params;
 
     // Find the user by Clerk ID
     const user = await db.user.findUnique({
