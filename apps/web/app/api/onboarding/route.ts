@@ -40,7 +40,8 @@ export async function POST(request: NextRequest) {
     if (!user) {
       try {
         // Get user details from Clerk
-        const clerkUser = await clerkClient.users.getUser(userId);
+        const client = await clerkClient();
+        const clerkUser = await client.users.getUser(userId);
 
         // Create user in our database
         user = await db.user.create({
