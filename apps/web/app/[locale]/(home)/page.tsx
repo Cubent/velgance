@@ -1,30 +1,6 @@
-import { showBetaFeature } from '@repo/feature-flags';
-import { getDictionary } from '@repo/internationalization';
 import type { Metadata } from 'next';
-
-import { Community } from './components/community';
-import { CTA } from './components/cta';
-
-import { FAQ } from './components/faq';
-import { ModelProviders } from './components/model-providers';
-import { blog } from '@repo/cms';
-import { Feed } from '@repo/cms/components/feed';
-import { Image } from '@repo/cms/components/image';
 import Link from 'next/link';
-
-import { Hero } from './components/hero';
-
-
-import { Stats } from './components/stats';
-import { Testimonials } from './components/testimonials';
-import { TrustedBy } from './components/trusted-by';
-import { CustomVideoPlayer } from './components/custom-video-player';
-import { AuroraBackgroundAlt } from './components/AuroraBackgroundAlt';
-import { AuroraBackgroundGreen } from './components/AuroraBackgroundGreen';
-import { ScrollingLogos } from './components/scrolling-logos';
-import TextType from './components/TextType';
-
-
+import React from 'react';
 
 type HomeProps = {
   params: Promise<{
@@ -35,433 +11,510 @@ type HomeProps = {
 export const generateMetadata = async ({
   params,
 }: HomeProps): Promise<Metadata> => {
-  const { locale } = await params;
-  const dictionary = await getDictionary(locale);
-
-  // Use custom metadata for homepage to avoid "| Cubent" suffix
-  const homeMetadata = dictionary.web.home.meta;
-
   return {
-    title: homeMetadata.title, // Just the title without "| Cubent"
-    description: homeMetadata.description,
-    applicationName: 'Cubent',
-    metadataBase: process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
-      : undefined,
-    authors: [{ name: 'Cubent', url: 'https://cubent.dev/' }],
-    creator: 'Cubent',
-    formatDetection: {
-      telephone: false,
-    },
-    appleWebApp: {
-      capable: true,
-      statusBarStyle: 'default',
-      title: homeMetadata.title,
-    },
+    title: 'Travira - AI-Powered Flight Deal Subscriptions',
+    description: 'Never miss a great flight deal again. Get AI-curated flight deals delivered to your inbox for just $99/year.',
+    applicationName: 'Travira',
+    keywords: ['flight deals', 'travel', 'AI', 'subscription', 'cheap flights', 'travel deals'],
+    authors: [{ name: 'Travira Team' }],
+    creator: 'Travira',
+    publisher: 'Travira',
     openGraph: {
-      title: homeMetadata.title,
-      description: homeMetadata.description,
-      type: 'website',
-      siteName: 'Cubent',
+      title: 'Travira - AI-Powered Flight Deal Subscriptions',
+      description: 'Never miss a great flight deal again. Get AI-curated flight deals delivered to your inbox for just $99/year.',
+      url: 'https://travira.net',
+      siteName: 'Travira',
       locale: 'en_US',
     },
-    publisher: 'Cubent',
     twitter: {
       card: 'summary_large_image',
-      creator: '@cubent',
+      creator: '@travira',
     },
   };
 };
 
 const Home = async ({ params }: HomeProps) => {
-  const { locale } = await params;
-  const dictionary = await getDictionary(locale);
-  const betaFeature = await showBetaFeature();
-
   return (
-    <>
-      {betaFeature && (
-        <div className="w-full bg-black py-2 text-center text-white">
-          Beta feature now available
-        </div>
-      )}
-      {/* Transparent box wrapper for Hero and TrustedBy sections */}
-      <div className="w-full relative px-4 sm:px-6" style={{ backgroundColor: '#161616' }}>
-        <div
-          className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 -mt-20 pt-20 relative"
-          style={{
-            backgroundColor: 'transparent'
-          }}
-        >
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-green-100 via-green-50 to-white">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Large Clouds */}
+          <div className="absolute top-8 left-8 w-32 h-20 bg-white/40 rounded-full blur-md"></div>
+          <div className="absolute top-16 right-12 w-28 h-18 bg-green-100/60 rounded-full blur-md"></div>
+          <div className="absolute top-40 left-1/4 w-36 h-22 bg-white/35 rounded-full blur-lg"></div>
+          <div className="absolute top-12 right-1/3 w-24 h-16 bg-green-50/80 rounded-full blur-md"></div>
+          <div className="absolute top-56 right-16 w-40 h-24 bg-white/30 rounded-full blur-lg"></div>
+          <div className="absolute top-72 left-12 w-28 h-18 bg-green-100/50 rounded-full blur-md"></div>
 
+          {/* Medium Clouds */}
+          <div className="absolute top-28 left-1/2 w-20 h-12 bg-white/50 rounded-full blur-sm"></div>
+          <div className="absolute top-64 right-1/4 w-22 h-14 bg-green-50/70 rounded-full blur-sm"></div>
+          <div className="absolute top-80 left-1/3 w-18 h-11 bg-white/45 rounded-full blur-sm"></div>
 
+          {/* Green Planes - Various Sizes and Positions */}
+          <div className="absolute top-20 left-1/4 text-green-400/60 text-3xl transform rotate-45 animate-pulse">✈</div>
+          <div className="absolute top-36 right-1/3 text-green-500/50 text-2xl transform -rotate-12">✈</div>
+          <div className="absolute top-52 left-1/5 text-green-400/70 text-xl transform rotate-30">✈</div>
+          <div className="absolute top-16 right-1/5 text-green-600/40 text-lg transform rotate-60">✈</div>
+          <div className="absolute top-68 left-1/2 text-green-500/60 text-2xl transform -rotate-30">✈</div>
+          <div className="absolute top-32 right-1/6 text-green-400/50 text-xl transform rotate-15">✈</div>
+          <div className="absolute top-76 right-1/3 text-green-600/45 text-lg transform -rotate-45">✈</div>
+          <div className="absolute top-44 left-1/6 text-green-500/55 text-xl transform rotate-75">✈</div>
 
-
-          <div className="relative z-10">
-            <Hero dictionary={dictionary} />
-          </div>
-        </div>
-      </div>
-
-      {/* Video section with Aurora background */}
-      <div className="w-full relative" style={{ backgroundColor: '#161616' }}>
-        {/* Decorative light effects - positioned outside container limits */}
-        <div className="absolute inset-0 pointer-events-none overflow-visible z-0">
-          <div className="max-w-7xl mx-auto px-6 relative h-[400px] lg:h-[700px]">
-            <div className="absolute top-6 left-1/2 transform -translate-x-1/2 pointer-events-none">
-              {/* Large primary light */}
-              <div
-                className="absolute -top-56 left-1/2 transform -translate-x-1/2 w-[95vw] max-w-[1000px] h-[500px] opacity-10"
-                style={{
-                  background: 'radial-gradient(ellipse at center bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.2) 30%, transparent 70%)',
-                  filter: 'blur(1px)'
-                }}
-              ></div>
-
-              {/* Medium secondary light */}
-              <div
-                className="absolute -top-40 left-1/2 transform -translate-x-1/2 w-[85vw] max-w-[800px] h-[400px] opacity-8"
-                style={{
-                  background: 'radial-gradient(ellipse at center bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.2) 40%, transparent 80%)',
-                  filter: 'blur(0.5px)'
-                }}
-              ></div>
-
-              {/* Subtle glow overlay */}
-              <div
-                className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-[75vw] max-w-[500px] h-40 opacity-5"
-                style={{
-                  background: 'radial-gradient(ellipse at center bottom, rgba(255,255,255,0.3) 0%, transparent 100%)',
-                  filter: 'blur(2px)'
-                }}
-              ></div>
-            </div>
-          </div>
+          {/* Small Decorative Planes */}
+          <div className="absolute top-24 left-3/4 text-green-300/40 text-sm transform rotate-90">✈</div>
+          <div className="absolute top-60 right-1/8 text-green-400/35 text-sm transform -rotate-60">✈</div>
+          <div className="absolute top-84 left-1/8 text-green-500/40 text-sm transform rotate-120">✈</div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10 pt-0 pb-4 lg:py-0">
-          <div className="flex items-center justify-center h-[400px] lg:h-[700px]">
-            <div className="relative max-w-5xl w-full">
-              <div className="relative p-2">
-                {/* Detached glassy border */}
-                <div className="absolute inset-0 rounded-2xl border-4 border-white/15 backdrop-blur-sm pointer-events-none"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 z-10">
+          <div className="text-center">
+            {/* Main Headline */}
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+              Never Miss a Great
+              <br />
+              <span className="text-green-600">Flight Deal</span> Again
+            </h1>
 
-                <div className="rounded-2xl overflow-hidden bg-transparent">
-                  <CustomVideoPlayer src="/images/Cubentnewv.mp4" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Hidden features section */}
-      {/* <div className="w-full px-0 md:px-4 lg:px-6" style={{ backgroundColor: '#161616' }}>
-        <div
-          className="w-full md:max-w-7xl md:mx-auto px-0 md:px-6 lg:px-12 relative overflow-hidden"
-          style={{
-            backgroundColor: '#161616'
-          }}
-        >
-
-            <div className="relative z-10 p-3 md:p-4 pt-16 md:pt-12">
-              <div className="flex justify-center gap-3 mb-6 flex-wrap md:flex-wrap">
-                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs whitespace-nowrap">
-                  AI Assistant
-                </div>
-                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs whitespace-nowrap">
-                  Code Generation
-                </div>
-                <div className="px-3 py-1.5 rounded-full border border-white/20 text-white/60 text-xs whitespace-nowrap">
-                  Smart Completion
-                </div>
-              </div>
-
-              <div className="flex justify-center gap-3 md:gap-6 mb-10 flex-wrap md:flex-wrap text-xs">
-                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
-                  <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Real-time Assistance
-                </div>
-                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
-                  <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Context Aware
-                </div>
-                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
-                  <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Multi-Language
-                </div>
-                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
-                  <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Instant Debugging
-                </div>
-                <div className="flex items-center gap-1.5 text-white/60 whitespace-nowrap">
-                  <svg className="w-3 h-3 text-white/40" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Easy as typing
-                </div>
-              </div>
-            </div>
-        </div>
-      </div> */}
-
-      {/* Company logos section with title */}
-      <div className="w-full py-8 lg:py-16" style={{ backgroundColor: '#161616' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Title */}
-          <h2 className="text-center text-white/50 text-lg font-medium mb-12">
-            Trusted by engineering teams at leading companies
-          </h2>
-
-          {/* Infinite scrolling logos */}
-          <ScrollingLogos />
-        </div>
-      </div>
-
-      {/* New section with duplicated video and content */}
-      <div className="w-full py-16" style={{ backgroundColor: '#161616' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Left-aligned title and description */}
-          <div className="mb-12">
-            <h2 className="text-left text-4xl md:text-5xl mb-6 tracking-tight" style={{ color: '#e3e3e0', fontFamily: 'var(--font-geist-sans)' }}>
-              AI Builds It. You Rule Everything
-            </h2>
-            <p className="text-left text-lg text-white/70 mb-8 max-w-2xl">
-              Cubent handles the coding heavy lifting while you stay in charge — guiding, reviewing, and shipping on your terms.
+            {/* Subheadline */}
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+              We alert you when airlines publish flights 50-90% off regular price from your own airport.
             </p>
-            {/* Less visible transparent line */}
-            <div className="w-full h-px bg-white/20 mb-12"></div>
-          </div>
 
-          {/* Duplicated video section with AuroraBackground */}
-          <div className="max-w-7xl mx-auto px-2 lg:px-6 relative z-10">
-            <div className="relative p-3 lg:p-6 h-[300px] lg:h-[700px]">
-              {/* Detached glassy border */}
-              <div className="absolute inset-2 lg:inset-4 rounded-2xl border-2 border-white/15 backdrop-blur-sm pointer-events-none"></div>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Link
+                href="/pricing"
+                className="bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors shadow-lg"
+              >
+                Start Your Journey
+              </Link>
+              <Link
+                href="/contact"
+                className="border-2 border-green-600 text-green-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-50 transition-colors"
+              >
+                Learn More
+              </Link>
+            </div>
 
-              <AuroraBackgroundAlt className="h-full rounded-2xl overflow-hidden">
-                <div className="relative z-10 flex items-center justify-center h-full">
-                  <div className="max-w-5xl w-full px-6">
-                    <CustomVideoPlayer src="/images/EVEN-MORE-NEW-FEATURE.mp4" />
-                  </div>
+            {/* Social Proof */}
+            <div className="mb-8">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <div className="flex -space-x-3">
+                  {[
+                    'https://randomuser.me/api/portraits/men/32.jpg',
+                    'https://randomuser.me/api/portraits/women/44.jpg',
+                    'https://randomuser.me/api/portraits/men/46.jpg',
+                    'https://randomuser.me/api/portraits/women/68.jpg',
+                    'https://randomuser.me/api/portraits/men/86.jpg'
+                  ].map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`Traveler ${i + 1}`}
+                      className="w-12 h-12 rounded-full border-3 border-white shadow-lg object-cover"
+                    />
+                  ))}
                 </div>
-              </AuroraBackgroundAlt>
+                <div className="text-left">
+                  <div className="text-lg text-gray-700">50k+ Travelers have</div>
+                  <div className="text-lg text-gray-700">joined Travira</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-500 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-green-500">✓</span>
+                <span>AI-Powered Recommendations</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-green-500">✓</span>
+                <span>Personalized for You</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-green-500">✓</span>
+                <span>Cancel Anytime</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* New section - Autocomplete That Thinks With You */}
-      <div className="w-full py-16" style={{ backgroundColor: '#161616' }}>
+      {/* Deals We've Found Section */}
+      <div className="py-16 bg-gray-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Left-aligned title and description */}
-          <div className="mb-12">
-            <h2 className="text-left text-4xl md:text-5xl mb-6 tracking-tight" style={{ color: '#e3e3e0', fontFamily: 'var(--font-geist-sans)' }}>
-              Autocomplete That Thinks With You
-            </h2>
-            <p className="text-left text-lg text-white/70 mb-8 max-w-2xl">
-              Cubent's Autocomplete predicts your next move — drafting clean code while you keep full control to accept, tweak, or skip instantly.
-            </p>
-            {/* Less visible transparent line */}
-            <div className="w-full h-px bg-white/20 mb-12"></div>
-          </div>
-
-          {/* Video section with AuroraBackground */}
-          <div className="max-w-7xl mx-auto px-2 lg:px-6 relative z-10">
-            <div className="relative p-3 lg:p-6 h-[300px] lg:h-[700px]">
-              {/* Detached glassy border */}
-              <div className="absolute inset-2 lg:inset-4 rounded-2xl border-2 border-white/15 backdrop-blur-sm pointer-events-none"></div>
-
-              <AuroraBackgroundGreen className="h-full rounded-2xl overflow-hidden">
-                <div className="relative z-10 flex items-center justify-center h-full">
-                  <div className="max-w-5xl w-full px-6">
-                    <CustomVideoPlayer src="/images/NEW-AUTOCOMPLETE-VIDEO.mp4" />
-                  </div>
-                </div>
-              </AuroraBackgroundGreen>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ModelProviders />
-
-      {/* Three vertical feature cards */}
-      <div className="w-full py-16" style={{ backgroundColor: '#161616' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Card 1 - Full control */}
-            <div className="bg-neutral-700/20 backdrop-blur-sm rounded-lg p-8 border border-neutral-600/20 shadow-lg h-[350px] lg:h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden">
-              {/* Trim mark borders */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-white/30"></div>
-              <div className="absolute top-0 right-0 w-6 h-6 border-r-2 border-t-2 border-white/30"></div>
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-l-2 border-b-2 border-white/30"></div>
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-r-2 border-b-2 border-white/30"></div>
-              {/* Icon */}
-              <div className="mb-8">
-                <div className="w-20 h-20 bg-white/10 rounded-lg flex items-center justify-center mx-auto">
-                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-3xl lg:text-4xl font-regular tracking-tight text-white leading-tight mb-6">
-                Full control of your coding
-              </h3>
-
-              {/* Description */}
-              <p className="text-white/70 text-base leading-relaxed max-w-sm">
-                Choose how much Cubent assists you—from small completions to full code generation. Adjustable for individuals and teams.
-              </p>
-            </div>
-
-            {/* Card 2 - Your projects */}
-            <div className="bg-neutral-700/20 backdrop-blur-sm rounded-lg p-8 border border-neutral-600/20 shadow-lg h-[350px] lg:h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden">
-              {/* Trim mark borders */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-white/30"></div>
-              <div className="absolute top-0 right-0 w-6 h-6 border-r-2 border-t-2 border-white/30"></div>
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-l-2 border-b-2 border-white/30"></div>
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-r-2 border-b-2 border-white/30"></div>
-              {/* Icon */}
-              <div className="mb-8">
-                <div className="w-20 h-20 bg-white/10 rounded-lg flex items-center justify-center mx-auto">
-                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-3xl lg:text-4xl font-regular tracking-tight text-white leading-tight mb-6">
-                Your projects stay yours
-              </h3>
-
-              {/* Description */}
-              <p className="text-white/70 text-base leading-relaxed max-w-sm">
-                Cubent never trains on your code. Local-first design with secure context handling and flexible AI model options.
-              </p>
-            </div>
-
-            {/* Card 3 - Transparent */}
-            <div className="bg-neutral-700/20 backdrop-blur-sm rounded-lg p-8 border border-neutral-600/20 shadow-lg h-[350px] lg:h-[500px] flex flex-col items-center justify-center text-center relative overflow-hidden">
-              {/* Trim mark borders */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-white/30"></div>
-              <div className="absolute top-0 right-0 w-6 h-6 border-r-2 border-t-2 border-white/30"></div>
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-l-2 border-b-2 border-white/30"></div>
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-r-2 border-b-2 border-white/30"></div>
-              {/* Icon */}
-              <div className="mb-8">
-                <div className="w-20 h-20 bg-white/10 rounded-lg flex items-center justify-center mx-auto">
-                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-3xl lg:text-4xl font-regular tracking-tight text-white leading-tight mb-6">
-                Transparent by design
-              </h3>
-
-              {/* Description */}
-              <p className="text-white/70 text-base leading-relaxed max-w-sm">
-                Every suggestion is reviewable, every action traceable. No hidden processes—just clear, auditable AI assistance.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Community dictionary={dictionary} />
-
-      {/* Blog section */}
-      <div className="w-full py-16" style={{ backgroundColor: '#161616' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Header */}
           <div className="text-center mb-12">
-            <h2 className="text-white font-regular text-3xl tracking-tighter md:text-5xl mb-4">
-              The latest from Cubent
-            </h2>
-            <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-              Check out recent announcements, and other in-depth posts about Cubent behind the curtains.
-            </p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Deals We've Found in the Past</h2>
+            <p className="text-xl text-gray-600">Real deals our members have booked</p>
           </div>
 
-          {/* Blog posts */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Feed queries={[blog.postsQuery]}>
-              {async ([data]: [any]) => {
-                'use server';
-
-                if (!data.blog.posts.items.length) {
-                  return (
-                    <div className="col-span-3 text-center text-neutral-400">
-                      No blog posts available yet.
-                    </div>
-                  );
+          {/* Scrolling Cards */}
+          <div className="relative overflow-hidden">
+            <div className="flex animate-scroll space-x-6 mask-gradient">
+              {[
+                {
+                  price: '$105',
+                  route: 'Dallas ⇄ Honolulu',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80',
+                  city: 'Honolulu'
+                },
+                {
+                  price: '$22',
+                  route: 'Toronto ⇄ New York',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80',
+                  city: 'New York'
+                },
+                {
+                  price: '$187',
+                  route: 'Miami ⇄ Tokyo',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80',
+                  city: 'Tokyo'
+                },
+                {
+                  price: '$89',
+                  route: 'LA ⇄ London',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80',
+                  city: 'London'
+                },
+                {
+                  price: '$156',
+                  route: 'NYC ⇄ Paris',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  city: 'Paris'
+                },
+                {
+                  price: '$234',
+                  route: 'Chicago ⇄ Rome',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80',
+                  city: 'Rome'
                 }
-
-                // Get the latest 3 posts
-                const latestPosts = data.blog.posts.items.slice(0, 3);
-
-                return latestPosts.map((post: any) => (
-                  <Link
-                    href={`/blog/${post._slug}`}
-                    key={post._slug}
-                    className="group bg-neutral-700/20 backdrop-blur-sm rounded-lg p-6 border border-neutral-600/20 shadow-lg hover:bg-neutral-700/30 transition-all duration-300"
-                  >
-                    {/* Image */}
-                    <div className="aspect-video overflow-hidden rounded-lg mb-4">
-                      <Image
-                        src={post.image.url}
-                        alt={post.image.alt ?? post._title}
-                        width={400}
-                        height={225}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-
-                    {/* Content */}
-                    <div className="space-y-3">
-                      {/* Date */}
-                      <p className="text-neutral-400 text-sm">
-                        {new Date(post.date).toLocaleDateString('en-US', {
-                          month: 'long',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
-                      </p>
-
-                      {/* Title */}
-                      <h3 className="text-white text-xl font-semibold group-hover:text-white/90 transition-colors">
-                        {post._title}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-neutral-300 text-sm leading-relaxed line-clamp-3">
-                        {post.description}
-                      </p>
-                    </div>
-                  </Link>
-                ));
-              }}
-            </Feed>
+              ].concat([
+                {
+                  price: '$105',
+                  route: 'Dallas ⇄ Honolulu',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80',
+                  city: 'Honolulu'
+                },
+                {
+                  price: '$22',
+                  route: 'Toronto ⇄ New York',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80',
+                  city: 'New York'
+                },
+                {
+                  price: '$187',
+                  route: 'Miami ⇄ Tokyo',
+                  type: 'Roundtrip',
+                  image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80',
+                  city: 'Tokyo'
+                }
+              ]).map((deal, i) => (
+                <div key={i} className="flex-shrink-0 w-80 h-64 relative rounded-2xl overflow-hidden shadow-lg">
+                  <img
+                    src={deal.image}
+                    alt={deal.city}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-green-600/80 via-green-600/20 to-transparent"></div>
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-white/90 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                      BOOKED BY TRAVIRA MEMBERS
+                    </span>
+                  </div>
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <div className="text-4xl font-bold mb-1">{deal.price}</div>
+                    <div className="text-lg font-semibold mb-1">{deal.route}</div>
+                    <div className="text-sm opacity-90">{deal.type}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </>
+
+      {/* How It Works Section */}
+      <div className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">How Travira Works</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Our AI does the heavy lifting so you can focus on planning your perfect trip
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl">🎯</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Set Your Preferences</h3>
+              <p className="text-gray-600">
+                Tell us your home airports, dream destinations, and travel preferences. Our AI learns what you love.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl">🤖</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">AI Finds the Best Deals</h3>
+              <p className="text-gray-600">
+                Our advanced algorithms continuously scan millions of flight combinations to find incredible deals.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl">📧</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Get Personalized Alerts</h3>
+              <p className="text-gray-600">
+                Receive curated flight deals in your inbox based on your preferences and travel style.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Travira?</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              We're not just another flight search engine. We're your personal travel assistant.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-green-600 text-3xl mb-4">🧠</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Smart AI Recommendations</h3>
+              <p className="text-gray-600">
+                Our AI learns from your preferences and booking history to suggest the perfect trips.
+              </p>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-green-600 text-3xl mb-4">💰</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Guaranteed Savings</h3>
+              <p className="text-gray-600">
+                We find deals that save you hundreds on flights, often beating other sites by 20-40%.
+              </p>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-green-600 text-3xl mb-4">⚡</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Real-Time Alerts</h3>
+              <p className="text-gray-600">
+                Get notified instantly when prices drop for your favorite destinations.
+              </p>
+            </div>
+
+            {/* Feature 4 */}
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-green-600 text-3xl mb-4">🌍</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Global Coverage</h3>
+              <p className="text-gray-600">
+                We monitor flights to over 1000 destinations worldwide, from major cities to hidden gems.
+              </p>
+            </div>
+
+            {/* Feature 5 */}
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-green-600 text-3xl mb-4">📱</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Mobile Optimized</h3>
+              <p className="text-gray-600">
+                Access your deals anywhere with our mobile-optimized dashboard and email alerts.
+              </p>
+            </div>
+
+            {/* Feature 6 */}
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-green-600 text-3xl mb-4">🎯</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Flexible Dates</h3>
+              <p className="text-gray-600">
+                Find the best deals with flexible date options and travel window recommendations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Reviews Section */}
+      <div className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Real travelers, real savings</h2>
+            <p className="text-lg text-gray-600">Join a growing community of travelers saving hundreds on flights</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'Marcus Chen',
+                quote: 'Incredible travel deals, real discounts. Booked a flight for half the price thanks to Travira. Highly recommend!',
+                route: 'LA → Rome',
+                paid: 189,
+                img: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+              },
+              {
+                name: 'Sarah Johnson',
+                quote: 'Found multiple extremely low prices for me and my family. Travira alerts me to deals I can never find on my own.',
+                route: 'NYC → Dubai',
+                paid: 107,
+                img: 'https://plus.unsplash.com/premium_photo-1688572454849-4348982edf7d?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+              },
+              {
+                name: 'David Rodriguez',
+                quote: 'As a budget traveler this is a game changer. I used to spend hours searching. Now the deals come to me.',
+                route: 'Toronto → Miami',
+                paid: 38,
+                img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format'
+              }
+            ].map((r) => (
+              <div key={r.name} className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <div className="flex items-center gap-4 mb-4">
+                  <img src={r.img} alt={r.name} className="h-14 w-14 rounded-full object-cover" />
+                  <div>
+                    <div className="font-semibold text-gray-900">{r.name}</div>
+                    <div className="text-sm text-gray-600">paid ${r.paid} for a flight {r.route}</div>
+                  </div>
+                </div>
+                <p className="text-gray-700">“{r.quote}”</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Travel Inspiration Sections */}
+      <div className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section 1 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Discover Hidden Gems</h2>
+              <p className="text-lg text-gray-600 mb-6">
+                Our AI doesn't just find cheap flights—it uncovers destinations you never knew were affordable.
+                From secret European getaways to tropical paradises, expand your travel horizons without breaking the bank.
+              </p>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-gray-700">Off-the-beaten-path destinations</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-gray-700">Insider travel tips</span>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <img
+                src="https://images.unsplash.com/photo-1523225918988-00624e6d8fee?q=80&w=1411&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Group of friends traveling together exploring destinations"
+                className="rounded-2xl shadow-lg"
+              />
+            </div>
+          </div>
+
+          {/* Section 2 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1 relative">
+              <img
+                src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?q=80&w=800&auto=format&fit=crop"
+                alt="Friends traveling together with luggage at airport"
+                className="rounded-2xl shadow-lg"
+              />
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Travel More, Spend Less</h2>
+              <p className="text-lg text-gray-600 mb-6">
+                Stop dreaming and start traveling. With Travira's AI-powered deals, that European vacation
+                or Asian adventure is more affordable than you think. Our members save an average of $1,000 per year.
+              </p>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-gray-700">Up to 90% off regular prices</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-gray-700">Instant deal alerts</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="py-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">FAQ</h2>
+            <p className="text-lg text-gray-600">Everything you need to know</p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              { q: 'How does it work?', a: 'Tell us where you fly from and where you want to go. Our AI finds the best prices and emails you personalized deals.' },
+              { q: 'How many deals will I receive?', a: 'On average 2–3 deals per week, tailored to your home airports and interests.' },
+              { q: 'Can I choose my destinations?', a: 'Yes! Add dream destinations during onboarding and update them anytime in your dashboard.' },
+              { q: 'Is there a free trial?', a: 'Yes, try Travira free for 7 days. Cancel anytime. Then $8.25/mo billed annually.' },
+              { q: 'How do I book a flight deal?', a: 'We send direct booking links so you can book with the airline or a trusted OTA.' },
+              { q: 'How long do deals last?', a: 'Deal windows vary. Popular routes can sell out fast—book as soon as you see a match.' },
+            ].map((f, i) => (
+              <details key={f.q} className="bg-white rounded-xl border border-gray-200 p-6 group">
+                <summary className="font-semibold text-gray-900 cursor-pointer flex justify-between items-center">
+                  {f.q}
+                  <span className="text-green-600 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p className="text-gray-700 mt-4 leading-relaxed">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+
+
+      {/* CTA Section */}
+      <div className="py-20 bg-green-600">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Ready to Start Saving on Flights?
+          </h2>
+          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+            Join thousands of travelers who save hundreds on every trip with Travira's AI-powered flight deals.
+          </p>
+          <Link
+            href="/pricing"
+            className="bg-white text-green-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg inline-block"
+          >
+            Get Started for $99/year
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

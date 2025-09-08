@@ -103,3 +103,18 @@
 .animate-aurora {
   animation: aurora 60s linear infinite;
 }
+
+/* Deals scrolling animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+  width: max-content;
+}

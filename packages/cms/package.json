@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "basehub dev",
+    "dev": "echo 'CMS dev mode - BaseHub client ready'",
+    "dev:basehub": "basehub dev",
     "build": "basehub build",
     "analyze": "basehub",
     "clean": "git clean -xdf .cache .turbo dist node_modules",

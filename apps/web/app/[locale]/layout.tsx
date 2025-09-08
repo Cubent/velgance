@@ -1,7 +1,7 @@
 // Main layout component for the Cubent website
 import './styles.css';
 import { AnalyticsProvider } from '@repo/analytics';
-import { Toolbar as CMSToolbar } from '@repo/cms/components/toolbar';
+
 import { DesignSystemProvider } from '@repo/design-system';
 import { fonts } from '@repo/design-system/lib/fonts';
 import { cn } from '@repo/design-system/lib/utils';
@@ -35,7 +35,7 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
         <PerformanceHints />
         <link rel="canonical" href={`https://cubent.dev/${locale === 'en' ? '' : locale}`} />
       </head>
-      <body>
+      <body style={{ backgroundColor: '#e0fce9' }}>
         <ConsoleErrorSuppressor />
         {/* Structured Data for SEO */}
         <script
@@ -76,7 +76,6 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
               <Footer />
             </DesignSystemProvider>
             <Toolbar />
-            <CMSToolbar />
           </AnalyticsProvider>
         </ErrorBoundary>
       </body>

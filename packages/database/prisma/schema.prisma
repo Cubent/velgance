@@ -51,6 +51,12 @@ model User {
   autocompleteAnalytics AutocompleteAnalytics[]
   autocompleteMetrics   AutocompleteMetrics[]
 
+  // Travira relations
+  travelPreferences     UserPreferences?
+  flightRecommendations FlightRecommendation[]
+  stripeSubscription    StripeSubscription?
+  emailNotifications    EmailNotification[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -86,14 +92,14 @@ model UsageMetrics {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  tokensUsed      Int   @default(0)
-  inputTokens     Int   @default(0)
-  outputTokens    Int   @default(0)
-  cacheReadTokens Int   @default(0)
-  cacheWriteTokens Int  @default(0)
-  cubentUnitsUsed Float @default(0)
-  requestsMade    Int   @default(0)
-  costAccrued     Float @default(0)
+  tokensUsed       Int   @default(0)
+  inputTokens      Int   @default(0)
+  outputTokens     Int   @default(0)
+  cacheReadTokens  Int   @default(0)
+  cacheWriteTokens Int   @default(0)
+  cubentUnitsUsed  Float @default(0)
+  requestsMade     Int   @default(0)
+  costAccrued      Float @default(0)
 
   date DateTime @default(now())
 
@@ -106,17 +112,17 @@ model UsageAnalytics {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  modelId         String
-  tokensUsed      Int     @default(0)
-  inputTokens     Int     @default(0)
-  outputTokens    Int     @default(0)
-  cacheReadTokens Int     @default(0)
-  cacheWriteTokens Int    @default(0)
-  cubentUnitsUsed Float   @default(0)
-  requestsMade    Int     @default(0)
-  costAccrued     Float   @default(0)
-  sessionId       String?
-  metadata        Json?
+  modelId          String
+  tokensUsed       Int     @default(0)
+  inputTokens      Int     @default(0)
+  outputTokens     Int     @default(0)
+  cacheReadTokens  Int     @default(0)
+  cacheWriteTokens Int     @default(0)
+  cubentUnitsUsed  Float   @default(0)
+  requestsMade     Int     @default(0)
+  costAccrued      Float   @default(0)
+  sessionId        String?
+  metadata         Json?
 
   createdAt DateTime @default(now())
 
@@ -131,25 +137,25 @@ model AutocompleteAnalytics {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Autocomplete specific fields
-  modelId              String   // e.g., "codestral", "mercury-coder", "qwen-coder"
-  provider             String   // e.g., "mistral", "inception-labs", "ollama"
-  completionsGenerated Int      @default(0) // Number of completions generated
-  completionsAccepted  Int      @default(0) // Number of completions accepted by user
-  linesAdded           Int      @default(0) // Total lines of code added through autocomplete
-  charactersAdded      Int      @default(0) // Total characters added through autocomplete
+  modelId              String // e.g., "codestral", "mercury-coder", "qwen-coder"
+  provider             String // e.g., "mistral", "inception-labs", "ollama"
+  completionsGenerated Int    @default(0) // Number of completions generated
+  completionsAccepted  Int    @default(0) // Number of completions accepted by user
+  linesAdded           Int    @default(0) // Total lines of code added through autocomplete
+  charactersAdded      Int    @default(0) // Total characters added through autocomplete
 
   // Context and metadata
-  language             String?  // Programming language (e.g., "typescript", "python")
-  filepath             String?  // File path where completion occurred
-  sessionId            String?  // Session identifier
+  language  String? // Programming language (e.g., "typescript", "python")
+  filepath  String? // File path where completion occurred
+  sessionId String? // Session identifier
 
   // Performance metrics
-  avgLatency           Float?   @default(0) // Average completion latency in ms
-  successRate          Float?   @default(0) // Success rate (completions generated / requests)
-  acceptanceRate       Float?   @default(0) // Acceptance rate (accepted / generated)
+  avgLatency     Float? @default(0) // Average completion latency in ms
+  successRate    Float? @default(0) // Success rate (completions generated / requests)
+  acceptanceRate Float? @default(0) // Acceptance rate (accepted / generated)
 
   // Additional metadata
-  metadata             Json?    // Additional context (file type, project info, etc.)
+  metadata Json? // Additional context (file type, project info, etc.)
 
   createdAt DateTime @default(now())
 
@@ -166,18 +172,18 @@ model AutocompleteMetrics {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Daily aggregated autocomplete metrics
-  completionsGenerated Int   @default(0) // Total completions generated this day
-  completionsAccepted  Int   @default(0) // Total completions accepted this day
-  linesAdded           Int   @default(0) // Total lines added this day
-  charactersAdded      Int   @default(0) // Total characters added this day
+  completionsGenerated Int @default(0) // Total completions generated this day
+  completionsAccepted  Int @default(0) // Total completions accepted this day
+  linesAdded           Int @default(0) // Total lines added this day
+  charactersAdded      Int @default(0) // Total characters added this day
 
   // Performance aggregates
-  avgLatency           Float @default(0) // Average latency for the day
-  avgSuccessRate       Float @default(0) // Average success rate for the day
-  avgAcceptanceRate    Float @default(0) // Average acceptance rate for the day
+  avgLatency        Float @default(0) // Average latency for the day
+  avgSuccessRate    Float @default(0) // Average success rate for the day
+  avgAcceptanceRate Float @default(0) // Average acceptance rate for the day
 
   // Model breakdown (JSON object with model usage stats)
-  modelBreakdown       Json? // { "codestral": { completions: 50, accepted: 30 }, ... }
+  modelBreakdown Json? // { "codestral": { completions: 50, accepted: 30 }, ... }
 
   date DateTime @default(now())
 
@@ -245,4 +251,143 @@ model PendingLogin {
 model Page {
   id   Int    @id @default(autoincrement())
   name String
+}
+
+// Travira-specific models
+model UserPreferences {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Home airports (JSON array of airport codes)
+  homeAirports Json @default("[]") // ["LAX", "JFK", "ORD"]
+
+  // Dream destinations (JSON array of countries/cities)
+  dreamDestinations Json @default("[]") // ["Japan", "Paris", "Iceland"]
+
+  // Delivery frequency
+  deliveryFrequency String @default("weekly") // "daily", "every_3_days", "weekly", "bi_weekly", "monthly"
+
+  // Additional preferences
+  maxBudget         Float?
+  preferredAirlines Json?  @default("[]") // ["Delta", "United"]
+  travelFlexibility Int    @default(7) // days of flexibility
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model FlightRecommendation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Flight details
+  origin      String // Airport code
+  destination String // Airport code
+
+  // Dates and pricing
+  departureDate DateTime
+  returnDate    DateTime?
+  price         Float
+  currency      String    @default("USD")
+
+  // Flight info
+  airline      String
+  flightNumber String?
+  layovers     Json?   @default("[]") // Array of layover info
+  duration     String? // "8h 30m"
+  baggageInfo  Json? // Baggage allowance details
+
+  // AI analysis
+  aiSummary       String? // AI-generated summary
+  confidenceScore Float?  @default(0) // 0-1 confidence score
+  dealQuality     String? // "excellent", "good", "fair"
+
+  // Booking links
+  bookingUrl String?
+  otaUrl     String?
+
+  // Metadata
+  searchDate DateTime @default(now())
+  isActive   Boolean  @default(true)
+  isWatched  Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([origin])
+  @@index([destination])
+  @@index([departureDate])
+  @@index([price])
+  @@index([isActive])
+}
+
+model StripeSubscription {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Stripe identifiers
+  stripeCustomerId     String  @unique
+  stripeSubscriptionId String? @unique
+  stripePriceId        String?
+
+  // Subscription details
+  status             String    @default("inactive") // "active", "inactive", "canceled", "past_due"
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  cancelAtPeriodEnd  Boolean   @default(false)
+
+  // Billing
+  amount   Float  @default(99.00) // $99/year
+  currency String @default("USD")
+  interval String @default("year") // "month", "year"
+
+  // Metadata
+  trialEnd   DateTime?
+  canceledAt DateTime?
+  endedAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([stripeCustomerId])
+  @@index([status])
+}
+
+model EmailNotification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Email details
+  subject        String
+  content        String // HTML content
+  recipientEmail String
+
+  // Notification metadata
+  notificationType String // "flight_deals", "subscription_reminder", etc.
+  flightCount      Int    @default(0)
+
+  // Delivery status
+  status       String    @default("pending") // "pending", "sent", "failed"
+  sentAt       DateTime?
+  failedAt     DateTime?
+  errorMessage String?
+
+  // SendGrid metadata
+  sendGridMessageId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([notificationType])
+  @@index([sentAt])
 }
