@@ -86,7 +86,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   }
 
   // Get subscription details from Stripe
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription;
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // Update subscription in database
   await database.stripeSubscription.update({
@@ -95,9 +95,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       stripeSubscriptionId: subscriptionId,
       stripePriceId: subscription.items.data[0]?.price.id,
       status: subscription.status,
-      currentPeriodStart: new Date(subscription.current_period_start * 1000),
-      currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-      cancelAtPeriodEnd: subscription.cancel_at_period_end,
+      currentPeriodStart: new Date((subscription as any).current_period_start * 1000),
+      currentPeriodEnd: new Date((subscription as any).current_period_end * 1000),
+      cancelAtPeriodEnd: (subscription as any).cancel_at_period_end,
     },
   });
 
@@ -120,11 +120,11 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     where: { id: stripeSubscription.id },
     data: {
       status: subscription.status,
-      currentPeriodStart: new Date(subscription.current_period_start * 1000),
-      currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-      cancelAtPeriodEnd: subscription.cancel_at_period_end,
-      canceledAt: subscription.canceled_at ? new Date(subscription.canceled_at * 1000) : null,
-      endedAt: subscription.ended_at ? new Date(subscription.ended_at * 1000) : null,
+      currentPeriodStart: new Date((subscription as any).current_period_start * 1000),
+      currentPeriodEnd: new Date((subscription as any).current_period_end * 1000),
+      cancelAtPeriodEnd: (subscription as any).cancel_at_period_end,
+      canceledAt: (subscription as any).canceled_at ? new Date((subscription as any).canceled_at * 1000) : null,
+      endedAt: (subscription as any).ended_at ? new Date((subscription as any).ended_at * 1000) : null,
     },
   });
 
@@ -157,13 +157,13 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   if (!invoice.subscription) return;
 
-  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string) as Stripe.Subscription;
+  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
   await handleSubscriptionUpdated(subscription);
 }
 
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
   if (!invoice.subscription) return;
 
-  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string) as Stripe.Subscription;
+  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
   await handleSubscriptionUpdated(subscription);
 }
