@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@repo/database';
+import { database as db } from '@repo/database';
 import { sendFlightDealsEmail } from '@/services/email';
 import { generateEmailSummary } from '@/services/o3';
 
