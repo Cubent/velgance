@@ -60,6 +60,11 @@ export const Header = ({ dictionary }: HeaderProps) => {
     return false;
   };
 
+  // Helper function to check if company section is active
+  const isCompanyActive = () => {
+    return pathname.startsWith('/company') || pathname.startsWith('/about');
+  };
+
   const [isOpen, setOpen] = useState(false);
   const [isCompanyExpanded, setCompanyExpanded] = useState(false);
 
