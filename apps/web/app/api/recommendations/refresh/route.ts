@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@repo/database';
-import { getFlightRecommendations } from '../../../services/o3';
+import { getFlightRecommendations } from '@/services/o3';
 
 export async function POST(request: NextRequest) {
   try {

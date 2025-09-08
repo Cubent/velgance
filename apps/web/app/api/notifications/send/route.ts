@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@repo/database';
-import { sendFlightDealsEmail } from '../../../services/email';
-import { generateEmailSummary } from '../../../services/o3';
+import { sendFlightDealsEmail } from '@/services/email';
+import { generateEmailSummary } from '@/services/o3';
 
 // This endpoint should be called by a cron job or scheduled task
 export async function POST(request: NextRequest) {
