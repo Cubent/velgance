@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { db } from '@repo/database';
+import { database } from '@repo/database';
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Find the user by Clerk ID
-    const user = await db.user.findUnique({
+    const user = await database.user.findUnique({
       where: { clerkId: userId },
       include: {
         flightRecommendations: {

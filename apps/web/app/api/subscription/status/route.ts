@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { db } from '@repo/database';
+import { database } from '@repo/database';
 import { createBillingPortalSession } from '@repo/payments';
 
 export async function GET(request: NextRequest) {
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Find the user by Clerk ID
-    const user = await db.user.findUnique({
+    const user = await database.user.findUnique({
       where: { clerkId: userId },
       include: {
         stripeSubscription: true,
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     const { action, returnUrl } = body;
 
     // Find the user by Clerk ID
-    const user = await db.user.findUnique({
+    const user = await database.user.findUnique({
       where: { clerkId: userId },
       include: {
         stripeSubscription: true,

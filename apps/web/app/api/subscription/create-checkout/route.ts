@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { db } from '@repo/database';
+import { database } from '@repo/database';
 import { createTraviraCustomer, createTraviraCheckoutSession } from '@repo/payments';
 
 export async function POST(request: NextRequest) {
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Find the user by Clerk ID
-    const user = await db.user.findUnique({
+    const user = await database.user.findUnique({
       where: { clerkId: userId },
       include: {
         stripeSubscription: true,
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       customerId = customer.id;
 
       // Save customer ID to database
-      await db.stripeSubscription.upsert({
+      await database.stripeSubscription.upsert({
         where: { userId: user.id },
         update: { stripeCustomerId: customerId },
         create: {

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { stripe } from '@repo/payments';
 import { keys } from '@repo/payments/keys';
-import { db } from '@repo/database';
+import { database } from '@repo/database';
 import Stripe from 'stripe';
 
 export async function POST(request: NextRequest) {
@@ -74,7 +74,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const subscriptionId = session.subscription as string;
 
   // Find user by Stripe customer ID
-  const stripeSubscription = await db.stripeSubscription.findUnique({
+  const stripeSubscription = await database.stripeSubscription.findUnique({
     where: { stripeCustomerId: customerId },
     include: { user: true },
   });
@@ -88,7 +88,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // Update subscription in database
-  await db.stripeSubscription.update({
+  await database.stripeSubscription.update({
     where: { id: stripeSubscription.id },
     data: {
       stripeSubscriptionId: subscriptionId,
@@ -106,7 +106,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   const customerId = subscription.customer as string;
 
-  const stripeSubscription = await db.stripeSubscription.findUnique({
+  const stripeSubscription = await database.stripeSubscription.findUnique({
     where: { stripeCustomerId: customerId },
   });
 
@@ -115,7 +115,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     return;
   }
 
-  await db.stripeSubscription.update({
+  await database.stripeSubscription.update({
     where: { id: stripeSubscription.id },
     data: {
       status: subscription.status,
@@ -133,7 +133,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   const customerId = subscription.customer as string;
 
-  const stripeSubscription = await db.stripeSubscription.findUnique({
+  const stripeSubscription = await database.stripeSubscription.findUnique({
     where: { stripeCustomerId: customerId },
   });
 
@@ -142,7 +142,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     return;
   }
 
-  await db.stripeSubscription.update({
+  await database.stripeSubscription.update({
     where: { id: stripeSubscription.id },
     data: {
       status: 'canceled',
