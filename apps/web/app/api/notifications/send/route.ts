@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
             currency: rec.currency,
             airline: rec.airline,
             dealQuality: (rec.dealQuality as 'excellent' | 'good' | 'fair') || 'good',
-            bookingUrl: rec.bookingUrl,
+            bookingUrl: rec.bookingUrl || undefined,
             layovers: (rec.layovers as Array<{ airport: string; duration: string }>) || [],
             duration: rec.duration || 'N/A',
             baggageInfo: (rec.baggageInfo as { carry_on: string; checked: string }) || {
