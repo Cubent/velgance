@@ -1,7 +1,4 @@
 import { Sidebar } from '@/components/sidebar';
-import { legal } from '@repo/cms';
-import { Body } from '@repo/cms/components/body';
-import { TableOfContents } from '@repo/cms/components/toc';
 import { createMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -16,29 +13,43 @@ export const generateMetadata = async ({
   params,
 }: LegalPageProperties): Promise<Metadata> => {
   const { slug } = await params;
-  const post = await legal.getPost(slug);
-
-  if (!post) {
-    return {};
-  }
-
+  
+  // TODO: Replace with actual legal content when CMS is implemented
   return createMetadata({
-    title: post._title,
-    description: post.description,
+    title: `Legal - ${slug}`,
+    description: 'Legal page',
   });
 };
 
 export const generateStaticParams = async (): Promise<{ slug: string }[]> => {
-  const posts = await legal.getPosts();
-
-  return posts.map(({ _slug }) => ({ slug: _slug }));
+  // TODO: Replace with actual legal pages when CMS is implemented
+  return [
+    { slug: 'privacy' },
+    { slug: 'terms' },
+    { slug: 'cookies' }
+  ];
 };
 
 const LegalPage = async ({ params }: LegalPageProperties) => {
   const { slug } = await params;
 
-  // Fetch data directly instead of using server actions inside components
-  const data = await legal.getPost(slug);
+  // TODO: Replace with actual legal content when CMS is implemented
+  const legalContent: Record<string, { title: string; content: string }> = {
+    privacy: {
+      title: 'Privacy Policy',
+      content: 'Privacy policy content will be added when CMS is implemented.'
+    },
+    terms: {
+      title: 'Terms of Service',
+      content: 'Terms of service content will be added when CMS is implemented.'
+    },
+    cookies: {
+      title: 'Cookie Policy',
+      content: 'Cookie policy content will be added when CMS is implemented.'
+    }
+  };
+
+  const data = legalContent[slug];
   
   if (!data) {
     notFound();
@@ -50,13 +61,14 @@ const LegalPage = async ({ params }: LegalPageProperties) => {
               <div className="flex flex-col items-start gap-8 lg:flex-row">
               <div className="flex-1 max-w-none lg:max-w-3xl mx-auto lg:mx-0">
                 <div className="prose prose-neutral dark:prose-invert max-w-none">
-                  <Body content={data.body.json.content} />
+                  <h1>{data.title}</h1>
+                  <p>{data.content}</p>
                 </div>
               </div>
               <div className="sticky top-24 hidden shrink-0 lg:block lg:w-64">
                 <Sidebar
-                  toc={<TableOfContents data={data.body.json.toc} />}
-                  readingTime={`${data.body.readingTime} min read`}
+                  toc={<div>Table of contents placeholder</div>}
+                  readingTime="1 min read"
                   date={new Date()}
                 />
               </div>

@@ -1,4 +1,4 @@
-import { Toolbar } from '@repo/cms/components/toolbar';
+// Toolbar removed with CMS package
 import type { ReactNode } from 'react';
 
 type LegalLayoutProps = {
