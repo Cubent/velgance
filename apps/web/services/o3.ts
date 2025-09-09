@@ -14,7 +14,7 @@ export interface FlightSearchParams {
   departureMonth?: string; // e.g., "2024-03"
 }
 
-export interface FlightDeal {
+export interface O3FlightDeal {
   origin: string;
   destination: string;
   departureDate: string;
@@ -38,7 +38,7 @@ export interface FlightDeal {
 }
 
 export interface FlightRecommendationResponse {
-  deals: FlightDeal[];
+  deals: O3FlightDeal[];
   summary: string;
   searchMetadata: {
     searchDate: string;
@@ -210,7 +210,7 @@ export async function batchProcessFlightRecommendations(
  * Generate a summary prompt for email notifications
  */
 export async function generateEmailSummary(
-  deals: FlightDeal[],
+  deals: O3FlightDeal[],
   userPreferences: { dreamDestinations: string[]; maxBudget?: number }
 ): Promise<string> {
   const prompt = `Create a personalized email summary for these flight deals:
