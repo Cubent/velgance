@@ -79,7 +79,7 @@ const Home = async ({ params }: HomeProps) => {
               </Link>
               <Link
                 href="/contact"
-                className="border-2 border-[#f0e8d4] text-[#f0e8d4] px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#f0e8d4]/10 transition-colors w-fit sm:w-auto"
+                className="border-2 border-[#f0e8d4] text-[#f0e8d4] px-4 py-3 sm:px-6 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#f0e8d4]/10 transition-colors w-fit sm:w-auto"
               >
                 Learn More
               </Link>
@@ -131,51 +131,50 @@ const Home = async ({ params }: HomeProps) => {
       </div>
 
       {/* Airline Partners Section */}
-      <div className="py-12 bg-[#25201f] overflow-hidden">
+      <div className="pt-2 pb-1 bg-[#25201f] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-white text-center text-2xl font-bold mb-8">Our Airline Partners</h2>
           {/* Scrolling Airline Logos */}
           <div className="relative overflow-hidden">
-            <div className="flex space-x-16 items-center animate-scroll">
+            <div className="flex space-x-8 sm:space-x-16 items-center animate-scroll">
               {/* Airline logos with better sources */}
               {[
-                { name: 'American Airlines', logo: '/America lines.png' },
-                { name: 'United Airlines', logo: '/UNITED.png' },
-                { name: 'Southwest', logo: '/SOUTHWEST.png' },
-                { name: 'JetBlue', logo: '/JETBLUE.png' },
-                { name: 'Lufthansa', logo: '/Lufthans.png' },
-                { name: 'British Airways', logo: '/british airways.png' },
-                { name: 'Qatar Airways', logo: '/QATAR AIRWAYS.png' },
-                { name: 'Singapore Airlines', logo: '/SINGAPORE AIRLINE.png' },
-                { name: 'Turkish Airlines', logo: '/TURKISH LINES.png' },
-                { name: 'Air Canada', logo: '/AIR CANADA.png' }
+                { name: 'Air Canada', logo: 'https://i.postimg.cc/zGbxzG1z/AIR-CANADA.png' },
+                { name: 'American Airlines', logo: 'https://i.postimg.cc/B6spB5Pb/America-lines.png' },
+                { name: 'British Airways', logo: 'https://i.postimg.cc/XYRQp6Vw/british-airways.png' },
+                { name: 'JetBlue', logo: 'https://i.postimg.cc/CKbJ8r19/JETBLUE.png' },
+                { name: 'Lufthansa', logo: 'https://i.postimg.cc/9Mpp84yp/Lufthans.png' },
+                { name: 'Qatar Airways', logo: 'https://i.postimg.cc/Bb7C3dYP/QATAR-AIRWAYS.png' },
+                { name: 'Singapore Airlines', logo: 'https://i.postimg.cc/6qphD90N/SINGAPORE-AIRLINE.png' },
+                { name: 'Southwest', logo: 'https://i.postimg.cc/wxw2Dmqx/SOUTHWEST.png' },
+                { name: 'Turkish Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' },
+                { name: 'United Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' }
               ].map((airline, i) => (
-                <div key={i} className="flex-shrink-0 flex items-center justify-center h-20 w-40">
+                <div key={i} className="flex-shrink-0 flex items-center justify-center h-28 w-56 overflow-hidden">
                   <img
                     src={airline.logo}
                     alt={airline.name}
-                    className="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+                    className="h-20 w-auto object-cover object-center opacity-90 hover:opacity-100 transition-opacity"
                   />
                 </div>
               ))}
               {/* Duplicate set for seamless loop */}
               {[
-                { name: 'American Airlines', logo: '/America lines.png' },
-                { name: 'United Airlines', logo: '/UNITED.png' },
-                { name: 'Southwest', logo: '/SOUTHWEST.png' },
-                { name: 'JetBlue', logo: '/JETBLUE.png' },
-                { name: 'Lufthansa', logo: '/Lufthans.png' },
-                { name: 'British Airways', logo: '/british airways.png' },
-                { name: 'Qatar Airways', logo: '/QATAR AIRWAYS.png' },
-                { name: 'Singapore Airlines', logo: '/SINGAPORE AIRLINE.png' },
-                { name: 'Turkish Airlines', logo: '/TURKISH LINES.png' },
-                { name: 'Air Canada', logo: '/AIR CANADA.png' }
+                { name: 'Air Canada', logo: 'https://i.postimg.cc/zGbxzG1z/AIR-CANADA.png' },
+                { name: 'American Airlines', logo: 'https://i.postimg.cc/B6spB5Pb/America-lines.png' },
+                { name: 'British Airways', logo: 'https://i.postimg.cc/XYRQp6Vw/british-airways.png' },
+                { name: 'JetBlue', logo: 'https://i.postimg.cc/CKbJ8r19/JETBLUE.png' },
+                { name: 'Lufthansa', logo: 'https://i.postimg.cc/9Mpp84yp/Lufthans.png' },
+                { name: 'Qatar Airways', logo: 'https://i.postimg.cc/Bb7C3dYP/QATAR-AIRWAYS.png' },
+                { name: 'Singapore Airlines', logo: 'https://i.postimg.cc/6qphD90N/SINGAPORE-AIRLINE.png' },
+                { name: 'Southwest', logo: 'https://i.postimg.cc/wxw2Dmqx/SOUTHWEST.png' },
+                { name: 'Turkish Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' },
+                { name: 'United Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' }
               ].map((airline, i) => (
-                <div key={`duplicate-${i}`} className="flex-shrink-0 flex items-center justify-center h-20 w-40">
+                <div key={`duplicate-${i}`} className="flex-shrink-0 flex items-center justify-center h-28 w-56 overflow-hidden">
                   <img
                     src={airline.logo}
                     alt={airline.name}
-                    className="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+                    className="h-20 w-auto object-cover object-center opacity-90 hover:opacity-100 transition-opacity"
                   />
                 </div>
               ))}
@@ -194,7 +193,7 @@ const Home = async ({ params }: HomeProps) => {
 
           {/* Scrolling Cards */}
           <div className="relative overflow-hidden">
-            <div className="flex animate-scroll space-x-6 mask-gradient">
+            <div className="flex animate-scroll space-x-3 sm:space-x-6 mask-gradient">
               {[
                 {
                   price: '$105',
@@ -267,9 +266,9 @@ const Home = async ({ params }: HomeProps) => {
                     alt={deal.city}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-green-600/80 via-green-600/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#045530]/80 via-[#045530]/20 to-transparent"></div>
                   <div className="absolute top-4 right-4">
-                    <span className="bg-white/90 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                    <span className="bg-[#d5e27b] text-[#045530] px-3 py-1 rounded-full text-sm font-semibold">
                       BOOKED BY TRAVIRA MEMBERS
                     </span>
                   </div>
@@ -287,31 +286,27 @@ const Home = async ({ params }: HomeProps) => {
 
       {/* Dividing Line */}
       <div className="flex justify-center py-8 bg-[#f0e8d4]">
-        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
+        <div className="w-96 sm:w-[600px] lg:w-[800px] xl:w-[1000px] h-px bg-amber-800/50 rounded-full"></div>
       </div>
 
       {/* How It Works Section */}
       <div className="py-20 bg-[#f0e8d4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">How Travira Works</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Our AI does the heavy lifting so you can focus on planning your perfect trip
-            </p>
+            <h2 className="text-5xl font-bold text-[#045530] mb-4">How Travira Works</h2>
+            <p className="text-xl text-[#045530]">Our AI does the heavy lifting so you can focus on planning your perfect trip</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Column - Steps */}
-            <div className="space-y-8">
+            <div className="space-y-16">
               {/* Step 1 */}
               <div className="flex items-start gap-6">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#22c55e'}}>
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
-                  </svg>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-[#045530]">
+                  <span className="text-2xl font-bold text-[#045530]">1</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Set Your Preferences</h3>
+                  <h3 className="text-2xl font-semibold text-[#045530] mb-3">Set Your Preferences</h3>
                   <p className="text-gray-600">
                     Tell us your home airports, dream destinations, and travel preferences. Our AI learns what you love.
                   </p>
@@ -320,13 +315,11 @@ const Home = async ({ params }: HomeProps) => {
 
               {/* Step 2 */}
               <div className="flex items-start gap-6">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#22c55e'}}>
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-[#045530]">
+                  <span className="text-2xl font-bold text-[#045530]">2</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">AI Finds the Best Deals</h3>
+                  <h3 className="text-2xl font-semibold text-[#045530] mb-3">AI Finds the Best Deals</h3>
                   <p className="text-gray-600">
                     Our advanced algorithms continuously scan millions of flight combinations to find incredible deals.
                   </p>
@@ -335,13 +328,11 @@ const Home = async ({ params }: HomeProps) => {
 
               {/* Step 3 */}
               <div className="flex items-start gap-6">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#22c55e'}}>
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-[#045530]">
+                  <span className="text-2xl font-bold text-[#045530]">3</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Get Personalized Alerts</h3>
+                  <h3 className="text-2xl font-semibold text-[#045530] mb-3">Get Personalized Alerts</h3>
                   <p className="text-gray-600">
                     Receive curated flight deals in your inbox based on your preferences and travel style.
                   </p>
@@ -352,105 +343,98 @@ const Home = async ({ params }: HomeProps) => {
             {/* Right Column - Image */}
             <div className="flex justify-center">
               <img
-                src="https://i.postimg.cc/HxGLV8gz/Gemini-Generated-Image-tvshcstvshcstvsh.png"
+                src="https://i.postimg.cc/8cdjBWWp/Travira-3.png"
                 alt="How Travira Works"
-                className="w-full max-w-md h-auto rounded-3xl shadow-lg"
+                className="w-full max-w-xl h-auto rounded-3xl"
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Dividing Line */}
-      <div className="flex justify-center py-8 bg-[#f0e8d4]">
-        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
-      </div>
-
       {/* Features Section */}
-      <div className="py-20 bg-[#f0e8d4]">
+      <div className="py-20 bg-[#045530]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Travira?</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              We're not just another flight search engine. We're your personal travel assistant.
-            </p>
+            <h2 className="text-5xl font-bold text-[#d5e27b] mb-4">Why Choose Travira?</h2>
+            <p className="text-xl text-[#d5e27b]">We're not just another flight search engine. We're your personal travel assistant.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {/* Feature 1 */}
-            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            <div className="p-6">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-[#d5e27b]">
+                <svg className="w-6 h-6 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Smart AI Recommendations</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#fff0d2] mb-3">Smart AI Recommendations</h3>
+              <p className="text-[#fff0d2]">
                 Our AI learns from your preferences and booking history to suggest the perfect trips.
               </p>
             </div>
 
             {/* Feature 2 */}
-            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div className="p-6">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-[#d5e27b]">
+                <svg className="w-6 h-6 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Guaranteed Savings</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#fff0d2] mb-3">Guaranteed Savings</h3>
+              <p className="text-[#fff0d2]">
                 We find deals that save you hundreds on flights, often beating other sites by 20-40%.
               </p>
             </div>
 
             {/* Feature 3 */}
-            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            <div className="p-6">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-[#d5e27b]">
+                <svg className="w-6 h-6 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Real-Time Alerts</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#fff0d2] mb-3">Real-Time Alerts</h3>
+              <p className="text-[#fff0d2]">
                 Get notified instantly when prices drop for your favorite destinations.
               </p>
             </div>
 
             {/* Feature 4 */}
-            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div className="p-6">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-[#d5e27b]">
+                <svg className="w-6 h-6 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Global Coverage</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#fff0d2] mb-3">Global Coverage</h3>
+              <p className="text-[#fff0d2]">
                 We monitor flights to over 1000 destinations worldwide, from major cities to hidden gems.
               </p>
             </div>
 
             {/* Feature 5 */}
-            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            <div className="p-6">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-[#d5e27b]">
+                <svg className="w-6 h-6 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Mobile Optimized</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#fff0d2] mb-3">Mobile Optimized</h3>
+              <p className="text-[#fff0d2]">
                 Access your deals anywhere with our mobile-optimized dashboard and email alerts.
               </p>
             </div>
 
             {/* Feature 6 */}
-            <div className="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{backgroundColor: '#22c55e20'}}>
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <div className="p-6">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 bg-[#d5e27b]">
+                <svg className="w-6 h-6 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Flexible Dates</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-[#fff0d2] mb-3">Flexible Dates</h3>
+              <p className="text-[#fff0d2]">
                 Find the best deals with flexible date options and travel window recommendations.
               </p>
             </div>
@@ -458,17 +442,12 @@ const Home = async ({ params }: HomeProps) => {
         </div>
       </div>
 
-      {/* Dividing Line */}
-      <div className="flex justify-center py-8 bg-[#f0e8d4]">
-        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
-      </div>
-
       {/* Reviews Section */}
       <div className="py-20 bg-[#f0e8d4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Real travelers, real savings</h2>
-            <p className="text-lg text-gray-600">Join a growing community of travelers saving hundreds on flights</p>
+            <h2 className="text-5xl font-bold text-[#045530] mb-4">Real travelers, real savings</h2>
+            <p className="text-xl text-[#045530]">Join a growing community of travelers saving hundreds on flights</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -495,15 +474,15 @@ const Home = async ({ params }: HomeProps) => {
                 img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format'
               }
             ].map((r) => (
-              <div key={r.name} className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+              <div key={r.name} className="bg-[#d5e27b] rounded-xl p-6">
                 <div className="flex items-center gap-4 mb-4">
                   <img src={r.img} alt={r.name} className="h-14 w-14 rounded-full object-cover" />
                   <div>
-                    <div className="font-semibold text-gray-900">{r.name}</div>
-                    <div className="text-sm text-gray-600">paid ${r.paid} for a flight {r.route}</div>
+                    <div className="font-semibold text-[#045530]">{r.name}</div>
+                    <div className="text-sm text-[#045530]">paid ${r.paid} for a flight {r.route}</div>
                   </div>
                 </div>
-                <p className="text-gray-700">“{r.quote}”</p>
+                <p className="text-[#045530]">"{r.quote}"</p>
               </div>
             ))}
           </div>
@@ -512,7 +491,7 @@ const Home = async ({ params }: HomeProps) => {
 
       {/* Dividing Line */}
       <div className="flex justify-center py-8 bg-[#f0e8d4]">
-        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
+        <div className="w-96 sm:w-[600px] lg:w-[800px] xl:w-[1000px] h-px bg-amber-800/50 rounded-full"></div>
       </div>
 
       {/* Travel Inspiration Sections */}
@@ -520,54 +499,82 @@ const Home = async ({ params }: HomeProps) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section 1 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Discover Hidden Gems</h2>
+            <div className="order-2 lg:order-1">
+              <h2 className="text-6xl font-bold text-[#045530] mb-6">Never Overpay for Flights Again</h2>
               <p className="text-lg text-gray-600 mb-6">
-                Our AI doesn't just find cheap flights—it uncovers destinations you never knew were affordable.
-                From secret European getaways to tropical paradises, expand your travel horizons without breaking the bank.
+                Airline prices jump up and down hundreds of times a day. We keep watch so you don't have to tracking live fares, spotting real bargains, and pinging you the second a major price drop hits.
               </p>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  <span className="text-gray-700">Off-the-beaten-path destinations</span>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#d5e27b]">
+                    <svg className="w-4 h-4 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-gray-700">We stalk flights so you don't have</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  <span className="text-gray-700">Insider travel tips</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#d5e27b]">
+                    <svg className="w-4 h-4 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-gray-700">We spot the real drops</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#d5e27b]">
+                    <svg className="w-4 h-4 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                  <span className="text-gray-700">We're faster than your friends</span>
                 </div>
               </div>
             </div>
-            <div className="relative">
+            <div className="order-1 lg:order-2 relative -mt-4 sm:mt-0">
               <img
-                src="https://images.unsplash.com/photo-1523225918988-00624e6d8fee?q=80&w=1411&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Group of friends traveling together exploring destinations"
-                className="rounded-2xl shadow-lg"
+                src="https://i.postimg.cc/rwcJ5CBH/Travira-1.png"
+                alt="Never Overpay for Flights Again"
+                className="w-full max-w-xl h-auto rounded-2xl"
               />
             </div>
           </div>
 
+          {/* Dividing Line */}
+          <div className="flex justify-center mb-20">
+            <div className="w-96 sm:w-[600px] lg:w-[800px] xl:w-[1000px] h-px bg-amber-800/50"></div>
+          </div>
+
           {/* Section 2 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1 relative">
+            <div className="order-1 lg:order-2 relative -mt-4 sm:mt-0">
               <img
-                src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?q=80&w=800&auto=format&fit=crop"
-                alt="Friends traveling together with luggage at airport"
-                className="rounded-2xl shadow-lg"
+                src="https://i.postimg.cc/Fz6KNZjH/Travira-2.png"
+                alt="Travel More, Spend Less"
+                className="w-full max-w-5xl h-auto rounded-2xl"
               />
             </div>
-            <div className="order-1 lg:order-2">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Travel More, Spend Less</h2>
+            <div className="order-2 lg:order-1">
+              <h2 className="text-6xl font-bold text-[#045530] mb-6">Travel More, Spend Less</h2>
               <p className="text-lg text-gray-600 mb-6">
                 Stop dreaming and start traveling. With Travira's AI-powered deals, that European vacation
                 or Asian adventure is more affordable than you think. Our members save an average of $1,000 per year.
               </p>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#d5e27b]">
+                    <svg className="w-4 h-4 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
                   <span className="text-gray-700">Up to 90% off regular prices</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#d5e27b]">
+                    <svg className="w-4 h-4 text-[#045530]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
                   <span className="text-gray-700">Instant deal alerts</span>
                 </div>
               </div>
@@ -576,17 +583,12 @@ const Home = async ({ params }: HomeProps) => {
         </div>
       </div>
 
-      {/* Dividing Line */}
-      <div className="flex justify-center py-8 bg-[#f0e8d4]">
-        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
-      </div>
-
       {/* FAQ Section */}
-      <div className="py-20 bg-[#f0e8d4]">
+      <div className="py-20 bg-[#045530]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">FAQ</h2>
-            <p className="text-lg text-gray-600">Everything you need to know</p>
+            <h2 className="text-5xl font-bold text-[#fff0d2] mb-4">FAQ</h2>
+            <p className="text-xl text-[#fff0d2]">Everything you need to know</p>
           </div>
 
           <div className="space-y-4">
@@ -598,12 +600,12 @@ const Home = async ({ params }: HomeProps) => {
               { q: 'How do I book a flight deal?', a: 'We send direct booking links so you can book with the airline or a trusted OTA.' },
               { q: 'How long do deals last?', a: 'Deal windows vary. Popular routes can sell out fast—book as soon as you see a match.' },
             ].map((f, i) => (
-              <details key={f.q} className="bg-white rounded-xl border border-gray-200 p-6 group">
-                <summary className="font-semibold text-gray-900 cursor-pointer flex justify-between items-center">
+              <details key={f.q} className="bg-[#d5e27b] rounded-xl p-6 group">
+                <summary className="font-semibold text-[#045530] cursor-pointer flex justify-between items-center">
                   {f.q}
-                  <span className="text-green-600 group-open:rotate-180 transition-transform">▼</span>
+                  <span className="text-[#045530] group-open:rotate-45 transition-transform">+</span>
                 </summary>
-                <p className="text-gray-700 mt-4 leading-relaxed">{f.a}</p>
+                <p className="text-[#25201f] mt-4 leading-relaxed">{f.a}</p>
               </details>
             ))}
           </div>
@@ -612,19 +614,19 @@ const Home = async ({ params }: HomeProps) => {
 
 
       {/* CTA Section */}
-      <div className="py-20 bg-green-600">
+      <div className="py-20 bg-[#fff0d2]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2 className="text-4xl font-bold text-[#045530] mb-6">
             Ready to Start Saving on Flights?
           </h2>
-          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-[#045530] mb-8 max-w-2xl mx-auto">
             Join thousands of travelers who save hundreds on every trip with Travira's AI-powered flight deals.
           </p>
           <Link
             href="/sign-up?redirect_url=/pricing"
-            className="bg-white text-green-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg inline-block"
+            className="bg-[#045530] text-[#d5e27b] px-8 py-4 rounded-lg text-lg font-semibold hover:bg-[#045530]/90 transition-colors shadow-lg inline-block"
           >
-            Get Started for $99/year
+            Get Started
           </Link>
         </div>
       </div>

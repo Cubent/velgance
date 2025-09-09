@@ -94,14 +94,14 @@ export const Header = ({ dictionary }: HeaderProps) => {
   }, []);
   return (
     <header className="sticky top-0 z-40 w-full">
-      <div className="w-full bg-[#f0e8d4] border-b border-gray-200 px-3 py-1">
+      <div className="w-full bg-[#f0e8d4]/80 backdrop-blur-md border-b border-gray-200/50 px-3 py-1">
 
 
 
         <div className="relative w-full flex min-h-12 flex-row items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <span className="text-2xl">✈️</span>
-          <p className="whitespace-nowrap font-bold text-xl text-green-600">Travira</p>
+          <Image src="/Travira logo.svg" alt="Travira Logo" width={32} height={32} />
+          <p className="whitespace-nowrap font-bold text-2xl text-[#045530]">Travira</p>
         </Link>
         {/* Center nav removed */}
         <div className="hidden lg:flex"></div>
@@ -110,7 +110,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
           {/* Active Deals Button */}
           <Link
             href="/dashboard"
-            className="bg-[#d5e27b] text-[#045530] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#c4d16a] transition-colors shadow-sm"
+            className="bg-[#d5e27b] text-[#045530] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#c4d16a] transition-colors"
           >
             Active Deals
           </Link>
