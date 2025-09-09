@@ -8,7 +8,6 @@ type LegalLayoutProps = {
 const LegalLayout = ({ children }: LegalLayoutProps) => (
   <>
     {children}
-    <Toolbar />
   </>
 );
 
