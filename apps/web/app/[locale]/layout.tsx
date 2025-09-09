@@ -15,13 +15,14 @@ import { PerformanceOptimizer } from '../../components/performance-optimizer';
 import { PerformanceHints } from '../../components/seo-optimizer';
 import { ErrorBoundary, ConsoleErrorSuppressor } from '../../components/error-boundary';
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Travira | Save 50-90% off Flight Deals',
   description: 'Find incredible flight deals with AI-powered search. Save 50-90% on flights worldwide.',
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: '/favicon.png',
   },
 };
@@ -36,6 +37,9 @@ type RootLayoutProperties = {
 const RootLayout = async ({ children, params }: RootLayoutProperties) => {
   const { locale } = await params;
   const dictionary = await getDictionary(locale);
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || '';
+  const isPricingPage = pathname.includes('/pricing');
 
   return (
     <>
@@ -75,7 +79,7 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
           <DesignSystemProvider>
             <PerformanceOptimizer />
             <PageWrapper>
-              <Header dictionary={dictionary} />
+              <Header dictionary={dictionary} isPricingPage={isPricingPage} />
               {children}
               <Footer />
             </PageWrapper>

@@ -45,71 +45,104 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero */}
-      <section>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
-            Try Travira Free for 7 Days
-          </h1>
-          <p className="mt-4 text-lg text-gray-600">
-            Continue for the price of a small macchiato. We guarantee you save at least $500 in your first year or we’ll refund you in full.
-          </p>
+    <div className="min-h-screen bg-[#fff0d2]">
+      {/* Header with background */}
+      <div className="bg-[#045530] relative overflow-hidden">
+        {/* Decorative Circle */}
+        <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-[#d5e27b]/20"></div>
+        
+        {/* Decorative Oval */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-32 bg-[#d5e27b]/10 rounded-full"></div>
+        
+        {/* Hero */}
+        <section className="relative z-10">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-[#d5e27b] tracking-tight">
+              Try Travira Free for 7 Days
+            </h1>
+            <p className="mt-4 text-lg text-[#fff0d2]">
+              Continue for the price of a small macchiato. We guarantee you save at least $500 in your first year or we'll refund you in full.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      {/* Pricing Card */}
+      <section className="relative">
+        {/* Green background that ends early */}
+        <div className="absolute inset-0 bg-[#045530] rounded-b-[50%] h-48"></div>
+        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+          <div className="grid grid-cols-1 gap-6">
+            <div className="relative rounded-2xl bg-white p-8 shadow-lg border border-gray-200">
+              {/* Popular Badge */}
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <div className="bg-[#d5e27b] text-[#045530] px-4 py-1 rounded-full text-sm font-semibold">
+                  Popular
+                </div>
+              </div>
+              
+              {/* Main Content - Vertical Layout */}
+              <div className="pt-4 text-center">
+                <h2 className="text-3xl font-bold text-[#045530] mb-2">Join the Club</h2>
+                <p className="text-lg text-gray-600 mb-6">You'll gain full access to all flight deals</p>
+                
+                {/* Price - Centered below title */}
+                <div className="flex items-end justify-center gap-2 mb-6">
+                  <span className="text-5xl font-bold text-[#045530]">$8.25</span>
+                  <span className="pb-2 text-gray-600">/mo</span>
+                </div>
+
+                <div className="text-gray-700 mb-8">Billed annually at $99 · Full refund if you don't save $500+</div>
+
+                <div className="flex flex-col gap-4">
+                  <button
+                    onClick={handleSubscribe}
+                    disabled={loading}
+                    className="w-full inline-flex items-center justify-center rounded-xl bg-[#045530] px-8 py-4 font-semibold text-white shadow-sm hover:bg-[#033f24] disabled:opacity-50 text-lg"
+                  >
+                    {loading ? 'Processing…' : 'Start Free Trial'}
+                  </button>
+                  <button className="w-full inline-flex items-center justify-center rounded-xl border-2 border-[#045530] px-8 py-4 font-semibold text-[#045530] hover:bg-[#045530]/5 text-lg">
+                    Learn more
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Pricing Card */}
+      {/* Estimated Savings Section - Separated */}
       <section>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 gap-6">
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <div>
-                  <h2 className="text-2xl font-semibold text-gray-900">Join the Club</h2>
-                  <p className="mt-1 text-gray-600">You’ll gain full access to all flight deals</p>
-                </div>
-                <div className="flex items-end gap-2">
-                  <span className="text-5xl font-bold text-gray-900">$8.25</span>
-                  <span className="pb-2 text-gray-600">/mo</span>
-                </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+              <div>
+                <div className="text-sm text-gray-600 mb-2">Estimated savings</div>
+                <div className="text-4xl font-bold text-[#045530]">$1,000</div>
               </div>
-
-              <div className="mt-2 text-gray-700">Billed annually at $99 · Full refund if you don’t save $500+</div>
-
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={handleSubscribe}
-                  disabled={loading}
-                  className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-green-600 px-6 py-3 font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-50"
-                >
-                  {loading ? 'Processing…' : 'Start Free Trial'}
-                </button>
-                <button className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-800 hover:bg-gray-50">
-                  Learn more
-                </button>
-              </div>
-
-              {/* Estimated savings */}
-              <div className="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-gray-600">Estimated savings</div>
-                    <div className="text-3xl font-bold text-gray-900">$1,000</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-600">How many flights per year?</div>
-                    <div className="mt-2 flex items-center gap-2">
-                      <button className="px-3 py-1.5 rounded-lg border">-</button>
-                      <div className="w-16 text-center font-semibold">2 flights</div>
-                      <button className="px-3 py-1.5 rounded-lg border">+</button>
-                    </div>
-                  </div>
+              <div>
+                <div className="text-sm text-gray-600 mb-3">How many flights per year?</div>
+                <div className="flex items-center gap-3">
+                  <button 
+                    onClick={() => setFlightsPerYear(Math.max(1, flightsPerYear - 1))}
+                    className="w-10 h-10 rounded-lg border-2 border-[#045530] flex items-center justify-center text-[#045530] hover:bg-[#045530]/5"
+                  >
+                    -
+                  </button>
+                  <div className="w-20 text-center font-semibold text-lg">{flightsPerYear} flights</div>
+                  <button 
+                    onClick={() => setFlightsPerYear(flightsPerYear + 1)}
+                    className="w-10 h-10 rounded-lg border-2 border-[#045530] flex items-center justify-center text-[#045530] hover:bg-[#045530]/5"
+                  >
+                    +
+                  </button>
                 </div>
-                <p className="mt-4 text-sm text-gray-600">
-                  The average Travira member saves over $1,000 in their first year. We guarantee you’ll save at least $500 or we’ll refund you in full.
-                </p>
               </div>
             </div>
+            <p className="mt-6 text-gray-600">
+              The average Travira member saves over $1,000 in their first year. We guarantee you'll save at least $500 or we'll refund you in full.
+            </p>
           </div>
         </div>
       </section>

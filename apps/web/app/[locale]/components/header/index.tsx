@@ -5,18 +5,22 @@ import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
+import { usePathname } from 'next/navigation';
 
 import type { Dictionary } from '@repo/internationalization';
 import Image from 'next/image';
 
 type HeaderProps = {
   dictionary: Dictionary;
+  isPricingPage?: boolean;
 };
 
-export const Header = ({ dictionary }: HeaderProps) => {
+export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   const { user, isLoaded } = useUser();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const isPricing = isPricingPage || pathname.includes('/pricing');
 
 
   // Close user menu when clicking outside
@@ -35,11 +39,11 @@ export const Header = ({ dictionary }: HeaderProps) => {
 
   return (
     <header className="sticky top-0 z-40 w-full">
-      <div className="w-full bg-[#f0e8d4]/80 backdrop-blur-md border-b border-gray-200/50 px-3 py-1">
+      <div className={`w-full ${isPricing ? 'bg-[#045530]' : 'bg-[#f0e8d4]/80'} backdrop-blur-md px-3 py-1`}>
         <div className="relative w-full flex min-h-12 flex-row items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Image src="/Travira logo.svg" alt="Travira Logo" width={32} height={32} />
-            <p className="whitespace-nowrap font-bold text-2xl text-[#045530]">Travira</p>
+            <Image src="/Travira-logo.svg" alt="Travira Logo" width={40} height={40} />
+            <p className={`whitespace-nowrap font-bold text-2xl ${isPricing ? 'text-[#d5e27b]' : 'text-[#045530]'}`}>Travira</p>
           </Link>
           {/* Center nav removed */}
           <div className="hidden lg:flex"></div>

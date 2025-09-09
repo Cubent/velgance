@@ -20,8 +20,8 @@ export const generateMetadata = async ({
     title: 'Pricing | Travira',
     description: 'Choose the perfect plan for your travel needs. Save 50-90% on flights with Travira.',
     icons: {
-      icon: '/favicon.png',
-      shortcut: '/favicon.png',
+      icon: '/favicon.ico',
+      shortcut: '/favicon.ico',
       apple: '/favicon.png',
     },
   };
