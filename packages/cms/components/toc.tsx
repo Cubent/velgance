@@ -14,7 +14,6 @@ export const TableOfContents = ({
 }: TableOfContentsProperties) => (
   <div>
     <RichText
-      // @ts-expect-error "idk"
       components={{
         ol: ({ children }) => (
           <ol className="flex list-none flex-col gap-2 text-sm">{children}</ol>
