@@ -12,16 +12,16 @@ export const generateMetadata = async ({
   params,
 }: HomeProps): Promise<Metadata> => {
   return {
-    title: 'Travira - AI-Powered Flight Deal Subscriptions',
-    description: 'Never miss a great flight deal again. Get AI-curated flight deals delivered to your inbox for just $99/year.',
+    title: 'Travira | Save 50-90% off Flight Deals',
+    description: 'Find incredible flight deals with AI-powered search. Save 50-90% on flights worldwide.',
     applicationName: 'Travira',
     keywords: ['flight deals', 'travel', 'AI', 'subscription', 'cheap flights', 'travel deals'],
     authors: [{ name: 'Travira Team' }],
     creator: 'Travira',
     publisher: 'Travira',
     openGraph: {
-      title: 'Travira - AI-Powered Flight Deal Subscriptions',
-      description: 'Never miss a great flight deal again. Get AI-curated flight deals delivered to your inbox for just $99/year.',
+      title: 'Travira | Save 50-90% off Flight Deals',
+      description: 'Find incredible flight deals with AI-powered search. Save 50-90% on flights worldwide.',
       url: 'https://travira.net',
       siteName: 'Travira',
       locale: 'en_US',
@@ -547,14 +547,14 @@ const Home = async ({ params }: HomeProps) => {
 
           {/* Section 2 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-1 lg:order-2 relative -mt-4 sm:mt-0">
+            <div className="order-1 lg:order-1 relative -mt-4 sm:mt-0">
               <img
                 src="https://i.postimg.cc/Fz6KNZjH/Travira-2.png"
                 alt="Travel More, Spend Less"
                 className="w-full max-w-5xl h-auto rounded-2xl"
               />
             </div>
-            <div className="order-2 lg:order-1">
+            <div className="order-2 lg:order-2">
               <h2 className="text-6xl font-bold text-[#045530] mb-6">Travel More, Spend Less</h2>
               <p className="text-lg text-gray-600 mb-6">
                 Stop dreaming and start traveling. With Travira's AI-powered deals, that European vacation

@@ -16,12 +16,20 @@ export const generateMetadata = async ({
   const { locale } = await params;
   const dictionary = await getDictionary(locale);
 
-  return createMetadata(dictionary.web.pricing.meta);
+  return {
+    title: 'Pricing | Travira',
+    description: 'Choose the perfect plan for your travel needs. Save 50-90% on flights with Travira.',
+    icons: {
+      icon: '/favicon.png',
+      shortcut: '/favicon.png',
+      apple: '/favicon.png',
+    },
+  };
 };
 
 const PricingLayout = ({ children }: PricingLayoutProps) => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#fff0d2]">
       {children}
     </div>
   );

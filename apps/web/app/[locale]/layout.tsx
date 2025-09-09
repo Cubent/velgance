@@ -14,6 +14,17 @@ import { PageWrapper } from './components/page-wrapper';
 import { PerformanceOptimizer } from '../../components/performance-optimizer';
 import { PerformanceHints } from '../../components/seo-optimizer';
 import { ErrorBoundary, ConsoleErrorSuppressor } from '../../components/error-boundary';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Travira | Save 50-90% off Flight Deals',
+  description: 'Find incredible flight deals with AI-powered search. Save 50-90% on flights worldwide.',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
+};
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
