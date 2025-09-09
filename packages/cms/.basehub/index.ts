@@ -8,12 +8,19 @@ export const basehub = (config?: any) => ({
   },
 });
 
-export const fragmentOn = Object.assign(
-  (type: string, fragment: any) => fragment,
-  {
-    infer: <T>(fragment: T): any => null as any,
+// Create a proper namespace for fragmentOn
+function fragmentOnFunction(type: string, fragment: any) {
+  return fragment;
+}
+
+// Define the namespace with infer method
+namespace fragmentOnFunction {
+  export function infer<T>(fragment: T): any {
+    return null as any;
   }
-);
+}
+
+export const fragmentOn = fragmentOnFunction;
 
 // Export types for compatibility
 export type * from './types';
