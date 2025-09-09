@@ -27,15 +27,17 @@ nextConfig.images?.remotePatterns?.push({
 nextConfig.experimental = {
   ...nextConfig.experimental,
   optimizePackageImports: ['lucide-react', '@repo/design-system'],
-  turbo: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-  },
 };
+
+// Turbopack configuration disabled temporarily due to FlightClientEntryPlugin issues
+// nextConfig.turbopack = {
+//   rules: {
+//     '*.svg': {
+//       loaders: ['@svgr/webpack'],
+//       as: '*.js',
+//     },
+//   },
+// };
 
 // Compression and caching
 nextConfig.compress = true;

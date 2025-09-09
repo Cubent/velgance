@@ -8,7 +8,12 @@ export const basehub = (config?: any) => ({
   },
 });
 
-export const fragmentOn = (type: string, fragment: any) => fragment;
+export const fragmentOn = Object.assign(
+  (type: string, fragment: any) => fragment,
+  {
+    infer: <T>(fragment: T): any => null as any,
+  }
+);
 
 // Export types for compatibility
 export type * from './types';

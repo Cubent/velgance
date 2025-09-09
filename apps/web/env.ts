@@ -22,24 +22,24 @@ export const env = createEnv({
   ],
   server: {
     // OpenAI Configuration
-    OPENAI_API_KEY: z.string().min(1, 'OpenAI API key is required'),
+    OPENAI_API_KEY: z.string().min(1, 'OpenAI API key is required').optional(),
 
     // SendGrid Configuration
-    SENDGRID_API_KEY: z.string().min(1, 'SendGrid API key is required'),
-    SENDGRID_FROM_EMAIL: z.string().email('Valid SendGrid from email is required').default('deals@travira.net'),
+    SENDGRID_API_KEY: z.string().min(1, 'SendGrid API key is required').optional(),
+    SENDGRID_FROM_EMAIL: z.string().email('Valid SendGrid from email is required').default('deals@travira.net').optional(),
 
     // Stripe Configuration (additional to payments package)
-    STRIPE_TRAVIRA_PRICE_ID: z.string().min(1, 'Stripe price ID for Travira subscription is required'),
+    STRIPE_TRAVIRA_PRICE_ID: z.string().min(1, 'Stripe price ID for Travira subscription is required').optional(),
 
     // Cron Job Security
-    CRON_SECRET_TOKEN: z.string().min(32, 'Cron secret token must be at least 32 characters'),
+    CRON_SECRET_TOKEN: z.string().min(32, 'Cron secret token must be at least 32 characters').optional(),
 
     // App Configuration
     // NEXT_PUBLIC_ variables should only be in client schema
   },
   client: {
-    NEXT_PUBLIC_APP_URL: z.string().url('Valid app URL is required').default('https://www.travira.net'),
-    NEXT_PUBLIC_WEB_URL: z.string().url('Valid web URL is required').default('https://www.travira.net'),
+    NEXT_PUBLIC_APP_URL: z.string().url('Valid app URL is required').default('https://travira-web.vercel.app'),
+    NEXT_PUBLIC_WEB_URL: z.string().url('Valid web URL is required').default('https://travira-web.vercel.app'),
   },
   runtimeEnv: {
     // Server-side environment variables
@@ -48,6 +48,8 @@ export const env = createEnv({
     SENDGRID_FROM_EMAIL: process.env.SENDGRID_FROM_EMAIL,
     STRIPE_TRAVIRA_PRICE_ID: process.env.STRIPE_TRAVIRA_PRICE_ID,
     CRON_SECRET_TOKEN: process.env.CRON_SECRET_TOKEN,
+
+    // Client-side environment variables (must be prefixed with NEXT_PUBLIC_)
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_WEB_URL: process.env.NEXT_PUBLIC_WEB_URL,
   },
