@@ -27,62 +27,52 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
   const dictionary = await getDictionary(locale);
 
   return (
-    <html
-      lang={locale}
-      className={cn(fonts, 'scroll-smooth')}
-      suppressHydrationWarning
-    >
-      <head>
-        <PerformanceHints />
-        <link rel="canonical" href={`https://cubent.dev/${locale === 'en' ? '' : locale}`} />
-      </head>
-      <body style={{ backgroundColor: '#e0fce9' }}>
-        <ConsoleErrorSuppressor />
-        {/* Structured Data for SEO */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
+    <>
+      <ConsoleErrorSuppressor />
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Cubent",
+            "description": "Lightning-Fast AI Code Assistant for developers. Purpose-built for full-code generation, codebase-aware autocomplete and terminal-ready actions.",
+            "url": "https://cubent.dev",
+            "logo": "https://cubent.dev/favicon.svg",
+            "sameAs": [
+              "https://twitter.com/cubent",
+              "https://github.com/cubent"
+            ],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "customer service",
+              "url": "https://cubent.dev/contact"
+            },
+            "founder": {
               "@type": "Organization",
-              "name": "Cubent",
-              "description": "Lightning-Fast AI Code Assistant for developers. Purpose-built for full-code generation, codebase-aware autocomplete and terminal-ready actions.",
-              "url": "https://cubent.dev",
-              "logo": "https://cubent.dev/favicon.svg",
-              "sameAs": [
-                "https://twitter.com/cubent",
-                "https://github.com/cubent"
-              ],
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "contactType": "customer service",
-                "url": "https://cubent.dev/contact"
-              },
-              "founder": {
-                "@type": "Organization",
-                "name": "Cubent Team"
-              },
-              "foundingDate": "2024",
-              "industry": "Software Development Tools",
-              "keywords": "AI code assistant, code generation, autocomplete, developer tools, artificial intelligence, programming assistant"
-            })
-          }}
-        />
-        <ErrorBoundary>
-          <AnalyticsProvider>
-            <DesignSystemProvider>
-              <PerformanceOptimizer />
-              <PageWrapper>
-                <Header dictionary={dictionary} />
-                {children}
-                <Footer />
-              </PageWrapper>
-            </DesignSystemProvider>
-            <Toolbar />
-          </AnalyticsProvider>
-        </ErrorBoundary>
-      </body>
-    </html>
+              "name": "Cubent Team"
+            },
+            "foundingDate": "2024",
+            "industry": "Software Development Tools",
+            "keywords": "AI code assistant, code generation, autocomplete, developer tools, artificial intelligence, programming assistant"
+          })
+        }}
+      />
+      <ErrorBoundary>
+        <AnalyticsProvider>
+          <DesignSystemProvider>
+            <PerformanceOptimizer />
+            <PageWrapper>
+              <Header dictionary={dictionary} />
+              {children}
+              <Footer />
+            </PageWrapper>
+          </DesignSystemProvider>
+          <Toolbar />
+        </AnalyticsProvider>
+      </ErrorBoundary>
+    </>
   );
 };
 

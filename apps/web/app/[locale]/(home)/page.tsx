@@ -37,72 +37,58 @@ const Home = async ({ params }: HomeProps) => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-green-100 via-green-50 to-white">
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Large Clouds */}
-          <div className="absolute top-8 left-8 w-32 h-20 bg-white/40 rounded-full blur-md"></div>
-          <div className="absolute top-16 right-12 w-28 h-18 bg-green-100/60 rounded-full blur-md"></div>
-          <div className="absolute top-40 left-1/4 w-36 h-22 bg-white/35 rounded-full blur-lg"></div>
-          <div className="absolute top-12 right-1/3 w-24 h-16 bg-green-50/80 rounded-full blur-md"></div>
-          <div className="absolute top-56 right-16 w-40 h-24 bg-white/30 rounded-full blur-lg"></div>
-          <div className="absolute top-72 left-12 w-28 h-18 bg-green-100/50 rounded-full blur-md"></div>
+      <div className="relative overflow-hidden min-h-[80vh] sm:min-h-screen">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1621762003306-97bb12dde975?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'
+          }}
+        ></div>
+        
+        {/* Grainy Filter Overlay */}
+        <div className="absolute inset-0 bg-black/20" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E")`,
+          mixBlendMode: 'overlay'
+        }}></div>
+        
+        {/* Dark Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/30"></div>
 
-          {/* Medium Clouds */}
-          <div className="absolute top-28 left-1/2 w-20 h-12 bg-white/50 rounded-full blur-sm"></div>
-          <div className="absolute top-64 right-1/4 w-22 h-14 bg-green-50/70 rounded-full blur-sm"></div>
-          <div className="absolute top-80 left-1/3 w-18 h-11 bg-white/45 rounded-full blur-sm"></div>
-
-          {/* Green Planes - Various Sizes and Positions */}
-          <div className="absolute top-20 left-1/4 text-green-400/60 text-3xl transform rotate-45 animate-pulse">✈</div>
-          <div className="absolute top-36 right-1/3 text-green-500/50 text-2xl transform -rotate-12">✈</div>
-          <div className="absolute top-52 left-1/5 text-green-400/70 text-xl transform rotate-30">✈</div>
-          <div className="absolute top-16 right-1/5 text-green-600/40 text-lg transform rotate-60">✈</div>
-          <div className="absolute top-68 left-1/2 text-green-500/60 text-2xl transform -rotate-30">✈</div>
-          <div className="absolute top-32 right-1/6 text-green-400/50 text-xl transform rotate-15">✈</div>
-          <div className="absolute top-76 right-1/3 text-green-600/45 text-lg transform -rotate-45">✈</div>
-          <div className="absolute top-44 left-1/6 text-green-500/55 text-xl transform rotate-75">✈</div>
-
-          {/* Small Decorative Planes */}
-          <div className="absolute top-24 left-3/4 text-green-300/40 text-sm transform rotate-90">✈</div>
-          <div className="absolute top-60 right-1/8 text-green-400/35 text-sm transform -rotate-60">✈</div>
-          <div className="absolute top-84 left-1/8 text-green-500/40 text-sm transform rotate-120">✈</div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 z-10">
-          <div className="text-center">
+        <div className="relative max-w-7xl mx-auto pl-4 pr-4 sm:pl-4 sm:pr-6 lg:pl-6 lg:pr-8 pt-24 pb-8 z-10">
+          <div className="text-left sm:text-left">
             {/* Main Headline */}
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
               Never Miss a Great
               <br />
-              <span className="text-green-600">Flight Deal</span> Again
+              <span className="text-[#d5e27b]">Flight Deal</span> Again
             </h1>
 
             {/* Subheadline */}
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              We alert you when airlines publish flights 50-90% off regular price from your own airport.
+            <p className="text-lg md:text-xl text-[#f0e8d4] mb-6 max-w-3xl leading-relaxed">
+              We alert you when airlines publish flights <span className="font-bold text-[#d5e27b]">50-90% off regular price</span> from your own airport.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-3 justify-start mb-8">
               <Link
                 href="/sign-up?redirect_url=/pricing"
-                className="bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors shadow-lg"
+                className="bg-[#d5e27b] text-[#045530] px-5 py-3 sm:px-7 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-[#c4d16a] transition-colors shadow-lg w-fit sm:w-auto"
               >
                 Start Your Journey
               </Link>
               <Link
                 href="/contact"
-                className="border-2 border-green-600 text-green-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-50 transition-colors"
+                className="border-2 border-[#f0e8d4] text-[#f0e8d4] px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#f0e8d4]/10 transition-colors w-fit sm:w-auto"
               >
                 Learn More
               </Link>
             </div>
 
             {/* Social Proof */}
-            <div className="mb-8">
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <div className="flex -space-x-3">
+            <div className="mb-6">
+              <div className="flex items-center justify-start gap-2 sm:gap-3 mb-3">
+                <div className="flex -space-x-2 sm:-space-x-3">
                   {[
                     'https://randomuser.me/api/portraits/men/32.jpg',
                     'https://randomuser.me/api/portraits/women/44.jpg',
@@ -114,29 +100,29 @@ const Home = async ({ params }: HomeProps) => {
                       key={i}
                       src={img}
                       alt={`Traveler ${i + 1}`}
-                      className="w-12 h-12 rounded-full border-3 border-white shadow-lg object-cover"
+                      className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border-2 sm:border-3 border-white shadow-lg object-cover"
                     />
                   ))}
                 </div>
                 <div className="text-left">
-                  <div className="text-lg text-gray-700">50k+ Travelers have</div>
-                  <div className="text-lg text-gray-700">joined Travira</div>
+                  <div className="text-sm sm:text-lg text-[#f0e8d4]">50k+ Travelers have</div>
+                  <div className="text-sm sm:text-lg text-[#f0e8d4]">joined Travira</div>
                 </div>
               </div>
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-500 text-sm">
+            <div className="flex flex-col sm:flex-row items-start justify-start gap-6 text-[#f0e8d4] text-sm">
               <div className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-[#f0e8d4]">✓</span>
                 <span>AI-Powered Recommendations</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-[#f0e8d4]">✓</span>
                 <span>Personalized for You</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-[#f0e8d4]">✓</span>
                 <span>Cancel Anytime</span>
               </div>
             </div>
@@ -144,12 +130,66 @@ const Home = async ({ params }: HomeProps) => {
         </div>
       </div>
 
+      {/* Airline Partners Section */}
+      <div className="py-12 bg-[#25201f] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-white text-center text-2xl font-bold mb-8">Our Airline Partners</h2>
+          {/* Scrolling Airline Logos */}
+          <div className="relative overflow-hidden">
+            <div className="flex space-x-16 items-center animate-scroll">
+              {/* Airline logos with better sources */}
+              {[
+                { name: 'American Airlines', logo: '/America lines.png' },
+                { name: 'United Airlines', logo: '/UNITED.png' },
+                { name: 'Southwest', logo: '/SOUTHWEST.png' },
+                { name: 'JetBlue', logo: '/JETBLUE.png' },
+                { name: 'Lufthansa', logo: '/Lufthans.png' },
+                { name: 'British Airways', logo: '/british airways.png' },
+                { name: 'Qatar Airways', logo: '/QATAR AIRWAYS.png' },
+                { name: 'Singapore Airlines', logo: '/SINGAPORE AIRLINE.png' },
+                { name: 'Turkish Airlines', logo: '/TURKISH LINES.png' },
+                { name: 'Air Canada', logo: '/AIR CANADA.png' }
+              ].map((airline, i) => (
+                <div key={i} className="flex-shrink-0 flex items-center justify-center h-20 w-40">
+                  <img
+                    src={airline.logo}
+                    alt={airline.name}
+                    className="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {[
+                { name: 'American Airlines', logo: '/America lines.png' },
+                { name: 'United Airlines', logo: '/UNITED.png' },
+                { name: 'Southwest', logo: '/SOUTHWEST.png' },
+                { name: 'JetBlue', logo: '/JETBLUE.png' },
+                { name: 'Lufthansa', logo: '/Lufthans.png' },
+                { name: 'British Airways', logo: '/british airways.png' },
+                { name: 'Qatar Airways', logo: '/QATAR AIRWAYS.png' },
+                { name: 'Singapore Airlines', logo: '/SINGAPORE AIRLINE.png' },
+                { name: 'Turkish Airlines', logo: '/TURKISH LINES.png' },
+                { name: 'Air Canada', logo: '/AIR CANADA.png' }
+              ].map((airline, i) => (
+                <div key={`duplicate-${i}`} className="flex-shrink-0 flex items-center justify-center h-20 w-40">
+                  <img
+                    src={airline.logo}
+                    alt={airline.name}
+                    className="h-12 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Deals We've Found Section */}
-      <div className="py-16 bg-gray-50 overflow-hidden">
+      <div className="py-16 bg-[#f0e8d4] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Deals We've Found in the Past</h2>
-            <p className="text-xl text-gray-600">Real deals our members have booked</p>
+            <h2 className="text-5xl font-bold text-[#045530] mb-4">Deals We've Found in the Past</h2>
+            <p className="text-xl text-[#045530]">Real deals our members have booked</p>
           </div>
 
           {/* Scrolling Cards */}
@@ -245,8 +285,13 @@ const Home = async ({ params }: HomeProps) => {
         </div>
       </div>
 
+      {/* Dividing Line */}
+      <div className="flex justify-center py-8 bg-[#f0e8d4]">
+        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
+      </div>
+
       {/* How It Works Section */}
-      <div className="py-20 bg-gray-50">
+      <div className="py-20 bg-[#f0e8d4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">How Travira Works</h2>
@@ -316,8 +361,13 @@ const Home = async ({ params }: HomeProps) => {
         </div>
       </div>
 
+      {/* Dividing Line */}
+      <div className="flex justify-center py-8 bg-[#f0e8d4]">
+        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
+      </div>
+
       {/* Features Section */}
-      <div className="py-20 bg-white">
+      <div className="py-20 bg-[#f0e8d4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Travira?</h2>
@@ -407,8 +457,14 @@ const Home = async ({ params }: HomeProps) => {
           </div>
         </div>
       </div>
+
+      {/* Dividing Line */}
+      <div className="flex justify-center py-8 bg-[#f0e8d4]">
+        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
+      </div>
+
       {/* Reviews Section */}
-      <div className="py-20 bg-gray-50">
+      <div className="py-20 bg-[#f0e8d4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Real travelers, real savings</h2>
@@ -454,8 +510,13 @@ const Home = async ({ params }: HomeProps) => {
         </div>
       </div>
 
+      {/* Dividing Line */}
+      <div className="flex justify-center py-8 bg-[#f0e8d4]">
+        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
+      </div>
+
       {/* Travel Inspiration Sections */}
-      <div className="py-20 bg-white">
+      <div className="py-20 bg-[#f0e8d4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section 1 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
@@ -515,8 +576,13 @@ const Home = async ({ params }: HomeProps) => {
         </div>
       </div>
 
+      {/* Dividing Line */}
+      <div className="flex justify-center py-8 bg-[#f0e8d4]">
+        <div className="w-64 h-0.5 bg-[#045530] rounded-full"></div>
+      </div>
+
       {/* FAQ Section */}
-      <div className="py-20 bg-gray-50">
+      <div className="py-20 bg-[#f0e8d4]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">FAQ</h2>

@@ -93,12 +93,12 @@ export const Header = ({ dictionary }: HeaderProps) => {
     };
   }, []);
   return (
-    <header className="sticky top-1 z-40 w-full flex justify-center">
-      <div className="mx-auto w-[92%] max-w-5xl rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-white/20 px-3 py-1">
+    <header className="sticky top-0 z-40 w-full">
+      <div className="w-full bg-[#f0e8d4] border-b border-gray-200 px-3 py-1">
 
 
 
-        <div className="relative w-full max-w-none flex min-h-12 flex-row items-center justify-between" style={{paddingInline: 'clamp(0.5rem, 2%, 1rem)'}}>
+        <div className="relative w-full flex min-h-12 flex-row items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <span className="text-2xl">✈️</span>
           <p className="whitespace-nowrap font-bold text-xl text-green-600">Travira</p>
@@ -107,6 +107,14 @@ export const Header = ({ dictionary }: HeaderProps) => {
         <div className="hidden lg:flex"></div>
         {/* Right side - Desktop and Mobile */}
         <div className="flex items-center gap-2">
+          {/* Active Deals Button */}
+          <Link
+            href="/dashboard"
+            className="bg-[#d5e27b] text-[#045530] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#c4d16a] transition-colors shadow-sm"
+          >
+            Active Deals
+          </Link>
+          
           {/* Sign In / User Profile */}
           <div className="flex justify-end">
             {!isLoaded ? (

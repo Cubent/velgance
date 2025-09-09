@@ -11,7 +11,10 @@ export default function RootLayout({
 }) {
   return (
     <html className={cn(fonts, 'scroll-smooth')}>
-      <body>
+      <head>
+        <link rel="canonical" href="https://cubent.dev" />
+      </head>
+      <body style={{ backgroundColor: '#e0fce9' }}>
         <DesignSystemProvider>
           {children}
         </DesignSystemProvider>

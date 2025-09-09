@@ -188,7 +188,6 @@ export const PerformanceHints = () => {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       
       {/* Resource hints */}
-      <link rel="prefetch" href="/api/health" />
       
       {/* Note: Font preloading removed as fonts may not exist at these paths */}
     </>
