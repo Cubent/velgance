@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     // Verify the webhook
     const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET || '');
-    let evt;
+    let evt: any;
 
     try {
       evt = wh.verify(payload, {
