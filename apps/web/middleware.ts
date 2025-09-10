@@ -15,7 +15,15 @@ import {
 export const config = {
   // matcher tells Next.js which routes to run the middleware on. This runs the
   // middleware on all routes except for static assets and Posthog ingest
-  matcher: ['/((?!api|_next/static|_next/image|favicon|.*\\.).*)'],
+  // Include API routes that need authentication
+  matcher: [
+    // Match all routes except those starting with a dot or within _next directory
+    '/((?!.*\\..*|_next).*)',
+    // Match the root route
+    '/',
+    // Match API routes that need authentication
+    '/(api|trpc)(.*)',
+  ],
 };
 
 const securityHeaders = env.FLAGS_SECRET
@@ -23,11 +31,14 @@ const securityHeaders = env.FLAGS_SECRET
   : noseconeMiddleware(noseconeOptions);
 
 const middleware = authMiddleware(async (_auth, request) => {
-  const i18nResponse = internationalizationMiddleware(
-    request as unknown as NextRequest
-  );
-  if (i18nResponse) {
-    return i18nResponse;
+  // Skip i18n middleware for API routes
+  if (!request.nextUrl.pathname.startsWith('/api/')) {
+    const i18nResponse = internationalizationMiddleware(
+      request as unknown as NextRequest
+    );
+    if (i18nResponse) {
+      return i18nResponse;
+    }
   }
 
   // Skip Arcjet for now to reduce middleware size
