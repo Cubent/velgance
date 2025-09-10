@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, UserButton } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
+import { Heart, Settings, Sparkles } from 'lucide-react';
 import RecommendationCard from '../../../components/RecommendationCard';
 
 interface FlightRecommendation {
@@ -34,6 +35,20 @@ interface UserPreferences {
   preferredAirlines: string[];
 }
 
+interface FlightDeal {
+  id: string;
+  origin: string;
+  destination: string;
+  price: number;
+  originalPrice: number;
+  savings: number;
+  airline: string;
+  departureDate: string;
+  returnDate?: string;
+  bookingUrl: string;
+  createdAt: string;
+}
+
 type SortOption = 'price' | 'destination' | 'date' | 'quality';
 type FilterOption = 'all' | 'watched' | 'excellent' | 'good';
 
@@ -42,10 +57,12 @@ export default function DashboardPage() {
   const router = useRouter();
   const [recommendations, setRecommendations] = useState<FlightRecommendation[]>([]);
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
+  const [savedDeals, setSavedDeals] = useState<FlightDeal[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<SortOption>('price');
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isGeneratingDeals, setIsGeneratingDeals] = useState(false);
 
   useEffect(() => {
     if (isLoaded && !user) {
@@ -95,6 +112,18 @@ export default function DashboardPage() {
       } catch (recError) {
         console.error('Error fetching recommendations:', recError);
         // Continue without recommendations - don't block the page
+      }
+
+      // Fetch saved deals
+      try {
+        const savedDealsResponse = await fetch('/api/user/deals');
+        if (savedDealsResponse.ok) {
+          const savedDealsData = await savedDealsResponse.json();
+          setSavedDeals(savedDealsData || []);
+        }
+      } catch (savedDealsError) {
+        console.error('Error fetching saved deals:', savedDealsError);
+        // Continue without saved deals - don't block the page
       }
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -148,6 +177,34 @@ export default function DashboardPage() {
     }
   };
 
+  const handleGenerateDeals = async () => {
+    if (!preferences) return;
+    
+    try {
+      setIsGeneratingDeals(true);
+      const response = await fetch('/api/recommendations/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          preferences: preferences,
+          count: 6
+        }),
+      });
+      
+      if (response.ok) {
+        await fetchData();
+      } else {
+        console.error('Failed to generate deals');
+      }
+    } catch (error) {
+      console.error('Error generating deals:', error);
+    } finally {
+      setIsGeneratingDeals(false);
+    }
+  };
+
   // Filter and sort recommendations
   const filteredAndSortedRecommendations = recommendations
     .filter(rec => {
@@ -192,9 +249,37 @@ export default function DashboardPage() {
 
   if (!isLoaded || loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f9f7ee] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+          <style jsx>{`
+            @keyframes iconFade {
+              0%, 30% { opacity: 1; }
+              31%, 100% { opacity: 0; }
+            }
+            .icon-1 { animation: iconFade 0.9s infinite; }
+            .icon-2 { animation: iconFade 0.9s infinite 0.3s; }
+            .icon-3 { animation: iconFade 0.9s infinite 0.6s; }
+          `}</style>
+          <div className="relative h-32 w-32 mx-auto mb-4">
+            {/* Plane Icon */}
+            <div className="absolute inset-0 flex items-center justify-center icon-1">
+              <svg className="w-20 h-20 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+              </svg>
+            </div>
+            {/* Cloud Icon */}
+            <div className="absolute inset-0 flex items-center justify-center icon-2" style={{opacity: 0}}>
+              <svg className="w-20 h-20 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+              </svg>
+            </div>
+            {/* Suitcase Icon */}
+            <div className="absolute inset-0 flex items-center justify-center icon-3" style={{opacity: 0}}>
+              <svg className="w-20 h-20 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17 6h-2V3c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v3H5c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 3h6v3H9V3zm8 15H5V8h14v10z"/>
+              </svg>
+            </div>
+          </div>
           <p className="text-gray-600">Loading your flight deals...</p>
         </div>
       </div>
@@ -229,121 +314,91 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fff0d2]">
-      {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Flight Deals Dashboard</h1>
-              <p className="text-gray-600 mt-1">
-                Personalized recommendations for {preferences?.dreamDestinations.join(', ')}
+    <div className="min-h-screen bg-[#fffef7]">
+      {/* Main Content */}
+      <div className="flex flex-col">
+        {/* Header */}
+        <div className="bg-[#f9f7ee] pt-4">
+          <div className="px-4 sm:px-6 lg:px-8 py-6">
+            <div className="max-w-4xl md:ml-48">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h1 className="text-4xl font-bold text-[#045530]">
+                    Welcome back{user?.firstName ? `, ${user.firstName}` : ''}
+                  </h1>
+                  {preferences?.dreamDestinations && preferences.dreamDestinations.length > 0 && (
+                  <p className="text-gray-600 mt-1">
+                      Personalized recommendations for {preferences.dreamDestinations.join(', ')}
+                    </p>
+                  )}
+                </div>
+                <div className="flex items-center">
+                  {/* User profile hidden */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        {/* Tot Saved Section */}
+        <div className="px-4 sm:px-6 lg:px-8 mb-8 mt-8">
+          <div className="max-w-4xl md:ml-48">
+            <div className="text-left pl-8">
+            <div className="text-lg text-gray-600 mb-2">Tot Saved</div>
+            <div className="text-6xl text-[#045530]">
+              ${recommendations.filter(r => r.isWatched).length.toFixed(2)}
+            </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Generate Deals Button */}
+        <div className="px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="max-w-4xl md:ml-48">
+            <div className="text-center">
+              <button
+                onClick={handleGenerateDeals}
+                disabled={isGeneratingDeals || !preferences}
+                className="bg-[#045530] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[#034a2a] transition-colors flex items-center gap-2 mx-auto disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Sparkles className="w-4 h-4" />
+                {isGeneratingDeals ? 'Generating Deals...' : 'Generate 6 AI Deals'}
+              </button>
+              <p className="text-xs text-gray-500 mt-2">
+                Generate personalized flight deals based on your preferences
               </p>
             </div>
-            <button
-              onClick={handleRefresh}
-              disabled={loading}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400"
-            >
-              {loading ? 'Refreshing...' : 'Refresh Deals'}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Filters and Search */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            {/* Search */}
-            <div className="flex-1">
-              <input
-                type="text"
-                placeholder="Search by destination, origin, or airline..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              />
-            </div>
-            
-            {/* Sort */}
-            <div className="sm:w-48">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              >
-                <option value="price">Sort by Price</option>
-                <option value="destination">Sort by Destination</option>
-                <option value="date">Sort by Date</option>
-                <option value="quality">Sort by Deal Quality</option>
-              </select>
-            </div>
-            
-            {/* Filter */}
-            <div className="sm:w-48">
-              <select
-                value={filterBy}
-                onChange={(e) => setFilterBy(e.target.value as FilterOption)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              >
-                <option value="all">All Deals</option>
-                <option value="watched">Watched</option>
-                <option value="excellent">Excellent Deals</option>
-                <option value="good">Good Deals</option>
-              </select>
-            </div>
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div className="text-2xl font-bold text-green-600">{recommendations.length}</div>
-            <div className="text-sm text-gray-600">Total Deals</div>
-          </div>
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div className="text-2xl font-bold text-green-600">
-              {recommendations.filter(r => r.isWatched).length}
-            </div>
-            <div className="text-sm text-gray-600">Watched</div>
-          </div>
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div className="text-2xl font-bold text-green-600">
-              ${recommendations.length > 0 ? Math.min(...recommendations.map(r => r.price)).toLocaleString() : '0'}
-            </div>
-            <div className="text-sm text-gray-600">Best Price</div>
-          </div>
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div className="text-2xl font-bold text-green-600">
-              {recommendations.filter(r => r.dealQuality === 'excellent').length}
-            </div>
-            <div className="text-sm text-gray-600">Excellent Deals</div>
-          </div>
-        </div>
 
         {/* Recommendations Grid */}
         {filteredAndSortedRecommendations.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-            <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl md:ml-48">
+              <div className="p-12 text-center">
+            <img src="https://i.postimg.cc/3NsB1kwt/Travira-7.png" alt="Travira" className="w-32 h-32 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No flight deals found</h3>
-            <p className="text-gray-600 mb-4">
-              {searchTerm || filterBy !== 'all' 
-                ? 'Try adjusting your search or filters.'
-                : 'We\'re working on finding great deals for you. Check back soon!'}
-            </p>
-            {!searchTerm && filterBy === 'all' && (
-              <button
-                onClick={handleRefresh}
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Search for Deals
-              </button>
-            )}
+              <p className="text-lg text-gray-600 mb-4">
+                Your next favorite deal is coming soon. We will send you deals to your inbox {preferences?.deliveryFrequency ? (
+                  <>
+                    <span className="text-[#d5e27b] font-semibold">
+                      {preferences.deliveryFrequency.replace('_', ' ')}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    every <span className="text-[#d5e27b] font-semibold">3 days</span>
+                  </>
+                )}.
+              </p>
+              </div>
+            </div>
           </div>
         ) : (
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl md:ml-48">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredAndSortedRecommendations.map((recommendation) => (
               <RecommendationCard
@@ -353,8 +408,119 @@ export default function DashboardPage() {
                 onBook={handleBook}
               />
             ))}
+            </div>
+            </div>
           </div>
         )}
+
+        {/* Your Preferences Section */}
+        <div className="px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="max-w-4xl md:ml-48">
+            <div className="p-6">
+            <h3 className="text-xl font-semibold text-[#045530] mb-4">Your Preferences</h3>
+            
+            {preferences ? (
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Home Airports</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {preferences.homeAirports.map((airport) => (
+                      <span key={airport} className="bg-[#d5e27b] text-[#045530] px-3 py-1 rounded-full text-sm font-medium">
+                        {airport}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Dream Destinations</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {preferences.dreamDestinations.map((destination) => (
+                      <span key={destination} className="bg-[#d5e27b] text-[#045530] px-3 py-1 rounded-full text-sm font-medium">
+                        {destination}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Delivery Frequency</h4>
+                  <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+                    {preferences.deliveryFrequency.replace('_', ' ')}
+                  </span>
+                </div>
+
+                {preferences.maxBudget && (
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">Max Budget</h4>
+                    <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+                      ${preferences.maxBudget}
+                    </span>
+                  </div>
+                )}
+
+                <div className="pt-4">
+                  <button
+                    onClick={() => {
+                      // This will be handled by the sidebar component
+                      const event = new CustomEvent('openPreferencesModal');
+                      window.dispatchEvent(event);
+                    }}
+                    className="bg-[#d5e27b] text-[#045530] text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#c4d16a] transition-colors flex items-center gap-2"
+                  >
+                    <Settings className="w-4 h-4" />
+                    Edit Preferences
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-sm text-gray-500">No preferences set</p>
+                <button
+                  onClick={() => router.push('/onboarding')}
+                  className="mt-2 bg-[#d5e27b] text-[#045530] text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#c4d16a] transition-colors"
+                >
+                  Set Up Preferences
+                </button>
+              </div>
+            )}
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Saved Deals Section */}
+        <div className="px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="max-w-4xl md:ml-48">
+            <div className="p-6">
+            <h3 className="text-xl font-semibold text-[#045530] mb-4">Recent Saved Deals</h3>
+            
+            {savedDeals.length > 0 ? (
+              <div className="space-y-3">
+                {savedDeals.slice(0, 3).map((deal) => (
+                  <div key={deal.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                      <div className="font-medium text-gray-900">{deal.origin} → {deal.destination}</div>
+                      <div className="text-sm text-gray-500">{deal.airline} • {new Date(deal.departureDate).toLocaleDateString()}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold text-[#045530]">${deal.price}</div>
+                      <div className="text-sm text-gray-500">Save ${deal.savings}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Heart className="w-5 h-5 text-gray-400" />
+                  <p className="text-sm text-gray-500">No saved deals yet</p>
+                </div>
+                <p className="text-xs text-gray-400">Watch deals to save them here</p>
+              </div>
+            )}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -64,8 +64,9 @@ function generateFlightSearchPrompt(params: FlightSearchParams): string {
     departureMonth
   } = params;
 
-  return `You are a flight deal expert. Find the best round-trip flight deals based on these criteria:
+  return `You are a professional flight deal researcher with access to real-time flight search capabilities. You MUST actually search for and find the BEST 6 real flight deals currently available.
 
+SEARCH CRITERIA:
 HOME AIRPORTS: ${homeAirports.join(', ')}
 DESTINATIONS: ${dreamDestinations.join(', ')}
 TRAVEL FLEXIBILITY: ±${travelFlexibility} days
@@ -73,15 +74,39 @@ ${maxBudget ? `MAX BUDGET: $${maxBudget}` : ''}
 ${preferredAirlines?.length ? `PREFERRED AIRLINES: ${preferredAirlines.join(', ')}` : ''}
 ${departureMonth ? `DEPARTURE MONTH: ${departureMonth}` : 'DEPARTURE: Next 3 months'}
 
-REQUIREMENTS:
-1. Find 5-10 best deals for round-trip flights
-2. Include detailed flight information (airline, duration, layovers, baggage)
-3. Provide booking links when possible
-4. Rate each deal quality (excellent/good/fair)
-5. Give confidence score (0-1) for price accuracy
-6. Include a summary of overall market conditions
+MANDATORY RESEARCH PROCESS:
+1. ACTUALLY search Google Flights, Kayak, Expedia, and airline websites RIGHT NOW
+2. Find REAL flights with ACTUAL current prices (not estimated or historical)
+3. Look for deals that are genuinely below market rate (at least 15-25% savings)
+4. Verify each flight is actually bookable and available
+5. Check multiple dates within the flexibility window for best prices
+6. Compare prices across different booking platforms
 
-RESPONSE FORMAT (JSON):
+DEAL QUALITY REQUIREMENTS:
+- ONLY return flights that are genuinely good deals (below typical market price)
+- Focus on non-stop flights only (no connections or layovers)
+- Ensure prices are current and bookable
+- Prioritize deals with significant savings (20%+ below normal price)
+- Include a mix of different airlines and booking platforms
+
+REAL-TIME SEARCH INSTRUCTIONS:
+- Search Google Flights for each route combination
+- Check Kayak for price comparison
+- Verify on Expedia and airline direct sites
+- Look for promotional fares and sale prices
+- Check for seasonal deals and off-peak pricing
+- Ensure all prices are current (not outdated)
+
+BOOKING URL REQUIREMENTS:
+- Use REAL airline websites: delta.com, united.com, aa.com, southwest.com, jetblue.com, alaskaair.com
+- Use REAL booking sites: expedia.com, kayak.com, google.com/flights, skyscanner.com, orbitz.com, priceline.com
+- NEVER use placeholder URLs like "example.com" or fake URLs
+- URLs must be actual search results or booking pages
+- If you cannot find a real URL, use the airline's main website with search parameters
+
+CRITICAL: You MUST respond with ONLY valid JSON. No additional text, explanations, or formatting.
+
+RESPONSE FORMAT (JSON ONLY):
 {
   "deals": [
     {
@@ -93,15 +118,10 @@ RESPONSE FORMAT (JSON):
       "currency": "USD",
       "airline": "Japan Airlines",
       "flightNumber": "JL62/JL61",
-      "layovers": [{"airport": "SEA", "duration": "2h 30m"}],
+      "layovers": [],
       "duration": "11h 45m",
-      "baggageInfo": {
-        "carry_on": "1 bag (22lbs)",
-        "checked": "2 bags (50lbs each)"
-      },
-      "bookingUrl": "https://example.com/book",
-      "dealQuality": "excellent",
-      "confidenceScore": 0.9
+      "bookingUrl": "https://www.jal.co.jp/en/booking/",
+      "otaUrl": "https://www.expedia.com/Flights-Search"
     }
   ],
   "summary": "Market analysis and recommendations...",
@@ -113,7 +133,7 @@ RESPONSE FORMAT (JSON):
   }
 }
 
-Focus on finding real, current deals with accurate pricing. Be thorough in your research.`;
+IMPORTANT: You must actually search for real flights with real prices. Do not generate random deals. Find actual bookable flights that are currently available at good prices.`;
 }
 
 /**
@@ -126,7 +146,7 @@ export async function getFlightRecommendations(
     const prompt = generateFlightSearchPrompt(params);
     
     const completion = await openai.chat.completions.create({
-      model: 'o3-mini', // Using o3-mini for cost efficiency, upgrade to o3 if needed
+      model: 'gpt-4o', // Using gpt-4o since o3-mini might not be available
       messages: [
         {
           role: 'system',
@@ -149,10 +169,13 @@ export async function getFlightRecommendations(
     // Parse the JSON response
     let parsedResponse: FlightRecommendationResponse;
     try {
-      parsedResponse = JSON.parse(responseContent);
+      // Clean the response content - remove any markdown formatting
+      const cleanContent = responseContent.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      parsedResponse = JSON.parse(cleanContent);
     } catch (parseError) {
       console.error('Failed to parse OpenAI response:', responseContent);
-      throw new Error('Invalid JSON response from OpenAI');
+      console.error('Parse error:', parseError);
+      throw new Error(`Invalid JSON response from OpenAI: ${parseError instanceof Error ? parseError.message : 'Unknown parse error'}`);
     }
 
     // Validate the response structure

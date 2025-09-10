@@ -67,10 +67,16 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                 >
                   Active Deals
                 </Link>
-                <div className="relative" ref={userMenuRef}>
+                <div 
+                  className="relative" 
+                  ref={userMenuRef}
+                  onMouseEnter={() => setIsUserMenuOpen(true)}
+                  onMouseLeave={() => setIsUserMenuOpen(false)}
+                >
                   <button
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
+                    className={`flex items-center gap-2 p-1 rounded-full transition-colors ${
+                      isUserMenuOpen ? 'bg-[#fff0d2]' : 'hover:bg-[#fff0d2]'
+                    }`}
                   >
                     <img
                       src={user.imageUrl}
@@ -81,21 +87,21 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                   </button>
 
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg border border-gray-200 py-1 z-50">
+                    <div className="absolute right-0 mt-2 w-48 bg-[#fff0d2] rounded-lg border border-gray-200 py-1 z-50">
                       <div className="px-4 py-2 border-b border-gray-100">
                         <p className="text-sm font-medium text-gray-900">{user.fullName || user.firstName}</p>
                         <p className="text-xs text-gray-600">{user.primaryEmailAddress?.emailAddress}</p>
                       </div>
                       <Link
                         href="/profile"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         Profile & Settings
                       </Link>
                       <Link
                         href="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         Dashboard
@@ -107,7 +113,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                             // Add sign out functionality here
                             window.location.href = '/sign-out';
                           }}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
                         >
                           Sign Out
                         </button>

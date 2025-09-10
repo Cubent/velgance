@@ -11,6 +11,7 @@ import type { ReactNode } from 'react';
 import { Footer } from './components/footer';
 import { Header } from './components/header';
 import { PageWrapper } from './components/page-wrapper';
+import { ConditionalHeaderFooter } from './components/conditional-header-footer';
 import { PerformanceOptimizer } from '../../components/performance-optimizer';
 import { PerformanceHints } from '../../components/seo-optimizer';
 import { ErrorBoundary, ConsoleErrorSuppressor } from '../../components/error-boundary';
@@ -38,8 +39,9 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
   const { locale } = await params;
   const dictionary = await getDictionary(locale);
   const headersList = await headers();
-  const pathname = headersList.get('x-pathname') || '';
-  const isPricingPage = pathname.includes('/pricing') || pathname.includes('/dashboard') || pathname.includes('/profile') || pathname.includes('/onboarding');
+  const pathname = headersList.get('x-pathname') || headersList.get('x-invoke-path') || '';
+  const isPricingPage = pathname.includes('/pricing') || pathname.includes('/profile') || pathname.includes('/onboarding');
+  const isDashboardPage = pathname.includes('/dashboard');
 
   return (
     <>
@@ -79,9 +81,9 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
           <DesignSystemProvider>
             <PerformanceOptimizer />
             <PageWrapper>
-              <Header dictionary={dictionary} isPricingPage={isPricingPage} />
-              {children}
-              <Footer />
+              <ConditionalHeaderFooter dictionary={dictionary} isPricingPage={isPricingPage}>
+                {children}
+              </ConditionalHeaderFooter>
             </PageWrapper>
           </DesignSystemProvider>
           <Toolbar />

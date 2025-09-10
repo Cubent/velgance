@@ -2,8 +2,45 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@clerk/nextjs';
+import { useUser, UserProfile, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
+import { 
+  Plane, 
+  Heart, 
+  Settings, 
+  User, 
+  ChevronRight,
+  ChevronLeft,
+  MapPin,
+  Calendar,
+  DollarSign,
+  Menu,
+  X,
+  Home
+} from 'lucide-react';
 import { searchDestinations, City, Country } from '@/lib/database/airports';
+
+interface UserPreferences {
+  homeAirports: string[];
+  dreamDestinations: string[];
+  deliveryFrequency: string;
+  maxBudget?: number;
+  preferredAirlines: string[];
+}
+
+interface FlightDeal {
+  id: string;
+  origin: string;
+  destination: string;
+  price: number;
+  originalPrice: number;
+  savings: number;
+  airline: string;
+  departureDate: string;
+  returnDate?: string;
+  bookingUrl: string;
+  createdAt: string;
+}
 
 interface SearchableAirport {
   iata: string;
@@ -14,14 +51,6 @@ interface SearchableAirport {
   popular?: boolean;
 }
 
-interface OnboardingData {
-  homeAirports: string[];
-  dreamDestinations: string[];
-  deliveryFrequency: string;
-  maxBudget?: number;
-  preferredAirlines: string[];
-}
-
 const FREQUENCY_OPTIONS = [
   { value: 'every_3_days', label: 'Every 3 Days', description: 'Moderate frequency' },
   { value: 'weekly', label: 'Weekly', description: 'Once per week' },
@@ -29,66 +58,47 @@ const FREQUENCY_OPTIONS = [
   { value: 'monthly', label: 'Monthly', description: 'Once per month' },
 ];
 
-// Using the comprehensive airport and destination database instead
+interface DashboardSidebarProps {
+  activeSection: string;
+  onSectionChange: (section: string) => void;
+  refreshTrigger?: number; // Add this to trigger refresh when deals are updated
+}
 
-export default function OnboardingPage() {
-  const { user, isLoaded } = useUser();
+export default function DashboardSidebar({ activeSection, onSectionChange, refreshTrigger }: DashboardSidebarProps) {
+  const { user } = useUser();
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [preferences, setPreferences] = useState<UserPreferences | null>(null);
+  const [savedDeals, setSavedDeals] = useState<FlightDeal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editedPreferences, setEditedPreferences] = useState<UserPreferences | null>(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [airportSearch, setAirportSearch] = useState('');
   const [destinationSearch, setDestinationSearch] = useState('');
+  const [filteredDestinations, setFilteredDestinations] = useState<(City | Country)[]>([]);
   const [allAirports, setAllAirports] = useState<SearchableAirport[]>([]);
   const [filteredAirports, setFilteredAirports] = useState<SearchableAirport[]>([]);
-  const [filteredDestinations, setFilteredDestinations] = useState<(City | Country)[]>([]);
-  const [airportLoading, setAirportLoading] = useState(false);
-  const [data, setData] = useState<OnboardingData>({
-    homeAirports: [],
-    dreamDestinations: [],
-    deliveryFrequency: 'weekly',
-    preferredAirlines: [],
-  });
 
-  // Redirect to sign-in if not authenticated, or check if already onboarded
   useEffect(() => {
-    if (isLoaded && !user) {
-      router.push('/sign-in?redirect_url=/onboarding');
-    } else if (isLoaded && user) {
-      // Check if user has already completed onboarding
-      checkOnboardingStatus();
+    if (user) {
+      fetchUserData();
     }
-  }, [isLoaded, user, router]);
+  }, [user, refreshTrigger]);
 
-  const checkOnboardingStatus = async () => {
-    try {
-      const response = await fetch('/api/user/preferences');
-      if (response.ok) {
-        const preferences = await response.json();
-        if (preferences && preferences.homeAirports && preferences.homeAirports.length > 0) {
-          // User has already completed onboarding, redirect to dashboard
-          router.push('/dashboard');
-        }
-      }
-    } catch (error) {
-      console.error('Error checking onboarding status:', error);
-    }
-  };
-
-  // Load airports - just use hardcoded list that actually works
+  // Update filtered destinations when search changes
   useEffect(() => {
-    const loadAirports = () => {
-      setAirportLoading(true);
+    setFilteredDestinations(searchDestinations(destinationSearch));
+  }, [destinationSearch]);
 
+  // Load airports when modal opens
+  useEffect(() => {
+    if (isEditModalOpen && allAirports.length === 0) {
       const airports = getHardcodedAirports();
-      console.log(`Loaded ${airports.length} hardcoded airports`);
-
       setAllAirports(airports);
       filterAirports(airports, airportSearch);
-      setAirportLoading(false);
-    };
-
-    loadAirports();
-  }, []); // Load once on mount
+    }
+  }, [isEditModalOpen]);
 
   // Filter airports when search changes
   useEffect(() => {
@@ -97,52 +107,56 @@ export default function OnboardingPage() {
     }
   }, [airportSearch, allAirports]);
 
-  // Initialize and update filtered destinations when search changes
+  // Listen for custom event to open preferences modal
   useEffect(() => {
-    setFilteredDestinations(searchDestinations(destinationSearch));
-  }, [destinationSearch]);
+    const handleOpenPreferencesModal = () => {
+      handleEditPreferences();
+    };
 
-  const handleNext = () => {
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      handleSubmit();
-    }
-  };
+    window.addEventListener('openPreferencesModal', handleOpenPreferencesModal);
+    return () => {
+      window.removeEventListener('openPreferencesModal', handleOpenPreferencesModal);
+    };
+  }, [preferences]);
 
-  const handleBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (!user) {
-      router.push('/sign-in?redirect_url=/onboarding');
-      return;
-    }
-
-    setLoading(true);
+  const fetchUserData = async () => {
     try {
-      const response = await fetch('/api/onboarding', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      // Fetch user preferences
+      const preferencesResponse = await fetch('/api/user/preferences');
+      if (preferencesResponse.ok) {
+        const preferencesData = await preferencesResponse.json();
+        setPreferences(preferencesData);
+      }
 
-      if (response.ok) {
-        router.push('/dashboard');
-      } else {
-        throw new Error('Failed to save preferences');
+      // Fetch saved deals
+      const dealsResponse = await fetch('/api/user/deals');
+      if (dealsResponse.ok) {
+        const dealsData = await dealsResponse.json();
+        setSavedDeals(dealsData);
       }
     } catch (error) {
-      console.error('Error saving preferences:', error);
-      alert('Failed to save preferences. Please try again.');
+      console.error('Error fetching user data:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const sidebarItems = [
+    {
+      id: 'saved-deals',
+      label: 'Home',
+      icon: Home,
+      count: savedDeals.length,
+    },
+  ];
+
+  const handleItemClick = (item: typeof sidebarItems[0]) => {
+    onSectionChange(item.id);
+  };
+
+  const handleEditPreferences = () => {
+    setEditedPreferences(preferences);
+    setIsEditModalOpen(true);
   };
 
   const toggleArrayItem = (array: string[], item: string, setter: (arr: string[]) => void) => {
@@ -153,52 +167,8 @@ export default function OnboardingPage() {
     }
   };
 
-  const parseCSVLine = (line: string): string[] => {
-    const fields = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        fields.push(current);
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-    fields.push(current); // Add the last field
-
-    return fields;
-  };
-
-  const getCountryName = (countryCode: string): string => {
-    const countryMap: Record<string, string> = {
-      'US': 'United States', 'CA': 'Canada', 'GB': 'United Kingdom', 'FR': 'France',
-      'DE': 'Germany', 'IT': 'Italy', 'ES': 'Spain', 'NL': 'Netherlands', 'AU': 'Australia',
-      'JP': 'Japan', 'CN': 'China', 'KR': 'South Korea', 'IN': 'India', 'BR': 'Brazil',
-      'MX': 'Mexico', 'RU': 'Russia', 'AE': 'United Arab Emirates', 'SG': 'Singapore',
-      'TH': 'Thailand', 'MY': 'Malaysia', 'ID': 'Indonesia', 'PH': 'Philippines',
-      'VN': 'Vietnam', 'TR': 'Turkey', 'EG': 'Egypt', 'ZA': 'South Africa',
-      'AR': 'Argentina', 'CL': 'Chile', 'PE': 'Peru', 'CO': 'Colombia', 'VE': 'Venezuela',
-      'PF': 'French Polynesia', 'SO': 'Somalia', 'DZ': 'Algeria'
-    };
-    return countryMap[countryCode] || countryCode;
-  };
-
-  const isPopularAirport = (iataCode: string): boolean => {
-    const popularCodes = [
-      'JFK', 'LAX', 'ORD', 'ATL', 'DFW', 'DEN', 'SFO', 'LAS', 'SEA', 'MIA',
-      'BOS', 'LHR', 'CDG', 'FRA', 'AMS', 'FCO', 'BCN', 'VIE', 'ZUR', 'NRT',
-      'ICN', 'BKK', 'SIN', 'HKG', 'DXB', 'YYZ', 'SYD', 'MEL'
-    ];
-    return popularCodes.includes(iataCode);
-  };
-
   const getHardcodedAirports = (): SearchableAirport[] => {
-  return [
+    return [
     { iata: 'AAA', icao: 'NTGA', name: 'Anaa', cityName: 'Anaa', countryName: 'French Polynesia', popular: false },
     { iata: 'AAB', icao: 'YARY', name: 'Arrabury Airport', cityName: 'Tanbar', countryName: 'Australia', popular: false },
     { iata: 'AAC', icao: 'HEAR', name: 'El Arish International Airport', cityName: 'Arish', countryName: 'Egypt', popular: false },
@@ -10005,10 +9975,6 @@ export default function OnboardingPage() {
   ];
 };
 
-  const getFallbackAirports = (): SearchableAirport[] => {
-    return getHardcodedAirports().filter(airport => airport.popular);
-  };
-
   const filterAirports = (airports: SearchableAirport[], query: string) => {
     if (!query) {
       setFilteredAirports(airports.filter(airport => airport.popular).slice(0, 20));
@@ -10027,415 +9993,330 @@ export default function OnboardingPage() {
     setFilteredAirports(filtered);
   };
 
-  const canProceed = () => {
-    switch (currentStep) {
-      case 1:
-        return data.homeAirports.length > 0;
-      case 2:
-        return data.dreamDestinations.length > 0;
-      case 3:
-        return data.deliveryFrequency !== '';
-      case 4:
-        return true;
-      default:
-        return false;
+  const handleSavePreferences = async () => {
+    try {
+      const response = await fetch('/api/user/preferences', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedPreferences),
+      });
+
+      if (response.ok) {
+        setPreferences(editedPreferences);
+        setShowSuccessMessage(true);
+        setIsEditModalOpen(false);
+        
+        // Hide success message after 3 seconds
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+        }, 3000);
+      } else {
+        console.error('Failed to update preferences');
+      }
+    } catch (error) {
+      console.error('Error updating preferences:', error);
     }
   };
 
-  // Show loading while checking authentication
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen bg-[#f9f7ee] flex items-center justify-center">
-        <div className="text-center">
-          <style jsx>{`
-            @keyframes iconFade {
-              0%, 30% { opacity: 1; }
-              31%, 100% { opacity: 0; }
-            }
-            .icon-1 { animation: iconFade 0.9s infinite; }
-            .icon-2 { animation: iconFade 0.9s infinite 0.3s; }
-            .icon-3 { animation: iconFade 0.9s infinite 0.6s; }
-          `}</style>
-          <div className="relative h-32 w-32 mx-auto mb-4">
-            {/* Plane Icon */}
-            <div className="absolute inset-0 flex items-center justify-center icon-1">
-              <svg className="w-20 h-20 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-              </svg>
-            </div>
-            {/* Cloud Icon */}
-            <div className="absolute inset-0 flex items-center justify-center icon-2" style={{opacity: 0}}>
-              <svg className="w-20 h-20 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
-              </svg>
-            </div>
-            {/* Suitcase Icon */}
-            <div className="absolute inset-0 flex items-center justify-center icon-3" style={{opacity: 0}}>
-              <svg className="w-20 h-20 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17 6h-2V3c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v3H5c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 3h6v3H9V3zm8 15H5V8h14v10z"/>
-              </svg>
-            </div>
-          </div>
-          <p className="text-gray-700">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  const handleCancelEdit = () => {
+    setEditedPreferences(null);
+    setIsEditModalOpen(false);
+  };
 
   return (
-    <div className="min-h-screen bg-[#fff0d2] py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-[#045530]">Step {currentStep} of 4</span>
-            <span className="text-sm text-[#045530]">{Math.round((currentStep / 4) * 100)}% Complete</span>
-          </div>
-          <div className="w-full bg-[#d5e27b]/20 rounded-full h-2">
-            <div
-              className="bg-[#045530] h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(currentStep / 4) * 100}%` }}
+    <div className={`${isExpanded ? 'w-80' : 'w-16'} bg-[#045530] min-h-screen text-white relative transition-all duration-300`}>
+      {/* Logo Section */}
+      <div className="p-6 border-b border-[#045530]/20">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+            <img
+              src="/Travira-light.svg"
+              alt="Travira"
+              className="w-16 h-16"
             />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          {/* Step 1: Home Airports */}
-          {currentStep === 1 && (
-            <div>
-              <h2 className="text-3xl font-bold text-[#045530] mb-2">Where do you fly from?</h2>
-              <p className="text-gray-800 mb-6">Select your home airport(s) - the places you typically start your journeys.</p>
-
-              {/* Search Bar */}
-              <div className="mb-6">
-                <input
-                  type="text"
-                  placeholder="Search for airport (e.g., Los Angeles, LAX, John F Kennedy)"
-                  value={airportSearch}
-                  onChange={(e) => setAirportSearch(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && filteredAirports.length > 0 && !airportLoading) {
-                      const selectedAirport = filteredAirports[0];
-                      const airportDisplay = `${selectedAirport.iata} - ${selectedAirport.cityName}`;
-                      if (!data.homeAirports.includes(airportDisplay)) {
-                        setData({...data, homeAirports: [...data.homeAirports, airportDisplay]});
-                        setAirportSearch('');
-                      }
-                    }
-                  }}
-                />
-              </div>
-
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-sm text-gray-700 font-medium">
-                  {airportSearch ? 'Search results:' : 'Popular airports:'}
-                </p>
-                {airportLoading && (
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <style jsx>{`
-                      @keyframes iconFade {
-                        0%, 30% { opacity: 1; }
-                        31%, 100% { opacity: 0; }
-                      }
-                      .icon-1 { animation: iconFade 0.9s infinite; }
-                      .icon-2 { animation: iconFade 0.9s infinite 0.3s; }
-                      .icon-3 { animation: iconFade 0.9s infinite 0.6s; }
-                    `}</style>
-                    <div className="relative h-4 w-4">
-                      {/* Plane Icon */}
-                      <div className="absolute inset-0 flex items-center justify-center icon-1">
-                        <svg className="w-3 h-3 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-                        </svg>
-                      </div>
-                      {/* Cloud Icon */}
-                      <div className="absolute inset-0 flex items-center justify-center icon-2" style={{opacity: 0}}>
-                        <svg className="w-3 h-3 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
-                        </svg>
-                      </div>
-                      {/* Suitcase Icon */}
-                      <div className="absolute inset-0 flex items-center justify-center icon-3" style={{opacity: 0}}>
-                        <svg className="w-3 h-3 text-[#045530]" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M17 6h-2V3c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v3H5c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 3h6v3H9V3zm8 15H5V8h14v10z"/>
-                        </svg>
-                      </div>
-                    </div>
-                    Searching...
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 mb-6 max-h-60 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-white [&::-webkit-scrollbar-thumb]:rounded-full">
-                {filteredAirports.length === 0 && !airportLoading ? (
-                  <div className="col-span-2 text-center py-8 text-gray-500">
-                    {airportSearch ? 'No airports found. Try a different search term.' : 'Loading popular airports...'}
-                  </div>
-                ) : (
-                  filteredAirports.map((airport) => {
-                    const airportDisplay = `${airport.iata} - ${airport.cityName}`;
-                    return (
-                      <button
-                        key={airport.iata}
-                        onClick={() => toggleArrayItem(data.homeAirports, airportDisplay, (arr) => setData({...data, homeAirports: arr}))}
-                        className={`p-3 rounded-lg border-2 text-sm font-medium transition-all text-left ${
-                          data.homeAirports.includes(airportDisplay)
-                            ? 'border-[#d5e27b] bg-[#d5e27b] text-[#045530]'
-                            : 'border-gray-200 hover:border-[#d5e27b]/50 text-gray-800'
-                        }`}
-                      >
-                        <div className="font-semibold">{airport.iata}</div>
-                        <div className="text-xs text-gray-600">{airport.cityName}, {airport.countryName}</div>
-                        <div className="text-xs text-gray-500 truncate">{airport.name}</div>
-                      </button>
-                    );
-                  })
-                )}
-              </div>
-
-              {data.homeAirports.length > 0 && (
-                <div className="mb-6">
-                  <p className="text-sm text-gray-700 mb-2 font-medium">Selected airports:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {data.homeAirports.map((airport) => (
-                      <span
-                        key={airport}
-                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#fff0d2] text-[#045530] font-medium"
-                      >
-                        {airport}
-                        <button
-                          onClick={() => toggleArrayItem(data.homeAirports, airport, (arr) => setData({...data, homeAirports: arr}))}
-                          className="ml-2 text-[#045530] hover:text-[#045530]/80"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Step 2: Dream Destinations */}
-          {currentStep === 2 && (
-            <div>
-              <h2 className="text-3xl font-bold text-[#045530] mb-2">Where do you dream of going?</h2>
-              <p className="text-gray-800 mb-6">Select countries or cities you'd love to visit. We'll find the best deals to these destinations.</p>
-
-              {/* Search Bar */}
-              <div className="mb-6">
-                <input
-                  type="text"
-                  placeholder="Search for destinations (e.g., Japan, Paris, Thailand)"
-                  value={destinationSearch}
-                  onChange={(e) => setDestinationSearch(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && filteredDestinations.length > 0) {
-                      const selectedDestination = filteredDestinations[0];
-                      const destinationDisplay = 'countryCode' in selectedDestination
-                        ? `${selectedDestination.name}, ${selectedDestination.countryName}` // City
-                        : selectedDestination.name; // Country
-                      if (!data.dreamDestinations.includes(destinationDisplay)) {
-                        setData({...data, dreamDestinations: [...data.dreamDestinations, destinationDisplay]});
-                        setDestinationSearch('');
-                      }
-                    }
-                  }}
-                />
-              </div>
-
-              <p className="text-sm text-gray-700 mb-3 font-medium">
-                {destinationSearch ? 'Search results:' : 'Popular destinations:'}
-              </p>
-              <div className="grid grid-cols-3 gap-3 mb-6 max-h-60 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-white [&::-webkit-scrollbar-thumb]:rounded-full">
-                {filteredDestinations.map((destination) => {
-                  const isCity = 'countryCode' in destination;
-                  const destinationDisplay = isCity
-                    ? `${destination.name}, ${destination.countryName}` // City
-                    : destination.name; // Country
-                  const key = isCity ? `city-${destination.name}-${destination.countryCode}` : `country-${destination.code}`;
-
-                  return (
-                    <button
-                      key={key}
-                      onClick={() => toggleArrayItem(data.dreamDestinations, destinationDisplay, (arr) => setData({...data, dreamDestinations: arr}))}
-                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all text-left ${
-                        data.dreamDestinations.includes(destinationDisplay)
-                          ? 'border-[#d5e27b] bg-[#d5e27b] text-[#045530]'
-                          : 'border-gray-200 hover:border-[#d5e27b]/50 text-gray-800'
-                      }`}
-                    >
-                      <div className="font-semibold">{destination.name}</div>
-                      {isCity && (
-                        <div className="text-xs text-gray-600">{(destination as City).countryName}</div>
-                      )}
-                      {!isCity && (
-                        <div className="text-xs text-gray-600">{(destination as Country).continent}</div>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {data.dreamDestinations.length > 0 && (
-                <div className="mb-6">
-                  <p className="text-sm text-gray-700 mb-2 font-medium">Selected destinations:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {data.dreamDestinations.map((destination) => (
-                      <span
-                        key={destination}
-                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#fff0d2] text-[#045530] font-medium"
-                      >
-                        {destination}
-                        <button
-                          onClick={() => toggleArrayItem(data.dreamDestinations, destination, (arr) => setData({...data, dreamDestinations: arr}))}
-                          className="ml-2 text-[#045530] hover:text-[#045530]/80"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Step 3: Delivery Frequency */}
-          {currentStep === 3 && (
-            <div>
-              <h2 className="text-3xl font-bold text-[#045530] mb-2">How often would you like to hear from us?</h2>
-              <p className="text-gray-800 mb-6">Choose how frequently you'd like to receive flight deal notifications.</p>
-
-              <div className="space-y-3">
-                {FREQUENCY_OPTIONS.map((option) => (
-                  <label
-                    key={option.value}
-                    className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                      data.deliveryFrequency === option.value
-                        ? 'border-[#d5e27b] bg-[#d5e27b]'
-                        : 'border-gray-200 hover:border-[#d5e27b]/50'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="frequency"
-                      value={option.value}
-                      checked={data.deliveryFrequency === option.value}
-                      onChange={(e) => setData({...data, deliveryFrequency: e.target.value})}
-                      className="sr-only"
-                    />
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-900">{option.label}</div>
-                      <div className="text-sm text-gray-700">{option.description}</div>
-                    </div>
-                    <div className={`w-4 h-4 rounded-full border-2 ${
-                      data.deliveryFrequency === option.value
-                        ? 'border-[#045530] bg-[#045530]'
-                        : 'border-gray-300'
-                    }`}>
-                      {data.deliveryFrequency === option.value && (
-                        <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5" />
-                      )}
-                    </div>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Step 4: Optional Preferences */}
-          {currentStep === 4 && (
-            <div>
-              <h2 className="text-3xl font-bold text-[#045530] mb-2">Any additional preferences?</h2>
-              <p className="text-gray-800 mb-6">These are optional but help us find better deals for you.</p>
-
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-2">
-                    Maximum budget per trip (optional)
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="e.g., 1500"
-                    value={data.maxBudget || ''}
-                    onChange={(e) => setData({...data, maxBudget: e.target.value ? Number(e.target.value) : undefined})}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-2">
-                    Preferred airlines (optional)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Delta, United, American"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        const value = (e.target as HTMLInputElement).value.trim();
-                        if (value && !data.preferredAirlines.includes(value)) {
-                          setData({...data, preferredAirlines: [...data.preferredAirlines, value]});
-                          (e.target as HTMLInputElement).value = '';
-                        }
-                      }
-                    }}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
-                  />
-                  {data.preferredAirlines.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {data.preferredAirlines.map((airline) => (
-                        <span
-                          key={airline}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#d5e27b] text-[#045530] font-medium"
-                        >
-                          {airline}
-                          <button
-                            onClick={() => toggleArrayItem(data.preferredAirlines, airline, (arr) => setData({...data, preferredAirlines: arr}))}
-                            className="ml-2 text-[#045530] hover:text-[#045530]/80"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8">
-            <button
-              onClick={handleBack}
-              disabled={currentStep === 1}
-              className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                currentStep === 1
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-[#045530] hover:text-[#045530] hover:bg-[#d5e27b]/20'
-              }`}
-            >
-              Back
-            </button>
-            
-            <button
-              onClick={handleNext}
-              disabled={!canProceed() || loading}
-              className={`px-8 py-3 rounded-lg font-medium transition-all ${
-                canProceed() && !loading
-                  ? 'bg-[#d5e27b] text-[#045530] hover:bg-[#c4d16a]'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {loading ? 'Saving...' : currentStep === 4 ? 'Complete Setup' : 'Next'}
-            </button>
-          </div>
+            {isExpanded && (
+              <span className="font-semibold text-[#d5e27b] text-xl">
+                Travira
+              </span>
+            )}
+          </Link>
+          {/* Toggle Button */}
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="p-1 hover:bg-[#045530]/80 rounded transition-colors"
+          >
+            {isExpanded ? (
+              <ChevronLeft className="w-5 h-5 text-[#d5e27b]" />
+            ) : (
+              <ChevronRight className="w-5 h-5 text-[#d5e27b]" />
+            )}
+          </button>
         </div>
       </div>
+
+      {/* Navigation Items */}
+      <div className="py-4 space-y-2">
+        {sidebarItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeSection === item.id;
+          
+          return (
+            <button
+              key={item.id}
+              onClick={() => handleItemClick(item)}
+              className={`w-full flex items-center ${isExpanded ? 'justify-between px-6' : 'justify-center px-2'} py-4 text-left hover:bg-[#045530]/80 transition-colors ${
+                isActive ? 'bg-[#d5e27b]/20 border-r-4 border-[#d5e27b]' : ''
+              }`}
+              title={!isExpanded ? item.label : undefined}
+            >
+              <div className="flex items-center space-x-3">
+                <Icon className={`w-5 h-5 ${isActive ? 'text-[#d5e27b]' : 'text-white/70'}`} />
+                {isExpanded && (
+                  <span className={`${isActive ? 'text-[#d5e27b]' : 'text-[#ebebeb]'}`}>
+                    {item.label}
+                  </span>
+                )}
+              </div>
+              {isExpanded && (
+                <ChevronRight className={`w-4 h-4 ${isActive ? 'text-[#d5e27b]' : 'text-white/50'}`} />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+
+      {/* Edit Preferences Modal */}
+      {isEditModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6">Edit Preferences</h3>
+              
+              {editedPreferences && (
+                <div className="space-y-6">
+                  {/* Home Airports */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Home Airports
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Search for airport (e.g., Los Angeles, LAX, John F Kennedy)"
+                      value={airportSearch}
+                      onChange={(e) => setAirportSearch(e.target.value)}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
+                    />
+                    
+                    {/* Airport Search Results */}
+                    {airportSearch && filteredAirports.length > 0 && (
+                      <div className="mt-3 max-h-40 overflow-y-auto border border-gray-200 rounded-lg">
+                        {filteredAirports.slice(0, 10).map((airport) => (
+                          <button
+                            key={airport.iata}
+                            onClick={() => {
+                              const airportDisplay = `${airport.iata} - ${airport.cityName}`;
+                              toggleArrayItem(
+                                editedPreferences.homeAirports,
+                                airportDisplay,
+                                (arr) => setEditedPreferences({...editedPreferences, homeAirports: arr})
+                              );
+                              setAirportSearch('');
+                            }}
+                            className="w-full text-left p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
+                          >
+                            <div className="font-medium text-gray-900">{airport.iata} - {airport.cityName}</div>
+                            <div className="text-sm text-gray-500">{airport.name}</div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Selected Airports */}
+                    {editedPreferences.homeAirports.length > 0 && (
+                      <div className="mt-3">
+                        <div className="flex flex-wrap gap-2">
+                          {editedPreferences.homeAirports.map((airport) => (
+                            <span
+                              key={airport}
+                              className="bg-[#d5e27b] text-[#045530] px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2"
+                            >
+                              {airport}
+                              <button
+                                onClick={() => toggleArrayItem(
+                                  editedPreferences.homeAirports, 
+                                  airport, 
+                                  (arr) => setEditedPreferences({...editedPreferences, homeAirports: arr})
+                                )}
+                                className="hover:bg-[#045530]/20 rounded-full p-0.5"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Dream Destinations */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Dream Destinations
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Search for destinations (e.g., Tokyo, Paris, New York)"
+                      value={destinationSearch}
+                      onChange={(e) => setDestinationSearch(e.target.value)}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
+                    />
+                    
+                    {/* Search Results */}
+                    {destinationSearch && filteredDestinations.length > 0 && (
+                      <div className="mt-3 max-h-40 overflow-y-auto border border-gray-200 rounded-lg">
+                        {filteredDestinations.slice(0, 10).map((destination) => (
+                          <button
+                            key={`${destination.name}-${'countryName' in destination ? destination.countryName : destination.name}`}
+                            onClick={() => {
+                              const countryName = 'countryName' in destination ? destination.countryName : destination.name;
+                              const destinationDisplay = `${destination.name}, ${countryName}`;
+                              toggleArrayItem(
+                                editedPreferences.dreamDestinations,
+                                destinationDisplay,
+                                (arr) => setEditedPreferences({...editedPreferences, dreamDestinations: arr})
+                              );
+                              setDestinationSearch('');
+                            }}
+                            className="w-full text-left p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
+                          >
+                            <div className="font-medium text-gray-900">{destination.name}</div>
+                            <div className="text-sm text-gray-500">{'countryName' in destination ? destination.countryName : 'Country'}</div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Selected Destinations */}
+                    {editedPreferences.dreamDestinations.length > 0 && (
+                      <div className="mt-3">
+                        <div className="flex flex-wrap gap-2">
+                          {editedPreferences.dreamDestinations.map((destination) => (
+                            <span
+                              key={destination}
+                              className="bg-[#d5e27b] text-[#045530] px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2"
+                            >
+                              {destination}
+                              <button
+                                onClick={() => toggleArrayItem(
+                                  editedPreferences.dreamDestinations, 
+                                  destination, 
+                                  (arr) => setEditedPreferences({...editedPreferences, dreamDestinations: arr})
+                                )}
+                                className="hover:bg-[#045530]/20 rounded-full p-0.5"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Delivery Frequency */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Delivery Frequency
+                    </label>
+                    <div className="space-y-2">
+                      {FREQUENCY_OPTIONS.map((option) => (
+                        <label
+                          key={option.value}
+                          className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                            editedPreferences.deliveryFrequency === option.value
+                              ? 'border-[#d5e27b] bg-[#d5e27b]'
+                              : 'border-gray-200 hover:border-[#d5e27b]/50'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="frequency"
+                            value={option.value}
+                            checked={editedPreferences.deliveryFrequency === option.value}
+                            onChange={(e) => setEditedPreferences({...editedPreferences, deliveryFrequency: e.target.value})}
+                            className="sr-only"
+                          />
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-900">{option.label}</div>
+                            <div className="text-sm text-gray-700">{option.description}</div>
+                          </div>
+                          <div className={`w-4 h-4 rounded-full border-2 ${
+                            editedPreferences.deliveryFrequency === option.value
+                              ? 'border-[#045530] bg-[#045530]'
+                              : 'border-gray-300'
+                          }`}>
+                            {editedPreferences.deliveryFrequency === option.value && (
+                              <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5" />
+                            )}
+                          </div>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Max Budget */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Max Budget ($)
+                    </label>
+                    <input
+                      type="number"
+                      value={editedPreferences.maxBudget || ''}
+                      onChange={(e) => setEditedPreferences({
+                        ...editedPreferences,
+                        maxBudget: e.target.value ? parseInt(e.target.value) : undefined
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent"
+                      placeholder="e.g., 500"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-3 mt-8">
+                <button
+                  onClick={handleSavePreferences}
+                  className="flex-1 bg-[#d5e27b] text-[#045530] px-4 py-2 rounded-lg font-semibold hover:bg-[#c4d16a] transition-colors"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={handleCancelEdit}
+                  className="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Message */}
+      {showSuccessMessage && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 bg-[#d5e27b] text-[#045530] px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in slide-in-from-bottom-2 duration-300">
+          <div className="w-4 h-4 rounded-full bg-[#045530] flex items-center justify-center">
+            <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <span className="text-sm font-medium">Preferences saved!</span>
+        </div>
+      )}
+
     </div>
   );
 }

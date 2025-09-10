@@ -10,51 +10,41 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // For now, return mock data since we don't have actual flight deals yet
-    // In a real implementation, this would fetch from a flight deals table
-    const mockDeals = [
-      {
-        id: '1',
-        origin: 'LAX - Los Angeles',
-        destination: 'Tokyo, Japan',
-        price: 450,
-        originalPrice: 850,
-        savings: 400,
-        airline: 'Japan Airlines',
-        departureDate: '2024-03-15',
-        returnDate: '2024-03-25',
-        bookingUrl: 'https://example.com/book/1',
-        createdAt: '2024-01-15T10:00:00Z',
-      },
-      {
-        id: '2',
-        origin: 'JFK - New York',
-        destination: 'Paris, France',
-        price: 320,
-        originalPrice: 650,
-        savings: 330,
-        airline: 'Air France',
-        departureDate: '2024-04-10',
-        returnDate: '2024-04-20',
-        bookingUrl: 'https://example.com/book/2',
-        createdAt: '2024-01-14T15:30:00Z',
-      },
-      {
-        id: '3',
-        origin: 'SFO - San Francisco',
-        destination: 'London, United Kingdom',
-        price: 380,
-        originalPrice: 720,
-        savings: 340,
-        airline: 'British Airways',
-        departureDate: '2024-05-05',
-        returnDate: '2024-05-15',
-        bookingUrl: 'https://example.com/book/3',
-        createdAt: '2024-01-13T09:15:00Z',
-      },
-    ];
+    // Find the user by Clerk ID
+    const user = await database.user.findUnique({
+      where: { clerkId: userId },
+    });
 
-    return NextResponse.json(mockDeals);
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    // Fetch watched flight recommendations
+    const watchedDeals = await database.flightRecommendation.findMany({
+      where: {
+        userId: user.id,
+        isWatched: true,
+        isActive: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // Transform to match the expected format
+    const deals = watchedDeals.map(deal => ({
+      id: deal.id,
+      origin: deal.origin,
+      destination: deal.destination,
+      price: deal.price,
+      originalPrice: Math.round(deal.price * 1.8), // Estimate original price
+      savings: Math.round(deal.price * 0.8), // Estimate savings
+      airline: deal.airline,
+      departureDate: deal.departureDate.toISOString(),
+      returnDate: deal.returnDate?.toISOString(),
+      bookingUrl: deal.bookingUrl,
+      createdAt: deal.createdAt.toISOString(),
+    }));
+
+    return NextResponse.json(deals);
   } catch (error) {
     console.error('Error fetching user deals:', error);
     return NextResponse.json(
