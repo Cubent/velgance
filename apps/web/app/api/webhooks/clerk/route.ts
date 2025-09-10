@@ -70,7 +70,7 @@ export async function POST(request: Request) {
           data: {
             clerkId: newUserId,
             email: emailAddresses?.[0]?.email_address || '',
-            name: `${firstName || ''} ${lastName || ''}`.trim() || null,
+            name: [firstName, lastName].filter(Boolean).join(' ') || null,
             picture: imageUrl,
           },
         });
