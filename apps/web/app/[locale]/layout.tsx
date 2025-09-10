@@ -39,7 +39,7 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
   const dictionary = await getDictionary(locale);
   const headersList = await headers();
   const pathname = headersList.get('x-pathname') || '';
-  const isPricingPage = pathname.includes('/pricing');
+  const isPricingPage = pathname.includes('/pricing') || pathname.includes('/dashboard') || pathname.includes('/profile') || pathname.includes('/onboarding');
 
   return (
     <>

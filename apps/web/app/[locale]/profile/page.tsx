@@ -33,7 +33,7 @@ export default function ProfilePage() {
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
   const [deals, setDeals] = useState<FlightDeal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'profile' | 'preferences' | 'deals'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'preferences' | 'deals'>('deals');
 
   useEffect(() => {
     if (isLoaded && !user) {
@@ -85,7 +85,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-[#fff0d2] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
@@ -109,14 +109,14 @@ export default function ProfilePage() {
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8 px-6">
               <button
-                onClick={() => setActiveTab('profile')}
+                onClick={() => setActiveTab('deals')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'profile'
+                  activeTab === 'deals'
                     ? 'border-green-500 text-green-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                Account Settings
+                Saved Deals
               </button>
               <button
                 onClick={() => setActiveTab('preferences')}
@@ -129,24 +129,68 @@ export default function ProfilePage() {
                 Travel Preferences
               </button>
               <button
-                onClick={() => setActiveTab('deals')}
+                onClick={() => setActiveTab('profile')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'deals'
+                  activeTab === 'profile'
                     ? 'border-green-500 text-green-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                My Deals
+                Account Settings
               </button>
             </nav>
           </div>
 
           <div className="p-6">
-            {/* Account Settings Tab */}
-            {activeTab === 'profile' && (
+            {/* My Deals Tab */}
+            {activeTab === 'deals' && (
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Settings</h2>
-                <UserProfile />
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Saved Flight Deals</h2>
+                {deals.length > 0 ? (
+                  <div className="space-y-4">
+                    {deals.map((deal) => (
+                      <div key={deal.id} className="border border-gray-200 rounded-lg p-4">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-semibold text-gray-900">
+                              {deal.origin} → {deal.destination}
+                            </h3>
+                            <p className="text-sm text-gray-600">{deal.airline}</p>
+                            <p className="text-sm text-gray-500">
+                              {new Date(deal.departureDate).toLocaleDateString()}
+                              {deal.returnDate && ` - ${new Date(deal.returnDate).toLocaleDateString()}`}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-green-600">${deal.price}</div>
+                            <div className="text-sm text-gray-500 line-through">${deal.originalPrice}</div>
+                            <div className="text-sm text-green-600 font-medium">Save ${deal.savings}</div>
+                          </div>
+                        </div>
+                        <div className="mt-4 flex justify-between items-center">
+                          <span className="text-xs text-gray-500">
+                            Found {new Date(deal.createdAt).toLocaleDateString()}
+                          </span>
+                          <a
+                            href={deal.bookingUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
+                          >
+                            Book Now
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gray-600 mb-4">No flight deals found yet.</p>
+                    <p className="text-sm text-gray-500">
+                      Complete your travel preferences to start receiving personalized deals.
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 
@@ -235,49 +279,11 @@ export default function ProfilePage() {
               </div>
             )}
 
-            {/* My Deals Tab */}
-            {activeTab === 'deals' && (
+            {/* Account Settings Tab */}
+            {activeTab === 'profile' && (
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">My Flight Deals</h2>
-                {deals.length > 0 ? (
-                  <div className="space-y-4">
-                    {deals.map((deal) => (
-                      <div key={deal.id} className="border border-gray-200 rounded-lg p-4">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-semibold text-gray-900">
-                              {deal.origin} → {deal.destination}
-                            </h3>
-                            <p className="text-sm text-gray-600">{deal.airline}</p>
-                            <p className="text-sm text-gray-600">
-                              {new Date(deal.departureDate).toLocaleDateString()}
-                              {deal.returnDate && ` - ${new Date(deal.returnDate).toLocaleDateString()}`}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-green-600">${deal.price}</div>
-                            <div className="text-sm text-gray-500 line-through">${deal.originalPrice}</div>
-                            <div className="text-sm text-green-600">Save ${deal.savings}</div>
-                          </div>
-                        </div>
-                        <div className="mt-4">
-                          <a
-                            href={deal.bookingUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors inline-block"
-                          >
-                            Book Now
-                          </a>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-gray-600">No flight deals yet. We'll notify you when we find great deals!</p>
-                  </div>
-                )}
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Settings</h2>
+                <UserProfile />
               </div>
             )}
           </div>

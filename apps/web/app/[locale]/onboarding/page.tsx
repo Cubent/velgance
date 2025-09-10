@@ -10045,9 +10045,9 @@ export default function OnboardingPage() {
   // Show loading while checking authentication
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#fff0d2] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#045530] mx-auto mb-4"></div>
           <p className="text-gray-700">Loading...</p>
         </div>
       </div>
@@ -10055,17 +10055,17 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4">
+    <div className="min-h-screen bg-[#fff0d2] py-12 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-green-800">Step {currentStep} of 4</span>
-            <span className="text-sm text-green-700">{Math.round((currentStep / 4) * 100)}% Complete</span>
+            <span className="text-sm font-medium text-[#045530]">Step {currentStep} of 4</span>
+            <span className="text-sm text-[#045530]">{Math.round((currentStep / 4) * 100)}% Complete</span>
           </div>
-          <div className="w-full bg-green-200 rounded-full h-2">
+          <div className="w-full bg-[#d5e27b]/20 rounded-full h-2">
             <div
-              className="bg-green-600 h-2 rounded-full transition-all duration-300"
+              className="bg-[#045530] h-2 rounded-full transition-all duration-300"
               style={{ width: `${(currentStep / 4) * 100}%` }}
             />
           </div>
@@ -10075,7 +10075,7 @@ export default function OnboardingPage() {
           {/* Step 1: Home Airports */}
           {currentStep === 1 && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Where do you fly from?</h2>
+              <h2 className="text-3xl font-bold text-[#045530] mb-2">Where do you fly from?</h2>
               <p className="text-gray-800 mb-6">Select your home airport(s) - the places you typically start your journeys.</p>
 
               {/* Search Bar */}
@@ -10085,7 +10085,7 @@ export default function OnboardingPage() {
                   placeholder="Search for airport (e.g., Los Angeles, LAX, John F Kennedy)"
                   value={airportSearch}
                   onChange={(e) => setAirportSearch(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && filteredAirports.length > 0 && !airportLoading) {
                       const selectedAirport = filteredAirports[0];
@@ -10105,7 +10105,7 @@ export default function OnboardingPage() {
                 </p>
                 {airportLoading && (
                   <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-600"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#045530]"></div>
                     Searching...
                   </div>
                 )}
@@ -10125,8 +10125,8 @@ export default function OnboardingPage() {
                         onClick={() => toggleArrayItem(data.homeAirports, airportDisplay, (arr) => setData({...data, homeAirports: arr}))}
                         className={`p-3 rounded-lg border-2 text-sm font-medium transition-all text-left ${
                           data.homeAirports.includes(airportDisplay)
-                            ? 'border-green-500 bg-green-50 text-green-800'
-                            : 'border-gray-200 hover:border-green-300 text-gray-800'
+                            ? 'border-[#d5e27b] bg-[#d5e27b] text-[#045530]'
+                            : 'border-gray-200 hover:border-[#d5e27b]/50 text-gray-800'
                         }`}
                       >
                         <div className="font-semibold">{airport.iata}</div>
@@ -10145,12 +10145,12 @@ export default function OnboardingPage() {
                     {data.homeAirports.map((airport) => (
                       <span
                         key={airport}
-                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-800 font-medium"
+                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#fff0d2] text-[#045530] font-medium"
                       >
                         {airport}
                         <button
                           onClick={() => toggleArrayItem(data.homeAirports, airport, (arr) => setData({...data, homeAirports: arr}))}
-                          className="ml-2 text-green-600 hover:text-green-800"
+                          className="ml-2 text-[#045530] hover:text-[#045530]/80"
                         >
                           ×
                         </button>
@@ -10165,7 +10165,7 @@ export default function OnboardingPage() {
           {/* Step 2: Dream Destinations */}
           {currentStep === 2 && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Where do you dream of going?</h2>
+              <h2 className="text-3xl font-bold text-[#045530] mb-2">Where do you dream of going?</h2>
               <p className="text-gray-800 mb-6">Select countries or cities you'd love to visit. We'll find the best deals to these destinations.</p>
 
               {/* Search Bar */}
@@ -10175,7 +10175,7 @@ export default function OnboardingPage() {
                   placeholder="Search for destinations (e.g., Japan, Paris, Thailand)"
                   value={destinationSearch}
                   onChange={(e) => setDestinationSearch(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && filteredDestinations.length > 0) {
                       const selectedDestination = filteredDestinations[0];
@@ -10208,8 +10208,8 @@ export default function OnboardingPage() {
                       onClick={() => toggleArrayItem(data.dreamDestinations, destinationDisplay, (arr) => setData({...data, dreamDestinations: arr}))}
                       className={`p-3 rounded-lg border-2 text-sm font-medium transition-all text-left ${
                         data.dreamDestinations.includes(destinationDisplay)
-                          ? 'border-green-500 bg-green-50 text-green-800'
-                          : 'border-gray-200 hover:border-green-300 text-gray-800'
+                          ? 'border-[#d5e27b] bg-[#d5e27b] text-[#045530]'
+                          : 'border-gray-200 hover:border-[#d5e27b]/50 text-gray-800'
                       }`}
                     >
                       <div className="font-semibold">{destination.name}</div>
@@ -10231,12 +10231,12 @@ export default function OnboardingPage() {
                     {data.dreamDestinations.map((destination) => (
                       <span
                         key={destination}
-                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-800 font-medium"
+                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#fff0d2] text-[#045530] font-medium"
                       >
                         {destination}
                         <button
                           onClick={() => toggleArrayItem(data.dreamDestinations, destination, (arr) => setData({...data, dreamDestinations: arr}))}
-                          className="ml-2 text-green-600 hover:text-green-800"
+                          className="ml-2 text-[#045530] hover:text-[#045530]/80"
                         >
                           ×
                         </button>
@@ -10251,7 +10251,7 @@ export default function OnboardingPage() {
           {/* Step 3: Delivery Frequency */}
           {currentStep === 3 && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">How often would you like to hear from us?</h2>
+              <h2 className="text-3xl font-bold text-[#045530] mb-2">How often would you like to hear from us?</h2>
               <p className="text-gray-800 mb-6">Choose how frequently you'd like to receive flight deal notifications.</p>
 
               <div className="space-y-3">
@@ -10260,8 +10260,8 @@ export default function OnboardingPage() {
                     key={option.value}
                     className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-all ${
                       data.deliveryFrequency === option.value
-                        ? 'border-green-500 bg-green-50'
-                        : 'border-gray-200 hover:border-green-300'
+                        ? 'border-[#d5e27b] bg-[#d5e27b]'
+                        : 'border-gray-200 hover:border-[#d5e27b]/50'
                     }`}
                   >
                     <input
@@ -10278,7 +10278,7 @@ export default function OnboardingPage() {
                     </div>
                     <div className={`w-4 h-4 rounded-full border-2 ${
                       data.deliveryFrequency === option.value
-                        ? 'border-green-500 bg-green-500'
+                        ? 'border-[#045530] bg-[#045530]'
                         : 'border-gray-300'
                     }`}>
                       {data.deliveryFrequency === option.value && (
@@ -10294,7 +10294,7 @@ export default function OnboardingPage() {
           {/* Step 4: Optional Preferences */}
           {currentStep === 4 && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Any additional preferences?</h2>
+              <h2 className="text-3xl font-bold text-[#045530] mb-2">Any additional preferences?</h2>
               <p className="text-gray-800 mb-6">These are optional but help us find better deals for you.</p>
 
               <div className="space-y-6">
@@ -10307,7 +10307,7 @@ export default function OnboardingPage() {
                     placeholder="e.g., 1500"
                     value={data.maxBudget || ''}
                     onChange={(e) => setData({...data, maxBudget: e.target.value ? Number(e.target.value) : undefined})}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
                   />
                 </div>
 
@@ -10327,19 +10327,19 @@ export default function OnboardingPage() {
                         }
                       }
                     }}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
                   />
                   {data.preferredAirlines.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-2">
                       {data.preferredAirlines.map((airline) => (
                         <span
                           key={airline}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-800 font-medium"
+                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#d5e27b] text-[#045530] font-medium"
                         >
                           {airline}
                           <button
                             onClick={() => toggleArrayItem(data.preferredAirlines, airline, (arr) => setData({...data, preferredAirlines: arr}))}
-                            className="ml-2 text-green-600 hover:text-green-800"
+                            className="ml-2 text-[#045530] hover:text-[#045530]/80"
                           >
                             ×
                           </button>
@@ -10360,7 +10360,7 @@ export default function OnboardingPage() {
               className={`px-6 py-3 rounded-lg font-medium transition-all ${
                 currentStep === 1
                   ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-green-600 hover:text-green-700 hover:bg-green-50'
+                  : 'text-[#045530] hover:text-[#045530] hover:bg-[#d5e27b]/20'
               }`}
             >
               Back
@@ -10371,7 +10371,7 @@ export default function OnboardingPage() {
               disabled={!canProceed() || loading}
               className={`px-8 py-3 rounded-lg font-medium transition-all ${
                 canProceed() && !loading
-                  ? 'bg-green-600 text-white hover:bg-green-700'
+                  ? 'bg-[#d5e27b] text-[#045530] hover:bg-[#c4d16a]'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >

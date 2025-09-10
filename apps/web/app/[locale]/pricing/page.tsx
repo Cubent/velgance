@@ -48,11 +48,19 @@ export default function PricingPage() {
     <div className="min-h-screen bg-[#fff0d2]">
       {/* Header with background */}
       <div className="bg-[#045530] relative overflow-hidden">
-        {/* Decorative Circle */}
-        <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-[#d5e27b]/20"></div>
-        
-        {/* Decorative Oval */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-32 bg-[#d5e27b]/10 rounded-full"></div>
+        {/* Decorative circles */}
+        <div className="absolute top-10 left-10 w-12 h-12 bg-[#045530] rounded-full opacity-20"></div>
+        <div className="absolute top-20 right-20 w-8 h-8 bg-[#d5e27b]/20 rounded-full"></div>
+        <div className="absolute bottom-20 left-1/4 w-10 h-10 bg-[#d5e27b]/10 rounded-full"></div>
+        <div className="absolute top-32 left-1/3 w-6 h-6 bg-[#045530] rounded-full opacity-15"></div>
+        <div className="absolute top-40 right-1/3 w-8 h-8 bg-[#d5e27b]/15 rounded-full"></div>
+        <div className="absolute bottom-32 right-10 w-7 h-7 bg-[#045530] rounded-full opacity-25"></div>
+        <div className="absolute top-16 left-1/2 w-5 h-5 bg-[#d5e27b]/30 rounded-full"></div>
+        <div className="absolute bottom-16 right-1/4 w-9 h-9 bg-[#045530] rounded-full opacity-10"></div>
+        <div className="absolute top-24 left-1/5 w-6 h-6 bg-[#d5e27b]/25 rounded-full"></div>
+        <div className="absolute top-36 right-1/5 w-7 h-7 bg-[#045530] rounded-full opacity-18"></div>
+        <div className="absolute bottom-24 left-1/6 w-8 h-8 bg-[#d5e27b]/12 rounded-full"></div>
+        <div className="absolute top-28 right-1/6 w-5 h-5 bg-[#045530] rounded-full opacity-22"></div>
         
         {/* Hero */}
         <section className="relative z-10">
@@ -71,7 +79,7 @@ export default function PricingPage() {
       <section className="relative">
         {/* Green background that ends early */}
         <div className="absolute inset-0 bg-[#045530] rounded-b-[50%] h-48"></div>
-        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-10">
           <div className="grid grid-cols-1 gap-6">
             <div className="relative rounded-2xl bg-white p-8 shadow-lg border border-gray-200">
               {/* Popular Badge */}

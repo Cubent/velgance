@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { TextHoverEffect } from '../(home)/components/TextHoverEffect';
 
 export const Footer = () => {
@@ -16,7 +17,7 @@ export const Footer = () => {
         {/* Contact section on top */}
         <div className="flex flex-col items-center gap-4 mb-12">
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl">✈️</span>
+            <Image src="/Travira-light.svg" alt="Travira Logo" width={48} height={48} />
             <h3 className="text-xl font-bold text-[#fff0d2]">Travira</h3>
           </div>
           <Link

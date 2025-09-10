@@ -20,7 +20,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const isPricing = isPricingPage || pathname.includes('/pricing');
+  const isPricing = isPricingPage || pathname.includes('/pricing') || pathname.includes('/dashboard') || pathname.includes('/profile') || pathname.includes('/onboarding');
 
 
   // Close user menu when clicking outside
@@ -42,7 +42,12 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
       <div className={`w-full ${isPricing ? 'bg-[#045530]' : 'bg-[#f0e8d4]/80'} backdrop-blur-md px-3 py-1`}>
         <div className="relative w-full flex min-h-12 flex-row items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Image src="/Travira-logo.svg" alt="Travira Logo" width={40} height={40} />
+            <Image 
+              src={isPricing ? "/Travira-light.svg" : "/Travira-logo.svg"} 
+              alt="Travira Logo" 
+              width={40} 
+              height={40} 
+            />
             <p className={`whitespace-nowrap font-bold text-2xl ${isPricing ? 'text-[#d5e27b]' : 'text-[#045530]'}`}>Travira</p>
           </Link>
           {/* Center nav removed */}
