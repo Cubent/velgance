@@ -20,7 +20,10 @@ fi
 if [ -f "generated/client/libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
   echo "RHEL OpenSSL 3.0.x engine found"
 else
-  echo "Warning: RHEL OpenSSL 3.0.x engine not found"
+  echo "Warning: RHEL OpenSSL 3.0.x engine not found - this is expected in build environment"
+  # List available engine files for debugging
+  echo "Available engine files:"
+  ls -la generated/client/ | grep -E "\.(so|node)$" || echo "No engine files found"
 fi
 
 # Build the application

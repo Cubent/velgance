@@ -5,7 +5,6 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 import ws from 'ws';
 import { PrismaClient } from './generated/client';
 import { keys } from './keys';
-import { vercelPrismaConfig } from './vercel-config';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
@@ -17,15 +16,13 @@ const adapter = new PrismaNeon(pool);
 // Prisma client configuration optimized for Vercel
 const prismaOptions = {
   adapter,
-  log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
+  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
   // Ensure proper engine configuration for Vercel
   datasources: {
     db: {
       url: keys().DATABASE_URL,
     },
   },
-  // Use Vercel-specific configuration
-  ...vercelPrismaConfig,
 };
 
 // Create Prisma client with proper error handling for Vercel
@@ -38,7 +35,7 @@ try {
   // Fallback: create client without adapter for Vercel
   try {
     database = new PrismaClient({
-      log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
+      log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
       datasources: {
         db: {
           url: keys().DATABASE_URL,

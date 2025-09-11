@@ -8,10 +8,7 @@ import type { NextConfig } from 'next';
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
 // Prisma configuration for Vercel
-nextConfig.experimental = {
-  ...nextConfig.experimental,
-  serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
-};
+nextConfig.serverExternalPackages = ['@prisma/client', 'prisma'];
 
 // Webpack configuration for Prisma
 nextConfig.webpack = (config, { isServer }) => {
