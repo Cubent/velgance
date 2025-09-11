@@ -4,7 +4,7 @@ import { database as db } from '@repo/database';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -13,7 +13,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const recommendationId = params.id;
+    const { id: recommendationId } = await params;
 
     if (!recommendationId) {
       return NextResponse.json({ error: 'Recommendation ID is required' }, { status: 400 });
