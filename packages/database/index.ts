@@ -7,9 +7,9 @@ import { prismaConfig } from './prisma-config';
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 // Prisma client configuration optimized for Vercel
-const logLevels: ('query' | 'error' | 'warn')[] = process.env.NODE_ENV === 'development' 
-  ? ['query', 'error', 'warn']
-  : ['error'];
+const logLevels = process.env.NODE_ENV === 'development' 
+  ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[])
+  : (['error'] as ('query' | 'error' | 'warn')[]);
 
 // Create Prisma client with proper error handling for Vercel
 let database: PrismaClient;
