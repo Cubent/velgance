@@ -7,5 +7,5 @@
     }
   },
   "buildCommand": "cd ../../ && chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",
-  "installCommand": "pnpm install && cd packages/database && pnpm prisma generate --schema=./prisma/schema.prisma --no-hints && cd ../../apps/web && mkdir -p .prisma/client && cp -r ../../packages/database/generated/client/* .prisma/client/ 2>/dev/null || true"
+  "installCommand": "pnpm install && cd ../../packages/database && pnpm prisma generate --schema=./prisma/schema.prisma --no-hints && cd ../../apps/web && mkdir -p .prisma/client && cp -r ../../packages/database/generated/client/* .prisma/client/ 2>/dev/null || true"
 }
