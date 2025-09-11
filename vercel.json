@@ -8,6 +8,6 @@
   "github": {
     "autoAlias": false
   },
-  "buildCommand": "npm install && npx prisma generate && npm run build",
-  "installCommand": "npm install"
+  "buildCommand": "pnpm install && pnpm prisma generate && pnpm run build",
+  "installCommand": "pnpm install"
 }

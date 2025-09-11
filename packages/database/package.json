@@ -4,9 +4,9 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
-    "analyze": "prisma generate --no-hints --schema=./prisma/schema.prisma",
-    "build": "prisma generate --no-hints --schema=./prisma/schema.prisma",
-    "postinstall": "prisma generate --no-hints --schema=./prisma/schema.prisma",
+    "analyze": "pnpm prisma generate --no-hints --schema=./prisma/schema.prisma",
+    "build": "pnpm prisma generate --no-hints --schema=./prisma/schema.prisma",
+    "postinstall": "pnpm prisma generate --no-hints --schema=./prisma/schema.prisma",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
