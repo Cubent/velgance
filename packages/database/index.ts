@@ -19,7 +19,6 @@ const logLevels = process.env.NODE_ENV === 'development'
   : ['error'] as ('error')[];
 
 const prismaOptions = {
-  adapter,
   log: logLevels,
   // Ensure proper engine configuration for Vercel
   datasources: {
@@ -33,7 +32,7 @@ const prismaOptions = {
 let database: PrismaClient;
 
 try {
-  database = globalForPrisma.prisma || new PrismaClient(prismaOptions);
+  database = globalForPrisma.prisma || new PrismaClient(prismaOptions, { adapter });
 } catch (error) {
   console.error('Failed to create Prisma client with adapter:', error);
   // Fallback: create client without adapter for Vercel
