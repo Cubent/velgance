@@ -8,6 +8,6 @@
   "github": {
     "autoAlias": false
   },
-  "buildCommand": "pnpm install && pnpm prisma generate && pnpm run build",
+  "buildCommand": "pnpm install && cd packages/database && pnpm prisma generate --schema=./prisma/schema.prisma && cd ../.. && pnpm run build",
   "installCommand": "pnpm install"
 }
