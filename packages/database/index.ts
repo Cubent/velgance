@@ -13,7 +13,21 @@ neonConfig.webSocketConstructor = ws;
 const pool = new Pool({ connectionString: keys().DATABASE_URL });
 const adapter = new PrismaNeon(pool);
 
-export const database = globalForPrisma.prisma || new PrismaClient({ adapter });
+// Prisma client configuration optimized for Vercel
+const prismaOptions = {
+  adapter,
+  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  // Ensure proper binary handling for Vercel
+  ...(process.env.VERCEL && {
+    datasources: {
+      db: {
+        url: keys().DATABASE_URL,
+      },
+    },
+  }),
+};
+
+export const database = globalForPrisma.prisma || new PrismaClient(prismaOptions);
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = database;

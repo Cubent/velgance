@@ -3,14 +3,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
-    "build": "next build",
-    "build:with-avif": "node scripts/convert-images-avif.js && next build",
-    "build:fast": "next build",
+    "build": "npx prisma generate --schema=../../packages/database/prisma/schema.prisma && next build",
+    "build:with-avif": "node scripts/convert-images-avif.js && npm run build",
+    "build:fast": "npm run build",
     "start": "next start",
     "analyze": "ANALYZE=true npm run build",
     "optimize-images": "node scripts/convert-images-avif.js",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "postinstall": "npx prisma generate --schema=../../packages/database/prisma/schema.prisma"
   },
   "dependencies": {
     "@arcjet/next": "1.0.0-beta.7",

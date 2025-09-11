@@ -35,6 +35,11 @@ export const config: NextConfig = {
   webpack(config, { isServer }) {
     config.ignoreWarnings = [{ module: otelRegex }];
 
+    // Prisma configuration for Vercel deployment
+    if (isServer) {
+      config.externals = [...(config.externals || []), 'prisma'];
+    }
+
     return config;
   },
 
