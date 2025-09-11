@@ -3,6 +3,16 @@ import 'server-only';
 import { PrismaClient, Prisma } from './generated/client';
 import { keys } from './keys';
 
+// Import Neon serverless driver as fallback
+let neon: any = null;
+if (process.env.VERCEL) {
+  try {
+    neon = require('@neondatabase/serverless');
+  } catch (e) {
+    console.log('Neon serverless driver not available');
+  }
+}
+
 // Create a unique global key for each deployment to avoid conflicts
 const globalKey = process.env.VERCEL ? `prisma_${process.env.VERCEL_ENV || 'production'}` : 'prisma';
 const globalForPrisma = global as unknown as { [key: string]: PrismaClient };
@@ -16,13 +26,16 @@ if (process.env.VERCEL) {
   
   // Try different possible locations for the Prisma engine
   const possiblePaths = [
+    // Primary locations
+    '/var/task/packages/database/generated/client/query-engine-rhel-openssl-3.0.x',
+    '/var/task/packages/database/generated/client/libquery_engine-rhel-openssl-3.0.x.so.node',
+    '/vercel/path0/packages/database/generated/client/query-engine-rhel-openssl-3.0.x',
+    '/vercel/path0/packages/database/generated/client/libquery_engine-rhel-openssl-3.0.x.so.node',
+    // App-specific locations
     '/var/task/apps/web/.prisma/client/query-engine-rhel-openssl-3.0.x',
     '/var/task/apps/web/generated/client/query-engine-rhel-openssl-3.0.x',
     '/var/task/apps/web/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node',
     '/var/task/apps/web/generated/client/libquery_engine-rhel-openssl-3.0.x.so.node',
-    '/vercel/path0/packages/database/generated/client/query-engine-rhel-openssl-3.0.x',
-    '/vercel/path0/packages/database/generated/client/libquery_engine-rhel-openssl-3.0.x.so.node',
-    // Also try app-specific paths
     '/var/task/apps/app/.prisma/client/query-engine-rhel-openssl-3.0.x',
     '/var/task/apps/app/generated/client/query-engine-rhel-openssl-3.0.x',
     '/var/task/apps/app/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node',
@@ -30,12 +43,14 @@ if (process.env.VERCEL) {
   ];
   
   // Set the first available path
+  let engineFound = false;
   for (const path of possiblePaths) {
     try {
       const fs = require('fs');
       if (fs.existsSync(path)) {
         process.env.PRISMA_QUERY_ENGINE_BINARY = path;
         console.log(`Found Prisma engine at: ${path}`);
+        engineFound = true;
         break;
       }
     } catch (e) {
@@ -43,9 +58,10 @@ if (process.env.VERCEL) {
     }
   }
   
-  if (!process.env.PRISMA_QUERY_ENGINE_BINARY) {
+  if (!engineFound) {
     console.log('No Prisma engine found in any of the expected locations');
     console.log('Available paths checked:', possiblePaths);
+    console.log('This may cause database connection issues in production');
   }
 }
 
@@ -54,13 +70,25 @@ let database: PrismaClient;
 
 try {
   // Create client with proper configuration for Vercel
-  database = globalForPrisma[globalKey] || new PrismaClient({
+  const clientConfig: any = {
     datasources: {
       db: {
         url: keys().DATABASE_URL,
       },
     },
-  });
+  };
+
+  // Add engine configuration for Vercel
+  if (process.env.VERCEL) {
+    if (process.env.PRISMA_QUERY_ENGINE_BINARY) {
+      clientConfig.engineType = 'binary';
+    } else if (neon) {
+      // Use Neon serverless driver as fallback
+      clientConfig.adapter = new neon.NeonHttpDatabaseAdapter(neon.neon(keys().DATABASE_URL));
+    }
+  }
+
+  database = globalForPrisma[globalKey] || new PrismaClient(clientConfig);
 } catch (error) {
   console.error('Failed to create Prisma client:', error);
   // Fallback: create client with minimal configuration

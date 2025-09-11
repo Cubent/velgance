@@ -9,6 +9,13 @@ cd packages/database
 
 # Force regenerate Prisma client with correct binary targets for Vercel
 export PRISMA_CLI_BINARY_TARGETS="rhel-openssl-3.0.x,linux-musl-openssl-3.0.x"
+export PRISMA_GENERATE_SKIP_AUTOINSTALL=true
+
+# Clean previous generation
+rm -rf generated/client
+rm -rf .prisma/client
+
+# Generate Prisma client with correct binary targets
 pnpm prisma generate --schema=./prisma/schema.prisma --no-hints
 
 # Verify Prisma client generation
