@@ -7,9 +7,7 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
-      config.externals = [...(config.externals || []), 'prisma'];
-      
-      // Ensure Prisma library engine is properly handled
+      // Don't externalize Prisma - let it be bundled
       config.resolve = config.resolve || {};
       config.resolve.alias = {
         ...config.resolve.alias,

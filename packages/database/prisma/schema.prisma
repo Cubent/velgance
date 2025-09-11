@@ -6,7 +6,6 @@ generator client {
   previewFeatures = ["driverAdapters"]
   output          = "../generated/client"
   binaryTargets   = ["native", "rhel-openssl-3.0.x"]
-  engineType      = "library"
 }
 
 datasource db {

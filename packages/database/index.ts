@@ -19,10 +19,23 @@ const prismaOptions = {
   log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
 };
 
-export const database = globalForPrisma.prisma || new PrismaClient(prismaOptions);
+// Create Prisma client with proper error handling for Vercel
+let database: PrismaClient;
+
+try {
+  database = globalForPrisma.prisma || new PrismaClient(prismaOptions);
+} catch (error) {
+  console.error('Failed to create Prisma client:', error);
+  // Fallback: create client without adapter for Vercel
+  database = new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
+  });
+}
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = database;
 }
+
+export { database };
 
 export * from './generated/client';
