@@ -14,9 +14,13 @@ const pool = new Pool({ connectionString: keys().DATABASE_URL });
 const adapter = new PrismaNeon(pool);
 
 // Prisma client configuration optimized for Vercel
+const logLevels = process.env.NODE_ENV === 'development' 
+  ? ['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]
+  : ['error'] as ('error')[];
+
 const prismaOptions = {
   adapter,
-  log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as const) : (['error'] as const),
+  log: logLevels,
   // Ensure proper engine configuration for Vercel
   datasources: {
     db: {
@@ -35,7 +39,7 @@ try {
   // Fallback: create client without adapter for Vercel
   try {
     database = new PrismaClient({
-      log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as const) : (['error'] as const),
+      log: logLevels,
       datasources: {
         db: {
           url: keys().DATABASE_URL,
@@ -46,7 +50,7 @@ try {
     console.error('Failed to create Prisma client fallback:', fallbackError);
     // Last resort: create client with minimal configuration
     database = new PrismaClient({
-      log: (['error'] as const),
+      log: ['error'] as ('error')[],
     });
   }
 }
