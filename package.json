@@ -21,7 +21,8 @@
     "bump-ui": "npx shadcn@latest add --all --overwrite -c packages/design-system",
     "migrate": "cd packages/database && pnpm prisma format && pnpm prisma generate && pnpm prisma db push",
     "clean": "git clean -xdf node_modules",
-    "install:retry": "pnpm install --frozen-lockfile --network-timeout 300000 || pnpm install --frozen-lockfile --network-timeout 300000 || pnpm install --frozen-lockfile --network-timeout 300000"
+    "install:retry": "pnpm install --frozen-lockfile --network-timeout 300000 || pnpm install --frozen-lockfile --network-timeout 300000 || pnpm install --frozen-lockfile --network-timeout 300000",
+    "postinstall": "cd packages/database && pnpm prisma generate --schema=./prisma/schema.prisma"
   },
   "devDependencies": {
     "@auto-it/first-time-contributor": "^11.3.0",

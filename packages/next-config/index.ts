@@ -38,6 +38,13 @@ export const config: NextConfig = {
     // Prisma configuration for Vercel deployment
     if (isServer) {
       config.externals = [...(config.externals || []), 'prisma'];
+      
+      // Ensure Prisma binaries are properly handled
+      config.resolve = config.resolve || {};
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@prisma/client': '@prisma/client',
+      };
     }
 
     return config;

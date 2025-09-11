@@ -17,6 +17,14 @@ const adapter = new PrismaNeon(pool);
 const prismaOptions = {
   adapter,
   log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
+  // Ensure proper binary handling for Vercel
+  ...(process.env.VERCEL && {
+    __internal: {
+      engine: {
+        binaryPath: undefined, // Let Prisma auto-detect the binary
+      },
+    },
+  }),
 };
 
 export const database = globalForPrisma.prisma || new PrismaClient(prismaOptions);
