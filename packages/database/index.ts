@@ -15,7 +15,11 @@ const logLevels = process.env.NODE_ENV === 'development'
 let database: PrismaClient;
 
 try {
+<<<<<<< HEAD
   // Create client with proper configuration for Vercel
+=======
+  // Create client without adapter for now to fix build issues
+>>>>>>> f0f5d18008b9cb971d735ec4aedb2578776180cc
   database = globalForPrisma.prisma || new PrismaClient({
     log: logLevels,
     datasources: {
@@ -23,8 +27,11 @@ try {
         url: keys().DATABASE_URL,
       },
     },
+<<<<<<< HEAD
     // Use Vercel-specific configuration
     ...prismaConfig,
+=======
+>>>>>>> f0f5d18008b9cb971d735ec4aedb2578776180cc
   });
 } catch (error) {
   console.error('Failed to create Prisma client:', error);
@@ -32,11 +39,6 @@ try {
   try {
     database = new PrismaClient({
       log: logLevels,
-      datasources: {
-        db: {
-          url: keys().DATABASE_URL,
-        },
-      },
     });
   } catch (fallbackError) {
     console.error('Failed to create Prisma client fallback:', fallbackError);
