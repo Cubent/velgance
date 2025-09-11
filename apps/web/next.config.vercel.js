@@ -8,6 +8,13 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.externals = [...(config.externals || []), 'prisma'];
+      
+      // Ensure Prisma library engine is properly handled
+      config.resolve = config.resolve || {};
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@prisma/client': '@prisma/client',
+      };
     }
     return config;
   },
