@@ -1,9 +1,9 @@
 // Type-safe Prisma logging configuration
-export const createPrismaLogConfig = (isDevelopment: boolean) => {
+export const createPrismaLogConfig = (isDevelopment: boolean): ('query' | 'error' | 'warn')[] => {
   if (isDevelopment) {
-    return ['query', 'error', 'warn'] as const;
+    return ['query', 'error', 'warn'];
   }
-  return ['error'] as const;
+  return ['error'];
 };
 
 // Pre-configured log levels for different environments
