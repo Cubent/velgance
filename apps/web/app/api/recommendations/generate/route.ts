@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { database as db } from '@repo/database';
-import { getFlightRecommendations, FlightSearchParams } from '@/services/o3';
+import { getFlightRecommendations, FlightSearchParams } from '@/services/amadeus';
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Convert user preferences to O3 flight search parameters
+    // Convert user preferences to Amadeus flight search parameters
     const searchParams: FlightSearchParams = {
       homeAirports: preferences.homeAirports || [],
       dreamDestinations: preferences.dreamDestinations || [],
@@ -39,10 +39,10 @@ export async function POST(request: NextRequest) {
       departureMonth: new Date().toISOString().slice(0, 7), // Current month
     };
 
-    // Use the existing O3 service to get flight recommendations
-    console.log('Calling O3 with params:', searchParams);
-    const o3Response = await getFlightRecommendations(searchParams);
-    console.log('O3 response:', o3Response);
+    // Use the Amadeus service to get flight recommendations
+    console.log('Calling Amadeus with params:', searchParams);
+    const amadeusResponse = await getFlightRecommendations(searchParams);
+    console.log('Amadeus response:', amadeusResponse);
 
     // Clear old recommendations
     await db.flightRecommendation.updateMany({
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Save new recommendations to database (exactly 6 deals)
-    const dealsToSave = o3Response.deals.slice(0, 6); // Always get exactly 6 deals
+    const dealsToSave = amadeusResponse.deals.slice(0, 6); // Always get exactly 6 deals
     const savedRecommendations = await Promise.all(
       dealsToSave.map(async (deal) => {
         return await db.flightRecommendation.create({
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
             layovers: deal.layovers,
             duration: deal.duration,
             baggageInfo: deal.baggageInfo,
-            aiSummary: `Great non-stop flight deal found`,
+            aiSummary: amadeusResponse.summary,
             bookingUrl: deal.bookingUrl,
             otaUrl: deal.bookingUrl,
             isActive: true,
@@ -81,20 +81,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       recommendations: savedRecommendations,
-      summary: o3Response.summary,
-      metadata: o3Response.searchMetadata,
-      message: `Generated and saved ${savedRecommendations.length} AI-powered flight deals using O3`
+      summary: amadeusResponse.summary,
+      metadata: amadeusResponse.searchMetadata,
+      message: `Generated and saved ${savedRecommendations.length} flight deals using Amadeus API`
     });
 
   } catch (error) {
-    console.error('Error generating O3 recommendations:', error);
+    console.error('Error generating Amadeus recommendations:', error);
     console.error('Error stack:', error instanceof Error ? error.stack : 'No stack');
     console.error('Error details:', JSON.stringify(error, null, 2));
     
     return NextResponse.json(
       { 
         success: false, 
-        error: 'Failed to generate AI recommendations',
+        error: 'Failed to generate flight recommendations',
         details: error instanceof Error ? error.message : 'Unknown error',
         stack: error instanceof Error ? error.stack : undefined
       },

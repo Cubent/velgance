@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { database as db } from '@repo/database';
-import { getFlightRecommendations } from '@/services/o3';
+import { getFlightRecommendations } from '@/services/amadeus';
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,8 +36,8 @@ export async function POST(request: NextRequest) {
       preferredAirlines: user.travelPreferences.preferredAirlines as string[],
     };
 
-    // Get new recommendations from OpenAI o3
-    const aiRecommendations = await getFlightRecommendations(searchParams);
+    // Get new recommendations from Amadeus API
+    const amadeusRecommendations = await getFlightRecommendations(searchParams);
 
     // Clear old recommendations
     await db.flightRecommendation.updateMany({
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     // Save new recommendations to database
     const savedRecommendations = await Promise.all(
-      aiRecommendations.deals.map(async (deal) => {
+      amadeusRecommendations.deals.map(async (deal) => {
         return await db.flightRecommendation.create({
           data: {
             userId: user.id,
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
             layovers: deal.layovers,
             duration: deal.duration,
             baggageInfo: deal.baggageInfo,
-            aiSummary: aiRecommendations.summary,
+            aiSummary: amadeusRecommendations.summary,
             confidenceScore: deal.confidenceScore,
             dealQuality: deal.dealQuality,
             bookingUrl: deal.bookingUrl,

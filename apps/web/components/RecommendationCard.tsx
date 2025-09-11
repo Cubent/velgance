@@ -32,6 +32,7 @@ interface FlightRecommendation {
   bookingUrl?: string;
   otaUrl?: string;
   isWatched: boolean;
+  isAlternative?: boolean;
 }
 
 interface RecommendationCardProps {
@@ -300,6 +301,15 @@ export default function RecommendationCard({
             <div className="text-sm text-gray-600">{AIRPORT_CITIES[recommendation.destination] || recommendation.destination}</div>
           </div>
         </div>
+        
+        {/* Alternative destination label */}
+        {recommendation.isAlternative && (
+          <div className="absolute top-2 right-2">
+            <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2 py-1 rounded-full border border-orange-200">
+              Alternative
+            </span>
+          </div>
+        )}
         
         {/* Subtle line below header */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-200"></div>

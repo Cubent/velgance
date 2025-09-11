@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { database as db } from '@repo/database';
 import { sendFlightDealsEmail } from '@/services/email';
-import { generateEmailSummary } from '@/services/o3';
+// Removed AI dependency - using simple summary generation
 
 // This endpoint should be called by a cron job or scheduled task
 export async function POST(request: NextRequest) {
@@ -86,8 +86,8 @@ export async function POST(request: NextRequest) {
             confidenceScore: rec.confidenceScore || 0.8,
           }));
 
-          // Generate AI summary for this user's deals
-          const summary = await generateEmailSummary(deals, {
+          // Generate simple summary for this user's deals
+          const summary = generateSimpleEmailSummary(deals, {
             dreamDestinations: user.travelPreferences.dreamDestinations as string[],
             maxBudget: user.travelPreferences.maxBudget || undefined,
           });
@@ -199,4 +199,38 @@ function getDateThreshold(frequency: string): Date {
 function generateUnsubscribeToken(userId: string): string {
   // This is a simple implementation - in production, use proper token generation
   return Buffer.from(`${userId}:${Date.now()}`).toString('base64');
+}
+
+/**
+ * Generate a simple email summary without AI
+ */
+function generateSimpleEmailSummary(
+  deals: any[],
+  userPreferences: { dreamDestinations: string[]; maxBudget?: number }
+): string {
+  if (deals.length === 0) {
+    return "We're working hard to find great flight deals for you. Check back soon!";
+  }
+
+  const { dreamDestinations, maxBudget } = userPreferences;
+  const bestDeal = deals[0];
+  const averagePrice = deals.reduce((sum, deal) => sum + deal.price, 0) / deals.length;
+  const excellentDeals = deals.filter(deal => deal.dealQuality === 'excellent').length;
+
+  let summary = `We found ${deals.length} amazing flight deals for your dream destinations: ${dreamDestinations.join(', ')}! `;
+  
+  if (excellentDeals > 0) {
+    summary += `${excellentDeals} of these are exceptional deals with significant savings. `;
+  }
+  
+  summary += `Our top pick is ${bestDeal.airline} from ${bestDeal.origin} to ${bestDeal.destination} for just $${bestDeal.price} on ${new Date(bestDeal.departureDate).toLocaleDateString()}. `;
+  
+  if (maxBudget) {
+    const withinBudget = deals.filter(deal => deal.price <= maxBudget).length;
+    summary += `${withinBudget} deals are within your budget of $${maxBudget}. `;
+  }
+  
+  summary += `Average price is $${Math.round(averagePrice)}. These deals won't last long - book now to secure your savings!`;
+
+  return summary;
 }
