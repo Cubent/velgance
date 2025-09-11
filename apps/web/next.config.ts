@@ -34,7 +34,7 @@ nextConfig.webpack = (config, { isServer }) => {
     config.externals = config.externals || [];
     if (Array.isArray(config.externals)) {
       config.externals = config.externals.filter(
-        (external) => typeof external !== 'string' || !external.includes('@prisma')
+        (external: any) => typeof external !== 'string' || !external.includes('@prisma')
       );
     }
   }
