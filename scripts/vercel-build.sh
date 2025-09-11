@@ -97,8 +97,9 @@ copy_prisma_to_app "app"
 # Return to the original directory
 cd ../../packages/database
 
-# Build the application
-echo "Building application..."
+# Build the web application
+echo "Building web application..."
+cd ../../apps/web
 pnpm run build
 
 echo "Build completed successfully"
