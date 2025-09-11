@@ -43,44 +43,59 @@ else
   ls -la generated/client/ | grep -E "(query-engine|libquery_engine)" || echo "Still no engine files found"
 fi
 
-# Copy Prisma client to web app for proper bundling
-echo "Copying Prisma client to web app..."
-cd ../../apps/web
-mkdir -p .prisma/client
-cp -r ../../packages/database/generated/client/* .prisma/client/ 2>/dev/null || true
+# Copy Prisma client to all apps that use it
+echo "Copying Prisma client to all apps..."
 
-# Create symlinks for different binary name variations that Prisma might look for
-cd .prisma/client
-if [ -f "libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
-  echo "Creating symlink for query-engine-rhel-openssl-3.0.x"
-  ln -sf libquery_engine-rhel-openssl-3.0.x.so.node query-engine-rhel-openssl-3.0.x 2>/dev/null || true
-  ln -sf libquery_engine-rhel-openssl-3.0.x.so.node query_engine-rhel-openssl-3.0.x 2>/dev/null || true
-fi
+# Function to copy Prisma client to an app
+copy_prisma_to_app() {
+  local app_dir=$1
+  echo "Copying Prisma client to $app_dir..."
+  
+  if [ -d "../../apps/$app_dir" ]; then
+    cd "../../apps/$app_dir"
+    mkdir -p .prisma/client
+    cp -r ../../packages/database/generated/client/* .prisma/client/ 2>/dev/null || true
+    
+    # Create symlinks for different binary name variations that Prisma might look for
+    cd .prisma/client
+    if [ -f "libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
+      echo "Creating symlink for query-engine-rhel-openssl-3.0.x in $app_dir"
+      ln -sf libquery_engine-rhel-openssl-3.0.x.so.node query-engine-rhel-openssl-3.0.x 2>/dev/null || true
+      ln -sf libquery_engine-rhel-openssl-3.0.x.so.node query_engine-rhel-openssl-3.0.x 2>/dev/null || true
+    fi
+    
+    # Also copy to the generated/client directory
+    mkdir -p generated/client
+    cp -r ../../packages/database/generated/client/* generated/client/ 2>/dev/null || true
+    
+    # Create symlinks in generated/client as well
+    if [ -f "generated/client/libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
+      echo "Creating symlink in generated/client for query-engine-rhel-openssl-3.0.x in $app_dir"
+      ln -sf libquery_engine-rhel-openssl-3.0.x.so.node generated/client/query-engine-rhel-openssl-3.0.x 2>/dev/null || true
+      ln -sf libquery_engine-rhel-openssl-3.0.x.so.node generated/client/query_engine-rhel-openssl-3.0.x 2>/dev/null || true
+    fi
+    
+    cd ../..
+    
+    # Verify the copy was successful
+    if [ -d ".prisma/client" ]; then
+      echo "Prisma client copied successfully to $app_dir"
+      echo "Contents of .prisma/client:"
+      ls -la .prisma/client/ | head -5
+    else
+      echo "Error: Failed to copy Prisma client to $app_dir"
+    fi
+  else
+    echo "App directory $app_dir not found, skipping..."
+  fi
+}
 
-# Also copy to the generated/client directory in the web app
-mkdir -p generated/client
-cp -r ../../packages/database/generated/client/* generated/client/ 2>/dev/null || true
+# Copy to all apps that use the database package
+copy_prisma_to_app "web"
+copy_prisma_to_app "app"
 
-# Create symlinks in generated/client as well
-if [ -f "generated/client/libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
-  echo "Creating symlink in generated/client for query-engine-rhel-openssl-3.0.x"
-  ln -sf libquery_engine-rhel-openssl-3.0.x.so.node generated/client/query-engine-rhel-openssl-3.0.x 2>/dev/null || true
-  ln -sf libquery_engine-rhel-openssl-3.0.x.so.node generated/client/query_engine-rhel-openssl-3.0.x 2>/dev/null || true
-fi
-
-cd ../..
-
-# Verify the copy was successful
-if [ -d ".prisma/client" ]; then
-  echo "Prisma client copied successfully"
-  echo "Contents of .prisma/client:"
-  ls -la .prisma/client/ | head -10
-  echo "Contents of generated/client:"
-  ls -la generated/client/ | head -10
-else
-  echo "Error: Failed to copy Prisma client"
-  exit 1
-fi
+# Return to the original directory
+cd ../../packages/database
 
 # Build the application
 echo "Building application..."
