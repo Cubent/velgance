@@ -7,8 +7,8 @@ import type { NextConfig } from 'next';
 
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
-// Prisma configuration for Vercel
-nextConfig.serverExternalPackages = ['@prisma/client', 'prisma'];
+// Prisma configuration for Vercel - don't externalize to ensure proper bundling
+// nextConfig.serverExternalPackages = ['@prisma/client', 'prisma'];
 
 // Webpack configuration for Prisma
 nextConfig.webpack = (config, { isServer }) => {
@@ -29,6 +29,14 @@ nextConfig.webpack = (config, { isServer }) => {
       test: /\.node$/,
       use: 'file-loader',
     });
+    
+    // Ensure Prisma engine files are not externalized
+    config.externals = config.externals || [];
+    if (Array.isArray(config.externals)) {
+      config.externals = config.externals.filter(
+        (external) => typeof external !== 'string' || !external.includes('@prisma')
+      );
+    }
   }
   return config;
 };
