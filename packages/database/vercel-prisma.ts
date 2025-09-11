@@ -5,7 +5,6 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 import ws from 'ws';
 import { PrismaClient } from './generated/client';
 import { keys } from './keys';
-import { vercelPrismaConfig } from './vercel-config';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
@@ -18,14 +17,12 @@ const adapter = new PrismaNeon(pool);
 const prismaOptions = {
   adapter,
   log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
-  // Ensure proper engine configuration for Vercel
+  // Ensure proper engine path for Vercel
   datasources: {
     db: {
       url: keys().DATABASE_URL,
     },
   },
-  // Use Vercel-specific configuration
-  ...vercelPrismaConfig,
 };
 
 // Create Prisma client with proper error handling for Vercel
@@ -34,24 +31,16 @@ let database: PrismaClient;
 try {
   database = globalForPrisma.prisma || new PrismaClient(prismaOptions);
 } catch (error) {
-  console.error('Failed to create Prisma client with adapter:', error);
+  console.error('Failed to create Prisma client:', error);
   // Fallback: create client without adapter for Vercel
-  try {
-    database = new PrismaClient({
-      log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
-      datasources: {
-        db: {
-          url: keys().DATABASE_URL,
-        },
+  database = new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
+    datasources: {
+      db: {
+        url: keys().DATABASE_URL,
       },
-    });
-  } catch (fallbackError) {
-    console.error('Failed to create Prisma client fallback:', fallbackError);
-    // Last resort: create client with minimal configuration
-    database = new PrismaClient({
-      log: ['error'],
-    });
-  }
+    },
+  });
 }
 
 if (process.env.NODE_ENV !== 'production') {

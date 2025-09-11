@@ -8,6 +8,6 @@
   "github": {
     "autoAlias": false
   },
-  "buildCommand": "pnpm install && cd packages/database && pnpm prisma generate --schema=./prisma/schema.prisma && cd ../.. && pnpm run build",
+  "buildCommand": "chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",
   "installCommand": "pnpm install"
 }

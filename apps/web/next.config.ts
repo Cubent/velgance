@@ -7,6 +7,25 @@ import type { NextConfig } from 'next';
 
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
+// Prisma configuration for Vercel
+nextConfig.experimental = {
+  ...nextConfig.experimental,
+  serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
+};
+
+// Webpack configuration for Prisma
+nextConfig.webpack = (config, { isServer }) => {
+  if (isServer) {
+    // Don't externalize Prisma - let it be bundled
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@prisma/client': '@prisma/client',
+    };
+  }
+  return config;
+};
+
 // Image optimization - AVIF first for maximum compression
 nextConfig.images = {
   ...nextConfig.images,
