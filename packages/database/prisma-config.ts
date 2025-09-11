@@ -7,7 +7,6 @@ export const prismaConfig = {
   // Environment-specific configuration
   ...(process.env.VERCEL && {
     // Vercel-specific settings
-    log: ['error'] as const,
     datasources: {
       db: {
         url: process.env.DATABASE_URL,
