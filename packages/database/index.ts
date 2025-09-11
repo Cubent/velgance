@@ -17,14 +17,6 @@ const adapter = new PrismaNeon(pool);
 const prismaOptions = {
   adapter,
   log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
-  // Ensure proper binary handling for Vercel
-  ...(process.env.VERCEL && {
-    datasources: {
-      db: {
-        url: keys().DATABASE_URL,
-      },
-    },
-  }),
 };
 
 export const database = globalForPrisma.prisma || new PrismaClient(prismaOptions);
