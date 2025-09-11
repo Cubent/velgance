@@ -16,7 +16,7 @@ const adapter = new PrismaNeon(pool);
 // Prisma client configuration optimized for Vercel
 const prismaOptions = {
   adapter,
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] as const : ['error'] as const,
+  log: process.env.NODE_ENV === 'development' ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[]) : (['error'] as ('error')[]),
   // Ensure proper binary handling for Vercel
   ...(process.env.VERCEL && {
     datasources: {
