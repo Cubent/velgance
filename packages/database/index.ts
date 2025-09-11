@@ -7,9 +7,9 @@ import { prismaConfig } from './prisma-config';
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 // Prisma client configuration optimized for Vercel
-const logLevels = process.env.NODE_ENV === 'development' 
-  ? (['query', 'error', 'warn'] as ('query' | 'error' | 'warn')[])
-  : (['error'] as ('query' | 'error' | 'warn')[]);
+const logLevels: ('query' | 'error' | 'warn')[] = process.env.NODE_ENV === 'development' 
+  ? ['query', 'error', 'warn']
+  : ['error'];
 
 // Create Prisma client with proper error handling for Vercel
 let database: PrismaClient;
@@ -42,7 +42,7 @@ try {
     console.error('Failed to create Prisma client fallback:', fallbackError);
     // Last resort: create client with minimal configuration
     database = new PrismaClient({
-      log: ['error'],
+      log: ['error'] as ('query' | 'error' | 'warn')[],
     });
   }
 }
