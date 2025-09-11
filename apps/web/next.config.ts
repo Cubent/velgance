@@ -19,6 +19,16 @@ nextConfig.webpack = (config, { isServer }) => {
       ...config.resolve.alias,
       '@prisma/client': '@prisma/client',
     };
+    
+    // Ensure Prisma engine files are included in the bundle
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+    
+    // Add rule to copy Prisma engine files
+    config.module.rules.push({
+      test: /\.node$/,
+      use: 'file-loader',
+    });
   }
   return config;
 };

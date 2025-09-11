@@ -11,7 +11,7 @@
     "optimize-images": "node scripts/convert-images-avif.js",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "postinstall": "cd ../../packages/database && pnpm prisma generate --schema=./prisma/schema.prisma --no-hints"
+    "postinstall": "cd ../../packages/database && pnpm prisma generate --schema=./prisma/schema.prisma --no-hints && cd ../../apps/web && mkdir -p .prisma/client && cp -r ../../packages/database/generated/client/* .prisma/client/ 2>/dev/null || true"
   },
   "dependencies": {
     "@arcjet/next": "1.0.0-beta.7",

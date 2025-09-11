@@ -6,6 +6,8 @@ echo "Starting Vercel build process..."
 # Generate Prisma client with correct binary targets
 echo "Generating Prisma client..."
 cd packages/database
+
+# Force regenerate Prisma client with correct binary targets
 pnpm prisma generate --schema=./prisma/schema.prisma --no-hints
 
 # Verify Prisma client generation
@@ -26,9 +28,14 @@ else
   ls -la generated/client/ | grep -E "\.(so|node)$" || echo "No engine files found"
 fi
 
+# Copy Prisma client to web app for proper bundling
+echo "Copying Prisma client to web app..."
+cd ../../apps/web
+mkdir -p .prisma/client
+cp -r ../../packages/database/generated/client/* .prisma/client/ 2>/dev/null || true
+
 # Build the application
 echo "Building application..."
-cd ../../apps/web
 pnpm run build
 
 echo "Build completed successfully"
