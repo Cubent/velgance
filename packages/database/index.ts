@@ -2,7 +2,6 @@ import 'server-only';
 
 import { PrismaClient, Prisma } from './generated/client';
 import { keys } from './keys';
-import { prismaConfig } from './prisma-config';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
