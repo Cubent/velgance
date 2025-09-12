@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { PrismaClient, Prisma } from '../../node_modules/@prisma/client';
+import { PrismaClient, Prisma } from './generated/client';
 import { keys } from './keys';
 
 // Import Neon serverless driver as fallback
@@ -116,7 +116,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 export { database };
 
-export * from '../../node_modules/@prisma/client';
+export * from './generated/client';
 
 // Re-export PrismaClient for easier imports
-export { PrismaClient } from '../../node_modules/@prisma/client';
+export { PrismaClient } from './generated/client';
