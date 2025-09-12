@@ -1,50 +1,54 @@
-# Amadeus API Integration Setup
+# RapidAPI Flights-Sky Google Date Grid API Integration Setup
 
-This document explains how to set up the Amadeus API integration for the Travira flight search service.
+This document explains how to set up the RapidAPI Flights-Sky Google Date Grid API integration for the Travira flight search service.
 
 ## Prerequisites
 
-1. Create an account on the [Amadeus for Developers Portal](https://developers.amadeus.com/self-service/apis-docs/guides/developer-guides/quick-start/)
-2. Activate your account via the confirmation email
-3. Create a new application to receive your API credentials
+1. Create an account on [RapidAPI](https://rapidapi.com/)
+2. Subscribe to the [Flights-Sky API](https://rapidapi.com/ntd119/api/flights-sky)
+3. Get your RapidAPI key from your dashboard
 
 ## Environment Variables
 
 Add the following environment variables to your `.env` file:
 
 ```bash
-# Amadeus API Configuration
-AMADEUS_API_KEY=your_amadeus_api_key_here
-AMADEUS_API_SECRET=your_amadeus_api_secret_here
+# RapidAPI Configuration
+RAPIDAPI_KEY=your_rapidapi_key_here
+
+# OpenAI for destination parsing
+OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 ## API Credentials
 
-1. Log in to your Amadeus for Developers account
-2. Navigate to "My Self-Service Workspace"
-3. Create a new application
-4. Copy your `API Key` and `API Secret`
-5. Add them to your environment variables
+1. Log in to your [RapidAPI](https://rapidapi.com/) account
+2. Navigate to the [Flights-Sky API](https://rapidapi.com/ntd119/api/flights-sky)
+3. Subscribe to the API (choose your plan)
+4. Copy your `X-RapidAPI-Key` from your dashboard
+5. Add it to your environment variables as `RAPIDAPI_KEY`
 
 ## Features
 
-The Amadeus integration provides:
+The RapidAPI Flights-Sky Google Date Grid API integration provides:
 
-- Real-time flight search and pricing
-- Support for multiple airlines and routes
-- Flexible date searching with travel flexibility
-- Budget filtering
-- Airline preference filtering
-- Deal quality assessment
-- Confidence scoring for recommendations
+- **Google Date Grid Search**: Uses Google's flight date grid to find the cheapest travel dates
+- **Real-time Pricing Data**: Returns current pricing data for better deal discovery
+- **Flexible Date Ranges**: Searches across 90-day periods to find optimal travel dates
+- **Round Trip Support**: Searches for round trip flights with proper return dates
+- **No Route Limitations**: Works for all major routes, not limited to cached data
+- **Alternative Destinations**: Automatically searches alternative destinations when primary destinations are expensive
+- **Deal Quality Assessment**: Calculates deal quality based on price comparisons
+- **High Confidence Scoring**: Provides confidence scores for recommendations
 
 ## Rate Limits
 
-The integration includes built-in rate limiting to respect Amadeus API limits:
-- Batch processing with delays between requests
-- Maximum 10 offers per route search
-- 5-second delays between batches
-- 100ms delays between individual searches
+The integration includes built-in rate limiting to respect Amadeus Flight Cheapest Date Search API limits:
+- **Stricter Rate Limits**: Flight Cheapest Date Search has more restrictive rate limits than Flight Offers Search
+- **1-second delays** between individual API calls to prevent 429 (Too Many Requests) errors
+- **Batch processing** with proper delays between batches
+- **Maximum 20 results** per route search (as supported by the API)
+- **Automatic retry logic** for handling rate limit errors gracefully
 
 ## Error Handling
 

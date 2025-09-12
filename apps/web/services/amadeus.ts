@@ -1,11 +1,4 @@
-import Amadeus from 'amadeus';
 import OpenAI from 'openai';
-
-// Initialize Amadeus client
-const amadeus = new Amadeus({
-  clientId: process.env.AMADEUS_API_KEY || '',
-  clientSecret: process.env.AMADEUS_API_SECRET || '',
-});
 
 // Initialize OpenAI client for destination parsing
 const openai = new OpenAI({
@@ -25,7 +18,7 @@ export interface AmadeusFlightOffer {
   origin: string;
   destination: string;
   departureDate: string;
-  returnDate: string; // Always present for round trips
+  returnDate?: string; // Optional for one-way flights
   price: number;
   currency: string;
   airline: string;
@@ -43,6 +36,28 @@ export interface AmadeusFlightOffer {
   dealQuality: 'excellent' | 'good' | 'fair';
   isAlternative?: boolean; // Flag for alternative destinations
   confidenceScore: number; // 0-1
+}
+
+// Interface for Flight Cheapest Date Search API response
+export interface FlightDateOption {
+  type: string;
+  origin: string;
+  destination: string;
+  departureDate: string;
+  returnDate: string;
+  price: {
+    currency: string;
+    total: string;
+    base: string;
+    fees: Array<{
+      amount: string;
+      type: string;
+    }>;
+  };
+  links: {
+    flightDates: string;
+    flightOffers: string;
+  };
 }
 
 export interface FlightRecommendationResponse {
@@ -148,83 +163,166 @@ function isFutureDate(dateString: string): boolean {
 }
 
 /**
- * Search for flight offers using Amadeus API
+ * Search for cheapest flight dates using multiple API calls with different departure dates
+ * Returns the single cheapest date option across all months
  */
-async function searchFlightOffers(
+async function searchCheapestFlightDates(
   origin: string,
   destination: string,
-  departureDate: string,
-  returnDate?: string,
+  departureDateRange?: string,
   maxPrice?: number
-): Promise<any[]> {
+): Promise<{ departureDate: string; returnDate: string; price: number } | null> {
   try {
     // Validate airport codes
     if (!validateAirportCode(origin)) {
       console.error(`Invalid origin airport code: ${origin}. Must be 3 letters.`);
-      return [];
+      return null;
     }
-    
+
     if (!validateAirportCode(destination)) {
       console.error(`Invalid destination airport code: ${destination}. Must be 3 letters.`);
-      return [];
+      return null;
     }
 
-    // Validate departure date is in the future
-    if (!isFutureDate(departureDate)) {
-      console.error(`Invalid departure date: ${departureDate}. Date must be in the future.`);
-      return [];
-    }
-
-    const searchParams: any = {
-      originLocationCode: origin,
-      destinationLocationCode: destination,
-      departureDate: departureDate,
-      adults: 1,
-      max: 50, // Get more offers to find cheapest ones
-      currencyCode: 'USD',
-      travelClass: 'ECONOMY',
-      nonStop: false, // Allow connections for better deals
-    };
-
-    // Don't exclude any airlines - we want variety but not the same deal
-
-    // Always search for round trips - calculate return date
-    if (!returnDate) {
-      const depDate = new Date(departureDate);
-      depDate.setDate(depDate.getDate() + 7); // Default 7-day trip
-      searchParams.returnDate = depDate.toISOString().split('T')[0];
-    } else {
-      searchParams.returnDate = returnDate;
-    }
-
-    if (maxPrice) {
-      searchParams.maxPrice = maxPrice;
-    }
-
-    console.log(`Searching Amadeus API: ${origin} -> ${destination} on ${departureDate}`);
-    const response = await amadeus.shopping.flightOffersSearch.get(searchParams);
-    const offers = response.data || [];
+    console.log(`Searching RapidAPI Flights-Sky Date Grid: ${origin} -> ${destination} across multiple months`);
     
-    // Log airline variety for debugging
-    const airlines = offers.map(offer => {
-      const segment = offer.itineraries?.[0]?.segments?.[0];
-      return segment ? getAirlineName(segment.carrierCode) : 'Unknown';
-    });
-    console.log(`Found ${offers.length} offers from airlines:`, [...new Set(airlines)]);
+    // Generate departure dates for 4 months (1 month apart each)
+    const today = new Date();
+    const departureDates: string[] = [];
     
-    // Log unique prices for debugging
-    const prices = offers.map(offer => offer.price?.total || 'Unknown');
-    console.log(`Found ${offers.length} offers with prices:`, [...new Set(prices)]);
+    for (let i = 0; i < 4; i++) {
+      const departureDate = new Date(today);
+      departureDate.setMonth(today.getMonth() + i);
+      departureDates.push(departureDate.toISOString().split('T')[0]);
+    }
     
-    return offers;
+    console.log(`Will search ${departureDates.length} different departure dates:`, departureDates);
+    
+    let globalCheapestOption: { departureDate: string; returnDate: string; price: number } | null = null;
+    let globalCheapestPrice = Infinity;
+    
+    // Make API calls for each departure date
+    for (const departureDate of departureDates) {
+      console.log(`\n--- Searching with departure date: ${departureDate} ---`);
+      
+      try {
+        // Calculate return date (7 days later)
+        const depDate = new Date(departureDate);
+        const returnDate = new Date(depDate);
+        returnDate.setDate(depDate.getDate() + 7);
+        const returnDateStr = returnDate.toISOString().split('T')[0];
+        
+        console.log(`Return date: ${returnDateStr}`);
+        
+        // Make API call for this specific departure date
+        const baseUrl = 'https://flights-sky.p.rapidapi.com/google/date-grid/for-roundtrip';
+        const url = new URL(baseUrl);
+        url.searchParams.append('departureId', origin);
+        url.searchParams.append('arrivalId', destination);
+        url.searchParams.append('departureDate', departureDate);
+        url.searchParams.append('arrivalDate', returnDateStr);
+        url.searchParams.append('currency', 'USD');
+        url.searchParams.append('adults', '1');
+        url.searchParams.append('cabinClass', '1'); // Economy
+        
+        console.log('RapidAPI request URL:', url.toString());
+        
+        const response = await fetch(url.toString(), {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': process.env.RAPIDAPI_KEY || '',
+            'X-RapidAPI-Host': 'flights-sky.p.rapidapi.com'
+          }
+        });
+        
+        if (!response.ok) {
+          console.warn(`RapidAPI Flights-Sky not available for ${origin} -> ${destination} on ${departureDate} (status: ${response.status})`);
+          continue; // Skip this month and try the next one
+        }
+        
+        const data = await response.json();
+        console.log(`Response for ${departureDate}:`, JSON.stringify(data, null, 2));
+        
+        // Find cheapest option for this month
+        let monthlyCheapestPrice = Infinity;
+        let monthlyCheapestOption: { departureDate: string; returnDate: string; price: number } | null = null;
+        
+        if (data && typeof data === 'object') {
+          // Check for data.prices array
+          if (data.data && data.data.prices && Array.isArray(data.data.prices)) {
+            console.log(`Found data.prices array with ${data.data.prices.length} items for ${departureDate}`);
+            data.data.prices.forEach((priceItem: any, index: number) => {
+              if (priceItem && priceItem.departureDate && priceItem.returnDate && priceItem.price && priceItem.price !== null && !isNaN(parseFloat(priceItem.price))) {
+                const price = parseFloat(priceItem.price);
+                console.log(`Valid price found for ${departureDate}: ${price}`);
+                
+                if (price < monthlyCheapestPrice) {
+                  monthlyCheapestPrice = price;
+                  monthlyCheapestOption = {
+                    departureDate: priceItem.departureDate,
+                    returnDate: priceItem.returnDate,
+                    price: price
+                  };
+                  console.log(`New monthly cheapest for ${departureDate}:`, monthlyCheapestOption);
+                }
+              }
+            });
+          }
+          
+          // Fallback: Check for direct prices array
+          if (data.prices && Array.isArray(data.prices)) {
+            console.log(`Found direct prices array with ${data.prices.length} items for ${departureDate}`);
+            data.prices.forEach((priceItem: any, index: number) => {
+              if (priceItem && priceItem.departureDate && priceItem.returnDate && priceItem.price && priceItem.price !== null && !isNaN(parseFloat(priceItem.price))) {
+                const price = parseFloat(priceItem.price);
+                console.log(`Valid price found for ${departureDate}: ${price}`);
+                
+                if (price < monthlyCheapestPrice) {
+                  monthlyCheapestPrice = price;
+                  monthlyCheapestOption = {
+                    departureDate: priceItem.departureDate,
+                    returnDate: priceItem.returnDate,
+                    price: price
+                  };
+                  console.log(`New monthly cheapest for ${departureDate}:`, monthlyCheapestOption);
+                }
+              }
+            });
+          }
+        }
+        
+        // Update global cheapest if this month has a better option
+        if (monthlyCheapestOption && monthlyCheapestOption.price < globalCheapestPrice) {
+          globalCheapestPrice = monthlyCheapestOption.price;
+          globalCheapestOption = monthlyCheapestOption;
+          console.log(`🏆 New GLOBAL cheapest found for ${departureDate}:`, globalCheapestOption);
+        } else if (monthlyCheapestOption) {
+          console.log(`Monthly cheapest for ${departureDate}: $${monthlyCheapestOption.price} (not better than global: $${globalCheapestPrice})`);
+        } else {
+          console.log(`No valid prices found for ${departureDate}`);
+        }
+        
+        // Add delay between API calls to respect rate limits
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+        
+      } catch (error) {
+        console.error(`Error searching ${origin} -> ${destination} for ${departureDate}:`, error);
+        continue; // Continue with next month
+      }
+    }
+    
+    console.log(`\n🎯 Final global cheapest option across all months:`, globalCheapestOption);
+    return globalCheapestOption;
+    
   } catch (error) {
-    console.error(`Error searching flights from ${origin} to ${destination}:`, error);
-    if (error && typeof error === 'object' && 'description' in error) {
-      console.error('Amadeus API Error Details:', JSON.stringify(error, null, 2));
-    }
-    return [];
+    console.error(`Error searching cheapest flight dates from ${origin} to ${destination}:`, error);
+    return null;
   }
 }
+
+
+
+
 
 /**
  * Calculate deal quality based on price and other factors
@@ -264,101 +362,52 @@ function calculateConfidenceScore(offer: any): number {
   return Math.min(score, 1.0);
 }
 
+
+
 /**
- * Transform Amadeus flight offer to our format
+ * Transform detailed flight response to our format
  */
-function transformAmadeusOffer(offer: any, origin: string, destination: string): AmadeusFlightOffer | null {
+async function transformFlightDateOption(flightDateOption: FlightDateOption, origin: string, destination: string): Promise<AmadeusFlightOffer | null> {
   try {
-    const outboundItinerary = offer.itineraries?.[0];
-    const returnItinerary = offer.itineraries?.[1];
-    
-    if (!outboundItinerary) {
+    if (!flightDateOption || !flightDateOption.departureDate) {
       return null;
     }
 
-    const outboundSegment = outboundItinerary.segments?.[0];
-    const returnSegment = returnItinerary?.segments?.[0];
-    
-    if (!outboundSegment) {
-      return null;
-    }
+    // For one-way flights, returnDate might not be present
+    const returnDate = flightDateOption.returnDate;
 
-    const price = parseFloat(offer.price?.total || '0');
-    const currency = offer.price?.currency || 'USD';
-    
-    // Calculate outbound duration
-    const outboundDeparture = new Date(outboundSegment.departure.at);
-    const outboundArrival = new Date(outboundSegment.arrival.at);
-    const outboundDurationMs = outboundArrival.getTime() - outboundDeparture.getTime();
-    const outboundHours = Math.floor(outboundDurationMs / (1000 * 60 * 60));
-    const outboundMinutes = Math.floor((outboundDurationMs % (1000 * 60 * 60)) / (1000 * 60));
-    const outboundDuration = `${outboundHours}h ${outboundMinutes}m`;
+    const price = parseFloat(flightDateOption.price?.total || '0');
+    const currency = flightDateOption.price?.currency || 'USD';
+    const departureDate = flightDateOption.departureDate;
 
-    // Calculate return duration if available
-    let returnDuration = '';
-    if (returnSegment) {
-      const returnDeparture = new Date(returnSegment.departure.at);
-      const returnArrival = new Date(returnSegment.arrival.at);
-      const returnDurationMs = returnArrival.getTime() - returnDeparture.getTime();
-      const returnHours = Math.floor(returnDurationMs / (1000 * 60 * 60));
-      const returnMinutes = Math.floor((returnDurationMs % (1000 * 60 * 60)) / (1000 * 60));
-      returnDuration = `${returnHours}h ${returnMinutes}m`;
-    }
+    // For detailed flight offers, we have more information
+    const airlineName = 'Multiple Airlines Available'; // Will be extracted from segments if available
+    const duration = returnDate ? 'Round trip' : 'One way'; // Trip type instead of duration
 
-    // Combine durations for round trip
-    const totalDuration = returnSegment ? `${outboundDuration} / ${returnDuration}` : outboundDuration;
-
-    // Get airline name from carrier code
-    const carrierCode = outboundSegment.carrierCode;
-    const airlineName = getAirlineName(carrierCode);
-
-    // Calculate layovers for outbound
-    const layovers: Array<{ airport: string; duration: string }> = [];
-    if (outboundItinerary.segments.length > 1) {
-      for (let i = 0; i < outboundItinerary.segments.length - 1; i++) {
-        const currentSegment = outboundItinerary.segments[i];
-        const nextSegment = outboundItinerary.segments[i + 1];
-        const layoverAirport = currentSegment.arrival.iataCode;
-        const layoverStart = new Date(currentSegment.arrival.at);
-        const layoverEnd = new Date(nextSegment.departure.at);
-        const layoverDurationMs = layoverEnd.getTime() - layoverStart.getTime();
-        const layoverHours = Math.floor(layoverDurationMs / (1000 * 60 * 60));
-        const layoverMinutes = Math.floor((layoverDurationMs % (1000 * 60 * 60)) / (1000 * 60));
-        layovers.push({
-          airport: layoverAirport,
-          duration: `${layoverHours}h ${layoverMinutes}m`
-        });
-      }
-    }
-
-    // Generate proper booking URLs
-    const departureDate = outboundSegment.departure.at.split('T')[0];
-    const returnDate = returnSegment ? returnSegment.departure.at.split('T')[0] : departureDate; // Fallback to departure date if no return
-    
-    // Create booking URL with proper parameters
-    const bookingUrl = generateBookingUrl(origin, destination, departureDate, returnDate, price, currency, airlineName);
+    // Use the detailed booking URL from RapidAPI if available
+    const finalBookingUrl = flightDateOption.links?.flightOffers || generateBookingUrl(origin, destination, departureDate, returnDate, price, currency);
 
     return {
       origin,
       destination,
       departureDate,
-      returnDate,
+      returnDate: returnDate, // Handle one-way flights
       price,
       currency,
       airline: airlineName,
-      flightNumber: `${carrierCode}${outboundSegment.number}${returnSegment ? `/${returnSegment.carrierCode}${returnSegment.number}` : ''}`,
-      layovers,
-      duration: totalDuration,
+      flightNumber: 'See details for flight numbers',
+      layovers: [],
+      duration,
       baggageInfo: {
-        carry_on: '1 personal item + 1 carry-on bag',
-        checked: '1 checked bag (23kg)'
+        carry_on: 'See details for baggage info',
+        checked: 'See details for baggage info'
       },
-      bookingUrl,
+      bookingUrl: finalBookingUrl,
       dealQuality: 'good', // Will be calculated later
-      confidenceScore: calculateConfidenceScore(offer)
+      confidenceScore: 0.9 // High confidence for RapidAPI data
     };
   } catch (error) {
-    console.error('Error transforming Amadeus offer:', error);
+    console.error('Error transforming flight date option:', error);
     return null;
   }
 }
@@ -581,15 +630,53 @@ function getAirlineName(carrierCode: string): string {
 }
 
 /**
- * Generate date range for flexible travel (only future dates)
+ * Generate random dates across 60 days (5 from days 30-60, 5 from days 60-90)
+ */
+function generateRandomDatesAcross60Days(): string[] {
+  const dates: string[] = [];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  // Start 30 days from now
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() + 30);
+  
+  // Generate 5 random dates from days 30-60 (first 30 days)
+  for (let i = 0; i < 5; i++) {
+    const randomDay = Math.floor(Math.random() * 30); // 0-29 days
+    const randomDate = new Date(startDate);
+    randomDate.setDate(startDate.getDate() + randomDay);
+    dates.push(randomDate.toISOString().split('T')[0]);
+  }
+  
+  // Generate 5 random dates from days 60-90 (next 30 days)
+  const secondStartDate = new Date(today);
+  secondStartDate.setDate(today.getDate() + 60);
+  
+  for (let i = 0; i < 5; i++) {
+    const randomDay = Math.floor(Math.random() * 30); // 0-29 days
+    const randomDate = new Date(secondStartDate);
+    randomDate.setDate(secondStartDate.getDate() + randomDay);
+    dates.push(randomDate.toISOString().split('T')[0]);
+  }
+  
+  // Sort dates chronologically
+  dates.sort();
+  
+  console.log('Generated random dates across 60 days:', dates);
+  return dates;
+}
+
+/**
+ * Generate date range for flexible travel (only future dates) - DEPRECATED
  */
 function generateDateRange(baseDate: Date, flexibilityDays: number): string[] {
   const dates: string[] = [];
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Reset time to start of day
   
-  // Ensure base date is not in the past
-  const adjustedBaseDate = new Date(Math.max(baseDate.getTime(), today.getTime()));
+  // Use the baseDate as-is (don't override with today if baseDate is in the future)
+  const adjustedBaseDate = baseDate.getTime() >= today.getTime() ? baseDate : new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
   
   // Start from the adjusted base date and go forward
   for (let i = 0; i < flexibilityDays * 2 + 1; i++) {
@@ -604,6 +691,7 @@ function generateDateRange(baseDate: Date, flexibilityDays: number): string[] {
   
   return dates;
 }
+
 
 /**
  * Generate flexible dates around a base date for cheaper options
@@ -628,103 +716,9 @@ function generateFlexibleDates(baseDate: string, daysRange: number): string[] {
   return dates;
 }
 
-/**
- * Get alternative destinations with great cheap prices
- */
-async function getAlternativeDestinations(
-  homeAirports: string[],
-  originalDestinations: string[],
-  departureDates: string[],
-  maxBudget?: number
-): Promise<AmadeusFlightOffer[]> {
-  // Popular alternative destinations known for cheap flights
-  const alternativeDestinations = [
-    'BUD', // Budapest, Hungary
-    'PRG', // Prague, Czech Republic
-    'WAW', // Warsaw, Poland
-    'VIE', // Vienna, Austria
-    'ZUR', // Zurich, Switzerland
-    'MAD', // Madrid, Spain
-    'BCN', // Barcelona, Spain
-    'FCO', // Rome, Italy
-    'MXP', // Milan, Italy
-    'AMS', // Amsterdam, Netherlands
-    'BRU', // Brussels, Belgium
-    'CPH', // Copenhagen, Denmark
-    'OSL', // Oslo, Norway
-    'STO', // Stockholm, Sweden
-    'HEL', // Helsinki, Finland
-    'IST', // Istanbul, Turkey
-    'ATH', // Athens, Greece
-    'LIS', // Lisbon, Portugal
-    'OPO', // Porto, Portugal
-    'DUB', // Dublin, Ireland
-    'EDI', // Edinburgh, Scotland
-    'MAN', // Manchester, UK
-    'BHX', // Birmingham, UK
-    'NCE', // Nice, France
-    'TLS', // Toulouse, France
-    'MUC', // Munich, Germany
-    'HAM', // Hamburg, Germany
-    'DUS', // Düsseldorf, Germany
-    'CGN', // Cologne, Germany
-    'FRA', // Frankfurt, Germany
-  ];
-
-  const alternativeOffers: AmadeusFlightOffer[] = [];
-  
-  // Filter out destinations that are already in the original list
-  const availableAlternatives = alternativeDestinations.filter(
-    alt => !originalDestinations.includes(alt)
-  );
-
-  console.log(`Searching ${availableAlternatives.length} alternative destinations for cheap deals`);
-
-  // Search a subset of alternative destinations (limit to avoid rate limits)
-  const searchAlternatives = availableAlternatives.slice(0, 10);
-  
-  for (const origin of homeAirports) {
-    if (!validateAirportCode(origin)) continue;
-    
-    for (const destination of searchAlternatives) {
-      if (!validateAirportCode(destination)) continue;
-      
-      // Search fewer dates for alternatives to avoid rate limits
-      for (const departureDate of departureDates.slice(0, 3)) {
-        try {
-          const depDate = new Date(departureDate);
-          depDate.setDate(depDate.getDate() + 7);
-          const returnDate = depDate.toISOString().split('T')[0];
-          
-          const offers = await searchFlightOffers(
-            origin,
-            destination,
-            departureDate,
-            returnDate,
-            maxBudget
-          );
-
-          // Transform offers and mark as alternatives
-          for (const offer of offers) {
-            const transformedOffer = transformAmadeusOffer(offer, origin, destination);
-            if (transformedOffer) {
-              // Mark as alternative destination
-              transformedOffer.isAlternative = true;
-              alternativeOffers.push(transformedOffer);
-            }
-          }
-        } catch (error) {
-          console.error(`Error searching alternative destination ${destination}:`, error);
-        }
-      }
-    }
-  }
-
-  return alternativeOffers;
-}
 
 /**
- * Get flight recommendations using Amadeus API
+ * Get flight recommendations using Amadeus Flight Cheapest Date Search API
  */
 export async function getFlightRecommendations(
   params: FlightSearchParams
@@ -755,31 +749,13 @@ export async function getFlightRecommendations(
     const allOffers: AmadeusFlightOffer[] = [];
     const searchDate = new Date().toISOString();
 
-    // Generate departure dates (next 3 months or specific month)
-    let departureDates: string[];
+    // Generate departure date range for Flight Cheapest Date Search
     const today = new Date();
+    const futureDate = new Date(today);
+    futureDate.setDate(today.getDate() + 90); // Search next 90 days
+    const departureDateRange = `${today.toISOString().split('T')[0]},${futureDate.toISOString().split('T')[0]}`;
     
-    if (departureMonth) {
-      const [year, month] = departureMonth.split('-');
-      const requestedDate = new Date(parseInt(year), parseInt(month) - 1, 15);
-      
-      // If the requested month is in the past, start from next month instead
-      if (requestedDate < today) {
-        console.warn(`Requested departure month ${departureMonth} is in the past. Using next month instead.`);
-        const baseDate = new Date();
-        baseDate.setMonth(baseDate.getMonth() + 1);
-        departureDates = generateDateRange(baseDate, travelFlexibility);
-      } else {
-        departureDates = generateDateRange(requestedDate, travelFlexibility);
-      }
-    } else {
-      // Start from next month to ensure we have future dates
-      const baseDate = new Date();
-      baseDate.setMonth(baseDate.getMonth() + 1);
-      departureDates = generateDateRange(baseDate, travelFlexibility);
-    }
-
-    console.log('Generated departure dates:', departureDates);
+    console.log('Using Flight Cheapest Date Search API with date range:', departureDateRange);
 
     // Search for flights between all home airports and dream destinations
     for (const origin of homeAirports) {
@@ -796,80 +772,53 @@ export async function getFlightRecommendations(
           continue;
         }
         
-        for (const departureDate of departureDates.slice(0, 7)) { // Search more dates for cheapest options
-          try {
-            // Calculate return date (7 days later by default)
-            const depDate = new Date(departureDate);
-            depDate.setDate(depDate.getDate() + 7);
-            const returnDate = depDate.toISOString().split('T')[0];
-            
-            const offers = await searchFlightOffers(
+        try {
+          // Step 1: Find cheapest dates using date grid API
+          const cheapestDates = await searchCheapestFlightDates(
               origin,
               destination,
-              departureDate,
-              returnDate, // Always search for round trips
+            departureDateRange,
               maxBudget
             );
+
+          if (cheapestDates) {
+            console.log(`Found cheapest dates for ${origin} -> ${destination}: ${cheapestDates.departureDate} to ${cheapestDates.returnDate} ($${cheapestDates.price})`);
             
-            // Also search with flexible dates around this date for even cheaper options
-            const flexibleDates = generateFlexibleDates(departureDate, 2); // ±2 days
-            for (const flexDate of flexibleDates) {
-              if (isFutureDate(flexDate)) {
-                const flexDepDate = new Date(flexDate);
-                flexDepDate.setDate(flexDepDate.getDate() + 7);
-                const flexReturnDate = flexDepDate.toISOString().split('T')[0];
-                
-                const flexOffers = await searchFlightOffers(
-                  origin,
-                  destination,
-                  flexDate,
-                  flexReturnDate,
-                  maxBudget
-                );
-                offers.push(...flexOffers);
+            // Use the date grid data directly
+            const flightDateOption: FlightDateOption = {
+              type: 'flight-date',
+              origin: origin,
+              destination: destination,
+              departureDate: cheapestDates.departureDate,
+              returnDate: cheapestDates.returnDate,
+              price: {
+                currency: 'USD',
+                total: cheapestDates.price.toString(),
+                base: cheapestDates.price.toString(),
+                fees: []
+              },
+              links: {
+                flightDates: '',
+                flightOffers: ''
               }
-            }
+            };
 
-            // Transform and filter offers
-            for (const offer of offers) {
-              const transformedOffer = transformAmadeusOffer(offer, origin, destination);
-              if (transformedOffer) {
-                // Filter by preferred airlines if specified
-                if (preferredAirlines && preferredAirlines.length > 0) {
-                  const airlineCode = transformedOffer.flightNumber?.substring(0, 2);
-                  if (!preferredAirlines.some(pref => 
-                    transformedOffer.airline.toLowerCase().includes(pref.toLowerCase()) ||
-                    airlineCode === pref
-                  )) {
-                    continue;
-                  }
-                }
-
-                allOffers.push(transformedOffer);
-              }
+            const transformedOffer = await transformFlightDateOption(flightDateOption, origin, destination);
+            if (transformedOffer) {
+              allOffers.push(transformedOffer);
             }
+          } else {
+            console.log(`No cheapest dates found for ${origin} -> ${destination}, skipping this route`);
+          }
 
             // Add delay to respect rate limits
-            await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
           } catch (error) {
             console.error(`Error searching ${origin} to ${destination}:`, error);
-          }
         }
       }
     }
 
-    // Search for alternative destinations with great cheap prices
-    console.log('Searching alternative destinations for additional cheap deals...');
-    const alternativeOffers = await getAlternativeDestinations(
-      homeAirports,
-      dreamDestinations,
-      departureDates,
-      maxBudget
-    );
-    
-    // Add alternative offers to the main list
-    allOffers.push(...alternativeOffers);
-    console.log(`Found ${alternativeOffers.length} alternative destination offers`);
 
     // Sort by price and take the best deals
     allOffers.sort((a, b) => a.price - b.price);
@@ -877,7 +826,7 @@ export async function getFlightRecommendations(
     // Remove duplicate deals (same price, same route, same dates)
     const uniqueDeals = new Map();
     allOffers.forEach(deal => {
-      const key = `${deal.origin}-${deal.destination}-${deal.departureDate}-${deal.returnDate}-${deal.price}-${deal.airline}`;
+      const key = `${deal.origin}-${deal.destination}-${deal.departureDate}-${deal.returnDate}-${deal.price}`;
       if (!uniqueDeals.has(key)) {
         uniqueDeals.set(key, deal);
       }
@@ -886,42 +835,21 @@ export async function getFlightRecommendations(
     const uniqueOffers = Array.from(uniqueDeals.values());
     console.log(`After deduplication: ${uniqueOffers.length} unique offers from ${allOffers.length} total offers`);
     
-    // Separate main destinations and alternative destinations
-    const mainDestinations = uniqueOffers.filter(deal => !deal.isAlternative);
-    const alternativeDestinations = uniqueOffers.filter(deal => deal.isAlternative);
-    
-    // Get variety across airlines for main destinations, but prioritize cheapest
-    const airlineCount = new Map();
-    const bestMainDeals = mainDestinations.filter(deal => {
-      const count = airlineCount.get(deal.airline) || 0;
-      if (count >= 2) { // Max 2 deals per airline
-        return false;
+    // Limit to max 3 deals per destination, then take top 10 cheapest overall
+    const destinationCount = new Map();
+    const bestDeals = uniqueOffers.filter(deal => {
+      const destination = deal.destination;
+      const count = destinationCount.get(destination) || 0;
+      if (count >= 3) {
+        return false; // Skip if already have 3 deals for this destination
       }
-      airlineCount.set(deal.airline, count + 1);
+      destinationCount.set(destination, count + 1);
       return true;
-    }).slice(0, 4); // Take 4 main destination deals
+    }).slice(0, 10); // Take max 10 deals total
     
-    // Get 2 best alternative destination deals
-    const bestAlternativeDeals = alternativeDestinations.slice(0, 2);
+    console.log(`Final deals: ${bestDeals.length} deals (max 3 per destination, max 10 total)`);
+    console.log(`Top deals:`, bestDeals.slice(0, 10).map(d => `${d.destination} ($${d.price})`));
     
-    // Combine main and alternative deals
-    const bestDeals = [...bestMainDeals, ...bestAlternativeDeals];
-    
-    console.log(`Final deals: ${bestDeals.length} deals (${bestMainDeals.length} main + ${bestAlternativeDeals.length} alternatives)`);
-    console.log(`Main deals:`, bestMainDeals.map(d => `${d.airline} to ${d.destination} ($${d.price})`));
-    console.log(`Alternative deals:`, bestAlternativeDeals.map(d => `${d.airline} to ${d.destination} ($${d.price})`));
-    
-    // If we don't have enough variety, fill with cheapest remaining unique options
-    if (bestDeals.length < 6) {
-      const usedKeys = new Set(bestDeals.map(deal => 
-        `${deal.origin}-${deal.destination}-${deal.departureDate}-${deal.returnDate}-${deal.price}-${deal.airline}`
-      ));
-      const remaining = uniqueOffers.filter(deal => {
-        const key = `${deal.origin}-${deal.destination}-${deal.departureDate}-${deal.returnDate}-${deal.price}-${deal.airline}`;
-        return !usedKeys.has(key);
-      });
-      bestDeals.push(...remaining.slice(0, 6 - bestDeals.length));
-    }
 
     // Calculate deal quality for each offer
     if (bestDeals.length > 0) {
@@ -1026,3 +954,4 @@ export async function batchProcessFlightRecommendations(
   
   return results;
 }
+

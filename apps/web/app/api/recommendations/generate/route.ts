@@ -33,10 +33,10 @@ export async function POST(request: NextRequest) {
     const searchParams: FlightSearchParams = {
       homeAirports: preferences.homeAirports || [],
       dreamDestinations: preferences.dreamDestinations || [],
-      travelFlexibility: 7, // Default 7 days flexibility
+      travelFlexibility: 3, // Reduced from 7 to 3 days flexibility
       maxBudget: preferences.maxBudget,
       preferredAirlines: preferences.preferredAirlines || [],
-      departureMonth: new Date().toISOString().slice(0, 7), // Current month
+      // Remove departureMonth to use 30-day logic instead of current month
     };
 
     // Use the Amadeus service to get flight recommendations
@@ -50,8 +50,8 @@ export async function POST(request: NextRequest) {
       data: { isActive: false },
     });
 
-    // Save new recommendations to database (exactly 6 deals)
-    const dealsToSave = amadeusResponse.deals.slice(0, 6); // Always get exactly 6 deals
+    // Save new recommendations to database (5-10 deals)
+    const dealsToSave = amadeusResponse.deals.slice(0, 10); // Get up to 10 deals
     const savedRecommendations = await Promise.all(
       dealsToSave.map(async (deal) => {
         return await db.flightRecommendation.create({
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       recommendations: savedRecommendations,
       summary: amadeusResponse.summary,
       metadata: amadeusResponse.searchMetadata,
-      message: `Generated and saved ${savedRecommendations.length} flight deals using Amadeus API`
+      message: `Generated and saved ${savedRecommendations.length} flight deals using Amadeus API (optimized for 5-10 results)`
     });
 
   } catch (error) {
