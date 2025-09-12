@@ -30,7 +30,7 @@ export async function GET() {
     });
 
     // Transform to match the expected format
-    const deals = watchedDeals.map(deal => ({
+    const deals = watchedDeals.map((deal: any) => ({
       id: deal.id,
       origin: deal.origin,
       destination: deal.destination,
