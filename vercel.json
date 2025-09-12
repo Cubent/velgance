@@ -11,8 +11,8 @@
   "buildCommand": "chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",
   "installCommand": "pnpm install",
   "functions": {
-    "packages/database/**/*.ts": {
-      "includeFiles": "packages/database/prisma/schema.prisma"
+    "apps/web/**/*.ts": {
+      "includeFiles": "packages/database/generated/client/**"
     }
   }
 }

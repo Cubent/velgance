@@ -7,35 +7,27 @@ import type { NextConfig } from 'next';
 
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
-// Prisma configuration for Vercel - don't externalize to ensure proper bundling
-// nextConfig.serverExternalPackages = ['@prisma/client', 'prisma'];
+// Prisma configuration for Vercel
+nextConfig.experimental = {
+  ...nextConfig.experimental,
+  serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
+};
 
 // Webpack configuration for Prisma
 nextConfig.webpack = (config, { isServer }) => {
   if (isServer) {
-    // Don't externalize Prisma - let it be bundled
-    config.resolve = config.resolve || {};
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@prisma/client': '@prisma/client',
-    };
-    
-    // Ensure Prisma engine files are included in the bundle
-    config.module = config.module || {};
-    config.module.rules = config.module.rules || [];
-    
-    // Add rule to copy Prisma engine files
-    config.module.rules.push({
-      test: /\.node$/,
-      use: 'file-loader',
-    });
-    
-    // Ensure Prisma engine files are not externalized
+    // Externalize Prisma for server-side rendering
     config.externals = config.externals || [];
     if (Array.isArray(config.externals)) {
-      config.externals = config.externals.filter(
-        (external: any) => typeof external !== 'string' || !external.includes('@prisma')
-      );
+      config.externals.push('@prisma/client');
+    } else if (typeof config.externals === 'function') {
+      const originalExternals = config.externals;
+      config.externals = (context, request, callback) => {
+        if (request === '@prisma/client') {
+          return callback(null, 'commonjs @prisma/client');
+        }
+        return originalExternals(context, request, callback);
+      };
     }
   }
   return config;
