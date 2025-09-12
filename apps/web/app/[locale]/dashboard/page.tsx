@@ -5,6 +5,7 @@ import { useUser, UserButton } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { Heart, Settings, Sparkles } from 'lucide-react';
 import RecommendationCard from '../../../components/RecommendationCard';
+import { PreferencesModal } from './components/PreferencesModal';
 
 interface FlightRecommendation {
   id: string;
@@ -64,6 +65,7 @@ export default function DashboardPage() {
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isGeneratingDeals, setIsGeneratingDeals] = useState(false);
+  const [isPreferencesModalOpen, setIsPreferencesModalOpen] = useState(false);
 
   useEffect(() => {
     if (isLoaded && !user) {
@@ -203,6 +205,28 @@ export default function DashboardPage() {
       console.error('Error generating deals:', error);
     } finally {
       setIsGeneratingDeals(false);
+    }
+  };
+
+  const handleSavePreferences = async (updatedPreferences: UserPreferences) => {
+    try {
+      const response = await fetch('/api/user/preferences', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedPreferences),
+      });
+      
+      if (response.ok) {
+        setPreferences(updatedPreferences);
+        // Refresh recommendations with new preferences
+        await fetchData();
+      } else {
+        console.error('Failed to save preferences');
+      }
+    } catch (error) {
+      console.error('Error saving preferences:', error);
     }
   };
 
@@ -462,11 +486,7 @@ export default function DashboardPage() {
 
                 <div className="pt-4">
                   <button
-                    onClick={() => {
-                      // This will be handled by the sidebar component
-                      const event = new CustomEvent('openPreferencesModal');
-                      window.dispatchEvent(event);
-                    }}
+                    onClick={() => setIsPreferencesModalOpen(true)}
                     className="bg-[#d5e27b] text-[#045530] text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#c4d16a] transition-colors flex items-center gap-2"
                   >
                     <Settings className="w-4 h-4" />
@@ -523,6 +543,14 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Preferences Modal */}
+      <PreferencesModal
+        isOpen={isPreferencesModalOpen}
+        onClose={() => setIsPreferencesModalOpen(false)}
+        preferences={preferences}
+        onSave={handleSavePreferences}
+      />
     </div>
   );
 }
