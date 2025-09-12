@@ -12,7 +12,7 @@
   "installCommand": "pnpm install",
   "functions": {
     "apps/web/**/*.ts": {
-      "includeFiles": "packages/database/generated/client/**"
+      "includeFiles": "packages/database/prisma/schema.prisma"
     }
   }
 }

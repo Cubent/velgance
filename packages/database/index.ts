@@ -1,13 +1,17 @@
 import 'server-only';
 
-import { PrismaClient, Prisma } from './generated/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { keys } from './keys';
 
 // Import Neon serverless driver as fallback
 let neon: any = null;
+let NeonHttpDatabaseAdapter: any = null;
 if (process.env.VERCEL) {
   try {
-    neon = require('@neondatabase/serverless');
+    const { Pool } = require('@neondatabase/serverless');
+    const { NeonHttpDatabaseAdapter: Adapter } = require('@prisma/adapter-neon');
+    neon = { Pool };
+    NeonHttpDatabaseAdapter = Adapter;
   } catch (e) {
     console.log('Neon serverless driver not available');
   }
@@ -80,9 +84,10 @@ try {
 
   // Add adapter configuration for Vercel
   if (process.env.VERCEL) {
-    if (neon) {
+    if (neon && NeonHttpDatabaseAdapter) {
       // Use Neon serverless driver as fallback
-      clientConfig.adapter = new neon.NeonHttpDatabaseAdapter(neon.neon(keys().DATABASE_URL));
+      const pool = new neon.Pool({ connectionString: keys().DATABASE_URL });
+      clientConfig.adapter = new NeonHttpDatabaseAdapter(pool);
     }
   }
 
@@ -111,7 +116,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 export { database };
 
-export * from './generated/client';
+export * from '@prisma/client';
 
 // Re-export PrismaClient for easier imports
-export { PrismaClient } from './generated/client';
+export { PrismaClient } from '@prisma/client';
