@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { database as db } from '@repo/database';
 import { sendFlightDealsEmail } from '@/services/email';
-import type { User } from '@prisma/client';
 // Removed AI dependency - using simple summary generation
+
+// Define User type based on the Prisma query result
+type User = {
+  id: string;
+  travelPreferences: any;
+  flightRecommendations: any[];
+};
 
 // This endpoint should be called by a cron job or scheduled task
 export async function POST(request: NextRequest) {
