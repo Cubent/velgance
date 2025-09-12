@@ -292,12 +292,15 @@ async function searchCheapestFlightDates(
         }
         
         // Update global cheapest if this month has a better option
-        if (monthlyCheapestOption && monthlyCheapestOption.price < globalCheapestPrice) {
-          globalCheapestPrice = monthlyCheapestOption.price;
-          globalCheapestOption = monthlyCheapestOption;
-          console.log(`🏆 New GLOBAL cheapest found for ${departureDate}:`, globalCheapestOption);
-        } else if (monthlyCheapestOption) {
-          console.log(`Monthly cheapest for ${departureDate}: $${monthlyCheapestOption.price} (not better than global: $${globalCheapestPrice})`);
+        if (monthlyCheapestOption !== null) {
+          const option = monthlyCheapestOption as { departureDate: string; returnDate: string; price: number };
+          if (option.price < globalCheapestPrice) {
+            globalCheapestPrice = option.price;
+            globalCheapestOption = option;
+            console.log(`🏆 New GLOBAL cheapest found for ${departureDate}:`, globalCheapestOption);
+          } else {
+            console.log(`Monthly cheapest for ${departureDate}: $${option.price} (not better than global: $${globalCheapestPrice})`);
+          }
         } else {
           console.log(`No valid prices found for ${departureDate}`);
         }

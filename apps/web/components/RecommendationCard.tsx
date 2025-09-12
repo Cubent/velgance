@@ -391,14 +391,6 @@ export default function RecommendationCard({
           >
             Book Now
           </button>
-          {recommendation.otaUrl && (
-            <button
-              onClick={() => onBook(recommendation.otaUrl!)}
-              className="w-full border-2 border-[#d5e27b] text-[#045530] py-2 px-4 rounded-lg text-xs font-semibold hover:bg-[#d5e27b]/10 transition-colors"
-            >
-              Compare Prices
-            </button>
-          )}
           
           {/* Save and Archive buttons */}
           <div className="flex space-x-2">
