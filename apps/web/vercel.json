@@ -3,7 +3,7 @@
   "ignoreCommand": "node scripts/skip-ci.js",
   "functions": {
     "app/api/**/*.ts": {
-      "maxDuration": 30
+      "maxDuration": 90
     }
   },
   "buildCommand": "cd ../../ && chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",
