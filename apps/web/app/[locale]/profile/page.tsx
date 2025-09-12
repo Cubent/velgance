@@ -87,9 +87,11 @@ export default function ProfilePage() {
         </div>
 
         {/* Account Settings */}
-        <div className="bg-white rounded-lg mb-8 p-6">
+        <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Settings</h2>
-          <UserProfile />
+          <div className="w-full overflow-hidden">
+            <UserProfile />
+          </div>
         </div>
       </div>
     </div>

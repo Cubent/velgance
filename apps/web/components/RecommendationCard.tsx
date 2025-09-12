@@ -321,7 +321,7 @@ export default function RecommendationCard({
           onClick={() => {
             const shareData = {
               title: `Flight Deal: ${recommendation.origin} to ${recommendation.destination}`,
-              text: `Great flight deal: ${recommendation.origin} to ${recommendation.destination} for $${recommendation.price}`,
+              text: `Great flight deal: ${recommendation.origin} to ${recommendation.destination} for ${recommendation.price}`,
               url: window.location.href
             };
             if (navigator.share) {
@@ -344,11 +344,11 @@ export default function RecommendationCard({
         {/* Price */}
         <div className="mb-3">
           <div className="text-2xl font-bold text-[#045530]">
-            ${recommendation.price.toLocaleString()} {recommendation.currency}
+            {recommendation.price.toLocaleString()} {recommendation.currency}
           </div>
           {recommendation.originalPrice && recommendation.originalCurrency && (
             <div className="text-sm text-gray-500 mt-1">
-              Originally {recommendation.originalCurrency} ${recommendation.originalPrice.toLocaleString()}
+              Originally {recommendation.originalCurrency} {recommendation.originalPrice.toLocaleString()}
             </div>
           )}
           <div className="h-px border-t border-dashed border-gray-300 mt-1"></div>

@@ -141,34 +141,3 @@
 [data-clerk-component] * {
   box-shadow: none !important;
 }
-
-/* Center Clerk components on mobile */
-@media (max-width: 768px) {
-  .cl-card,
-  .cl-cardBox,
-  .cl-main,
-  .cl-mainBox,
-  .cl-userProfileBox,
-  .cl-userProfile,
-  [data-clerk-component] {
-    margin: 0 auto !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-  
-  /* Ensure proper centering for the main container */
-  .cl-main,
-  .cl-mainBox {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    min-height: 100vh !important;
-  }
-  
-  /* Center the card content */
-  .cl-card,
-  .cl-cardBox {
-    margin: 0 auto !important;
-    transform: none !important;
-  }
-}

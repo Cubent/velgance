@@ -26,6 +26,9 @@ export const env = createEnv({
     // OpenAI Configuration
     OPENAI_API_KEY: z.string().min(1, 'OpenAI API key is required').optional(),
 
+    // FXRatesAPI Configuration
+    FXRATES_API_KEY: z.string().min(1, 'FXRatesAPI key is required').optional(),
+
     // SendGrid Configuration
     SENDGRID_API_KEY: z.string().min(1, 'SendGrid API key is required').optional(),
     SENDGRID_FROM_EMAIL: z.string().email('Valid SendGrid from email is required').default('deals@travira.net').optional(),
@@ -46,6 +49,7 @@ export const env = createEnv({
   runtimeEnv: {
     // Server-side environment variables
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    FXRATES_API_KEY: process.env.FXRATES_API_KEY,
     SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
     SENDGRID_FROM_EMAIL: process.env.SENDGRID_FROM_EMAIL,
     STRIPE_TRAVIRA_PRICE_ID: process.env.STRIPE_TRAVIRA_PRICE_ID,

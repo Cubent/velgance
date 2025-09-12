@@ -4,7 +4,7 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { ChevronDown, User, LayoutDashboard, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useClerk } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 
 import type { Dictionary } from '@repo/internationalization';
@@ -17,6 +17,7 @@ type HeaderProps = {
 
 export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -123,8 +124,8 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                         <button
                           onClick={() => {
                             setIsUserMenuOpen(false);
-                            // Add sign out functionality here
-                            window.location.href = '/sign-out';
+                            // Directly sign out using Clerk
+                            signOut({ redirectUrl: '/' });
                           }}
                           className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-[#045530] hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
                         >
@@ -138,11 +139,12 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <Button variant="ghost" asChild className="text-gray-600 hover:text-green-600 h-10">
-                  <Link href="/sign-in">
-                    Sign In
-                  </Link>
-                </Button>
+                <Link 
+                  href="/sign-in"
+                  className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-gray-600 h-10 px-4 py-2 hover:text-gray-600 hover:bg-transparent"
+                >
+                  Sign In
+                </Link>
                 <Button asChild className="bg-[#d5e27b] text-[#045530] hover:bg-[#c4d16a] h-10 rounded-lg px-4 font-semibold">
                   <Link href="/sign-up?redirect_url=/pricing">
                     Get Started
