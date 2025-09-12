@@ -8,10 +8,7 @@ import type { NextConfig } from 'next';
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
 // Prisma configuration for Vercel
-nextConfig.experimental = {
-  ...nextConfig.experimental,
-  serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
-};
+nextConfig.serverExternalPackages = ['@prisma/client', 'prisma'];
 
 // Webpack configuration for Prisma
 nextConfig.webpack = (config, { isServer }) => {
@@ -22,7 +19,7 @@ nextConfig.webpack = (config, { isServer }) => {
       config.externals.push('@prisma/client');
     } else if (typeof config.externals === 'function') {
       const originalExternals = config.externals;
-      config.externals = (context, request, callback) => {
+      config.externals = (context: any, request: string, callback: any) => {
         if (request === '@prisma/client') {
           return callback(null, 'commonjs @prisma/client');
         }
