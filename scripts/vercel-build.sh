@@ -12,14 +12,14 @@ export PRISMA_CLI_BINARY_TARGETS="rhel-openssl-3.0.x,linux-musl-openssl-3.0.x"
 export PRISMA_GENERATE_SKIP_AUTOINSTALL=true
 
 # Clean previous generation
-rm -rf ../../node_modules/@prisma/client
+rm -rf ../node_modules/@prisma/client
 rm -rf .prisma/client
 
 # Generate Prisma client with correct binary targets
 pnpm prisma generate --schema=./prisma/schema.prisma --no-hints
 
 # Verify Prisma client generation
-if [ -d "../../node_modules/@prisma/client" ]; then
+if [ -d "../node_modules/@prisma/client" ]; then
   echo "Prisma client generated successfully"
 else
   echo "Error: Prisma client generation failed"
@@ -29,14 +29,14 @@ fi
 # Check if the correct engine files are present
 echo "Checking for Prisma engine files..."
 echo "Available engine files:"
-ls -la ../../node_modules/@prisma/client/ | grep -E "(query-engine|libquery_engine)" || echo "No engine files found"
+ls -la ../node_modules/@prisma/client/ | grep -E "(query-engine|libquery_engine)" || echo "No engine files found"
 
 # Check for various possible binary names
-if [ -f "../../node_modules/@prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
+if [ -f "../node_modules/@prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
   echo "RHEL OpenSSL 3.0.x engine found (libquery_engine format)"
-elif [ -f "../../node_modules/@prisma/client/query-engine-rhel-openssl-3.0.x" ]; then
+elif [ -f "../node_modules/@prisma/client/query-engine-rhel-openssl-3.0.x" ]; then
   echo "RHEL OpenSSL 3.0.x engine found (query-engine format)"
-elif [ -f "../../node_modules/@prisma/client/query_engine-rhel-openssl-3.0.x" ]; then
+elif [ -f "../node_modules/@prisma/client/query_engine-rhel-openssl-3.0.x" ]; then
   echo "RHEL OpenSSL 3.0.x engine found (query_engine format)"
 else
   echo "Warning: RHEL OpenSSL 3.0.x engine not found - attempting to generate it"
@@ -47,7 +47,7 @@ else
   
   # Check again after generation
   echo "Checking again after generation:"
-  ls -la ../../node_modules/@prisma/client/ | grep -E "(query-engine|libquery_engine)" || echo "Still no engine files found"
+  ls -la ../node_modules/@prisma/client/ | grep -E "(query-engine|libquery_engine)" || echo "Still no engine files found"
 fi
 
 # Copy Prisma client to all apps that use it
