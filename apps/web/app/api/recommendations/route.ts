@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Transform database records to match frontend interface
-    const recommendations = user.flightRecommendations.map(rec => ({
+    const recommendations = user.flightRecommendations.map((rec: any) => ({
       id: rec.id,
       origin: rec.origin,
       destination: rec.destination,
