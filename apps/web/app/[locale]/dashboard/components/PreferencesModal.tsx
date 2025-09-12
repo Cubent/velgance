@@ -9,6 +9,7 @@ interface UserPreferences {
   deliveryFrequency: string;
   maxBudget?: number;
   preferredAirlines: string[];
+  currency: string;
 }
 
 interface PreferencesModalProps {
@@ -24,7 +25,8 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
     dreamDestinations: [],
     deliveryFrequency: 'weekly',
     maxBudget: undefined,
-    preferredAirlines: []
+    preferredAirlines: [],
+    currency: 'USD'
   });
 
   const [newAirport, setNewAirport] = useState('');
@@ -211,10 +213,70 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
             </select>
           </div>
 
+          {/* Currency */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Preferred Currency
+            </label>
+            <select
+              value={formData.currency}
+              onChange={(e) => setFormData(prev => ({ ...prev, currency: e.target.value }))}
+              className="w-full px-3 py-1.5 text-sm text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent"
+            >
+              <option value="USD">USD - US Dollar</option>
+              <option value="EUR">EUR - Euro</option>
+              <option value="GBP">GBP - British Pound</option>
+              <option value="CAD">CAD - Canadian Dollar</option>
+              <option value="AUD">AUD - Australian Dollar</option>
+              <option value="JPY">JPY - Japanese Yen</option>
+              <option value="CHF">CHF - Swiss Franc</option>
+              <option value="CNY">CNY - Chinese Yuan</option>
+              <option value="INR">INR - Indian Rupee</option>
+              <option value="BRL">BRL - Brazilian Real</option>
+              <option value="MXN">MXN - Mexican Peso</option>
+              <option value="SGD">SGD - Singapore Dollar</option>
+              <option value="HKD">HKD - Hong Kong Dollar</option>
+              <option value="NOK">NOK - Norwegian Krone</option>
+              <option value="SEK">SEK - Swedish Krona</option>
+              <option value="DKK">DKK - Danish Krone</option>
+              <option value="PLN">PLN - Polish Zloty</option>
+              <option value="CZK">CZK - Czech Koruna</option>
+              <option value="HUF">HUF - Hungarian Forint</option>
+              <option value="RUB">RUB - Russian Ruble</option>
+              <option value="ZAR">ZAR - South African Rand</option>
+              <option value="KRW">KRW - South Korean Won</option>
+              <option value="THB">THB - Thai Baht</option>
+              <option value="MYR">MYR - Malaysian Ringgit</option>
+              <option value="IDR">IDR - Indonesian Rupiah</option>
+              <option value="PHP">PHP - Philippine Peso</option>
+              <option value="VND">VND - Vietnamese Dong</option>
+              <option value="TRY">TRY - Turkish Lira</option>
+              <option value="AED">AED - UAE Dirham</option>
+              <option value="SAR">SAR - Saudi Riyal</option>
+              <option value="QAR">QAR - Qatari Riyal</option>
+              <option value="KWD">KWD - Kuwaiti Dinar</option>
+              <option value="BHD">BHD - Bahraini Dinar</option>
+              <option value="OMR">OMR - Omani Rial</option>
+              <option value="JOD">JOD - Jordanian Dinar</option>
+              <option value="LBP">LBP - Lebanese Pound</option>
+              <option value="EGP">EGP - Egyptian Pound</option>
+              <option value="ILS">ILS - Israeli Shekel</option>
+              <option value="CLP">CLP - Chilean Peso</option>
+              <option value="COP">COP - Colombian Peso</option>
+              <option value="PEN">PEN - Peruvian Sol</option>
+              <option value="UYU">UYU - Uruguayan Peso</option>
+              <option value="ARS">ARS - Argentine Peso</option>
+              <option value="BOB">BOB - Bolivian Boliviano</option>
+              <option value="PYG">PYG - Paraguayan Guarani</option>
+              <option value="VES">VES - Venezuelan Bolivar</option>
+              <option value="NZD">NZD - New Zealand Dollar</option>
+            </select>
+          </div>
+
           {/* Max Budget */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Max Budget (USD)
+              Max Budget ({formData.currency})
             </label>
             <input
               type="number"

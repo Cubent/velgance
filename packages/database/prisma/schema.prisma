@@ -6,7 +6,7 @@ generator client {
   output          = "../generated/client"
   binaryTargets   = ["native", "rhel-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
   previewFeatures = ["driverAdapters"]
-  engineType      = "binary"
+  engineType      = "library"
 }
 
 datasource db {
@@ -274,6 +274,7 @@ model UserPreferences {
   maxBudget         Float?
   preferredAirlines Json?  @default("[]") // ["Delta", "United"]
   travelFlexibility Int    @default(3) // days of flexibility (reduced from 7)
+  currency          String @default("USD") // User's preferred currency
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

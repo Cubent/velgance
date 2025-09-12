@@ -35,6 +35,7 @@ interface UserPreferences {
   deliveryFrequency: string;
   maxBudget?: number;
   preferredAirlines: string[];
+  currency: string;
 }
 
 interface FlightDeal {
@@ -479,10 +480,17 @@ export default function DashboardPage() {
                   <div>
                     <h4 className="text-sm font-medium text-gray-700 mb-2">Max Budget</h4>
                     <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
-                      ${preferences.maxBudget}
+                      {preferences.currency} ${preferences.maxBudget}
                     </span>
                   </div>
                 )}
+
+                <div>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Preferred Currency</h4>
+                  <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+                    {preferences.currency}
+                  </span>
+                </div>
 
                 <div className="pt-4">
                   <button

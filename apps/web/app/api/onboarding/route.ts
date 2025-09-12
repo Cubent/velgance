@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       deliveryFrequency,
       maxBudget,
       preferredAirlines,
+      currency,
     } = body;
 
     // Validate required fields
@@ -61,7 +62,7 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('Attempting to save preferences for user:', user.id);
-    console.log('Preferences data:', { homeAirports, dreamDestinations, deliveryFrequency, maxBudget, preferredAirlines });
+    console.log('Preferences data:', { homeAirports, dreamDestinations, deliveryFrequency, maxBudget, preferredAirlines, currency });
 
     // Create or update user travel preferences
     let travelPreferences;
@@ -74,6 +75,7 @@ export async function POST(request: NextRequest) {
           deliveryFrequency: deliveryFrequency,
           maxBudget: maxBudget || null,
           preferredAirlines: preferredAirlines || [],
+          currency: currency || 'USD',
         },
         create: {
           userId: user.id,
@@ -82,6 +84,7 @@ export async function POST(request: NextRequest) {
           deliveryFrequency: deliveryFrequency,
           maxBudget: maxBudget || null,
           preferredAirlines: preferredAirlines || [],
+          currency: currency || 'USD',
         },
       });
 
@@ -103,6 +106,7 @@ export async function POST(request: NextRequest) {
         deliveryFrequency: travelPreferences.deliveryFrequency,
         maxBudget: travelPreferences.maxBudget,
         preferredAirlines: travelPreferences.preferredAirlines,
+        currency: travelPreferences.currency,
       }
     });
 
@@ -165,6 +169,7 @@ export async function GET(request: NextRequest) {
         deliveryFrequency: user.travelPreferences.deliveryFrequency,
         maxBudget: user.travelPreferences.maxBudget,
         preferredAirlines: user.travelPreferences.preferredAirlines,
+        currency: user.travelPreferences.currency,
       } : null
     });
 

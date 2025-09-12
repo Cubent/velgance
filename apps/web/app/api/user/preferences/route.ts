@@ -47,6 +47,7 @@ export async function GET() {
       deliveryFrequency: user.travelPreferences.deliveryFrequency,
       maxBudget: user.travelPreferences.maxBudget,
       preferredAirlines: user.travelPreferences.preferredAirlines,
+      currency: user.travelPreferences.currency,
     });
   } catch (error) {
     console.error('Error fetching user preferences:', error);
@@ -66,12 +67,16 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
+    console.log('Received preferences data:', body);
+    console.log('Currency value:', body.currency);
+    
     const {
       homeAirports,
       dreamDestinations,
       deliveryFrequency,
       maxBudget,
       preferredAirlines,
+      currency,
     } = body;
 
     // Find or create the user by Clerk ID
@@ -95,6 +100,10 @@ export async function PUT(request: NextRequest) {
       });
     }
 
+    // Validate currency field
+    const validCurrency = currency && typeof currency === 'string' ? currency : 'USD';
+    console.log('Using currency:', validCurrency);
+
     // Create or update user travel preferences
     const travelPreferences = await db.userPreferences.upsert({
       where: { userId: user.id },
@@ -104,6 +113,7 @@ export async function PUT(request: NextRequest) {
         deliveryFrequency: deliveryFrequency || 'weekly',
         maxBudget: maxBudget || null,
         preferredAirlines: preferredAirlines || [],
+        currency: validCurrency,
       },
       create: {
         userId: user.id,
@@ -112,6 +122,7 @@ export async function PUT(request: NextRequest) {
         deliveryFrequency: deliveryFrequency || 'weekly',
         maxBudget: maxBudget || null,
         preferredAirlines: preferredAirlines || [],
+        currency: validCurrency,
       },
     });
 
@@ -124,6 +135,7 @@ export async function PUT(request: NextRequest) {
         deliveryFrequency: travelPreferences.deliveryFrequency,
         maxBudget: travelPreferences.maxBudget,
         preferredAirlines: travelPreferences.preferredAirlines,
+        currency: travelPreferences.currency,
       }
     });
 

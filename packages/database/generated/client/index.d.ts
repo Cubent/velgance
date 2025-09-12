@@ -14055,6 +14055,7 @@ export namespace Prisma {
     deliveryFrequency: string | null
     maxBudget: number | null
     travelFlexibility: number | null
+    currency: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -14065,6 +14066,7 @@ export namespace Prisma {
     deliveryFrequency: string | null
     maxBudget: number | null
     travelFlexibility: number | null
+    currency: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -14078,6 +14080,7 @@ export namespace Prisma {
     maxBudget: number
     preferredAirlines: number
     travelFlexibility: number
+    currency: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -14100,6 +14103,7 @@ export namespace Prisma {
     deliveryFrequency?: true
     maxBudget?: true
     travelFlexibility?: true
+    currency?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -14110,6 +14114,7 @@ export namespace Prisma {
     deliveryFrequency?: true
     maxBudget?: true
     travelFlexibility?: true
+    currency?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -14123,6 +14128,7 @@ export namespace Prisma {
     maxBudget?: true
     preferredAirlines?: true
     travelFlexibility?: true
+    currency?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -14223,6 +14229,7 @@ export namespace Prisma {
     maxBudget: number | null
     preferredAirlines: JsonValue | null
     travelFlexibility: number
+    currency: string
     createdAt: Date
     updatedAt: Date
     _count: UserPreferencesCountAggregateOutputType | null
@@ -14255,6 +14262,7 @@ export namespace Prisma {
     maxBudget?: boolean
     preferredAirlines?: boolean
     travelFlexibility?: boolean
+    currency?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -14269,6 +14277,7 @@ export namespace Prisma {
     maxBudget?: boolean
     preferredAirlines?: boolean
     travelFlexibility?: boolean
+    currency?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -14283,6 +14292,7 @@ export namespace Prisma {
     maxBudget?: boolean
     preferredAirlines?: boolean
     travelFlexibility?: boolean
+    currency?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -14297,11 +14307,12 @@ export namespace Prisma {
     maxBudget?: boolean
     preferredAirlines?: boolean
     travelFlexibility?: boolean
+    currency?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserPreferencesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "homeAirports" | "dreamDestinations" | "deliveryFrequency" | "maxBudget" | "preferredAirlines" | "travelFlexibility" | "createdAt" | "updatedAt", ExtArgs["result"]["userPreferences"]>
+  export type UserPreferencesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "homeAirports" | "dreamDestinations" | "deliveryFrequency" | "maxBudget" | "preferredAirlines" | "travelFlexibility" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["userPreferences"]>
   export type UserPreferencesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -14326,6 +14337,7 @@ export namespace Prisma {
       maxBudget: number | null
       preferredAirlines: Prisma.JsonValue | null
       travelFlexibility: number
+      currency: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["userPreferences"]>
@@ -14760,6 +14772,7 @@ export namespace Prisma {
     readonly maxBudget: FieldRef<"UserPreferences", 'Float'>
     readonly preferredAirlines: FieldRef<"UserPreferences", 'Json'>
     readonly travelFlexibility: FieldRef<"UserPreferences", 'Int'>
+    readonly currency: FieldRef<"UserPreferences", 'String'>
     readonly createdAt: FieldRef<"UserPreferences", 'DateTime'>
     readonly updatedAt: FieldRef<"UserPreferences", 'DateTime'>
   }
@@ -19156,6 +19169,7 @@ export namespace Prisma {
     maxBudget: 'maxBudget',
     preferredAirlines: 'preferredAirlines',
     travelFlexibility: 'travelFlexibility',
+    currency: 'currency',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -20305,6 +20319,7 @@ export namespace Prisma {
     maxBudget?: FloatNullableFilter<"UserPreferences"> | number | null
     preferredAirlines?: JsonNullableFilter<"UserPreferences">
     travelFlexibility?: IntFilter<"UserPreferences"> | number
+    currency?: StringFilter<"UserPreferences"> | string
     createdAt?: DateTimeFilter<"UserPreferences"> | Date | string
     updatedAt?: DateTimeFilter<"UserPreferences"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -20319,6 +20334,7 @@ export namespace Prisma {
     maxBudget?: SortOrderInput | SortOrder
     preferredAirlines?: SortOrderInput | SortOrder
     travelFlexibility?: SortOrder
+    currency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -20336,6 +20352,7 @@ export namespace Prisma {
     maxBudget?: FloatNullableFilter<"UserPreferences"> | number | null
     preferredAirlines?: JsonNullableFilter<"UserPreferences">
     travelFlexibility?: IntFilter<"UserPreferences"> | number
+    currency?: StringFilter<"UserPreferences"> | string
     createdAt?: DateTimeFilter<"UserPreferences"> | Date | string
     updatedAt?: DateTimeFilter<"UserPreferences"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -20350,6 +20367,7 @@ export namespace Prisma {
     maxBudget?: SortOrderInput | SortOrder
     preferredAirlines?: SortOrderInput | SortOrder
     travelFlexibility?: SortOrder
+    currency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserPreferencesCountOrderByAggregateInput
@@ -20371,6 +20389,7 @@ export namespace Prisma {
     maxBudget?: FloatNullableWithAggregatesFilter<"UserPreferences"> | number | null
     preferredAirlines?: JsonNullableWithAggregatesFilter<"UserPreferences">
     travelFlexibility?: IntWithAggregatesFilter<"UserPreferences"> | number
+    currency?: StringWithAggregatesFilter<"UserPreferences"> | string
     createdAt?: DateTimeWithAggregatesFilter<"UserPreferences"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserPreferences"> | Date | string
   }
@@ -21816,6 +21835,7 @@ export namespace Prisma {
     maxBudget?: number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: number
+    currency?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTravelPreferencesInput
@@ -21830,6 +21850,7 @@ export namespace Prisma {
     maxBudget?: number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: number
+    currency?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21842,6 +21863,7 @@ export namespace Prisma {
     maxBudget?: NullableFloatFieldUpdateOperationsInput | number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTravelPreferencesNestedInput
@@ -21856,6 +21878,7 @@ export namespace Prisma {
     maxBudget?: NullableFloatFieldUpdateOperationsInput | number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21869,6 +21892,7 @@ export namespace Prisma {
     maxBudget?: number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: number
+    currency?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21881,6 +21905,7 @@ export namespace Prisma {
     maxBudget?: NullableFloatFieldUpdateOperationsInput | number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21894,6 +21919,7 @@ export namespace Prisma {
     maxBudget?: NullableFloatFieldUpdateOperationsInput | number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23306,6 +23332,7 @@ export namespace Prisma {
     maxBudget?: SortOrder
     preferredAirlines?: SortOrder
     travelFlexibility?: SortOrder
+    currency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23321,6 +23348,7 @@ export namespace Prisma {
     deliveryFrequency?: SortOrder
     maxBudget?: SortOrder
     travelFlexibility?: SortOrder
+    currency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23331,6 +23359,7 @@ export namespace Prisma {
     deliveryFrequency?: SortOrder
     maxBudget?: SortOrder
     travelFlexibility?: SortOrder
+    currency?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -24642,6 +24671,7 @@ export namespace Prisma {
     maxBudget?: number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: number
+    currency?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24654,6 +24684,7 @@ export namespace Prisma {
     maxBudget?: number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: number
+    currency?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25035,6 +25066,7 @@ export namespace Prisma {
     maxBudget?: NullableFloatFieldUpdateOperationsInput | number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25047,6 +25079,7 @@ export namespace Prisma {
     maxBudget?: NullableFloatFieldUpdateOperationsInput | number | null
     preferredAirlines?: NullableJsonNullValueInput | InputJsonValue
     travelFlexibility?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

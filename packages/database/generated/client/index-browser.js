@@ -274,6 +274,7 @@ exports.Prisma.UserPreferencesScalarFieldEnum = {
   maxBudget: 'maxBudget',
   preferredAirlines: 'preferredAirlines',
   travelFlexibility: 'travelFlexibility',
+  currency: 'currency',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

@@ -21,6 +21,8 @@ interface FlightRecommendation {
   returnDate?: string;
   price: number;
   currency: string;
+  originalPrice?: number;
+  originalCurrency?: string;
   airline: string;
   flightNumber?: string;
   layovers: LayoverInfo[];
@@ -342,8 +344,13 @@ export default function RecommendationCard({
         {/* Price */}
         <div className="mb-3">
           <div className="text-2xl font-bold text-[#045530]">
-            ${recommendation.price.toLocaleString()}
+            ${recommendation.price.toLocaleString()} {recommendation.currency}
           </div>
+          {recommendation.originalPrice && recommendation.originalCurrency && (
+            <div className="text-sm text-gray-500 mt-1">
+              Originally {recommendation.originalCurrency} ${recommendation.originalPrice.toLocaleString()}
+            </div>
+          )}
           <div className="h-px border-t border-dashed border-gray-300 mt-1"></div>
         </div>
 
