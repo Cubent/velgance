@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { database as db, type User } from '@repo/database';
+import { database as db } from '@repo/database';
 import { sendFlightDealsEmail } from '@/services/email';
+import type { User } from '@prisma/client';
 // Removed AI dependency - using simple summary generation
 
 // This endpoint should be called by a cron job or scheduled task
