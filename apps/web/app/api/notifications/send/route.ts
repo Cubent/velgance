@@ -6,6 +6,8 @@ import { sendFlightDealsEmail } from '@/services/email';
 // Define User type based on the Prisma query result
 type User = {
   id: string;
+  email: string;
+  name: string | null;
   travelPreferences: any;
   flightRecommendations: any[];
 };
