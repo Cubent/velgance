@@ -53,6 +53,10 @@ fi
 # Copy Prisma client to all apps that use it
 echo "Copying Prisma client to all apps..."
 
+# Ensure schema.prisma is in the generated client directory
+echo "Copying schema.prisma to generated client directory..."
+cp prisma/schema.prisma generated/client/ 2>/dev/null || true
+
 # Function to copy Prisma client to an app
 copy_prisma_to_app() {
   local app_dir=$1
@@ -64,6 +68,22 @@ copy_prisma_to_app() {
     # Create .prisma/client directory for compatibility
     mkdir -p .prisma/client
     cp -r ../../packages/database/generated/client/* .prisma/client/ 2>/dev/null || true
+    
+    # Also create generated/client directory and copy schema
+    mkdir -p generated/client
+    cp -r ../../packages/database/generated/client/* generated/client/ 2>/dev/null || true
+    cp ../../packages/database/prisma/schema.prisma generated/client/ 2>/dev/null || true
+    
+    # Debug: Show what was copied
+    echo "Contents of generated/client in $app_dir:"
+    ls -la generated/client/ 2>/dev/null || echo "No generated/client directory found"
+    
+    # Verify schema.prisma exists
+    if [ -f "generated/client/schema.prisma" ]; then
+      echo "✅ schema.prisma found in $app_dir/generated/client/"
+    else
+      echo "❌ schema.prisma NOT found in $app_dir/generated/client/"
+    fi
     
     # Create symlinks for different binary name variations that Prisma might look for
     cd .prisma/client
