@@ -12,14 +12,14 @@ export PRISMA_CLI_BINARY_TARGETS="rhel-openssl-3.0.x,linux-musl-openssl-3.0.x"
 export PRISMA_GENERATE_SKIP_AUTOINSTALL=true
 
 # Clean previous generation
-rm -rf generated/client
+rm -rf ../../node_modules/@prisma/client
 rm -rf .prisma/client
 
 # Generate Prisma client with correct binary targets
 pnpm prisma generate --schema=./prisma/schema.prisma --no-hints
 
 # Verify Prisma client generation
-if [ -d "generated/client" ]; then
+if [ -d "../../node_modules/@prisma/client" ]; then
   echo "Prisma client generated successfully"
 else
   echo "Error: Prisma client generation failed"
@@ -29,14 +29,14 @@ fi
 # Check if the correct engine files are present
 echo "Checking for Prisma engine files..."
 echo "Available engine files:"
-ls -la generated/client/ | grep -E "(query-engine|libquery_engine)" || echo "No engine files found"
+ls -la ../../node_modules/@prisma/client/ | grep -E "(query-engine|libquery_engine)" || echo "No engine files found"
 
 # Check for various possible binary names
-if [ -f "generated/client/libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
+if [ -f "../../node_modules/@prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
   echo "RHEL OpenSSL 3.0.x engine found (libquery_engine format)"
-elif [ -f "generated/client/query-engine-rhel-openssl-3.0.x" ]; then
+elif [ -f "../../node_modules/@prisma/client/query-engine-rhel-openssl-3.0.x" ]; then
   echo "RHEL OpenSSL 3.0.x engine found (query-engine format)"
-elif [ -f "generated/client/query_engine-rhel-openssl-3.0.x" ]; then
+elif [ -f "../../node_modules/@prisma/client/query_engine-rhel-openssl-3.0.x" ]; then
   echo "RHEL OpenSSL 3.0.x engine found (query_engine format)"
 else
   echo "Warning: RHEL OpenSSL 3.0.x engine not found - attempting to generate it"
@@ -47,7 +47,7 @@ else
   
   # Check again after generation
   echo "Checking again after generation:"
-  ls -la generated/client/ | grep -E "(query-engine|libquery_engine)" || echo "Still no engine files found"
+  ls -la ../../node_modules/@prisma/client/ | grep -E "(query-engine|libquery_engine)" || echo "Still no engine files found"
 fi
 
 # Copy Prisma client to all apps that use it
@@ -60,8 +60,10 @@ copy_prisma_to_app() {
   
   if [ -d "../../apps/$app_dir" ]; then
     cd "../../apps/$app_dir"
+    
+    # Create .prisma/client directory for compatibility
     mkdir -p .prisma/client
-    cp -r ../../packages/database/generated/client/* .prisma/client/ 2>/dev/null || true
+    cp -r ../../node_modules/@prisma/client/* .prisma/client/ 2>/dev/null || true
     
     # Create symlinks for different binary name variations that Prisma might look for
     cd .prisma/client
@@ -71,9 +73,9 @@ copy_prisma_to_app() {
       ln -sf libquery_engine-rhel-openssl-3.0.x.so.node query_engine-rhel-openssl-3.0.x 2>/dev/null || true
     fi
     
-    # Also copy to the generated/client directory
+    # Also copy to the generated/client directory for compatibility
     mkdir -p generated/client
-    cp -r ../../packages/database/generated/client/* generated/client/ 2>/dev/null || true
+    cp -r ../../node_modules/@prisma/client/* generated/client/ 2>/dev/null || true
     
     # Create symlinks in generated/client as well
     if [ -f "generated/client/libquery_engine-rhel-openssl-3.0.x.so.node" ]; then
