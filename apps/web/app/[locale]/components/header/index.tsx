@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@repo/design-system/components/ui/button';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, User, LayoutDashboard, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
@@ -39,8 +39,8 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
 
   return (
     <header className="sticky top-0 z-40 w-full">
-      <div className={`w-full ${isPricing ? 'bg-[#045530]' : 'bg-[#f0e8d4]/80'} backdrop-blur-md px-3 py-1`}>
-        <div className="relative w-full flex min-h-12 flex-row items-center justify-between px-4">
+      <div className={`w-full ${isPricing ? 'bg-[#045530]' : 'bg-[#f0e8d4]/80'} backdrop-blur-md px-1 py-1`}>
+        <div className="relative w-full flex min-h-12 flex-row items-center justify-between px-2">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Image 
               src={isPricing ? "/Travira-light.svg" : "/Travira-logo.svg"} 
@@ -71,40 +71,53 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                   className="relative" 
                   ref={userMenuRef}
                   onMouseEnter={() => setIsUserMenuOpen(true)}
-                  onMouseLeave={() => setIsUserMenuOpen(false)}
+                  onMouseLeave={(e) => {
+                    // Only close if mouse is moving far away from the entire dropdown area
+                    const rect = userMenuRef.current?.getBoundingClientRect();
+                    if (rect) {
+                      const { left, right, top, bottom } = rect;
+                      const { clientX, clientY } = e;
+                      
+                      // Add some buffer zone - only close if mouse is significantly outside
+                      const buffer = 20;
+                      if (clientX < left - buffer || clientX > right + buffer || 
+                          clientY < top - buffer || clientY > bottom + buffer) {
+                        setIsUserMenuOpen(false);
+                      }
+                    }
+                  }}
                 >
                   <button
-                    className={`flex items-center gap-2 p-1 rounded-full transition-colors ${
-                      isUserMenuOpen ? 'bg-[#fff0d2]' : 'hover:bg-[#fff0d2]'
-                    }`}
+                    className="flex items-center p-0.5 rounded-full transition-colors border-2 border-[#fff0d2] bg-[#fff0d2] hover:bg-[#fff0d2]/80"
                   >
                     <img
                       src={user.imageUrl}
                       alt={user.fullName || 'User'}
                       className="w-8 h-8 rounded-full"
                     />
-                    <ChevronDown className="w-4 h-4 text-gray-600" />
                   </button>
 
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-[#fff0d2] rounded-lg border border-gray-200 py-1 z-50">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg border border-gray-200 py-1 z-50 shadow-lg animate-in fade-in-0 zoom-in-95 duration-200">
                       <div className="px-4 py-2 border-b border-gray-100">
-                        <p className="text-sm font-medium text-gray-900">{user.fullName || user.firstName}</p>
+                        <p className="text-sm font-medium text-[#045530]">{user.fullName || user.firstName}</p>
                         <p className="text-xs text-gray-600">{user.primaryEmailAddress?.emailAddress}</p>
                       </div>
                       <Link
-                        href="/profile"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
+                        href="/dashboard"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-[#045530] hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
-                        Profile & Settings
+                        <LayoutDashboard className="w-4 h-4" />
+                        Dashboard
                       </Link>
                       <Link
-                        href="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
+                        href="/profile"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-[#045530] hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
-                        Dashboard
+                        <User className="w-4 h-4" />
+                        Profile & Settings
                       </Link>
                       <div className="border-t border-gray-100 mt-1">
                         <button
@@ -113,8 +126,9 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                             // Add sign out functionality here
                             window.location.href = '/sign-out';
                           }}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
+                          className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-[#045530] hover:bg-[#d5e27b] hover:text-[#045530] transition-colors"
                         >
+                          <LogOut className="w-4 h-4" />
                           Sign Out
                         </button>
                       </div>

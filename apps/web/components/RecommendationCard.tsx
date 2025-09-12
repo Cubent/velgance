@@ -278,7 +278,7 @@ export default function RecommendationCard({
   const destinationImage = AIRPORT_IMAGES[recommendation.destination] || '/images/cities/default.jpg';
 
   return (
-    <div className="bg-white rounded-lg transition-all duration-300 overflow-hidden border border-gray-100">
+    <div className="bg-white rounded-lg transition-all duration-300 overflow-hidden border border-gray-100 relative">
       {/* Header with destination images */}
       <div className="relative h-32 bg-white">
         <div className="absolute inset-0 flex items-center justify-between px-4">
@@ -311,8 +311,8 @@ export default function RecommendationCard({
           </div>
         )}
         
-        {/* Subtle line below header */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-200"></div>
+        {/* Dashed line below header */}
+        <div className="absolute bottom-0 left-0 right-0 h-px border-t border-dashed border-gray-300"></div>
         
         {/* Share button */}
         <button
@@ -344,23 +344,34 @@ export default function RecommendationCard({
           <div className="text-2xl font-bold text-[#045530]">
             ${recommendation.price.toLocaleString()}
           </div>
-          <div className="h-px bg-gray-200 mt-1"></div>
+          <div className="h-px border-t border-dashed border-gray-300 mt-1"></div>
         </div>
 
-        {/* Dates */}
-        <div className="mb-3">
-          <div className="text-sm text-gray-600">
-            {formatDate(recommendation.departureDate)}
-            {recommendation.returnDate && (
-              <>
-                <span className="mx-2">→</span>
-                {formatDate(recommendation.returnDate)}
-              </>
-            )}
+        {/* Dates with Actual Ticket Stub Cutouts */}
+        <div className="mb-3 relative">
+          <div className="flex items-center justify-center relative">
+            {/* Date content */}
+            <div className="text-center px-6">
+              <div className="text-sm text-gray-600">
+                {formatDate(recommendation.departureDate)}
+                {recommendation.returnDate && (
+                  <>
+                    <span className="mx-2">→</span>
+                    {formatDate(recommendation.returnDate)}
+                  </>
+                )}
+              </div>
+              <div className="text-xs text-gray-500 mt-1">
+                {recommendation.returnDate ? 'Round trip' : 'One way'}
+              </div>
+            </div>
           </div>
-          <div className="text-xs text-gray-500 mt-1">
-            {recommendation.returnDate ? 'Round trip' : 'One way'}
-          </div>
+          
+          {/* Left ticket stub cutout - actual cutout */}
+          <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-4 h-8 bg-[#fffef7] rounded-r-full border-r-2 border-dashed border-gray-300"></div>
+          
+          {/* Right ticket stub cutout - actual cutout */}
+          <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-8 bg-[#fffef7] rounded-l-full border-l-2 border-dashed border-gray-300"></div>
         </div>
 
         {/* Flight details */}

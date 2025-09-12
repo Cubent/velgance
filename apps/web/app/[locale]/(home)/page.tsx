@@ -72,7 +72,7 @@ const Home = async ({ params }: HomeProps) => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 justify-start mb-8">
               <Link
-                href="/sign-up?redirect_url=/pricing"
+                href="/dashboard"
                 className="bg-[#d5e27b] text-[#045530] px-5 py-3 sm:px-7 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-[#c4d16a] transition-colors shadow-lg w-fit sm:w-auto"
               >
                 Start Your Journey

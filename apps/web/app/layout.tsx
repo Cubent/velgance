@@ -25,7 +25,7 @@ export default function RootLayout({
       <head>
         <link rel="canonical" href="https://cubent.dev" />
       </head>
-      <body style={{ backgroundColor: '#e0fce9' }}>
+      <body style={{ backgroundColor: '#f9f7ee' }}>
         <DesignSystemProvider>
           {children}
         </DesignSystemProvider>
