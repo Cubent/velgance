@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { database as db } from '@repo/database';
+import { database as db, type User } from '@repo/database';
 import { sendFlightDealsEmail } from '@/services/email';
 // Removed AI dependency - using simple summary generation
 
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     for (let i = 0; i < users.length; i += batchSize) {
       const batch = users.slice(i, i + batchSize);
       
-      const batchPromises = batch.map(async (user) => {
+      const batchPromises = batch.map(async (user: User) => {
         try {
           if (!user.travelPreferences || user.flightRecommendations.length === 0) {
             console.log(`Skipping user ${user.id}: no travel preferences or recommendations`);
