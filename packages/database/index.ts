@@ -78,11 +78,9 @@ try {
     },
   };
 
-  // Add engine configuration for Vercel
+  // Add adapter configuration for Vercel
   if (process.env.VERCEL) {
-    if (process.env.PRISMA_QUERY_ENGINE_BINARY) {
-      clientConfig.engineType = 'binary';
-    } else if (neon) {
+    if (neon) {
       // Use Neon serverless driver as fallback
       clientConfig.adapter = new neon.NeonHttpDatabaseAdapter(neon.neon(keys().DATABASE_URL));
     }
