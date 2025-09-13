@@ -58,7 +58,7 @@ const Home = async ({ params }: HomeProps) => {
         <div className="relative max-w-7xl mx-auto pl-4 pr-4 sm:pl-4 sm:pr-6 lg:pl-6 lg:pr-8 pt-24 pb-8 z-10">
           <div className="text-center sm:text-left">
             {/* Main Headline */}
-            <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
+            <h1 className="text-[2.5rem] sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
               Never Miss a Great
               <br />
               <span className="text-[#d5e27b]">Flight Deal</span> Again
@@ -72,13 +72,13 @@ const Home = async ({ params }: HomeProps) => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center sm:justify-start mb-8">
               <Link
-                href="/dashboard"
+                href="/mailing-list"
                 className="bg-[#d5e27b] text-[#045530] px-8 py-3 sm:px-7 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-[#c4d16a] transition-colors shadow-lg w-fit mx-auto sm:mx-0 text-center min-w-[200px] sm:min-w-0"
               >
                 Start Your Journey
               </Link>
               <Link
-                href="/contact"
+                href="/mailing-list"
                 className="border-2 border-[#f0e8d4] text-[#f0e8d4] px-8 py-3 sm:px-6 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#f0e8d4]/10 transition-colors w-fit mx-auto sm:mx-0 text-center min-w-[160px] sm:min-w-0"
               >
                 Learn More
@@ -621,7 +621,7 @@ const Home = async ({ params }: HomeProps) => {
             Join thousands of travelers who save hundreds on every trip with Travira's AI-powered flight deals.
           </p>
           <Link
-            href="/sign-up?redirect_url=/pricing"
+            href="/mailing-list"
             className="bg-[#045530] text-[#d5e27b] px-8 py-4 rounded-lg text-lg font-semibold hover:bg-[#045530]/90 transition-colors shadow-lg inline-block"
           >
             Get Started
