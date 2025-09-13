@@ -34,7 +34,7 @@ const SignUpPage = () => {
         <span className="text-2xl font-bold" style={{ color: '#d5e27b' }}>Travira</span>
       </Link>
 
-      <div className="w-full max-w-md relative z-10 mt-16">
+      <div className="w-full max-w-md relative z-10">
         {/* Custom Header Text */}
         <div className="text-center mb-6">
           <h1 className="text-4xl font-bold mb-2" style={{ color: '#fff0d2' }}>Sign up</h1>
