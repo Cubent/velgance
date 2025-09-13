@@ -58,14 +58,14 @@ const Home = async ({ params }: HomeProps) => {
         <div className="relative max-w-7xl mx-auto pl-4 pr-4 sm:pl-4 sm:pr-6 lg:pl-6 lg:pr-8 pt-24 pb-8 z-10">
           <div className="text-center sm:text-left">
             {/* Main Headline */}
-            <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
+            <h1 className="text-[2.6rem] sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
               Never Miss a Great
               <br />
               <span className="text-[#d5e27b]">Flight Deal</span> Again
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg md:text-xl text-[#f0e8d4] mb-6 max-w-3xl leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-[#f0e8d4] mb-6 max-w-3xl leading-relaxed">
               We alert you when airlines publish flights <span className="font-bold text-[#d5e27b]">50-90% off regular price</span> from your own airport.
             </p>
 
