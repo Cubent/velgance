@@ -41,7 +41,7 @@ const SignInPage = () => {
           <p className="text-lg" style={{ color: '#fff0d2' }}>Welcome back! Please sign in to continue</p>
         </div>
         
-        <div className="rounded-none sm:rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-4 sm:p-6 shadow-sm">
+        <div className="rounded-lg sm:rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-4 sm:p-6 shadow-sm">
         <SignIn
           routing="path"
           path="/sign-in"

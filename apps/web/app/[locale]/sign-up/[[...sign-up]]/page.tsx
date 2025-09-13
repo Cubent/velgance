@@ -41,7 +41,7 @@ const SignUpPage = () => {
           <p className="text-lg" style={{ color: '#fff0d2' }}>Create your account to get started</p>
         </div>
         
-        <div className="rounded-none sm:rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-4 sm:p-6 shadow-sm">
+        <div className="rounded-lg sm:rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-4 sm:p-6 shadow-sm">
           <SignUp 
             routing="path" 
             path="/sign-up" 
