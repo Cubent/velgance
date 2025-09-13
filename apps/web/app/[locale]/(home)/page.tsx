@@ -58,7 +58,7 @@ const Home = async ({ params }: HomeProps) => {
         <div className="relative max-w-7xl mx-auto pl-4 pr-4 sm:pl-4 sm:pr-6 lg:pl-6 lg:pr-8 pt-24 pb-8 z-10">
           <div className="text-center sm:text-left">
             {/* Main Headline */}
-            <h1 className="text-[2.5rem] sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
               Never Miss a Great
               <br />
               <span className="text-[#d5e27b]">Flight Deal</span> Again
@@ -131,7 +131,7 @@ const Home = async ({ params }: HomeProps) => {
       </div>
 
       {/* Airline Partners Section */}
-      <div className="pt-2 pb-1 bg-[#25201f] overflow-hidden">
+      <div className="pt-2 pb-1 bg-[#045530] sm:bg-[#25201f] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Scrolling Airline Logos */}
           <div className="relative overflow-hidden">
