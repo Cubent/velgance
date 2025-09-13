@@ -42,12 +42,12 @@ const SignInPage = () => {
         </div>
         
         <div className="rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-6 shadow-sm">
-          <SignIn
-            routing="path"
-            path="/sign-in"
-            signUpUrl="/sign-up"
-            afterSignInUrl="/onboarding"
-            afterSignUpUrl="/onboarding"
+        <SignIn
+          routing="path"
+          path="/sign-in"
+          signUpUrl="/sign-up"
+          afterSignInUrl="/onboarding"
+          afterSignUpUrl="/onboarding"
             appearance={{
               elements: {
                 headerTitle: {
@@ -77,6 +77,18 @@ const SignInPage = () => {
                 formFieldInput: {
                   backgroundColor: '#f9f7ee',
                   borderColor: '#e5e5e5'
+                },
+                userProfile: {
+                  textAlign: 'center'
+                },
+                userProfileCard: {
+                  textAlign: 'center'
+                },
+                userProfileImage: {
+                  margin: '0 auto'
+                },
+                userProfilePrimaryButton: {
+                  margin: '0 auto'
                 }
               }
             }}

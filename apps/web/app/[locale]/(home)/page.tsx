@@ -56,7 +56,7 @@ const Home = async ({ params }: HomeProps) => {
         <div className="absolute inset-0 bg-black/30"></div>
 
         <div className="relative max-w-7xl mx-auto pl-4 pr-4 sm:pl-4 sm:pr-6 lg:pl-6 lg:pr-8 pt-24 pb-8 z-10">
-          <div className="text-left sm:text-left">
+          <div className="text-center sm:text-left">
             {/* Main Headline */}
             <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
               Never Miss a Great
@@ -70,16 +70,16 @@ const Home = async ({ params }: HomeProps) => {
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 justify-start mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center sm:justify-start mb-8">
               <Link
                 href="/dashboard"
-                className="bg-[#d5e27b] text-[#045530] px-5 py-3 sm:px-7 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-[#c4d16a] transition-colors shadow-lg w-fit sm:w-auto"
+                className="bg-[#d5e27b] text-[#045530] px-8 py-3 sm:px-7 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-[#c4d16a] transition-colors shadow-lg w-fit mx-auto sm:mx-0 text-center min-w-[200px] sm:min-w-0"
               >
                 Start Your Journey
               </Link>
               <Link
                 href="/contact"
-                className="border-2 border-[#f0e8d4] text-[#f0e8d4] px-4 py-3 sm:px-6 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#f0e8d4]/10 transition-colors w-fit sm:w-auto"
+                className="border-2 border-[#f0e8d4] text-[#f0e8d4] px-8 py-3 sm:px-6 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-[#f0e8d4]/10 transition-colors w-fit mx-auto sm:mx-0 text-center min-w-[160px] sm:min-w-0"
               >
                 Learn More
               </Link>
@@ -87,7 +87,7 @@ const Home = async ({ params }: HomeProps) => {
 
             {/* Social Proof */}
             <div className="mb-6">
-              <div className="flex items-center justify-start gap-2 sm:gap-3 mb-3">
+              <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3 mb-3">
                 <div className="flex -space-x-2 sm:-space-x-3">
                   {[
                     'https://randomuser.me/api/portraits/men/32.jpg',
@@ -112,7 +112,7 @@ const Home = async ({ params }: HomeProps) => {
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-col sm:flex-row items-start justify-start gap-6 text-[#f0e8d4] text-sm">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-6 text-[#f0e8d4] text-sm">
               <div className="flex items-center gap-2">
                 <span className="text-[#f0e8d4]">✓</span>
                 <span>AI-Powered Recommendations</span>
@@ -146,7 +146,6 @@ const Home = async ({ params }: HomeProps) => {
                 { name: 'Qatar Airways', logo: 'https://i.postimg.cc/Bb7C3dYP/QATAR-AIRWAYS.png' },
                 { name: 'Singapore Airlines', logo: 'https://i.postimg.cc/6qphD90N/SINGAPORE-AIRLINE.png' },
                 { name: 'Southwest', logo: 'https://i.postimg.cc/wxw2Dmqx/SOUTHWEST.png' },
-                { name: 'Turkish Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' },
                 { name: 'United Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' }
               ].map((airline, i) => (
                 <div key={i} className="flex-shrink-0 flex items-center justify-center h-28 w-56 overflow-hidden">
@@ -167,7 +166,6 @@ const Home = async ({ params }: HomeProps) => {
                 { name: 'Qatar Airways', logo: 'https://i.postimg.cc/Bb7C3dYP/QATAR-AIRWAYS.png' },
                 { name: 'Singapore Airlines', logo: 'https://i.postimg.cc/6qphD90N/SINGAPORE-AIRLINE.png' },
                 { name: 'Southwest', logo: 'https://i.postimg.cc/wxw2Dmqx/SOUTHWEST.png' },
-                { name: 'Turkish Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' },
                 { name: 'United Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' }
               ].map((airline, i) => (
                 <div key={`duplicate-${i}`} className="flex-shrink-0 flex items-center justify-center h-28 w-56 overflow-hidden">

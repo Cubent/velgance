@@ -15,12 +15,13 @@ export function ConditionalHeaderFooter({ children, dictionary, isPricingPage }:
   const pathname = usePathname();
   const isDashboardPage = pathname.includes('/dashboard');
   const isAuthPage = pathname.includes('/sign-in') || pathname.includes('/sign-up');
+  const isOnboardingPage = pathname.includes('/onboarding');
 
   return (
     <>
-      {!isAuthPage && <Header dictionary={dictionary} isPricingPage={isPricingPage} />}
+      {!isAuthPage && !isOnboardingPage && <Header dictionary={dictionary} isPricingPage={isPricingPage} />}
       {children}
-      {!isAuthPage && <Footer />}
+      {!isAuthPage && !isOnboardingPage && <Footer />}
     </>
   );
 }

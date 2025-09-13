@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { searchDestinations, City, Country } from '@/lib/database/airports';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface SearchableAirport {
   iata: string;
@@ -50,6 +52,7 @@ export default function OnboardingPage() {
     preferredAirlines: [],
     currency: 'USD',
   });
+  const [termsAgreed, setTermsAgreed] = useState(false);
 
   // Redirect to sign-in if not authenticated, or check if already onboarded
   useEffect(() => {
@@ -10038,7 +10041,7 @@ export default function OnboardingPage() {
       case 3:
         return data.deliveryFrequency !== '';
       case 4:
-        return true;
+        return termsAgreed;
       default:
         return false;
     }
@@ -10085,37 +10088,78 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fff0d2] py-12 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div 
+      className="min-h-screen py-12 px-4 relative"
+      style={{
+        backgroundImage: 'url("https://images.unsplash.com/photo-1550318817-ddbecc4d078d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Grainy overlay */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          backgroundSize: '200px 200px'
+        }}
+      />
+      
+      {/* Logo */}
+      <Link href="/" className="absolute top-6 left-6 z-20 flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <Image 
+          src="/Travira-light.svg" 
+          alt="Travira" 
+          width={50} 
+          height={50}
+          className="h-12 w-12"
+        />
+        <span className="text-2xl font-bold" style={{ color: '#d5e27b' }}>Travira</span>
+      </Link>
+
+       <div className="max-w-2xl mx-auto relative z-10 mt-16 sm:mt-0">
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-[#045530]">Step {currentStep} of 4</span>
-            <span className="text-sm text-[#045530]">{Math.round((currentStep / 4) * 100)}% Complete</span>
+            <span className="text-sm font-medium" style={{ color: '#d5e27b' }}>Step {currentStep} of 4</span>
+            <span className="text-sm" style={{ color: '#d5e27b' }}>{Math.round((currentStep / 4) * 100)}% Complete</span>
           </div>
           <div className="w-full bg-[#d5e27b]/20 rounded-full h-2">
             <div
-              className="bg-[#045530] h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(currentStep / 4) * 100}%` }}
+              className="h-2 rounded-full transition-all duration-300"
+              style={{ 
+                width: `${(currentStep / 4) * 100}%`,
+                backgroundColor: '#d5e27b'
+              }}
             />
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="p-8">
           {/* Step 1: Home Airports */}
           {currentStep === 1 && (
             <div>
-              <h2 className="text-3xl font-bold text-[#045530] mb-2">Where do you fly from?</h2>
-              <p className="text-gray-800 mb-6">Select your home airport(s) - the places you typically start your journeys.</p>
+              <h2 className="text-3xl font-bold mb-2" style={{ color: '#d5e27b' }}>Where do you fly from?</h2>
+              <p className="text-[#fff0d2] mb-6">Select your home airport(s) - the places you typically start your journeys.</p>
 
               {/* Search Bar */}
               <div className="mb-6">
+                <style jsx>{`
+                  input::placeholder {
+                    color: #d5e27b !important;
+                    opacity: 0.5 !important;
+                  }
+                `}</style>
                 <input
                   type="text"
                   placeholder="Search for airport (e.g., Los Angeles, LAX, John F Kennedy)"
                   value={airportSearch}
                   onChange={(e) => setAirportSearch(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
+                  className="w-full p-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent backdrop-blur-sm bg-white/10"
+                  style={{ 
+                    color: '#d5e27b'
+                  }}
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && filteredAirports.length > 0 && !airportLoading) {
                       const selectedAirport = filteredAirports[0];
@@ -10130,9 +10174,11 @@ export default function OnboardingPage() {
               </div>
 
               <div className="flex items-center justify-between mb-3">
-                <p className="text-sm text-gray-700 font-medium">
-                  {airportSearch ? 'Search results:' : 'Popular airports:'}
-                </p>
+                {airportSearch && (
+                  <p className="text-sm font-bold" style={{ color: '#d5e27b' }}>
+                    Search results:
+                  </p>
+                )}
                 {airportLoading && (
                   <div className="flex items-center gap-2 text-sm text-gray-500">
                     <style jsx>{`
@@ -10169,13 +10215,14 @@ export default function OnboardingPage() {
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-3 mb-6 max-h-60 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-white [&::-webkit-scrollbar-thumb]:rounded-full">
-                {filteredAirports.length === 0 && !airportLoading ? (
-                  <div className="col-span-2 text-center py-8 text-gray-500">
-                    {airportSearch ? 'No airports found. Try a different search term.' : 'Loading popular airports...'}
-                  </div>
-                ) : (
-                  filteredAirports.map((airport) => {
+              {airportSearch && (
+                <div className="grid grid-cols-2 gap-3 mb-6 max-h-60 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-white [&::-webkit-scrollbar-thumb]:rounded-full">
+                  {filteredAirports.length === 0 && !airportLoading ? (
+                    <div className="col-span-2 text-center py-8 text-gray-500">
+                      No airports found. Try a different search term.
+                    </div>
+                  ) : (
+                    filteredAirports.map((airport) => {
                     const airportDisplay = `${airport.iata} - ${airport.cityName}`;
                     return (
                       <button
@@ -10184,8 +10231,9 @@ export default function OnboardingPage() {
                         className={`p-3 rounded-lg border-2 text-sm font-medium transition-all text-left ${
                           data.homeAirports.includes(airportDisplay)
                             ? 'border-[#d5e27b] bg-[#d5e27b] text-[#045530]'
-                            : 'border-gray-200 hover:border-[#d5e27b]/50 text-gray-800'
+                            : 'border-gray-200 bg-[#fff0d2] hover:border-[#d5e27b]/50'
                         }`}
+                        style={data.homeAirports.includes(airportDisplay) ? {} : { color: '#045530' }}
                       >
                         <div className="font-semibold">{airport.iata}</div>
                         <div className="text-xs text-gray-600">{airport.cityName}, {airport.countryName}</div>
@@ -10194,11 +10242,12 @@ export default function OnboardingPage() {
                     );
                   })
                 )}
-              </div>
+                </div>
+              )}
 
               {data.homeAirports.length > 0 && (
                 <div className="mb-6">
-                  <p className="text-sm text-gray-700 mb-2 font-medium">Selected airports:</p>
+                  <p className="text-sm font-bold mb-2" style={{ color: '#d5e27b' }}>Selected airports:</p>
                   <div className="flex flex-wrap gap-2">
                     {data.homeAirports.map((airport) => (
                       <span
@@ -10223,17 +10272,26 @@ export default function OnboardingPage() {
           {/* Step 2: Dream Destinations */}
           {currentStep === 2 && (
             <div>
-              <h2 className="text-3xl font-bold text-[#045530] mb-2">Where do you dream of going?</h2>
-              <p className="text-gray-800 mb-6">Select countries or cities you'd love to visit. We'll find the best deals to these destinations.</p>
+              <h2 className="text-3xl font-bold mb-2" style={{ color: '#d5e27b' }}>Where do you dream of going?</h2>
+              <p className="text-[#fff0d2] mb-6">Select countries or cities you'd love to visit. We'll find the best deals to these destinations.</p>
 
               {/* Search Bar */}
               <div className="mb-6">
+                <style jsx>{`
+                  input::placeholder {
+                    color: #d5e27b !important;
+                    opacity: 0.5 !important;
+                  }
+                `}</style>
                 <input
                   type="text"
                   placeholder="Search for destinations (e.g., Japan, Paris, Thailand)"
                   value={destinationSearch}
                   onChange={(e) => setDestinationSearch(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
+                  className="w-full p-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent backdrop-blur-sm bg-white/10"
+                  style={{ 
+                    color: '#d5e27b'
+                  }}
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && filteredDestinations.length > 0) {
                       const selectedDestination = filteredDestinations[0];
@@ -10249,10 +10307,13 @@ export default function OnboardingPage() {
                 />
               </div>
 
-              <p className="text-sm text-gray-700 mb-3 font-medium">
-                {destinationSearch ? 'Search results:' : 'Popular destinations:'}
-              </p>
-              <div className="grid grid-cols-3 gap-3 mb-6 max-h-60 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-white [&::-webkit-scrollbar-thumb]:rounded-full">
+              {destinationSearch && (
+                <p className="text-sm font-bold mb-3" style={{ color: '#d5e27b' }}>
+                  Search results:
+                </p>
+              )}
+              {destinationSearch && (
+                <div className="grid grid-cols-3 gap-3 mb-6 max-h-60 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-white [&::-webkit-scrollbar-thumb]:rounded-full">
                 {filteredDestinations.map((destination) => {
                   const isCity = 'countryCode' in destination;
                   const destinationDisplay = isCity
@@ -10267,8 +10328,9 @@ export default function OnboardingPage() {
                       className={`p-3 rounded-lg border-2 text-sm font-medium transition-all text-left ${
                         data.dreamDestinations.includes(destinationDisplay)
                           ? 'border-[#d5e27b] bg-[#d5e27b] text-[#045530]'
-                          : 'border-gray-200 hover:border-[#d5e27b]/50 text-gray-800'
+                          : 'border-gray-200 bg-[#fff0d2] hover:border-[#d5e27b]/50'
                       }`}
+                      style={data.dreamDestinations.includes(destinationDisplay) ? {} : { color: '#045530' }}
                     >
                       <div className="font-semibold">{destination.name}</div>
                       {isCity && (
@@ -10280,11 +10342,12 @@ export default function OnboardingPage() {
                     </button>
                   );
                 })}
-              </div>
+                </div>
+              )}
 
               {data.dreamDestinations.length > 0 && (
                 <div className="mb-6">
-                  <p className="text-sm text-gray-700 mb-2 font-medium">Selected destinations:</p>
+                  <p className="text-sm font-bold mb-2" style={{ color: '#d5e27b' }}>Selected destinations:</p>
                   <div className="flex flex-wrap gap-2">
                     {data.dreamDestinations.map((destination) => (
                       <span
@@ -10309,8 +10372,8 @@ export default function OnboardingPage() {
           {/* Step 3: Delivery Frequency */}
           {currentStep === 3 && (
             <div>
-              <h2 className="text-3xl font-bold text-[#045530] mb-2">How often would you like to hear from us?</h2>
-              <p className="text-gray-800 mb-6">Choose how frequently you'd like to receive flight deal notifications.</p>
+              <h2 className="text-3xl font-bold mb-2" style={{ color: '#d5e27b' }}>How often would you like to hear from us?</h2>
+              <p className="text-[#fff0d2] mb-6">Choose how frequently you'd like to receive flight deal notifications.</p>
 
               <div className="space-y-3">
                 {FREQUENCY_OPTIONS.map((option) => (
@@ -10319,8 +10382,9 @@ export default function OnboardingPage() {
                     className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-all ${
                       data.deliveryFrequency === option.value
                         ? 'border-[#d5e27b] bg-[#d5e27b]'
-                        : 'border-gray-200 hover:border-[#d5e27b]/50'
+                        : 'border-gray-200 bg-[#fff0d2] hover:border-[#d5e27b]/50'
                     }`}
+                    style={data.deliveryFrequency === option.value ? { color: '#045530' } : { color: '#045530' }}
                   >
                     <input
                       type="radio"
@@ -10352,18 +10416,19 @@ export default function OnboardingPage() {
           {/* Step 4: Optional Preferences */}
           {currentStep === 4 && (
             <div>
-              <h2 className="text-3xl font-bold text-[#045530] mb-2">Any additional preferences?</h2>
-              <p className="text-gray-800 mb-6">These are optional but help us find better deals for you.</p>
+              <h2 className="text-3xl font-bold mb-2" style={{ color: '#d5e27b' }}>Any additional preferences?</h2>
+              <p className="text-[#fff0d2] mb-6">These are optional but help us find better deals for you.</p>
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-2">
+                  <label className="block text-sm font-bold mb-2" style={{ color: '#d5e27b' }}>
                     Preferred Currency
                   </label>
                   <select
                     value={data.currency}
                     onChange={(e) => setData({...data, currency: e.target.value})}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent"
+                    style={{ backgroundColor: '#fff0d2', color: '#045530' }}
                   >
                     <option value="USD">USD - US Dollar</option>
                     <option value="EUR">EUR - Euro</option>
@@ -10415,57 +10480,24 @@ export default function OnboardingPage() {
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-2">
-                    Maximum budget per trip (optional)
-                  </label>
-                  <input
-                    type="number"
-                    placeholder={`e.g., 1500 (${data.currency})`}
-                    value={data.maxBudget || ''}
-                    onChange={(e) => setData({...data, maxBudget: e.target.value ? Number(e.target.value) : undefined})}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-2">
-                    Preferred airlines (optional)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Delta, United, American"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        const value = (e.target as HTMLInputElement).value.trim();
-                        if (value && !data.preferredAirlines.includes(value)) {
-                          setData({...data, preferredAirlines: [...data.preferredAirlines, value]});
-                          (e.target as HTMLInputElement).value = '';
-                        }
-                      }
-                    }}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent text-gray-900 placeholder-gray-500"
-                  />
-                  {data.preferredAirlines.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {data.preferredAirlines.map((airline) => (
-                        <span
-                          key={airline}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-[#d5e27b] text-[#045530] font-medium"
-                        >
-                          {airline}
-                          <button
-                            onClick={() => toggleArrayItem(data.preferredAirlines, airline, (arr) => setData({...data, preferredAirlines: arr}))}
-                            className="ml-2 text-[#045530] hover:text-[#045530]/80"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
               </div>
+            </div>
+          )}
+
+          {/* Terms Agreement - Only show on step 4 */}
+          {currentStep === 4 && (
+            <div className="mt-8 mb-6">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={termsAgreed}
+                  onChange={(e) => setTermsAgreed(e.target.checked)}
+                  className="mt-1 w-4 h-4 text-[#d5e27b] bg-transparent border-2 border-[#d5e27b] rounded focus:ring-[#d5e27b] focus:ring-2"
+                />
+                <span className="text-sm leading-relaxed" style={{ color: '#d5e27b' }}>
+                  I agree to the <span className="underline">Terms of Service</span>, <span className="underline">Privacy Policy</span>, and understand that Travira will send me flight deal notifications based on my preferences. I can unsubscribe at any time.
+                </span>
+              </label>
             </div>
           )}
 
@@ -10474,11 +10506,8 @@ export default function OnboardingPage() {
             <button
               onClick={handleBack}
               disabled={currentStep === 1}
-              className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                currentStep === 1
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-[#045530] hover:text-[#045530] hover:bg-[#d5e27b]/20'
-              }`}
+              className="px-6 py-3 rounded-lg font-medium transition-all backdrop-blur-sm bg-white/10 border border-white/20"
+              style={{ color: currentStep === 1 ? '#d5e27b' : '#d5e27b', opacity: currentStep === 1 ? 0.5 : 1 }}
             >
               Back
             </button>

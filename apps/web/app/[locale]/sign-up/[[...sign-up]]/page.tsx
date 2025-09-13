@@ -75,6 +75,18 @@ const SignUpPage = () => {
                 formFieldInput: {
                   backgroundColor: '#f9f7ee',
                   borderColor: '#e5e5e5'
+                },
+                userProfile: {
+                  textAlign: 'center'
+                },
+                userProfileCard: {
+                  textAlign: 'center'
+                },
+                userProfileImage: {
+                  margin: '0 auto'
+                },
+                userProfilePrimaryButton: {
+                  margin: '0 auto'
                 }
               }
             }}
