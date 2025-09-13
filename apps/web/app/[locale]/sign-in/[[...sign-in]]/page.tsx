@@ -5,7 +5,7 @@ import Link from 'next/link';
 const SignInPage = () => {
   return (
     <div 
-      className="min-h-screen flex items-center justify-center px-4 relative"
+      className="min-h-screen flex items-center justify-center px-0 sm:px-4 relative"
       style={{
         backgroundImage: 'url("https://images.unsplash.com/photo-1550318817-ddbecc4d078d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
         backgroundSize: 'cover',
@@ -34,14 +34,14 @@ const SignInPage = () => {
         <span className="text-2xl font-bold" style={{ color: '#d5e27b' }}>Travira</span>
       </Link>
 
-      <div className="w-full max-w-md relative z-10">
+      <div className="w-full max-w-md sm:max-w-md relative z-10">
         {/* Custom Header Text */}
         <div className="text-center mb-6">
           <h1 className="text-4xl font-bold mb-2" style={{ color: '#fff0d2' }}>Sign in</h1>
           <p className="text-lg" style={{ color: '#fff0d2' }}>Welcome back! Please sign in to continue</p>
         </div>
         
-        <div className="rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-6 shadow-sm">
+        <div className="rounded-none sm:rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-4 sm:p-6 shadow-sm">
         <SignIn
           routing="path"
           path="/sign-in"
