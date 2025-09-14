@@ -29,9 +29,12 @@ export const env = createEnv({
     // FXRatesAPI Configuration
     FXRATES_API_KEY: z.string().min(1, 'FXRatesAPI key is required').optional(),
 
+    // Unsplash Configuration
+    UNSPLASH_ACCESS_KEY: z.string().min(1, 'Unsplash access key is required').optional(),
+
     // SendGrid Configuration
     SENDGRID_API_KEY: z.string().min(1, 'SendGrid API key is required').optional(),
-    SENDGRID_FROM_EMAIL: z.string().email('Valid SendGrid from email is required').default('deals@travira.net').optional(),
+    SENDGRID_FROM_EMAIL: z.string().email('Valid SendGrid from email is required').default('deals@travira.org').optional(),
 
     // Stripe Configuration (additional to payments package)
     STRIPE_TRAVIRA_PRICE_ID: z.string().min(1, 'Stripe price ID for Travira subscription is required').optional(),
@@ -50,6 +53,7 @@ export const env = createEnv({
     // Server-side environment variables
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     FXRATES_API_KEY: process.env.FXRATES_API_KEY,
+    UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
     SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
     SENDGRID_FROM_EMAIL: process.env.SENDGRID_FROM_EMAIL,
     STRIPE_TRAVIRA_PRICE_ID: process.env.STRIPE_TRAVIRA_PRICE_ID,

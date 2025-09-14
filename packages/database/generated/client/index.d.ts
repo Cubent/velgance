@@ -15228,6 +15228,7 @@ export namespace Prisma {
     dealQuality: string | null
     bookingUrl: string | null
     otaUrl: string | null
+    cityImageUrl: string | null
     searchDate: Date | null
     isActive: boolean | null
     isWatched: boolean | null
@@ -15252,6 +15253,7 @@ export namespace Prisma {
     dealQuality: string | null
     bookingUrl: string | null
     otaUrl: string | null
+    cityImageUrl: string | null
     searchDate: Date | null
     isActive: boolean | null
     isWatched: boolean | null
@@ -15278,6 +15280,7 @@ export namespace Prisma {
     dealQuality: number
     bookingUrl: number
     otaUrl: number
+    cityImageUrl: number
     searchDate: number
     isActive: number
     isWatched: number
@@ -15314,6 +15317,7 @@ export namespace Prisma {
     dealQuality?: true
     bookingUrl?: true
     otaUrl?: true
+    cityImageUrl?: true
     searchDate?: true
     isActive?: true
     isWatched?: true
@@ -15338,6 +15342,7 @@ export namespace Prisma {
     dealQuality?: true
     bookingUrl?: true
     otaUrl?: true
+    cityImageUrl?: true
     searchDate?: true
     isActive?: true
     isWatched?: true
@@ -15364,6 +15369,7 @@ export namespace Prisma {
     dealQuality?: true
     bookingUrl?: true
     otaUrl?: true
+    cityImageUrl?: true
     searchDate?: true
     isActive?: true
     isWatched?: true
@@ -15477,6 +15483,7 @@ export namespace Prisma {
     dealQuality: string | null
     bookingUrl: string | null
     otaUrl: string | null
+    cityImageUrl: string | null
     searchDate: Date
     isActive: boolean
     isWatched: boolean
@@ -15522,6 +15529,7 @@ export namespace Prisma {
     dealQuality?: boolean
     bookingUrl?: boolean
     otaUrl?: boolean
+    cityImageUrl?: boolean
     searchDate?: boolean
     isActive?: boolean
     isWatched?: boolean
@@ -15549,6 +15557,7 @@ export namespace Prisma {
     dealQuality?: boolean
     bookingUrl?: boolean
     otaUrl?: boolean
+    cityImageUrl?: boolean
     searchDate?: boolean
     isActive?: boolean
     isWatched?: boolean
@@ -15576,6 +15585,7 @@ export namespace Prisma {
     dealQuality?: boolean
     bookingUrl?: boolean
     otaUrl?: boolean
+    cityImageUrl?: boolean
     searchDate?: boolean
     isActive?: boolean
     isWatched?: boolean
@@ -15603,6 +15613,7 @@ export namespace Prisma {
     dealQuality?: boolean
     bookingUrl?: boolean
     otaUrl?: boolean
+    cityImageUrl?: boolean
     searchDate?: boolean
     isActive?: boolean
     isWatched?: boolean
@@ -15610,7 +15621,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type FlightRecommendationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "origin" | "destination" | "departureDate" | "returnDate" | "price" | "currency" | "airline" | "flightNumber" | "layovers" | "duration" | "baggageInfo" | "aiSummary" | "confidenceScore" | "dealQuality" | "bookingUrl" | "otaUrl" | "searchDate" | "isActive" | "isWatched" | "createdAt" | "updatedAt", ExtArgs["result"]["flightRecommendation"]>
+  export type FlightRecommendationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "origin" | "destination" | "departureDate" | "returnDate" | "price" | "currency" | "airline" | "flightNumber" | "layovers" | "duration" | "baggageInfo" | "aiSummary" | "confidenceScore" | "dealQuality" | "bookingUrl" | "otaUrl" | "cityImageUrl" | "searchDate" | "isActive" | "isWatched" | "createdAt" | "updatedAt", ExtArgs["result"]["flightRecommendation"]>
   export type FlightRecommendationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -15645,6 +15656,7 @@ export namespace Prisma {
       dealQuality: string | null
       bookingUrl: string | null
       otaUrl: string | null
+      cityImageUrl: string | null
       searchDate: Date
       isActive: boolean
       isWatched: boolean
@@ -16092,6 +16104,7 @@ export namespace Prisma {
     readonly dealQuality: FieldRef<"FlightRecommendation", 'String'>
     readonly bookingUrl: FieldRef<"FlightRecommendation", 'String'>
     readonly otaUrl: FieldRef<"FlightRecommendation", 'String'>
+    readonly cityImageUrl: FieldRef<"FlightRecommendation", 'String'>
     readonly searchDate: FieldRef<"FlightRecommendation", 'DateTime'>
     readonly isActive: FieldRef<"FlightRecommendation", 'Boolean'>
     readonly isWatched: FieldRef<"FlightRecommendation", 'Boolean'>
@@ -19196,6 +19209,7 @@ export namespace Prisma {
     dealQuality: 'dealQuality',
     bookingUrl: 'bookingUrl',
     otaUrl: 'otaUrl',
+    cityImageUrl: 'cityImageUrl',
     searchDate: 'searchDate',
     isActive: 'isActive',
     isWatched: 'isWatched',
@@ -20416,6 +20430,7 @@ export namespace Prisma {
     dealQuality?: StringNullableFilter<"FlightRecommendation"> | string | null
     bookingUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     otaUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
+    cityImageUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     searchDate?: DateTimeFilter<"FlightRecommendation"> | Date | string
     isActive?: BoolFilter<"FlightRecommendation"> | boolean
     isWatched?: BoolFilter<"FlightRecommendation"> | boolean
@@ -20443,6 +20458,7 @@ export namespace Prisma {
     dealQuality?: SortOrderInput | SortOrder
     bookingUrl?: SortOrderInput | SortOrder
     otaUrl?: SortOrderInput | SortOrder
+    cityImageUrl?: SortOrderInput | SortOrder
     searchDate?: SortOrder
     isActive?: SortOrder
     isWatched?: SortOrder
@@ -20473,6 +20489,7 @@ export namespace Prisma {
     dealQuality?: StringNullableFilter<"FlightRecommendation"> | string | null
     bookingUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     otaUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
+    cityImageUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     searchDate?: DateTimeFilter<"FlightRecommendation"> | Date | string
     isActive?: BoolFilter<"FlightRecommendation"> | boolean
     isWatched?: BoolFilter<"FlightRecommendation"> | boolean
@@ -20500,6 +20517,7 @@ export namespace Prisma {
     dealQuality?: SortOrderInput | SortOrder
     bookingUrl?: SortOrderInput | SortOrder
     otaUrl?: SortOrderInput | SortOrder
+    cityImageUrl?: SortOrderInput | SortOrder
     searchDate?: SortOrder
     isActive?: SortOrder
     isWatched?: SortOrder
@@ -20534,6 +20552,7 @@ export namespace Prisma {
     dealQuality?: StringNullableWithAggregatesFilter<"FlightRecommendation"> | string | null
     bookingUrl?: StringNullableWithAggregatesFilter<"FlightRecommendation"> | string | null
     otaUrl?: StringNullableWithAggregatesFilter<"FlightRecommendation"> | string | null
+    cityImageUrl?: StringNullableWithAggregatesFilter<"FlightRecommendation"> | string | null
     searchDate?: DateTimeWithAggregatesFilter<"FlightRecommendation"> | Date | string
     isActive?: BoolWithAggregatesFilter<"FlightRecommendation"> | boolean
     isWatched?: BoolWithAggregatesFilter<"FlightRecommendation"> | boolean
@@ -21942,6 +21961,7 @@ export namespace Prisma {
     dealQuality?: string | null
     bookingUrl?: string | null
     otaUrl?: string | null
+    cityImageUrl?: string | null
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -21969,6 +21989,7 @@ export namespace Prisma {
     dealQuality?: string | null
     bookingUrl?: string | null
     otaUrl?: string | null
+    cityImageUrl?: string | null
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -21994,6 +22015,7 @@ export namespace Prisma {
     dealQuality?: NullableStringFieldUpdateOperationsInput | string | null
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -22021,6 +22043,7 @@ export namespace Prisma {
     dealQuality?: NullableStringFieldUpdateOperationsInput | string | null
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -22047,6 +22070,7 @@ export namespace Prisma {
     dealQuality?: string | null
     bookingUrl?: string | null
     otaUrl?: string | null
+    cityImageUrl?: string | null
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -22072,6 +22096,7 @@ export namespace Prisma {
     dealQuality?: NullableStringFieldUpdateOperationsInput | string | null
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -22098,6 +22123,7 @@ export namespace Prisma {
     dealQuality?: NullableStringFieldUpdateOperationsInput | string | null
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -23388,6 +23414,7 @@ export namespace Prisma {
     dealQuality?: SortOrder
     bookingUrl?: SortOrder
     otaUrl?: SortOrder
+    cityImageUrl?: SortOrder
     searchDate?: SortOrder
     isActive?: SortOrder
     isWatched?: SortOrder
@@ -23417,6 +23444,7 @@ export namespace Prisma {
     dealQuality?: SortOrder
     bookingUrl?: SortOrder
     otaUrl?: SortOrder
+    cityImageUrl?: SortOrder
     searchDate?: SortOrder
     isActive?: SortOrder
     isWatched?: SortOrder
@@ -23441,6 +23469,7 @@ export namespace Prisma {
     dealQuality?: SortOrder
     bookingUrl?: SortOrder
     otaUrl?: SortOrder
+    cityImageUrl?: SortOrder
     searchDate?: SortOrder
     isActive?: SortOrder
     isWatched?: SortOrder
@@ -24712,6 +24741,7 @@ export namespace Prisma {
     dealQuality?: string | null
     bookingUrl?: string | null
     otaUrl?: string | null
+    cityImageUrl?: string | null
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -24737,6 +24767,7 @@ export namespace Prisma {
     dealQuality?: string | null
     bookingUrl?: string | null
     otaUrl?: string | null
+    cityImageUrl?: string | null
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -25122,6 +25153,7 @@ export namespace Prisma {
     dealQuality?: StringNullableFilter<"FlightRecommendation"> | string | null
     bookingUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     otaUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
+    cityImageUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     searchDate?: DateTimeFilter<"FlightRecommendation"> | Date | string
     isActive?: BoolFilter<"FlightRecommendation"> | boolean
     isWatched?: BoolFilter<"FlightRecommendation"> | boolean
@@ -26840,6 +26872,7 @@ export namespace Prisma {
     dealQuality?: string | null
     bookingUrl?: string | null
     otaUrl?: string | null
+    cityImageUrl?: string | null
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -27145,6 +27178,7 @@ export namespace Prisma {
     dealQuality?: NullableStringFieldUpdateOperationsInput | string | null
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -27170,6 +27204,7 @@ export namespace Prisma {
     dealQuality?: NullableStringFieldUpdateOperationsInput | string | null
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -27195,6 +27230,7 @@ export namespace Prisma {
     dealQuality?: NullableStringFieldUpdateOperationsInput | string | null
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean

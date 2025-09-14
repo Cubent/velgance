@@ -215,7 +215,7 @@ export async function sendSubscriptionConfirmationEmail(
     const msg = {
       to: userEmail,
       from: {
-        email: process.env.SENDGRID_FROM_EMAIL || 'welcome@travira.net',
+        email: process.env.SENDGRID_FROM_EMAIL || 'welcome@travira.org',
         name: 'Travira',
       },
       subject: '🎉 Welcome to Travira - Your Flight Deal Journey Begins!',

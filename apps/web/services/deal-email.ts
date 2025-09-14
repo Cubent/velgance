@@ -6,17 +6,29 @@ import React from 'react';
  */
 export async function sendDealNotificationEmail(data: DealNotificationData): Promise<boolean> {
   try {
+    console.log('sendDealNotificationEmail called with:', {
+      userEmail: data.userEmail,
+      userName: data.userName,
+      dealsCount: data.deals.length,
+      resendFrom: process.env.RESEND_FROM,
+      resendToken: process.env.RESEND_TOKEN ? 'Token exists' : 'No token'
+    });
+
+    // Create the React component
+    const EmailComponent = React.createElement(DealNotificationTemplate, data);
+    
     const result = await resend.emails.send({
       from: process.env.RESEND_FROM || 'info@deals.travira.org',
       to: [data.userEmail],
       subject: `✈️ ${data.deals.length} New Flight Deal${data.deals.length > 1 ? 's' : ''} Found!`,
-      react: React.createElement(DealNotificationTemplate, data),
+      react: EmailComponent,
     });
 
     console.log(`Deal notification email sent to ${data.userEmail}`, result);
     return true;
   } catch (error) {
     console.error('Error sending deal notification email:', error);
+    console.error('Error details:', error);
     return false;
   }
 }

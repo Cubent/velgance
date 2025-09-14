@@ -21,10 +21,10 @@ export const Footer = () => {
             <h3 className="text-xl font-bold text-[#fff0d2]">Travira</h3>
           </div>
           <Link
-            href="mailto:support@travira.net"
+            href="mailto:support@travira.org"
             className="text-[#fff0d2] hover:text-[#d5e27b] transition-colors text-lg font-medium"
           >
-            support@travira.net
+            support@travira.org
           </Link>
 
         </div>

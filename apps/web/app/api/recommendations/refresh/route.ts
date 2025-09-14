@@ -5,14 +5,18 @@ import { getFlightRecommendations } from '@/services/amadeus';
 import { sendBatchDealAlert } from '@/services/deal-email';
 
 export async function POST(request: NextRequest) {
+  console.log('=== REFRESH RECOMMENDATIONS API CALLED ===');
   try {
     const { userId } = await auth();
+    console.log('User ID from auth:', userId);
     
     if (!userId) {
+      console.log('No user ID, returning unauthorized');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Find the user and their travel preferences
+    console.log('Looking up user in database...');
     const user = await db.user.findUnique({
       where: { clerkId: userId },
       include: {
@@ -20,11 +24,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    console.log('User found:', { id: user?.id, email: user?.email, hasPreferences: !!user?.travelPreferences });
+
     if (!user) {
+      console.log('User not found in database');
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     if (!user.travelPreferences) {
+      console.log('User has no travel preferences');
       return NextResponse.json({ error: 'User travel preferences not found. Please complete onboarding.' }, { status: 400 });
     }
 
@@ -35,10 +43,13 @@ export async function POST(request: NextRequest) {
       travelFlexibility: user.travelPreferences.travelFlexibility || 3, // Reduced from 7 to 3
       maxBudget: user.travelPreferences.maxBudget || undefined,
       preferredAirlines: user.travelPreferences.preferredAirlines as string[],
+      currency: user.travelPreferences.currency || 'USD', // Use user's preferred currency
     };
 
     // Get new recommendations from Amadeus API
+    console.log('Calling Amadeus API with params:', searchParams);
     const amadeusRecommendations = await getFlightRecommendations(searchParams);
+    console.log('Amadeus API returned:', { dealsCount: amadeusRecommendations.deals.length, summary: amadeusRecommendations.summary });
 
     // Clear old recommendations
     await db.flightRecommendation.updateMany({
@@ -47,6 +58,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Save new recommendations to database
+    console.log('Saving recommendations to database...');
     const savedRecommendations = await Promise.all(
       amadeusRecommendations.deals.map(async (deal) => {
         return await db.flightRecommendation.create({
@@ -74,9 +86,15 @@ export async function POST(request: NextRequest) {
         });
       })
     );
+    console.log('Saved recommendations count:', savedRecommendations.length);
 
     // Send email notification if deals were found
+    console.log(`Found ${savedRecommendations.length} deals, user email: ${user.email}`);
+    console.log('User object:', { id: user.id, email: user.email, name: user.name });
+    console.log('User email type:', typeof user.email, 'User email value:', user.email);
+    
     if (savedRecommendations.length > 0) {
+      console.log('Attempting to send email notification...');
       try {
         const dealsForEmail = savedRecommendations.map(deal => ({
           origin: deal.origin,
@@ -93,18 +111,30 @@ export async function POST(request: NextRequest) {
         const summary = amadeusRecommendations.summary || 
           `Found ${savedRecommendations.length} new flight deals matching your preferences!`;
 
-        await sendBatchDealAlert(
+        console.log('Sending email with data:', {
+          userEmail: user.email,
+          userName: user.name,
+          dealsCount: dealsForEmail.length,
+          summary
+        });
+
+        console.log('About to call sendBatchDealAlert...');
+        const emailResult = await sendBatchDealAlert(
           user.email,
           user.name || undefined,
           dealsForEmail,
           summary
         );
 
+        console.log(`Email send result: ${emailResult}`);
         console.log(`Deal notification email sent to ${user.email} for ${savedRecommendations.length} deals`);
       } catch (emailError) {
         console.error('Failed to send deal notification email:', emailError);
+        console.error('Email error details:', emailError);
         // Don't fail the entire request if email fails
       }
+    } else {
+      console.log('No deals found, skipping email notification');
     }
 
     return NextResponse.json({ 

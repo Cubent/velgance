@@ -298,6 +298,7 @@ exports.Prisma.FlightRecommendationScalarFieldEnum = {
   dealQuality: 'dealQuality',
   bookingUrl: 'bookingUrl',
   otaUrl: 'otaUrl',
+  cityImageUrl: 'cityImageUrl',
   searchDate: 'searchDate',
   isActive: 'isActive',
   isWatched: 'isWatched',

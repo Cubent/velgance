@@ -105,7 +105,7 @@ export default function PrivacyPolicyPage() {
             <p className="text-gray-700 mb-4">
               If you have any questions about this Privacy Policy, please contact us at:
               <br />
-              Email: support@travira.net
+              Email: support@travira.org
             </p>
           </section>
         </div>

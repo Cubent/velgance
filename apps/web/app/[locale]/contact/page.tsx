@@ -55,7 +55,7 @@ const Contact = () => {
                 </div>
                 <div className="text-center sm:text-left">
                   <p className="font-medium" style={{ color: '#045530' }}>Email</p>
-                  <p style={{ color: '#045530' }}>support@travira.net</p>
+                  <p style={{ color: '#045530' }}>support@travira.org</p>
                 </div>
               </div>
 
@@ -96,7 +96,7 @@ const Contact = () => {
               )}
               {submitStatus === 'error' && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-600 text-sm">
-                  ❌ Failed to send message. Please try again or email us directly at support@travira.net
+                  ❌ Failed to send message. Please try again or email us directly at support@travira.org
                 </div>
               )}
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { database as db } from '@repo/database';
 import { getFlightRecommendations, FlightSearchParams } from '@/services/amadeus';
+import { sendBatchDealAlert } from '@/services/deal-email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,6 +37,7 @@ export async function POST(request: NextRequest) {
       travelFlexibility: 3, // Reduced from 7 to 3 days flexibility
       maxBudget: preferences.maxBudget,
       preferredAirlines: preferences.preferredAirlines || [],
+      currency: preferences.currency || 'USD', // Use user's preferred currency
       // Remove departureMonth to use 30-day logic instead of current month
     };
 
@@ -71,12 +73,59 @@ export async function POST(request: NextRequest) {
             aiSummary: amadeusResponse.summary,
             bookingUrl: deal.bookingUrl,
             otaUrl: deal.bookingUrl,
+            cityImageUrl: deal.cityImageUrl,
             isActive: true,
             isWatched: false,
           },
         });
       })
     );
+
+    // Send email notification if deals were found
+    console.log(`=== GENERATE ENDPOINT: Found ${savedRecommendations.length} deals, user email: ${user.email}`);
+    
+    if (savedRecommendations.length > 0) {
+      console.log('GENERATE: Attempting to send email notification...');
+      try {
+        const dealsForEmail = savedRecommendations.map(deal => ({
+          origin: deal.origin,
+          destination: deal.destination,
+          departureDate: deal.departureDate.toISOString(),
+          returnDate: deal.returnDate?.toISOString(),
+          price: deal.price,
+          currency: deal.currency,
+          airline: deal.airline,
+          dealQuality: deal.dealQuality as 'excellent' | 'good' | 'fair' | undefined,
+          bookingUrl: deal.bookingUrl || undefined,
+        }));
+
+        const summary = amadeusResponse.summary || 
+          `Found ${savedRecommendations.length} new flight deals matching your preferences!`;
+
+        console.log('GENERATE: Sending email with data:', {
+          userEmail: user.email,
+          userName: user.name,
+          dealsCount: dealsForEmail.length,
+          summary
+        });
+
+        const emailResult = await sendBatchDealAlert(
+          user.email,
+          user.name || undefined,
+          dealsForEmail,
+          summary
+        );
+
+        console.log(`GENERATE: Email send result: ${emailResult}`);
+        console.log(`GENERATE: Deal notification email sent to ${user.email} for ${savedRecommendations.length} deals`);
+      } catch (emailError) {
+        console.error('GENERATE: Failed to send deal notification email:', emailError);
+        console.error('GENERATE: Email error details:', emailError);
+        // Don't fail the entire request if email fails
+      }
+    } else {
+      console.log('GENERATE: No deals found, skipping email notification');
+    }
 
     return NextResponse.json({
       success: true,

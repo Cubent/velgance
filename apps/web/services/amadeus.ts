@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { getCityImagesForDestinations } from './unsplash-api';
 
 // Initialize OpenAI client for destination parsing
 const openai = new OpenAI({
@@ -12,6 +13,7 @@ export interface FlightSearchParams {
   maxBudget?: number;
   preferredAirlines?: string[];
   departureMonth?: string; // e.g., "2024-03"
+  currency?: string; // User's preferred currency
 }
 
 export interface AmadeusFlightOffer {
@@ -36,6 +38,7 @@ export interface AmadeusFlightOffer {
   dealQuality: 'excellent' | 'good' | 'fair';
   isAlternative?: boolean; // Flag for alternative destinations
   confidenceScore: number; // 0-1
+  cityImageUrl?: string; // AI-generated city image from Unsplash
 }
 
 // Interface for Flight Cheapest Date Search API response
@@ -170,7 +173,8 @@ async function searchCheapestFlightDates(
   origin: string,
   destination: string,
   departureDateRange?: string,
-  maxPrice?: number
+  maxPrice?: number,
+  currency: string = 'USD'
 ): Promise<{ departureDate: string; returnDate: string; price: number } | null> {
   try {
     // Validate airport codes
@@ -221,7 +225,7 @@ async function searchCheapestFlightDates(
         url.searchParams.append('arrivalId', destination);
         url.searchParams.append('departureDate', departureDate);
         url.searchParams.append('arrivalDate', returnDateStr);
-        url.searchParams.append('currency', 'USD');
+        url.searchParams.append('currency', currency);
         url.searchParams.append('adults', '1');
         url.searchParams.append('cabinClass', '1'); // Economy
         
@@ -733,7 +737,8 @@ export async function getFlightRecommendations(
       travelFlexibility = 7,
       maxBudget,
       preferredAirlines,
-      departureMonth
+      departureMonth,
+      currency = 'USD'
     } = params;
 
     // Normalize home airports (should already be airport codes)
@@ -781,7 +786,8 @@ export async function getFlightRecommendations(
               origin,
               destination,
             departureDateRange,
-              maxBudget
+              maxBudget,
+              currency
             );
 
           if (cheapestDates) {
@@ -795,7 +801,7 @@ export async function getFlightRecommendations(
               departureDate: cheapestDates.departureDate,
               returnDate: cheapestDates.returnDate,
               price: {
-                currency: 'USD',
+                currency: currency,
                 total: cheapestDates.price.toString(),
                 base: cheapestDates.price.toString(),
                 fees: []
@@ -837,6 +843,23 @@ export async function getFlightRecommendations(
     
     const uniqueOffers = Array.from(uniqueDeals.values());
     console.log(`After deduplication: ${uniqueOffers.length} unique offers from ${allOffers.length} total offers`);
+    
+    // Get AI-generated city images for all unique destinations
+    const uniqueDestinations = [...new Set(uniqueOffers.map(deal => deal.destination))];
+    console.log('Getting AI-generated city images for destinations:', uniqueDestinations);
+    
+    try {
+      const cityImages = await getCityImagesForDestinations(uniqueDestinations);
+      console.log('AI-generated city images:', cityImages);
+      
+      // Add city images to offers
+      uniqueOffers.forEach(offer => {
+        offer.cityImageUrl = cityImages[offer.destination];
+      });
+    } catch (error) {
+      console.error('Error getting city images:', error);
+      // Continue without images if AI fails
+    }
     
     // Limit to max 3 deals per destination, then take top 10 cheapest overall
     const destinationCount = new Map();

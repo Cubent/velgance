@@ -22,7 +22,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: 'Travira | Save 50-90% off Flight Deals',
       description: 'Find incredible flight deals with AI-powered search. Save 50-90% on flights worldwide.',
-      url: 'https://travira.net',
+      url: 'https://travira.org',
       siteName: 'Travira',
       locale: 'en_US',
     },

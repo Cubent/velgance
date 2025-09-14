@@ -76,7 +76,7 @@ export default function TermsAndConditionsPage() {
             <p className="text-gray-700 mb-4">
               For questions about these Terms and Conditions, please contact us at:
               <br />
-              Email: support@travira.net
+              Email: support@travira.org
             </p>
           </section>
         </div>

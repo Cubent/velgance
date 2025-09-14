@@ -68,6 +68,7 @@ export async function GET(request: NextRequest) {
           dealQuality: rec.dealQuality,
           bookingUrl: rec.bookingUrl,
           otaUrl: rec.otaUrl,
+          cityImageUrl: rec.cityImageUrl,
           isWatched: rec.isWatched,
         };
       })
