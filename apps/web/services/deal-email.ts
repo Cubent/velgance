@@ -1,4 +1,5 @@
 import { resend, DealNotificationTemplate, DealNotificationData } from '@repo/email';
+import React from 'react';
 
 /**
  * Send deal notification email using the new template
@@ -9,7 +10,7 @@ export async function sendDealNotificationEmail(data: DealNotificationData): Pro
       from: process.env.RESEND_FROM || 'info@deals.travira.org',
       to: [data.userEmail],
       subject: `✈️ ${data.deals.length} New Flight Deal${data.deals.length > 1 ? 's' : ''} Found!`,
-      react: <DealNotificationTemplate {...data} />,
+      react: React.createElement(DealNotificationTemplate, data),
     });
 
     console.log(`Deal notification email sent to ${data.userEmail}`, result);
