@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { database as db } from '@repo/database';
 import { getFlightRecommendations } from '@/services/amadeus';
+import { sendBatchDealAlert } from '@/services/deal-email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -73,6 +74,38 @@ export async function POST(request: NextRequest) {
         });
       })
     );
+
+    // Send email notification if deals were found
+    if (savedRecommendations.length > 0) {
+      try {
+        const dealsForEmail = savedRecommendations.map(deal => ({
+          origin: deal.origin,
+          destination: deal.destination,
+          departureDate: deal.departureDate.toISOString(),
+          returnDate: deal.returnDate?.toISOString(),
+          price: deal.price,
+          currency: deal.currency,
+          airline: deal.airline,
+          dealQuality: deal.dealQuality as 'excellent' | 'good' | 'fair' | undefined,
+          bookingUrl: deal.bookingUrl || undefined,
+        }));
+
+        const summary = amadeusRecommendations.summary || 
+          `Found ${savedRecommendations.length} new flight deals matching your preferences!`;
+
+        await sendBatchDealAlert(
+          user.email,
+          user.name || undefined,
+          dealsForEmail,
+          summary
+        );
+
+        console.log(`Deal notification email sent to ${user.email} for ${savedRecommendations.length} deals`);
+      } catch (emailError) {
+        console.error('Failed to send deal notification email:', emailError);
+        // Don't fail the entire request if email fails
+      }
+    }
 
     return NextResponse.json({ 
       success: true, 

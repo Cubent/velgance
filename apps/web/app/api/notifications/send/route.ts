@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { database as db } from '@repo/database';
 import { sendFlightDealsEmail } from '@/services/email';
+import { sendBatchDealAlert } from '@/services/deal-email';
 // Removed AI dependency - using simple summary generation
 
 // Define User type based on the Prisma query result
@@ -101,16 +102,13 @@ export async function POST(request: NextRequest) {
             maxBudget: user.travelPreferences.maxBudget || undefined,
           });
 
-          // Send email
-          const emailData = {
-            userEmail: user.email,
-            userName: user.name || undefined,
+          // Send email using new template
+          const emailSent = await sendBatchDealAlert(
+            user.email,
+            user.name || undefined,
             deals,
-            summary,
-            unsubscribeUrl: `${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?token=${generateUnsubscribeToken(user.id)}`,
-          };
-
-          const emailSent = await sendFlightDealsEmail(emailData);
+            summary
+          );
 
           if (emailSent) {
             // Log the notification in the database
