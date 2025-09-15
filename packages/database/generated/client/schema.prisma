@@ -313,6 +313,10 @@ model FlightRecommendation {
   bookingUrl String?
   otaUrl     String?
 
+  // City image and activities
+  cityImageUrl   String? // AI-generated city image from Unsplash
+  cityActivities Json? // AI-generated city activities array
+
   // Metadata
   searchDate DateTime @default(now())
   isActive   Boolean  @default(true)

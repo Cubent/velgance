@@ -1,4 +1,13 @@
-const getHardcodedAirports = (): SearchableAirport[] => {
+interface Airport {
+  iata: string;
+  icao: string;
+  name: string;
+  cityName: string;
+  countryName: string;
+  popular: boolean;
+}
+
+const getHardcodedAirports = (): Airport[] => {
   return [
     { iata: 'AAA', icao: 'NTGA', name: 'Anaa', cityName: 'Anaa', countryName: 'French Polynesia', popular: false },
     { iata: 'AAB', icao: 'YARY', name: 'Arrabury Airport', cityName: 'Tanbar', countryName: 'Australia', popular: false },
@@ -9805,3 +9814,5 @@ const getHardcodedAirports = (): SearchableAirport[] => {
     { iata: 'ZZV', icao: 'KZZV', name: 'Zanesville', cityName: 'Zanesville', countryName: 'United States', popular: false },
   ];
 };
+
+export { getHardcodedAirports };

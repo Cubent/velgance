@@ -273,8 +273,8 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
             </select>
           </div>
 
-          {/* Max Budget */}
-          <div>
+          {/* Max Budget - HIDDEN */}
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Max Budget ({formData.currency})
             </label>
@@ -285,10 +285,10 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
               placeholder="Enter max budget"
               className="w-full px-3 py-1.5 text-sm text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent"
             />
-          </div>
+          </div> */}
 
-          {/* Preferred Airlines */}
-          <div>
+          {/* Preferred Airlines - HIDDEN */}
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Preferred Airlines
             </label>
@@ -325,7 +325,7 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
                 </span>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Footer */}

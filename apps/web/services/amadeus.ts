@@ -1,17 +1,16 @@
 import OpenAI from 'openai';
 import { getCityImagesForDestinations } from './unsplash-api';
+import { env } from '../env';
 
 // Initialize OpenAI client for destination parsing
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: env.OPENAI_API_KEY,
 });
 
 export interface FlightSearchParams {
   homeAirports: string[];
   dreamDestinations: string[];
   travelFlexibility?: number; // days
-  maxBudget?: number;
-  preferredAirlines?: string[];
   departureMonth?: string; // e.g., "2024-03"
   currency?: string; // User's preferred currency
 }
@@ -75,6 +74,12 @@ export interface FlightRecommendationResponse {
       max: number;
     };
   };
+  cityData: {
+    [airportCode: string]: {
+      cityName: string;
+      activities: string[];
+    };
+  };
 }
 
 /**
@@ -104,6 +109,7 @@ IMPORTANT RULES:
 3. Return them in the same order as input
 4. If a destination is already a 3-letter code, return it as-is
 5. Be very careful with similar names (e.g., "Los Angeles" = LAX, not LOS which is Lagos)
+6. For countries, use the capital city's main airport (e.g., "Germany" = FRA for Frankfurt, "Spain" = MAD for Madrid)
 
 Examples:
 - "Los Angeles" → LAX
@@ -112,6 +118,9 @@ Examples:
 - "Paris" → CDG
 - "Tokyo" → NRT
 - "LAX" → LAX (already a code)
+- "valencia" → VLC
+- "germany" → FRA
+- "spain" → MAD
 
 Destinations to convert:
 ${destinations.join('\n')}
@@ -123,7 +132,7 @@ Return only the airport codes, one per line:`;
       messages: [
         {
           role: 'system',
-          content: 'You are a travel expert specializing in airport codes. Always return exactly 3-letter IATA codes.'
+          content: 'You are a travel expert specializing in airport codes. Always return exactly 3-letter IATA codes. For countries, use the capital city or major international hub airport.'
         },
         {
           role: 'user',
@@ -735,8 +744,6 @@ export async function getFlightRecommendations(
       homeAirports: rawHomeAirports,
       dreamDestinations: rawDreamDestinations,
       travelFlexibility = 7,
-      maxBudget,
-      preferredAirlines,
       departureMonth,
       currency = 'USD'
     } = params;
@@ -786,7 +793,7 @@ export async function getFlightRecommendations(
               origin,
               destination,
             departureDateRange,
-              maxBudget,
+              undefined, // No budget filter
               currency
             );
 
@@ -885,8 +892,8 @@ export async function getFlightRecommendations(
       });
     }
 
-    // Generate summary
-    const summary = generateSummary(bestDeals, params);
+    // Generate summary and city data
+    const { summary, cityData } = await generateSummary(bestDeals, params);
 
     // Calculate metadata
     const prices = bestDeals.map(deal => deal.price);
@@ -903,7 +910,8 @@ export async function getFlightRecommendations(
     return {
       deals: bestDeals,
       summary,
-      searchMetadata
+      searchMetadata,
+      cityData
     };
   } catch (error) {
     console.error('Error getting flight recommendations:', error);
@@ -914,32 +922,152 @@ export async function getFlightRecommendations(
 /**
  * Generate a summary of the flight deals
  */
-function generateSummary(deals: AmadeusFlightOffer[], params: FlightSearchParams): string {
+async function generateSummary(deals: AmadeusFlightOffer[], params: FlightSearchParams): Promise<{ summary: string; cityData: Record<string, { cityName: string; activities: string[] }> }> {
   if (deals.length === 0) {
-    return `No flight deals found for your criteria. Try expanding your search parameters or checking back later.`;
+    return {
+      summary: `No flight deals found for your criteria. Try expanding your search parameters or checking back later.`,
+      cityData: {}
+    };
   }
 
-  const { homeAirports, dreamDestinations, maxBudget } = params;
+  const { homeAirports, dreamDestinations } = params;
   const averagePrice = deals.reduce((sum, deal) => sum + deal.price, 0) / deals.length;
   const bestDeal = deals[0];
   const excellentDeals = deals.filter(deal => deal.dealQuality === 'excellent').length;
 
-  let summary = `Found ${deals.length} great flight deals from ${homeAirports.join(', ')} to ${dreamDestinations.join(', ')}. `;
+  // Get city names from airport database
+  const { getCityNameFromAirportCode } = await import('@/lib/airport-utils');
   
-  if (excellentDeals > 0) {
-    summary += `${excellentDeals} of these are excellent deals with significant savings. `;
-  }
-  
-  summary += `The best deal is ${bestDeal.airline} from ${bestDeal.origin} to ${bestDeal.destination} for $${bestDeal.price} on ${bestDeal.departureDate}. `;
-  
-  if (maxBudget) {
-    const withinBudget = deals.filter(deal => deal.price <= maxBudget).length;
-    summary += `${withinBudget} deals are within your budget of $${maxBudget}. `;
-  }
-  
-  summary += `Average price is $${Math.round(averagePrice)}. Book soon as these deals may not last!`;
+  const originCities = homeAirports.map(code => getCityNameFromAirportCode(code)).join(', ');
+  const destinationCities = dreamDestinations.map(code => {
+    const cityName = getCityNameFromAirportCode(code);
+    // Capitalize first letter of each word (for country names like "russia, morocco")
+    return cityName.split(', ').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    ).join(', ');
+  }).join(', ');
 
-  return summary;
+  // Generate city data with activities using airport database for city names
+  const generateCityData = async (airportCodes: string[]) => {
+    // Filter out invalid airport codes (must be 3 letters)
+    const validAirportCodes = airportCodes.filter(code => validateAirportCode(code));
+    const invalidCodes = airportCodes.filter(code => !validateAirportCode(code));
+    
+    console.log('Airport codes for AI generation:', {
+      valid: validAirportCodes,
+      invalid: invalidCodes
+    });
+    
+    if (validAirportCodes.length === 0) {
+      console.warn('No valid airport codes provided for AI generation');
+      return {};
+    }
+    
+    try {
+      console.log('Making OpenAI API request with API key:', env.OPENAI_API_KEY ? 'API key present' : 'NO API KEY');
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{
+            role: 'user',
+            content: `You are a professional travel consultant writing concise destination descriptions for flight deal emails. For each airport code, provide 5 engaging but brief activities that highlight the destination's unique appeal.
+
+Format as JSON: {"AIRPORT_CODE": ["Brief Activity 1", "Cultural Activity 2", "Culinary Activity 3", "Historic Activity 4", "Unique Activity 5"]}
+
+Examples of concise activities:
+- "Experience the magic of London by taking a ride on the iconic London Eye for panoramic city views"
+- "Step back in time at the British Museum, home to the Rosetta Stone and Elgin Marbles with free entry"
+- "Stroll through Notting Hill and visit the famous Portobello Road Market for unique antiques and street food"
+- "Catch a world-class performance at the historic Globe Theatre in a stunning recreation of Shakespeare's venue"
+- "Indulge in quintessentially British afternoon tea at The Ritz with delicate sandwiches and fine teas"
+
+Keep activities engaging but concise - aim for 15-20 words each. Focus on unique experiences that showcase each destination's character. Airport codes: ${validAirportCodes.join(', ')}`
+          }],
+          max_tokens: 1000,
+          temperature: 0.7,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('OpenAI response for cityData:', data.choices[0].message.content);
+      
+      let content = data.choices[0].message.content.trim();
+      console.log('Raw AI content:', content);
+      
+      // Remove markdown code blocks if present
+      if (content.startsWith('```json')) {
+        content = content.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (content.startsWith('```')) {
+        content = content.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      
+      try {
+        const parsed = JSON.parse(content);
+        console.log('Parsed cityData activities:', parsed);
+        
+        // Combine with airport database city names
+        const result: Record<string, { cityName: string; activities: string[] }> = {};
+        validAirportCodes.forEach(code => {
+          const aiActivities = parsed[code];
+          console.log(`Activities for ${code}:`, aiActivities);
+          
+          result[code] = {
+            cityName: getCityNameFromAirportCode(code),
+            activities: aiActivities && aiActivities.length > 0 ? aiActivities : ['Explore local culture', 'Visit historic sites', 'Try local cuisine', 'Shop at markets', 'Enjoy nightlife']
+          };
+        });
+        
+        console.log('Final cityData with airport names:', result);
+        return result;
+      } catch (parseError) {
+        console.error('Failed to parse AI response as JSON:', parseError);
+        console.log('Raw content that failed to parse:', content);
+        throw new Error(`Failed to parse AI response: ${parseError}`);
+      }
+    } catch (error) {
+      console.error('Error generating city data:', error);
+      console.error('Error details:', error);
+      // Fallback data using airport database
+      const fallbackData: Record<string, { cityName: string; activities: string[] }> = {};
+      validAirportCodes.forEach(code => {
+        fallbackData[code] = {
+          cityName: getCityNameFromAirportCode(code),
+          activities: ['Explore local culture', 'Visit historic sites', 'Try local cuisine', 'Shop at markets', 'Enjoy nightlife']
+        };
+      });
+      console.log('Using fallback data:', fallbackData);
+      return fallbackData;
+    }
+  };
+
+  // Generate city data only for destinations that actually have deals
+  const dealDestinations = [...new Set(deals.map((deal: AmadeusFlightOffer) => deal.destination))];
+  console.log('Generating cityData for deal destinations:', dealDestinations);
+  const cityData = await generateCityData(dealDestinations);
+  console.log('Generated cityData:', cityData);
+  
+  // Generate a concise and professional summary
+  const dealCount = deals.length;
+  const savingsText = excellentDeals > 0 ? `, including ${excellentDeals} exceptional deals with significant savings` : '';
+  
+  let summary = `We found ${dealCount} flight deal${dealCount > 1 ? 's' : ''} from ${originCities} to ${destinationCities}${savingsText}. `;
+  
+  if (dealCount === 1) {
+    summary += `This deal is available from ${bestDeal.origin} to ${bestDeal.destination}. `;
+  } else {
+    summary += `These deals are available on multiple dates at similar prices. `;
+  }
+
+  return { summary, cityData };
 }
 
 /**

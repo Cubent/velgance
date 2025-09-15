@@ -15281,6 +15281,7 @@ export namespace Prisma {
     bookingUrl: number
     otaUrl: number
     cityImageUrl: number
+    cityActivities: number
     searchDate: number
     isActive: number
     isWatched: number
@@ -15370,6 +15371,7 @@ export namespace Prisma {
     bookingUrl?: true
     otaUrl?: true
     cityImageUrl?: true
+    cityActivities?: true
     searchDate?: true
     isActive?: true
     isWatched?: true
@@ -15484,6 +15486,7 @@ export namespace Prisma {
     bookingUrl: string | null
     otaUrl: string | null
     cityImageUrl: string | null
+    cityActivities: JsonValue | null
     searchDate: Date
     isActive: boolean
     isWatched: boolean
@@ -15530,6 +15533,7 @@ export namespace Prisma {
     bookingUrl?: boolean
     otaUrl?: boolean
     cityImageUrl?: boolean
+    cityActivities?: boolean
     searchDate?: boolean
     isActive?: boolean
     isWatched?: boolean
@@ -15558,6 +15562,7 @@ export namespace Prisma {
     bookingUrl?: boolean
     otaUrl?: boolean
     cityImageUrl?: boolean
+    cityActivities?: boolean
     searchDate?: boolean
     isActive?: boolean
     isWatched?: boolean
@@ -15586,6 +15591,7 @@ export namespace Prisma {
     bookingUrl?: boolean
     otaUrl?: boolean
     cityImageUrl?: boolean
+    cityActivities?: boolean
     searchDate?: boolean
     isActive?: boolean
     isWatched?: boolean
@@ -15614,6 +15620,7 @@ export namespace Prisma {
     bookingUrl?: boolean
     otaUrl?: boolean
     cityImageUrl?: boolean
+    cityActivities?: boolean
     searchDate?: boolean
     isActive?: boolean
     isWatched?: boolean
@@ -15621,7 +15628,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type FlightRecommendationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "origin" | "destination" | "departureDate" | "returnDate" | "price" | "currency" | "airline" | "flightNumber" | "layovers" | "duration" | "baggageInfo" | "aiSummary" | "confidenceScore" | "dealQuality" | "bookingUrl" | "otaUrl" | "cityImageUrl" | "searchDate" | "isActive" | "isWatched" | "createdAt" | "updatedAt", ExtArgs["result"]["flightRecommendation"]>
+  export type FlightRecommendationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "origin" | "destination" | "departureDate" | "returnDate" | "price" | "currency" | "airline" | "flightNumber" | "layovers" | "duration" | "baggageInfo" | "aiSummary" | "confidenceScore" | "dealQuality" | "bookingUrl" | "otaUrl" | "cityImageUrl" | "cityActivities" | "searchDate" | "isActive" | "isWatched" | "createdAt" | "updatedAt", ExtArgs["result"]["flightRecommendation"]>
   export type FlightRecommendationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -15657,6 +15664,7 @@ export namespace Prisma {
       bookingUrl: string | null
       otaUrl: string | null
       cityImageUrl: string | null
+      cityActivities: Prisma.JsonValue | null
       searchDate: Date
       isActive: boolean
       isWatched: boolean
@@ -16105,6 +16113,7 @@ export namespace Prisma {
     readonly bookingUrl: FieldRef<"FlightRecommendation", 'String'>
     readonly otaUrl: FieldRef<"FlightRecommendation", 'String'>
     readonly cityImageUrl: FieldRef<"FlightRecommendation", 'String'>
+    readonly cityActivities: FieldRef<"FlightRecommendation", 'Json'>
     readonly searchDate: FieldRef<"FlightRecommendation", 'DateTime'>
     readonly isActive: FieldRef<"FlightRecommendation", 'Boolean'>
     readonly isWatched: FieldRef<"FlightRecommendation", 'Boolean'>
@@ -19210,6 +19219,7 @@ export namespace Prisma {
     bookingUrl: 'bookingUrl',
     otaUrl: 'otaUrl',
     cityImageUrl: 'cityImageUrl',
+    cityActivities: 'cityActivities',
     searchDate: 'searchDate',
     isActive: 'isActive',
     isWatched: 'isWatched',
@@ -20431,6 +20441,7 @@ export namespace Prisma {
     bookingUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     otaUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     cityImageUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
+    cityActivities?: JsonNullableFilter<"FlightRecommendation">
     searchDate?: DateTimeFilter<"FlightRecommendation"> | Date | string
     isActive?: BoolFilter<"FlightRecommendation"> | boolean
     isWatched?: BoolFilter<"FlightRecommendation"> | boolean
@@ -20459,6 +20470,7 @@ export namespace Prisma {
     bookingUrl?: SortOrderInput | SortOrder
     otaUrl?: SortOrderInput | SortOrder
     cityImageUrl?: SortOrderInput | SortOrder
+    cityActivities?: SortOrderInput | SortOrder
     searchDate?: SortOrder
     isActive?: SortOrder
     isWatched?: SortOrder
@@ -20490,6 +20502,7 @@ export namespace Prisma {
     bookingUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     otaUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     cityImageUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
+    cityActivities?: JsonNullableFilter<"FlightRecommendation">
     searchDate?: DateTimeFilter<"FlightRecommendation"> | Date | string
     isActive?: BoolFilter<"FlightRecommendation"> | boolean
     isWatched?: BoolFilter<"FlightRecommendation"> | boolean
@@ -20518,6 +20531,7 @@ export namespace Prisma {
     bookingUrl?: SortOrderInput | SortOrder
     otaUrl?: SortOrderInput | SortOrder
     cityImageUrl?: SortOrderInput | SortOrder
+    cityActivities?: SortOrderInput | SortOrder
     searchDate?: SortOrder
     isActive?: SortOrder
     isWatched?: SortOrder
@@ -20553,6 +20567,7 @@ export namespace Prisma {
     bookingUrl?: StringNullableWithAggregatesFilter<"FlightRecommendation"> | string | null
     otaUrl?: StringNullableWithAggregatesFilter<"FlightRecommendation"> | string | null
     cityImageUrl?: StringNullableWithAggregatesFilter<"FlightRecommendation"> | string | null
+    cityActivities?: JsonNullableWithAggregatesFilter<"FlightRecommendation">
     searchDate?: DateTimeWithAggregatesFilter<"FlightRecommendation"> | Date | string
     isActive?: BoolWithAggregatesFilter<"FlightRecommendation"> | boolean
     isWatched?: BoolWithAggregatesFilter<"FlightRecommendation"> | boolean
@@ -21962,6 +21977,7 @@ export namespace Prisma {
     bookingUrl?: string | null
     otaUrl?: string | null
     cityImageUrl?: string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -21990,6 +22006,7 @@ export namespace Prisma {
     bookingUrl?: string | null
     otaUrl?: string | null
     cityImageUrl?: string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -22016,6 +22033,7 @@ export namespace Prisma {
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -22044,6 +22062,7 @@ export namespace Prisma {
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -22071,6 +22090,7 @@ export namespace Prisma {
     bookingUrl?: string | null
     otaUrl?: string | null
     cityImageUrl?: string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -22097,6 +22117,7 @@ export namespace Prisma {
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -22124,6 +22145,7 @@ export namespace Prisma {
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -23415,6 +23437,7 @@ export namespace Prisma {
     bookingUrl?: SortOrder
     otaUrl?: SortOrder
     cityImageUrl?: SortOrder
+    cityActivities?: SortOrder
     searchDate?: SortOrder
     isActive?: SortOrder
     isWatched?: SortOrder
@@ -24742,6 +24765,7 @@ export namespace Prisma {
     bookingUrl?: string | null
     otaUrl?: string | null
     cityImageUrl?: string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -24768,6 +24792,7 @@ export namespace Prisma {
     bookingUrl?: string | null
     otaUrl?: string | null
     cityImageUrl?: string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -25154,6 +25179,7 @@ export namespace Prisma {
     bookingUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     otaUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
     cityImageUrl?: StringNullableFilter<"FlightRecommendation"> | string | null
+    cityActivities?: JsonNullableFilter<"FlightRecommendation">
     searchDate?: DateTimeFilter<"FlightRecommendation"> | Date | string
     isActive?: BoolFilter<"FlightRecommendation"> | boolean
     isWatched?: BoolFilter<"FlightRecommendation"> | boolean
@@ -26873,6 +26899,7 @@ export namespace Prisma {
     bookingUrl?: string | null
     otaUrl?: string | null
     cityImageUrl?: string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: Date | string
     isActive?: boolean
     isWatched?: boolean
@@ -27179,6 +27206,7 @@ export namespace Prisma {
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -27205,6 +27233,7 @@ export namespace Prisma {
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean
@@ -27231,6 +27260,7 @@ export namespace Prisma {
     bookingUrl?: NullableStringFieldUpdateOperationsInput | string | null
     otaUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cityImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cityActivities?: NullableJsonNullValueInput | InputJsonValue
     searchDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isWatched?: BoolFieldUpdateOperationsInput | boolean

@@ -35,8 +35,6 @@ export async function POST(request: NextRequest) {
       homeAirports: preferences.homeAirports || [],
       dreamDestinations: preferences.dreamDestinations || [],
       travelFlexibility: 3, // Reduced from 7 to 3 days flexibility
-      maxBudget: preferences.maxBudget,
-      preferredAirlines: preferences.preferredAirlines || [],
       currency: preferences.currency || 'USD', // Use user's preferred currency
       // Remove departureMonth to use 30-day logic instead of current month
     };
@@ -56,7 +54,23 @@ export async function POST(request: NextRequest) {
     const dealsToSave = amadeusResponse.deals.slice(0, 10); // Get up to 10 deals
     const savedRecommendations = await Promise.all(
       dealsToSave.map(async (deal) => {
-        return await db.flightRecommendation.create({
+        // Get AI-generated activities for this destination
+        const destinationActivities = amadeusResponse.cityData[deal.destination]?.activities || [];
+        console.log(`Storing activities for ${deal.destination}:`, destinationActivities);
+        console.log(`Available cityData keys:`, Object.keys(amadeusResponse.cityData));
+        console.log(`Full cityData for ${deal.destination}:`, amadeusResponse.cityData[deal.destination]);
+        
+        // Ensure we always have activities - use fallback if empty
+        const finalActivities = destinationActivities.length > 0 ? destinationActivities : [
+          `Explore the vibrant culture of ${deal.destination}`,
+          `Discover historic landmarks and modern attractions`,
+          `Indulge in authentic local cuisine`,
+          `Experience the unique local lifestyle`,
+          `Create unforgettable travel memories`
+        ];
+        console.log(`Final activities for ${deal.destination}:`, finalActivities);
+        
+        const createdDeal = await db.flightRecommendation.create({
           data: {
             userId: user.id,
             origin: deal.origin,
@@ -74,10 +88,14 @@ export async function POST(request: NextRequest) {
             bookingUrl: deal.bookingUrl,
             otaUrl: deal.bookingUrl,
             cityImageUrl: deal.cityImageUrl,
+            cityActivities: finalActivities, // Store AI-generated activities
             isActive: true,
             isWatched: false,
           },
         });
+        
+        console.log(`✅ STORED in DB for ${deal.destination}:`, createdDeal.cityActivities);
+        return createdDeal;
       })
     );
 
@@ -97,23 +115,27 @@ export async function POST(request: NextRequest) {
           airline: deal.airline,
           dealQuality: deal.dealQuality as 'excellent' | 'good' | 'fair' | undefined,
           bookingUrl: deal.bookingUrl || undefined,
+          cityImageUrl: deal.cityImageUrl || undefined,
+          cityActivities: Array.isArray(deal.cityActivities) ? deal.cityActivities as string[] : undefined, // Include stored activities
         }));
 
         const summary = amadeusResponse.summary || 
           `Found ${savedRecommendations.length} new flight deals matching your preferences!`;
 
-        console.log('GENERATE: Sending email with data:', {
-          userEmail: user.email,
-          userName: user.name,
-          dealsCount: dealsForEmail.length,
-          summary
-        });
+    console.log('GENERATE: Sending email with data:', {
+      userEmail: user.email,
+      userName: user.name,
+      dealsCount: dealsForEmail.length,
+      summary,
+      cityData: amadeusResponse.cityData
+    });
 
         const emailResult = await sendBatchDealAlert(
           user.email,
           user.name || undefined,
           dealsForEmail,
-          summary
+          summary,
+          amadeusResponse.cityData
         );
 
         console.log(`GENERATE: Email send result: ${emailResult}`);

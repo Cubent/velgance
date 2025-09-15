@@ -476,14 +476,15 @@ export default function DashboardPage() {
                   </span>
                 </div>
 
-                {preferences.maxBudget && (
+                {/* Max Budget - HIDDEN */}
+                {/* {preferences.maxBudget && (
                   <div>
                     <h4 className="text-sm font-medium text-gray-700 mb-2">Max Budget</h4>
                     <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
                       {preferences.currency} ${preferences.maxBudget}
                     </span>
                   </div>
-                )}
+                )} */}
 
                 <div>
                   <h4 className="text-sm font-medium text-gray-700 mb-2">Preferred Currency</h4>
@@ -529,7 +530,7 @@ export default function DashboardPage() {
                   <div key={deal.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div>
                       <div className="font-medium text-gray-900">{deal.origin} → {deal.destination}</div>
-                      <div className="text-sm text-gray-500">{deal.airline} • {new Date(deal.departureDate).toLocaleDateString()}</div>
+                      <div className="text-sm text-gray-500">{deal.airline} • Available in Multiple Dates</div>
                     </div>
                     <div className="text-right">
                       <div className="font-semibold text-[#045530]">${deal.price}</div>

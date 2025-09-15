@@ -41,8 +41,6 @@ export async function POST(request: NextRequest) {
       homeAirports: user.travelPreferences.homeAirports as string[],
       dreamDestinations: user.travelPreferences.dreamDestinations as string[],
       travelFlexibility: user.travelPreferences.travelFlexibility || 3, // Reduced from 7 to 3
-      maxBudget: user.travelPreferences.maxBudget || undefined,
-      preferredAirlines: user.travelPreferences.preferredAirlines as string[],
       currency: user.travelPreferences.currency || 'USD', // Use user's preferred currency
     };
 

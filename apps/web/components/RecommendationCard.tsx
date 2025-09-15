@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { getCityNameFromAirportCode } from '@/lib/airport-utils';
 
 interface LayoverInfo {
   airport: string;
@@ -35,6 +36,7 @@ interface FlightRecommendation {
   otaUrl?: string;
   isWatched: boolean;
   isAlternative?: boolean;
+  cityImageUrl?: string;
 }
 
 interface RecommendationCardProps {
@@ -69,181 +71,6 @@ const AIRPORT_IMAGES: Record<string, string> = {
   'SYD': 'https://images.unsplash.com/photo-1506905925346-14b1e0d35b36?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
 };
 
-const AIRPORT_CITIES: Record<string, string> = {
-  // Major US airports
-  'LAX': 'Los Angeles',
-  'JFK': 'New York',
-  'LGA': 'New York',
-  'EWR': 'New York',
-  'SFO': 'San Francisco',
-  'SEA': 'Seattle',
-  'DEN': 'Denver',
-  'ORD': 'Chicago',
-  'DFW': 'Dallas',
-  'ATL': 'Atlanta',
-  'MIA': 'Miami',
-  'LAS': 'Las Vegas',
-  'PHX': 'Phoenix',
-  'IAH': 'Houston',
-  'MCO': 'Orlando',
-  'BOS': 'Boston',
-  'DTW': 'Detroit',
-  'MSP': 'Minneapolis',
-  'PHL': 'Philadelphia',
-  'CLT': 'Charlotte',
-  'FLL': 'Fort Lauderdale',
-  'TPA': 'Tampa',
-  'SAN': 'San Diego',
-  'PDX': 'Portland',
-  'STL': 'St. Louis',
-  'BWI': 'Baltimore',
-  'DCA': 'Washington',
-  'IAD': 'Washington',
-  'HNL': 'Honolulu',
-  'ANC': 'Anchorage',
-  
-  // Major European airports
-  'LHR': 'London',
-  'LGW': 'London',
-  'STN': 'London',
-  'CDG': 'Paris',
-  'ORY': 'Paris',
-  'FRA': 'Frankfurt',
-  'MUC': 'Munich',
-  'AMS': 'Amsterdam',
-  'FCO': 'Rome',
-  'MXP': 'Milan',
-  'BCN': 'Barcelona',
-  'MAD': 'Madrid',
-  'ZUR': 'Zurich',
-  'VIE': 'Vienna',
-  'BRU': 'Brussels',
-  'DUB': 'Dublin',
-  'CPH': 'Copenhagen',
-  'ARN': 'Stockholm',
-  'OSL': 'Oslo',
-  'HEL': 'Helsinki',
-  'WAW': 'Warsaw',
-  'PRG': 'Prague',
-  'BUD': 'Budapest',
-  'ATH': 'Athens',
-  'IST': 'Istanbul',
-  'MOW': 'Moscow',
-  'LED': 'St. Petersburg',
-  
-  // Major Asian airports
-  'NRT': 'Tokyo',
-  'HND': 'Tokyo',
-  'ICN': 'Seoul',
-  'PVG': 'Shanghai',
-  'PEK': 'Beijing',
-  'HKG': 'Hong Kong',
-  'SIN': 'Singapore',
-  'BKK': 'Bangkok',
-  'KUL': 'Kuala Lumpur',
-  'CGK': 'Jakarta',
-  'MNL': 'Manila',
-  'DEL': 'Delhi',
-  'BOM': 'Mumbai',
-  'BLR': 'Bangalore',
-  'HYD': 'Hyderabad',
-  'CCU': 'Kolkata',
-  'MAA': 'Chennai',
-  
-  // Major Middle Eastern airports
-  'DXB': 'Dubai',
-  'AUH': 'Abu Dhabi',
-  'DOH': 'Doha',
-  'TLV': 'Tel Aviv',
-  'RUH': 'Riyadh',
-  'JED': 'Jeddah',
-  'KWI': 'Kuwait',
-  'BAH': 'Bahrain',
-  
-  // Major African airports
-  'JNB': 'Johannesburg',
-  'CPT': 'Cape Town',
-  'CAI': 'Cairo',
-  'NBO': 'Nairobi',
-  'ADD': 'Addis Ababa',
-  'LOS': 'Lagos',
-  'ACC': 'Accra',
-  'CMN': 'Casablanca',
-  'ALG': 'Algiers',
-  'TUN': 'Tunis',
-  
-  // Major South American airports
-  'GRU': 'São Paulo',
-  'GIG': 'Rio de Janeiro',
-  'BSB': 'Brasília',
-  'EZE': 'Buenos Aires',
-  'SCL': 'Santiago',
-  'LIM': 'Lima',
-  'BOG': 'Bogotá',
-  'UIO': 'Quito',
-  'CCS': 'Caracas',
-  'PTY': 'Panama City',
-  'SJO': 'San José',
-  'HAV': 'Havana',
-  'SDQ': 'Santo Domingo',
-  'KIN': 'Kingston',
-  'NAS': 'Nassau',
-  
-  // Major Canadian airports
-  'YYZ': 'Toronto',
-  'YVR': 'Vancouver',
-  'YUL': 'Montreal',
-  'YYC': 'Calgary',
-  'YEG': 'Edmonton',
-  'YWG': 'Winnipeg',
-  'YOW': 'Ottawa',
-  'YHZ': 'Halifax',
-  'YQR': 'Regina',
-  'YXE': 'Saskatoon',
-  
-  // Major Australian airports
-  'SYD': 'Sydney',
-  'MEL': 'Melbourne',
-  'BNE': 'Brisbane',
-  'PER': 'Perth',
-  'ADL': 'Adelaide',
-  'CBR': 'Canberra',
-  'HBA': 'Hobart',
-  'DRW': 'Darwin',
-  'CNS': 'Cairns',
-  'OOL': 'Gold Coast',
-  'DPS': 'Bali',
-  'MLE': 'Maldives',
-  
-  // Major New Zealand airports
-  'AKL': 'Auckland',
-  'WLG': 'Wellington',
-  'CHC': 'Christchurch',
-  'DUD': 'Dunedin',
-  'ROT': 'Rotorua',
-  'ZQN': 'Queenstown',
-  'NPE': 'Napier',
-  'PMR': 'Palmerston North',
-  'IVC': 'Invercargill',
-  'NSN': 'Nelson',
-  
-  // Additional airports
-  'BLQ': 'Bologna',
-  'LIS': 'Lisbon',
-  'OPO': 'Porto',
-  'KRK': 'Krakow',
-  'GDN': 'Gdansk',
-  'WRO': 'Wroclaw',
-  'POZ': 'Poznan',
-  'KTW': 'Katowice',
-  'RZE': 'Rzeszow',
-  'SZZ': 'Szczecin',
-  'BZG': 'Bydgoszcz',
-  'LCJ': 'Lodz',
-  'SZY': 'Szczytno',
-  'IEG': 'Zielona Gora',
-  'RDO': 'Radom',
-};
 
 const getDealQualityColor = (quality?: string) => {
   switch (quality) {
@@ -304,7 +131,7 @@ export default function RecommendationCard({
         <div className="flex items-center justify-center space-x-8">
           <div className="text-center">
             <div className="text-2xl font-bold text-[#045530]">{recommendation.origin}</div>
-            <div className="text-sm text-gray-600">{AIRPORT_CITIES[recommendation.origin] || recommendation.origin}</div>
+            <div className="text-sm text-gray-600">{getCityNameFromAirportCode(recommendation.origin)}</div>
           </div>
           
           <div className="flex items-center justify-center">
@@ -317,7 +144,7 @@ export default function RecommendationCard({
           
           <div className="text-center">
             <div className="text-2xl font-bold text-[#045530]">{recommendation.destination}</div>
-            <div className="text-sm text-gray-600">{AIRPORT_CITIES[recommendation.destination] || recommendation.destination}</div>
+            <div className="text-sm text-gray-600">{getCityNameFromAirportCode(recommendation.destination)}</div>
           </div>
         </div>
         
@@ -365,11 +192,11 @@ export default function RecommendationCard({
         {/* Price */}
         <div className="mb-3 text-center">
           <div className="text-2xl font-bold text-[#045530]">
-            ${recommendation.price.toLocaleString()} {recommendation.currency}
+{recommendation.price.toLocaleString()} {recommendation.currency}
           </div>
           {recommendation.originalPrice && recommendation.originalCurrency && (
             <div className="text-sm text-gray-500 mt-1">
-              Originally ${recommendation.originalPrice.toLocaleString()} {recommendation.originalCurrency}
+              Originally {recommendation.originalPrice.toLocaleString()} {recommendation.originalCurrency}
             </div>
           )}
           <div className="h-px border-t border-dashed border-gray-300 mt-1"></div>
@@ -381,13 +208,7 @@ export default function RecommendationCard({
             {/* Date content */}
             <div className="text-center px-6">
               <div className="text-sm text-gray-600">
-                {formatDate(recommendation.departureDate)}
-                {recommendation.returnDate && (
-                  <>
-                    <span className="mx-2">→</span>
-                    {formatDate(recommendation.returnDate)}
-                  </>
-                )}
+                Available in Multiple Dates
               </div>
               <div className="text-xs text-gray-500 mt-1">
                 {recommendation.returnDate ? 'Round trip' : 'One way'}

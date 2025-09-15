@@ -10,6 +10,7 @@ export async function sendDealNotificationEmail(data: DealNotificationData): Pro
       userEmail: data.userEmail,
       userName: data.userName,
       dealsCount: data.deals.length,
+      cityData: data.cityData,
       resendFrom: process.env.RESEND_FROM,
       resendToken: process.env.RESEND_TOKEN ? 'Token exists' : 'No token'
     });
@@ -17,10 +18,22 @@ export async function sendDealNotificationEmail(data: DealNotificationData): Pro
     // Create the React component
     const EmailComponent = React.createElement(DealNotificationTemplate, data);
     
+    // Generate dynamic subject with route and cheapest price
+    const cheapestDeal = data.deals.reduce((cheapest, deal) => 
+      deal.price < cheapest.price ? deal : cheapest
+    );
+    
+    // Get city names from airport codes
+    const { getCityNameFromAirportCode } = await import('../lib/airport-utils');
+    const originCity = getCityNameFromAirportCode(cheapestDeal.origin);
+    const destinationCity = getCityNameFromAirportCode(cheapestDeal.destination);
+    
+    const emailSubject = `${originCity} to ${destinationCity} – ${cheapestDeal.price} ${cheapestDeal.currency}`;
+    
     const result = await resend.emails.send({
       from: process.env.RESEND_FROM || 'info@deals.travira.org',
       to: [data.userEmail],
-      subject: `✈️ ${data.deals.length} New Flight Deal${data.deals.length > 1 ? 's' : ''} Found!`,
+      subject: emailSubject,
       react: EmailComponent,
     });
 
@@ -49,6 +62,8 @@ export async function sendSingleDealAlert(
     airline: string;
     dealQuality?: string;
     bookingUrl?: string;
+    cityImageUrl?: string;
+    cityActivities?: string[];
   },
   summary: string
 ): Promise<boolean> {
@@ -76,13 +91,22 @@ export async function sendBatchDealAlert(
     airline: string;
     dealQuality?: string;
     bookingUrl?: string;
+    cityImageUrl?: string;
+    cityActivities?: string[];
   }[],
-  summary: string
+  summary: string,
+  cityData?: {
+    [airportCode: string]: {
+      cityName: string;
+      activities: string[];
+    };
+  }
 ): Promise<boolean> {
   return sendDealNotificationEmail({
     userEmail,
     userName,
     deals,
     summary,
+    cityData,
   });
 }
