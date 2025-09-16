@@ -55,6 +55,21 @@ export async function GET() {
         monthlyCostLimit: 5.00,
         features: ['Basic AI assistance', 'Limited models'],
       },
+      MEMBER: {
+        name: 'Member Plan',
+        monthlyTokenLimit: 50000,
+        monthlyRequestLimit: 500,
+        monthlyCostLimit: 7.50,
+        features: [
+          '3-4 personalized flight deals per week',
+          'AI finds deals up to 90% off regular prices',
+          'Detailed city guides and activities',
+          'Flexible date suggestions',
+          'Price drop alerts',
+          'Priority customer support',
+          '7-day free trial'
+        ],
+      },
       PRO: {
         name: 'Pro',
         monthlyTokenLimit: 100000,

@@ -88,12 +88,27 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   // Get subscription details from Stripe
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
+  // Determine subscription tier based on price lookup key
+  const priceId = subscription.items.data[0]?.price.id;
+  let subscriptionTier = 'PRO'; // Default to PRO
+  
+  if (priceId) {
+    try {
+      const price = await stripe.prices.retrieve(priceId);
+      if (price.lookup_key === 'member_plan') {
+        subscriptionTier = 'MEMBER';
+      }
+    } catch (error) {
+      console.error('Error retrieving price details:', error);
+    }
+  }
+
   // Update subscription in database
   await database.stripeSubscription.update({
     where: { id: stripeSubscription.id },
     data: {
       stripeSubscriptionId: subscriptionId,
-      stripePriceId: subscription.items.data[0]?.price.id,
+      stripePriceId: priceId,
       status: subscription.status,
       currentPeriodStart: new Date((subscription as any).current_period_start * 1000),
       currentPeriodEnd: new Date((subscription as any).current_period_end * 1000),
@@ -101,7 +116,16 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     },
   });
 
-  console.log(`Subscription created for user ${stripeSubscription.userId}`);
+  // Update user subscription tier
+  await database.user.update({
+    where: { id: stripeSubscription.userId },
+    data: {
+      subscriptionTier: subscriptionTier,
+      subscriptionStatus: subscription.status === 'trialing' ? 'TRIALING' : 'ACTIVE',
+    },
+  });
+
+  console.log(`Subscription created for user ${stripeSubscription.userId} with tier ${subscriptionTier}`);
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
@@ -116,6 +140,21 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     return;
   }
 
+  // Determine subscription tier based on price lookup key
+  const priceId = subscription.items.data[0]?.price.id;
+  let subscriptionTier = 'PRO'; // Default to PRO
+  
+  if (priceId) {
+    try {
+      const price = await stripe.prices.retrieve(priceId);
+      if (price.lookup_key === 'member_plan') {
+        subscriptionTier = 'MEMBER';
+      }
+    } catch (error) {
+      console.error('Error retrieving price details:', error);
+    }
+  }
+
   await database.stripeSubscription.update({
     where: { id: stripeSubscription.id },
     data: {
@@ -128,7 +167,18 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     },
   });
 
-  console.log(`Subscription updated for user ${stripeSubscription.userId}: ${subscription.status}`);
+  // Update user subscription tier and status
+  await database.user.update({
+    where: { id: stripeSubscription.userId },
+    data: {
+      subscriptionTier: subscriptionTier,
+      subscriptionStatus: subscription.status === 'trialing' ? 'TRIALING' : 
+                         subscription.status === 'active' ? 'ACTIVE' : 
+                         subscription.status === 'canceled' ? 'CANCELED' : 'INACTIVE',
+    },
+  });
+
+  console.log(`Subscription updated for user ${stripeSubscription.userId}: ${subscription.status} (tier: ${subscriptionTier})`);
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
@@ -148,6 +198,15 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     data: {
       status: 'canceled',
       endedAt: new Date(),
+    },
+  });
+
+  // Update user subscription status to inactive
+  await database.user.update({
+    where: { id: stripeSubscription.userId },
+    data: {
+      subscriptionTier: 'FREE',
+      subscriptionStatus: 'INACTIVE',
     },
   });
 

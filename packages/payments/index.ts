@@ -10,6 +10,7 @@ export type { Stripe } from 'stripe';
 
 // Travira-specific Stripe functionality
 export const TRAVIRA_PRICE_ID = process.env.STRIPE_TRAVIRA_PRICE_ID || 'price_travira_yearly_99';
+export const MEMBER_PLAN_LOOKUP_KEY = 'member_plan';
 
 export interface CreateSubscriptionParams {
   customerId: string;
@@ -60,6 +61,53 @@ export async function createTraviraCheckoutSession(params: CreateSubscriptionPar
     billing_address_collection: 'required',
     metadata: {
       product: 'travira',
+      userId: params.customerId,
+    },
+  });
+
+  return session;
+}
+
+/**
+ * Create a checkout session for Member Plan subscription with 7-day trial
+ */
+export async function createMemberPlanCheckoutSession(params: CreateSubscriptionParams): Promise<Stripe.Checkout.Session> {
+  // Get the Member Plan price using lookup key
+  const { data: prices } = await stripe.prices.list({ 
+    lookup_keys: [MEMBER_PLAN_LOOKUP_KEY],
+    limit: 1 
+  });
+
+  if (!prices || prices.length === 0) {
+    throw new Error(`Member Plan price not found. Please create a Stripe price with lookup_key "${MEMBER_PLAN_LOOKUP_KEY}"`);
+  }
+
+  const memberPlanPrice = prices[0];
+
+  const session = await stripe.checkout.sessions.create({
+    customer: params.customerId,
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price: memberPlanPrice.id,
+        quantity: 1,
+      },
+    ],
+    mode: 'subscription',
+    subscription_data: {
+      trial_period_days: 7,
+      trial_settings: {
+        end_behavior: {
+          missing_payment_method: 'pause',
+        },
+      },
+    },
+    success_url: params.successUrl,
+    cancel_url: params.cancelUrl,
+    allow_promotion_codes: true,
+    billing_address_collection: 'required',
+    metadata: {
+      product: 'member_plan',
       userId: params.customerId,
     },
   });

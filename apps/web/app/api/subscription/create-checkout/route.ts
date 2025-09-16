@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { database } from '@repo/database';
-import { createTraviraCustomer, createTraviraCheckoutSession } from '@repo/payments';
+import { createTraviraCustomer, createTraviraCheckoutSession, createMemberPlanCheckoutSession } from '@repo/payments';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { successUrl, cancelUrl } = body;
+    const { successUrl, cancelUrl, planType = 'member' } = body;
 
     if (!successUrl || !cancelUrl) {
       return NextResponse.json({ error: 'Success URL and cancel URL are required' }, { status: 400 });
@@ -54,12 +54,18 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Create checkout session
-    const session = await createTraviraCheckoutSession({
-      customerId,
-      successUrl,
-      cancelUrl,
-    });
+    // Create checkout session based on plan type
+    const session = planType === 'member' 
+      ? await createMemberPlanCheckoutSession({
+          customerId,
+          successUrl,
+          cancelUrl,
+        })
+      : await createTraviraCheckoutSession({
+          customerId,
+          successUrl,
+          cancelUrl,
+        });
 
     return NextResponse.json({ 
       success: true, 

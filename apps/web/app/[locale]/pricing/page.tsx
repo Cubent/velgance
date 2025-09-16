@@ -26,6 +26,7 @@ export default function PricingPage() {
         body: JSON.stringify({
           successUrl: `${window.location.origin}/onboarding?success=true`,
           cancelUrl: `${window.location.origin}/pricing?canceled=true`,
+          planType: 'member',
         }),
       });
 
@@ -96,11 +97,53 @@ export default function PricingPage() {
                 
                 {/* Price - Centered below title */}
                 <div className="flex items-end justify-center gap-2 mb-6">
-                  <span className="text-5xl font-bold text-[#045530]">$8.25</span>
+                  <span className="text-5xl font-bold text-[#045530]">$7.50</span>
                   <span className="pb-2 text-gray-600">/mo</span>
                 </div>
 
-                <div className="text-gray-700 mb-8">Billed annually at $99 · Full refund if you don't save $500+</div>
+                <div className="text-gray-700 mb-8">7-day free trial · Full refund if you don't save $500+</div>
+
+                {/* Features List */}
+                <div className="text-left mb-8">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                        <span className="text-[#045530] text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-700">3-4 personalized flight deals per week</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                        <span className="text-[#045530] text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-700">AI finds deals up to 90% off regular prices</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                        <span className="text-[#045530] text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-700">Detailed city guides and activities</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                        <span className="text-[#045530] text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-700">Flexible date suggestions</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                        <span className="text-[#045530] text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-700">Price drop alerts</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                        <span className="text-[#045530] text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-700">Priority customer support</span>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="flex flex-col gap-4">
                   <button
