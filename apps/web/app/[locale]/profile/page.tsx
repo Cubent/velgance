@@ -86,6 +86,42 @@ export default function ProfilePage() {
           </div>
         </div>
 
+        {/* Billing Management */}
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Billing & Subscription</h2>
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex-1 pr-4">
+                <h3 className="text-md font-medium text-gray-900">Manage Billing</h3>
+                <p className="text-sm text-gray-600 hidden sm:block">Update payment methods, view invoices, and manage your subscription</p>
+                <p className="text-sm text-gray-600 sm:hidden">Manage your subscription</p>
+              </div>
+              <button
+                onClick={async () => {
+                  try {
+                    const response = await fetch('/api/billing/portal', {
+                      method: 'POST',
+                    });
+                    
+                    if (response.ok) {
+                      const { url } = await response.json();
+                      window.location.href = url;
+                    } else {
+                      alert('Unable to open billing portal. Please try again later.');
+                    }
+                  } catch (error) {
+                    console.error('Error opening billing portal:', error);
+                    alert('Error opening billing portal. Please try again later.');
+                  }
+                }}
+                className="bg-[#045530] text-white px-4 py-2 rounded-lg hover:bg-[#034a2a] transition-colors text-sm font-medium"
+              >
+                Manage Billing
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Account Settings */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Settings</h2>

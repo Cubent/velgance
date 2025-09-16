@@ -9,26 +9,36 @@ export default function PricingPage() {
   const router = useRouter();
   const [flightsPerYear, setFlightsPerYear] = useState(2);
 
-  const handleSubscribe = async (planId?: string) => {
+  const handleSubscribe = async () => {
     if (!user) {
       router.push('/sign-up?redirect_url=/pricing');
       return;
     }
 
-    // Use existing billing portal
+    // Use Stripe checkout for new subscriptions
     try {
-      const response = await fetch('/api/billing/portal', {
+      const response = await fetch('/api/subscription/create-checkout', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          successUrl: `${window.location.origin}/dashboard?success=true`,
+          cancelUrl: `${window.location.origin}/pricing?canceled=true`,
+          planType: 'member',
+        }),
       });
-      
-      if (response.ok) {
-        const { url } = await response.json();
-        window.location.href = url;
+
+      const data = await response.json();
+
+      if (data.success && data.url) {
+        window.location.href = data.url;
       } else {
-        console.error('Failed to create billing portal session');
+        throw new Error('Failed to create checkout session');
       }
     } catch (error) {
-      console.error('Error opening billing portal:', error);
+      console.error('Error creating subscription:', error);
+      alert('Failed to start subscription process. Please try again.');
     }
   };
 
@@ -68,7 +78,8 @@ export default function PricingPage() {
           {/* Green background that ends early */}
           <div className="absolute inset-0 bg-[#045530] rounded-b-[50%] h-48"></div>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex justify-center">
+              <div className="w-full max-w-md">
               {/* Member Plan Card */}
               <div className="relative rounded-2xl bg-white p-8 shadow-lg border border-gray-200">
                 {/* Popular Badge */}
@@ -149,6 +160,7 @@ export default function PricingPage() {
                     </button>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
