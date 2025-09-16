@@ -16,19 +16,46 @@ export async function POST(request: Request) {
       throw new Error('STRIPE_SECRET_KEY is not set');
     }
 
+    // Initialize Stripe
+    const stripe = new Stripe(STRIPE_SECRET_KEY);
+
     // Get user from Clerk
     const client = await clerkClient();
     const user = await client.users.getUser(userId);
     
     // Get Stripe customer ID from user metadata
-    const stripeCustomerId = user.privateMetadata?.stripeCustomerId as string;
+    let stripeCustomerId = user.privateMetadata?.stripeCustomerId as string;
 
+    // If no Stripe customer exists, create one
     if (!stripeCustomerId) {
-      return NextResponse.json({ error: 'No billing account found' }, { status: 404 });
-    }
+      console.log('No Stripe customer found, creating one for user:', userId);
 
-    // Initialize Stripe
-    const stripe = new Stripe(STRIPE_SECRET_KEY);
+      const customerData: any = {
+        email: user.emailAddresses[0]?.emailAddress,
+        metadata: {
+          clerkUserId: userId,
+        },
+      };
+
+      // Add name if available
+      if (user.firstName || user.lastName) {
+        customerData.name = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+      }
+
+      // Create Stripe customer
+      const customer = await stripe.customers.create(customerData);
+      stripeCustomerId = customer.id;
+
+      // Update Clerk user metadata with new Stripe customer ID
+      await client.users.updateUserMetadata(userId, {
+        privateMetadata: {
+          ...user.privateMetadata,
+          stripeCustomerId: customer.id,
+        },
+      });
+
+      console.log('Created Stripe customer:', customer.id);
+    }
 
     // Get the request URL to determine the return URL
     const url = new URL(request.url);

@@ -106,6 +106,9 @@ export default function ProfilePage() {
                     if (response.ok) {
                       const { url } = await response.json();
                       window.location.href = url;
+                    } else if (response.status === 404) {
+                      // No subscription found, redirect to pricing
+                      window.location.href = '/pricing';
                     } else {
                       alert('Unable to open billing portal. Please try again later.');
                     }
