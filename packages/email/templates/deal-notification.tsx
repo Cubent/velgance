@@ -115,14 +115,35 @@ export const DealNotificationTemplate = ({
               color: #000000 !important;
             }
             .email-text,
-            .deal-text,
+            .deal-text {
+              color: inherit !important;
+            }
             .activities-title,
             .activities-description {
-              color: inherit !important;
+              color: #6b7280 !important;
             }
             .email-subtitle,
             .deal-subtitle {
               color: #6b7280 !important;
+            }
+            
+            /* Mobile responsive styles */
+            @media only screen and (max-width: 600px) {
+              .email-container {
+                padding: 5px !important;
+                margin: 0 !important;
+              }
+              .content-card {
+                padding: 15px 10px !important;
+              }
+              .deal-card {
+                padding: 15px !important;
+                margin-bottom: 10px !important;
+              }
+              .header-background {
+                margin: 0 !important;
+                padding: 0 !important;
+              }
             }
             
             /* Dark mode specific overrides */
@@ -195,6 +216,7 @@ export const DealNotificationTemplate = ({
 
           {/* Content Card */}
           <div
+            className="content-card"
             style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(10px)',
@@ -247,7 +269,7 @@ export const DealNotificationTemplate = ({
                 fontWeight: '600',
               }}
             >
-              Your Flight Deals
+              Your Latest Flight Deals
             </h3>
 
             {deals.map((deal, index) => {
@@ -421,15 +443,15 @@ export const DealNotificationTemplate = ({
                           }}
                         >
                           <img 
-                            src="https://i.postimg.cc/jqMV4fCP/Travira-10.png" 
+                            src="https://i.postimg.cc/7ZqWqwR0/Travira-13.png" 
                             alt="→" 
                             style={{ 
-                              width: '18px', 
-                              height: '18px', 
+                              width: '22px', 
+                              height: '22px', 
                               objectFit: 'contain',
                               display: 'block',
                               margin: '0 auto',
-                              transform: 'translateY(6px)'
+                              transform: 'translateY(8px)'
                             }} 
                           />
                         </span>
@@ -521,7 +543,7 @@ export const DealNotificationTemplate = ({
                       className="activities-title"
                       style={{
                         margin: '0 0 6px 0',
-                        color: '#4b5563',
+                        color: '#045530',
                         fontSize: '16px',
                         fontWeight: '600',
                       }}
@@ -532,7 +554,7 @@ export const DealNotificationTemplate = ({
                       className="activities-description"
                       style={{
                         margin: 0,
-                        color: '#4b5563',
+                        color: '#045530',
                         fontSize: '14px',
                         lineHeight: '1.6',
                         fontWeight: '400',
