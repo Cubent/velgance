@@ -7,41 +7,28 @@ import { useRouter } from 'next/navigation';
 export default function PricingPage() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [flightsPerYear, setFlightsPerYear] = useState(2);
 
-  const handleSubscribe = async () => {
+  const handleSubscribe = async (planId?: string) => {
     if (!user) {
       router.push('/sign-up?redirect_url=/pricing');
       return;
     }
 
-    setLoading(true);
+    // Use existing billing portal
     try {
-      const response = await fetch('/api/subscription/create-checkout', {
+      const response = await fetch('/api/billing/portal', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          successUrl: `${window.location.origin}/onboarding?success=true`,
-          cancelUrl: `${window.location.origin}/pricing?canceled=true`,
-          planType: 'member',
-        }),
       });
-
-      const data = await response.json();
-
-      if (data.success && data.url) {
-        window.location.href = data.url;
+      
+      if (response.ok) {
+        const { url } = await response.json();
+        window.location.href = url;
       } else {
-        throw new Error('Failed to create checkout session');
+        console.error('Failed to create billing portal session');
       }
     } catch (error) {
-      console.error('Error creating subscription:', error);
-      alert('Failed to start subscription process. Please try again.');
-    } finally {
-      setLoading(false);
+      console.error('Error opening billing portal:', error);
     }
   };
 
@@ -76,92 +63,96 @@ export default function PricingPage() {
         </section>
       </div>
 
-      {/* Pricing Card */}
-      <section className="relative">
-        {/* Green background that ends early */}
-        <div className="absolute inset-0 bg-[#045530] rounded-b-[50%] h-48"></div>
-        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-10">
-          <div className="grid grid-cols-1 gap-6">
-            <div className="relative rounded-2xl bg-white p-8 shadow-lg border border-gray-200">
-              {/* Popular Badge */}
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <div className="bg-[#d5e27b] text-[#045530] px-4 py-1 rounded-full text-sm font-semibold">
-                  Popular
-                </div>
-              </div>
-              
-              {/* Main Content - Vertical Layout */}
-              <div className="pt-4 text-center">
-                <h2 className="text-3xl font-bold text-[#045530] mb-2">Join the Club</h2>
-                <p className="text-lg text-gray-600 mb-6">You'll gain full access to all flight deals</p>
-                
-                {/* Price - Centered below title */}
-                <div className="flex items-end justify-center gap-2 mb-6">
-                  <span className="text-5xl font-bold text-[#045530]">$7.50</span>
-                  <span className="pb-2 text-gray-600">/mo</span>
-                </div>
-
-                <div className="text-gray-700 mb-8">7-day free trial · Full refund if you don't save $500+</div>
-
-                {/* Features List */}
-                <div className="text-left mb-8">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
-                        <span className="text-[#045530] text-sm">✓</span>
-                      </div>
-                      <span className="text-gray-700">3-4 personalized flight deals per week</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
-                        <span className="text-[#045530] text-sm">✓</span>
-                      </div>
-                      <span className="text-gray-700">AI finds deals up to 90% off regular prices</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
-                        <span className="text-[#045530] text-sm">✓</span>
-                      </div>
-                      <span className="text-gray-700">Detailed city guides and activities</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
-                        <span className="text-[#045530] text-sm">✓</span>
-                      </div>
-                      <span className="text-gray-700">Flexible date suggestions</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
-                        <span className="text-[#045530] text-sm">✓</span>
-                      </div>
-                      <span className="text-gray-700">Price drop alerts</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
-                        <span className="text-[#045530] text-sm">✓</span>
-                      </div>
-                      <span className="text-gray-700">Priority customer support</span>
-                    </div>
+        {/* Pricing Cards */}
+        <section className="relative">
+          {/* Green background that ends early */}
+          <div className="absolute inset-0 bg-[#045530] rounded-b-[50%] h-48"></div>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Member Plan Card */}
+              <div className="relative rounded-2xl bg-white p-8 shadow-lg border border-gray-200">
+                {/* Popular Badge */}
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-[#d5e27b] text-[#045530] px-4 py-1 rounded-full text-sm font-semibold">
+                    Popular
                   </div>
                 </div>
+                
+                {/* Main Content */}
+                <div className="pt-4 text-center">
+                  <h2 className="text-3xl font-bold text-[#045530] mb-2">Member Plan</h2>
+                  <p className="text-lg text-gray-600 mb-6">
+                    Perfect for regular travelers who want to save money on flights
+                  </p>
+                  
+                  {/* Price */}
+                  <div className="flex items-end justify-center gap-2 mb-6">
+                    <span className="text-5xl font-bold text-[#045530]">$7.50</span>
+                    <span className="pb-2 text-gray-600">/mo</span>
+                  </div>
 
-                <div className="flex flex-col gap-4">
-                  <button
-                    onClick={handleSubscribe}
-                    disabled={loading}
-                    className="w-full inline-flex items-center justify-center rounded-xl bg-[#045530] px-8 py-4 font-semibold text-white shadow-sm hover:bg-[#033f24] disabled:opacity-50 text-lg"
-                  >
-                    {loading ? 'Processing…' : 'Start Free Trial'}
-                  </button>
-                  <button className="w-full inline-flex items-center justify-center rounded-xl border-2 border-[#045530] px-8 py-4 font-semibold text-[#045530] hover:bg-[#045530]/5 text-lg">
-                    Learn more
-                  </button>
+                  <div className="text-gray-700 mb-8">
+                    7-day free trial · Full refund if you don't save $500+
+                  </div>
+
+                  {/* Features List */}
+                  <div className="text-left mb-8">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                          <span className="text-[#045530] text-sm">✓</span>
+                        </div>
+                        <span className="text-gray-700">3-4 personalized flight deals per week</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                          <span className="text-[#045530] text-sm">✓</span>
+                        </div>
+                        <span className="text-gray-700">AI finds deals up to 90% off regular prices</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                          <span className="text-[#045530] text-sm">✓</span>
+                        </div>
+                        <span className="text-gray-700">Detailed city guides and activities</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                          <span className="text-[#045530] text-sm">✓</span>
+                        </div>
+                        <span className="text-gray-700">Flexible date suggestions</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                          <span className="text-[#045530] text-sm">✓</span>
+                        </div>
+                        <span className="text-gray-700">Price drop alerts</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                          <span className="text-[#045530] text-sm">✓</span>
+                        </div>
+                        <span className="text-gray-700">Priority customer support</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-4">
+                    <button
+                      onClick={() => handleSubscribe()}
+                      className="w-full inline-flex items-center justify-center rounded-xl bg-[#045530] px-8 py-4 font-semibold text-white shadow-sm hover:bg-[#033f24] text-lg"
+                    >
+                      Start Free Trial
+                    </button>
+                    <button className="w-full inline-flex items-center justify-center rounded-xl border-2 border-[#045530] px-8 py-4 font-semibold text-[#045530] hover:bg-[#045530]/5 text-lg">
+                      Learn more
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* Estimated Savings Section - Separated */}
       <section>
