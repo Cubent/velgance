@@ -734,6 +734,143 @@ function generateFlexibleDates(baseDate: string, daysRange: number): string[] {
 
 
 /**
+ * Use AI to intelligently select optimal destinations before making API calls
+ * This function will:
+ * 1. Prioritize user's preferred destinations
+ * 2. Add 1-2 cheap destinations from the user's home airport
+ * 3. Ensure users get deals for locations they already have deals for
+ */
+async function selectOptimalDestinations(
+  homeAirports: string[],
+  dreamDestinations: string[],
+  currency: string
+): Promise<string[]> {
+  try {
+    // Get user's existing deals to avoid duplicates
+    const existingDeals = await getExistingUserDeals(homeAirports[0]); // Use first home airport for now
+    
+    const prompt = `You are a travel expert AI helping select optimal flight destinations for a user.
+
+User's home airports: ${homeAirports.join(', ')}
+User's preferred destinations: ${dreamDestinations.join(', ')}
+User's existing deal destinations: ${existingDeals.length > 0 ? existingDeals.join(', ') : 'None'}
+Currency: ${currency}
+
+Your task:
+1. ONLY include preferred destinations that the user does NOT already have deals for
+2. Add EXACTLY 2 ADDITIONAL destinations:
+   - ONE destination in the SAME CONTINENT as ${homeAirports[0]}
+   - ONE destination in a DIFFERENT CONTINENT from ${homeAirports[0]}
+3. IMPORTANT: DO NOT include any destinations the user already has deals for (${existingDeals.length > 0 ? existingDeals.join(', ') : 'none'})
+4. Focus on destinations that are likely to have good deals in the next 90 days
+5. Prioritize popular, well-connected destinations
+6. Consider seasonal factors and typical pricing patterns
+7. Smart selection: Choose destinations that will give the user variety and good value
+
+Return ONLY a JSON array of airport codes, like: ["JFK", "LHR", "CDG", "NRT"]
+Do not include explanations or other text.`;
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a travel expert AI that selects optimal flight destinations. Always respond with valid JSON arrays of airport codes only.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.3,
+      max_tokens: 200
+    });
+
+    const aiResponse = response.choices[0]?.message?.content?.trim();
+    if (!aiResponse) {
+      console.warn('AI did not return destination selection, using original destinations');
+      return dreamDestinations;
+    }
+
+    let selectedDestinations: string[];
+    try {
+      selectedDestinations = JSON.parse(aiResponse);
+      if (!Array.isArray(selectedDestinations)) {
+        throw new Error('AI response is not an array');
+      }
+    } catch (parseError) {
+      console.warn('Failed to parse AI destination selection:', parseError);
+      console.warn('AI response was:', aiResponse);
+      return dreamDestinations;
+    }
+
+    // Filter out preferred destinations that user already has deals for
+    const filteredPreferredDestinations = dreamDestinations.filter(dest => !existingDeals.includes(dest));
+    
+    // Also filter out any AI-selected destinations that user already has deals for
+    const filteredAISelectedDestinations = selectedDestinations.filter(dest => !existingDeals.includes(dest));
+    
+    // Combine filtered preferred destinations with filtered AI-selected additional destinations
+    let finalDestinations = [...new Set([...filteredPreferredDestinations, ...filteredAISelectedDestinations])];
+    
+    // If we have no destinations, fallback to original dream destinations (filtered)
+    if (finalDestinations.length === 0) {
+      finalDestinations = dreamDestinations.filter(dest => !existingDeals.includes(dest));
+    }
+    
+    // If still no destinations, use original dream destinations as last resort
+    if (finalDestinations.length === 0) {
+      finalDestinations = dreamDestinations;
+    }
+    
+    // Ensure we only return EXACTLY 2 destinations
+    if (finalDestinations.length > 2) {
+      finalDestinations = finalDestinations.slice(0, 2);
+    }
+    
+    console.log('AI selected destinations:', {
+      original: dreamDestinations,
+      existingDeals: existingDeals,
+      filteredPreferred: filteredPreferredDestinations,
+      aiSelected: selectedDestinations,
+      filteredAISelected: filteredAISelectedDestinations,
+      final: finalDestinations
+    });
+
+    return finalDestinations;
+  } catch (error) {
+    console.error('Error in AI destination selection:', error);
+    return dreamDestinations; // Fallback to original destinations
+  }
+}
+
+/**
+ * Get existing user deals to avoid duplicates
+ */
+async function getExistingUserDeals(homeAirport: string): Promise<string[]> {
+  try {
+    // Import database here to avoid circular dependencies
+    const { database } = await import('@repo/database');
+    
+    // Get all active deals for this home airport
+    const existingDeals = await database.flightRecommendation.findMany({
+      where: {
+        origin: homeAirport,
+        isActive: true
+      },
+      select: {
+        destination: true
+      }
+    });
+    
+    return existingDeals.map((deal: { destination: string }) => deal.destination);
+  } catch (error) {
+    console.error('Error fetching existing user deals:', error);
+    return [];
+  }
+}
+
+/**
  * Get flight recommendations using Amadeus Flight Cheapest Date Search API
  */
 export async function getFlightRecommendations(
@@ -754,11 +891,19 @@ export async function getFlightRecommendations(
     // Use AI to convert destination names to proper airport codes
     const dreamDestinations = await convertDestinationsToAirportCodes(rawDreamDestinations);
 
+    // Use AI to intelligently select destinations before making API calls
+    const selectedDestinations = await selectOptimalDestinations(
+      homeAirports,
+      dreamDestinations,
+      currency
+    );
+
     console.log('AI-assisted destination conversion:', {
       originalHomeAirports: rawHomeAirports,
       normalizedHomeAirports: homeAirports,
       originalDreamDestinations: rawDreamDestinations,
-      aiConvertedDreamDestinations: dreamDestinations
+      aiConvertedDreamDestinations: dreamDestinations,
+      aiSelectedDestinations: selectedDestinations
     });
 
     const allOffers: AmadeusFlightOffer[] = [];
@@ -772,7 +917,7 @@ export async function getFlightRecommendations(
     
     console.log('Using Flight Cheapest Date Search API with date range:', departureDateRange);
 
-    // Search for flights between all home airports and dream destinations
+    // Search for flights between all home airports and AI-selected destinations
     for (const origin of homeAirports) {
       // Skip invalid origin codes
       if (!validateAirportCode(origin)) {
@@ -780,7 +925,7 @@ export async function getFlightRecommendations(
         continue;
       }
       
-      for (const destination of dreamDestinations) {
+      for (const destination of selectedDestinations) {
         // Skip invalid destination codes
         if (!validateAirportCode(destination)) {
           console.warn(`Skipping invalid destination airport code: ${destination}`);
@@ -793,7 +938,7 @@ export async function getFlightRecommendations(
               origin,
               destination,
             departureDateRange,
-              undefined, // No budget filter
+              600, // Max price limit of 600
               currency
             );
 
@@ -975,18 +1120,18 @@ async function generateSummary(deals: AmadeusFlightOffer[], params: FlightSearch
           model: 'gpt-4o-mini',
           messages: [{
             role: 'user',
-            content: `You are a professional travel consultant writing concise destination descriptions for flight deal emails. For each airport code, provide 5 engaging but brief activities that highlight the destination's unique appeal.
+            content: `You are a professional travel consultant writing VERY SHORT destination descriptions for flight deal emails. For each airport code, provide 5 ultra-brief activities.
 
-Format as JSON: {"AIRPORT_CODE": ["Brief Activity 1", "Cultural Activity 2", "Culinary Activity 3", "Historic Activity 4", "Unique Activity 5"]}
+Format as JSON: {"AIRPORT_CODE": ["Activity 1", "Activity 2", "Activity 3", "Activity 4", "Activity 5"]}
 
-Examples of concise activities:
-- "Experience the magic of London by taking a ride on the iconic London Eye for panoramic city views"
-- "Step back in time at the British Museum, home to the Rosetta Stone and Elgin Marbles with free entry"
-- "Stroll through Notting Hill and visit the famous Portobello Road Market for unique antiques and street food"
-- "Catch a world-class performance at the historic Globe Theatre in a stunning recreation of Shakespeare's venue"
-- "Indulge in quintessentially British afternoon tea at The Ritz with delicate sandwiches and fine teas"
+Examples of SHORT activities:
+- "Visit the London Eye for city views"
+- "Explore the British Museum"
+- "Shop at Portobello Road Market"
+- "See a show at Globe Theatre"
+- "Enjoy afternoon tea at The Ritz"
 
-Keep activities engaging but concise - aim for 15-20 words each. Focus on unique experiences that showcase each destination's character. Airport codes: ${validAirportCodes.join(', ')}`
+Keep activities VERY SHORT - aim for 5-8 words each. Airport codes: ${validAirportCodes.join(', ')}`
           }],
           max_tokens: 1000,
           temperature: 0.7,
@@ -1059,7 +1204,7 @@ Keep activities engaging but concise - aim for 15-20 words each. Focus on unique
   const dealCount = deals.length;
   const savingsText = excellentDeals > 0 ? `, including ${excellentDeals} exceptional deals with significant savings` : '';
   
-  let summary = `We found ${dealCount} flight deal${dealCount > 1 ? 's' : ''} from ${originCities} to ${destinationCities}${savingsText}. `;
+  let summary = `We found ${dealCount} flight deal${dealCount > 1 ? 's' : ''}${savingsText}. `;
   
   if (dealCount === 1) {
     summary += `This deal is available from ${bestDeal.origin} to ${bestDeal.destination}. `;

@@ -62,7 +62,7 @@ export default function DashboardPage() {
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
   const [savedDeals, setSavedDeals] = useState<FlightDeal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState<SortOption>('price');
+  const [sortBy, setSortBy] = useState<SortOption>('date');
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isGeneratingDeals, setIsGeneratingDeals] = useState(false);
@@ -263,7 +263,7 @@ export default function DashboardPage() {
         case 'destination':
           return a.destination.localeCompare(b.destination);
         case 'date':
-          return new Date(a.departureDate).getTime() - new Date(b.departureDate).getTime();
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // Newest first
         case 'quality':
           const qualityOrder = { excellent: 3, good: 2, fair: 1 };
           return (qualityOrder[b.dealQuality as keyof typeof qualityOrder] || 0) - 
@@ -367,17 +367,7 @@ export default function DashboardPage() {
         </div>
 
 
-        {/* Tot Saved Section */}
-        <div className="px-4 sm:px-6 lg:px-8 mb-8 mt-8">
-          <div className="max-w-4xl md:ml-48">
-            <div className="text-left pl-8">
-            <div className="text-lg text-gray-600 mb-2">Tot Saved</div>
-            <div className="text-6xl text-[#045530]">
-              ${recommendations.filter(r => r.isWatched).length.toFixed(2)}
-            </div>
-            </div>
-          </div>
-        </div>
+        {/* Tot Saved Section - REMOVED */}
 
         {/* Generate Deals Button */}
         <div className="px-4 sm:px-6 lg:px-8 mb-8">

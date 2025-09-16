@@ -103,6 +103,47 @@ export const DealNotificationTemplate = ({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{emailTitle}</title>
+        <style>
+          {`
+            /* Force consistent colors regardless of dark mode */
+            .email-container,
+            .email-content,
+            .deal-card {
+              background-color: white !important;
+              color: #000000 !important;
+            }
+            .email-text,
+            .deal-text,
+            .activities-title,
+            .activities-description {
+              color: inherit !important;
+            }
+            .email-subtitle,
+            .deal-subtitle {
+              color: #6b7280 !important;
+            }
+            
+            /* Dark mode specific overrides */
+            @media (prefers-color-scheme: dark) {
+              .header-background {
+                background-color: #d5e27b !important;
+              }
+              .header-title {
+                color: #045530 !important;
+              }
+              .header-subtitle {
+                color: #045530 !important;
+              }
+              .green-text {
+                color: #ffffff !important;
+              }
+              .city-title {
+                font-size: 28px !important;
+                font-weight: 700 !important;
+              }
+            }
+          `}
+        </style>
       </head>
       <body
         style={{
@@ -115,6 +156,7 @@ export const DealNotificationTemplate = ({
       >
 
         <div
+          className="email-container"
           style={{
             maxWidth: '600px',
             margin: '0 auto',
@@ -125,6 +167,7 @@ export const DealNotificationTemplate = ({
         >
           {/* Header with background */}
           <div
+            className="header-background"
             style={{
               background: 'rgba(4, 85, 48, 0.95)',
               backdropFilter: 'blur(10px)',
@@ -135,6 +178,7 @@ export const DealNotificationTemplate = ({
             }}
           >
             <h1
+              className="header-title"
               style={{
                 margin: '0 0 8px 0',
                 color: '#d5e27b',
@@ -147,6 +191,7 @@ export const DealNotificationTemplate = ({
               Travira
             </h1>
             <p
+              className="header-subtitle"
               style={{
                 margin: 0,
                 color: '#fff0d2',
@@ -155,7 +200,7 @@ export const DealNotificationTemplate = ({
                 textAlign: 'center',
               }}
             >
-              New Flight Deals Found!
+              {emailTitle}
             </p>
           </div>
 
@@ -171,6 +216,7 @@ export const DealNotificationTemplate = ({
             }}
           >
             <h2
+              className="green-text"
               style={{
                 margin: '0 0 16px 0',
                 color: '#045530',
@@ -204,6 +250,7 @@ export const DealNotificationTemplate = ({
             </div>
 
             <h3
+              className="green-text"
               style={{
                 margin: '0 0 20px 0',
                 color: '#045530',
@@ -248,19 +295,11 @@ export const DealNotificationTemplate = ({
                   const activitiesList = deal.cityActivities.map(activity => `• ${activity}`).join('<br>');
                   const cityName = getCityName(destination);
                   
-                  // Generate dynamic titles based on destination
-                  const dynamicTitles = [
-                    `"Discover ${cityName}"`,
-                    `"Explore ${cityName}"`,
-                    `"Experience ${cityName}"`,
-                    `"Uncover ${cityName}"`,
-                    `"Adventure in ${cityName}"`,
-                    `"Cultural Journey to ${cityName}"`
-                  ];
-                  const randomIndex = Math.floor(Math.random() * dynamicTitles.length);
+                  // All titles should be "What to do in [City]" format
+                  const title = `What to do in ${cityName}`;
                   
                   return {
-                    title: dynamicTitles[randomIndex],
+                    title: title,
                     description: `Top experiences in ${cityName}:<br>${activitiesList}<br><br>From hidden gems to iconic landmarks, ${cityName} promises unforgettable memories and incredible adventures.`
                   };
                 }
@@ -272,19 +311,11 @@ export const DealNotificationTemplate = ({
                   console.log(`Found cityInfo for ${destination}:`, cityInfo);
                   const activitiesList = cityInfo.activities.map(activity => `• ${activity}`).join('<br>');
                   
-                  // Generate dynamic titles based on destination
-                  const dynamicTitles = [
-                    `"Discover ${cityInfo.cityName}"`,
-                    `"Explore ${cityInfo.cityName}"`,
-                    `"Experience ${cityInfo.cityName}"`,
-                    `"Uncover ${cityInfo.cityName}"`,
-                    `"Adventure in ${cityInfo.cityName}"`,
-                    `"Cultural Journey to ${cityInfo.cityName}"`
-                  ];
-                  const randomIndex = Math.floor(Math.random() * dynamicTitles.length);
+                  // All titles should be "What to do in [City]" format
+                  const title = `What to do in ${cityInfo.cityName}`;
                   
                   return {
-                    title: dynamicTitles[randomIndex],
+                    title: title,
                     description: `Top experiences in ${cityInfo.cityName}:<br>${activitiesList}<br><br>From hidden gems to iconic landmarks, ${cityInfo.cityName} promises unforgettable memories and incredible adventures.`
                   };
                 }
@@ -302,6 +333,7 @@ export const DealNotificationTemplate = ({
               return (
                 <div
                   key={index}
+                  className="deal-card"
                   style={{
                     border: '1px solid #e5e7eb',
                     borderRadius: '12px',
@@ -319,9 +351,10 @@ export const DealNotificationTemplate = ({
                     }}
                   >
                     <h4
+                      className="green-text city-title"
                       style={{
                         margin: 0,
-                        fontSize: '20px',
+                        fontSize: '28px',
                         fontWeight: 'bold',
                         color: '#045530',
                       }}
@@ -394,7 +427,7 @@ export const DealNotificationTemplate = ({
                             justifyContent: 'center',
                             width: '32px',
                             height: '32px',
-                            margin: '0 8px 4px 8px',
+                            margin: '0 8px 20px 8px',
                             verticalAlign: 'middle',
                           }}
                         >
@@ -406,7 +439,8 @@ export const DealNotificationTemplate = ({
                               height: '18px', 
                               objectFit: 'contain',
                               display: 'block',
-                              margin: '0 auto'
+                              margin: '0 auto',
+                              transform: 'translateY(6px)'
                             }} 
                           />
                         </span>
@@ -495,6 +529,7 @@ export const DealNotificationTemplate = ({
                     }}
                   >
                     <h5
+                      className="activities-title"
                       style={{
                         margin: '0 0 6px 0',
                         color: '#045530',
@@ -505,6 +540,7 @@ export const DealNotificationTemplate = ({
                       {activities.title}
                     </h5>
                     <div
+                      className="activities-description"
                       style={{
                         margin: 0,
                         color: '#4b5563',

@@ -44,11 +44,11 @@ export async function POST(request: NextRequest) {
     const amadeusResponse = await getFlightRecommendations(searchParams);
     console.log('Amadeus response:', amadeusResponse);
 
-    // Clear old recommendations
-    await db.flightRecommendation.updateMany({
-      where: { userId: user.id },
-      data: { isActive: false },
-    });
+    // Keep old recommendations - don't clear them
+    // await db.flightRecommendation.updateMany({
+    //   where: { userId: user.id },
+    //   data: { isActive: false },
+    // });
 
     // Save new recommendations to database (5-10 deals)
     const dealsToSave = amadeusResponse.deals.slice(0, 10); // Get up to 10 deals
