@@ -3,6 +3,7 @@ import { auth } from '@clerk/nextjs/server';
 import { database as db } from '@repo/database';
 import { getFlightRecommendations } from '@/services/amadeus';
 import { sendBatchDealAlert } from '@/services/deal-email';
+import { stripe } from '@repo/payments';
 
 export async function POST(request: NextRequest) {
   console.log('=== REFRESH RECOMMENDATIONS API CALLED ===');
@@ -32,10 +33,39 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Check if user has a valid subscription (MEMBER, PRO, or ENTERPRISE)
-    const hasValidSubscription = user.subscriptionTier === 'MEMBER' || 
-                                user.subscriptionTier === 'PRO' || 
-                                user.subscriptionTier === 'ENTERPRISE';
+    // Check if user has an active Stripe subscription
+    let hasValidSubscription = false;
+    let subscriptionTier = 'FREE';
+
+    if (user.stripeSubscription?.stripeSubscriptionId) {
+      try {
+        // Get subscription directly from Stripe
+        const stripeSub = await stripe.subscriptions.retrieve(user.stripeSubscription.stripeSubscriptionId);
+        
+        // Check if subscription is active or trialing
+        if (stripeSub.status === 'active' || stripeSub.status === 'trialing') {
+          hasValidSubscription = true;
+          
+          // Determine tier based on price lookup key
+          const priceId = stripeSub.items.data[0]?.price.id;
+          if (priceId) {
+            try {
+              const price = await stripe.prices.retrieve(priceId);
+              if (price.lookup_key === 'member_plan') {
+                subscriptionTier = 'MEMBER';
+              } else {
+                subscriptionTier = 'PRO'; // Default for other paid plans
+              }
+            } catch (error) {
+              console.error('Error retrieving price details:', error);
+              subscriptionTier = 'PRO'; // Default if price lookup fails
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error checking Stripe subscription:', error);
+      }
+    }
 
     if (!hasValidSubscription) {
       console.log('User does not have valid subscription:', user.subscriptionTier);
