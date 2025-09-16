@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import { stripe } from '@repo/payments';
 import { keys } from '@repo/payments/keys';
 import { database } from '@repo/database';
+import { clerkClient } from '@clerk/nextjs/server';
 import Stripe from 'stripe';
 
 export async function POST(request: NextRequest) {
@@ -116,7 +117,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     },
   });
 
-  // Update user subscription tier
+  // Update user subscription tier in database
   await database.user.update({
     where: { id: stripeSubscription.userId },
     data: {
@@ -124,6 +125,23 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       subscriptionStatus: subscription.status === 'trialing' ? 'TRIALING' : 'ACTIVE',
     },
   });
+
+  // Update Clerk user metadata to sync subscription status
+  try {
+    const client = await clerkClient();
+    await client.users.updateUserMetadata(stripeSubscription.user.clerkId, {
+      privateMetadata: {
+        stripeCustomerId: customerId,
+        stripeSubscriptionId: subscriptionId,
+        subscriptionStatus: subscription.status === 'trialing' ? 'trialing' : 'active',
+        planType: subscriptionTier.toLowerCase(),
+        subscriptionTier: subscriptionTier,
+      },
+    });
+    console.log(`✅ Updated Clerk metadata for user ${stripeSubscription.user.clerkId}`);
+  } catch (clerkError) {
+    console.error('❌ Failed to update Clerk metadata:', clerkError);
+  }
 
   console.log(`Subscription created for user ${stripeSubscription.userId} with tier ${subscriptionTier}`);
 }
@@ -133,6 +151,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 
   const stripeSubscription = await database.stripeSubscription.findUnique({
     where: { stripeCustomerId: customerId },
+    include: { user: true },
   });
 
   if (!stripeSubscription) {
@@ -167,7 +186,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     },
   });
 
-  // Update user subscription tier and status
+  // Update user subscription tier and status in database
   await database.user.update({
     where: { id: stripeSubscription.userId },
     data: {
@@ -178,6 +197,23 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     },
   });
 
+  // Update Clerk user metadata to sync subscription status
+  try {
+    const client = await clerkClient();
+    await client.users.updateUserMetadata(stripeSubscription.user.clerkId, {
+      privateMetadata: {
+        stripeCustomerId: customerId,
+        stripeSubscriptionId: subscription.id,
+        subscriptionStatus: subscription.status,
+        planType: subscriptionTier.toLowerCase(),
+        subscriptionTier: subscriptionTier,
+      },
+    });
+    console.log(`✅ Updated Clerk metadata for user ${stripeSubscription.user.clerkId}`);
+  } catch (clerkError) {
+    console.error('❌ Failed to update Clerk metadata:', clerkError);
+  }
+
   console.log(`Subscription updated for user ${stripeSubscription.userId}: ${subscription.status} (tier: ${subscriptionTier})`);
 }
 
@@ -186,6 +222,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 
   const stripeSubscription = await database.stripeSubscription.findUnique({
     where: { stripeCustomerId: customerId },
+    include: { user: true },
   });
 
   if (!stripeSubscription) {
@@ -201,7 +238,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     },
   });
 
-  // Update user subscription status to inactive
+  // Update user subscription status to inactive in database
   await database.user.update({
     where: { id: stripeSubscription.userId },
     data: {
@@ -209,6 +246,23 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
       subscriptionStatus: 'INACTIVE',
     },
   });
+
+  // Update Clerk user metadata to sync subscription status
+  try {
+    const client = await clerkClient();
+    await client.users.updateUserMetadata(stripeSubscription.user.clerkId, {
+      privateMetadata: {
+        stripeCustomerId: customerId,
+        stripeSubscriptionId: null,
+        subscriptionStatus: 'canceled',
+        planType: 'free',
+        subscriptionTier: 'FREE',
+      },
+    });
+    console.log(`✅ Updated Clerk metadata for user ${stripeSubscription.user.clerkId}`);
+  } catch (clerkError) {
+    console.error('❌ Failed to update Clerk metadata:', clerkError);
+  }
 
   console.log(`Subscription deleted for user ${stripeSubscription.userId}`);
 }

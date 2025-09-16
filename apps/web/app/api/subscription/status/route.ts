@@ -25,8 +25,23 @@ export async function GET(request: NextRequest) {
 
     const subscription = user.stripeSubscription;
 
+    // Determine if user is in trial
+    const isInTrial = subscription?.status === 'trialing';
+    let trialEndDate = null;
+    let daysRemaining = 0;
+
+    if (isInTrial && subscription?.currentPeriodEnd) {
+      trialEndDate = subscription.currentPeriodEnd;
+      const now = new Date();
+      const timeDiff = trialEndDate.getTime() - now.getTime();
+      daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      if (daysRemaining < 0) daysRemaining = 0;
+    }
+
     return NextResponse.json({ 
       success: true,
+      tier: user.subscriptionTier,
+      status: user.subscriptionStatus,
       subscription: subscription ? {
         status: subscription.status,
         currentPeriodStart: subscription.currentPeriodStart,
@@ -36,7 +51,10 @@ export async function GET(request: NextRequest) {
         currency: subscription.currency,
         interval: subscription.interval,
       } : null,
-      hasActiveSubscription: subscription?.status === 'active',
+      hasActiveSubscription: subscription?.status === 'active' || subscription?.status === 'trialing',
+      isInTrial: isInTrial,
+      trialEndDate: trialEndDate,
+      daysRemaining: daysRemaining,
     });
 
   } catch (error) {
