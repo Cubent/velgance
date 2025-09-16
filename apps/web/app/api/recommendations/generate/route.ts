@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     // Use the Amadeus service to get flight recommendations
     console.log('Calling Amadeus with params:', searchParams);
-    const amadeusResponse = await getFlightRecommendations(searchParams);
+    const amadeusResponse = await getFlightRecommendations(searchParams, user.id);
     console.log('Amadeus response:', amadeusResponse);
 
     // Keep old recommendations - don't clear them

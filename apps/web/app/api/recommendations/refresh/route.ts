@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     // Get new recommendations from Amadeus API
     console.log('Calling Amadeus API with params:', searchParams);
-    const amadeusRecommendations = await getFlightRecommendations(searchParams);
+    const amadeusRecommendations = await getFlightRecommendations(searchParams, user.id);
     console.log('Amadeus API returned:', { dealsCount: amadeusRecommendations.deals.length, summary: amadeusRecommendations.summary });
 
     // Keep old recommendations - don't clear them

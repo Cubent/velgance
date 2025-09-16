@@ -743,31 +743,40 @@ function generateFlexibleDates(baseDate: string, daysRange: number): string[] {
 async function selectOptimalDestinations(
   homeAirports: string[],
   dreamDestinations: string[],
-  currency: string
+  currency: string,
+  userId?: string
 ): Promise<string[]> {
   try {
     // Get user's existing deals to avoid duplicates
-    const existingDeals = await getExistingUserDeals(homeAirports[0]); // Use first home airport for now
+    const { destinations: existingDestinations, deals: existingDeals } = await getExistingUserDeals(homeAirports[0], userId);
+    
+    
+    // Format existing deals for AI
+    const existingDealsInfo = existingDeals.length > 0 
+      ? existingDeals.map(deal => `${deal.destination} (${deal.price} ${deal.currency}, ${deal.airline}, ${deal.dealQuality || 'unknown'} quality)`)
+      : ['None'];
+    
     
     const prompt = `You are a travel expert AI helping select optimal flight destinations for a user.
 
 User's home airports: ${homeAirports.join(', ')}
 User's preferred destinations: ${dreamDestinations.join(', ')}
-User's existing deal destinations: ${existingDeals.length > 0 ? existingDeals.join(', ') : 'None'}
+User's existing deals: ${existingDealsInfo.join(', ')}
 Currency: ${currency}
 
-Your task:
-1. ONLY include preferred destinations that the user does NOT already have deals for
-2. Add EXACTLY 2 ADDITIONAL destinations:
-   - ONE destination in the SAME CONTINENT as ${homeAirports[0]}
-   - ONE destination in a DIFFERENT CONTINENT from ${homeAirports[0]}
-3. IMPORTANT: DO NOT include any destinations the user already has deals for (${existingDeals.length > 0 ? existingDeals.join(', ') : 'none'})
-4. Focus on destinations that are likely to have good deals in the next 90 days
-5. Prioritize popular, well-connected destinations
-6. Consider seasonal factors and typical pricing patterns
-7. Smart selection: Choose destinations that will give the user variety and good value
+CRITICAL: The user already has deals for these destinations: ${existingDestinations.join(', ')}
+DO NOT SUGGEST ANY OF THESE DESTINATIONS: ${existingDestinations.join(', ')}
 
-Return ONLY a JSON array of airport codes, like: ["JFK", "LHR", "CDG", "NRT"]
+Your task:
+1. ALWAYS return EXACTLY 2 destinations total
+2. NEVER include these destinations: ${existingDestinations.join(', ')}
+3. Choose diverse, cheap, popular destinations that offer the best deals
+4. Consider BOTH same continent and different continent destinations - cheap deals can be found anywhere
+5. Focus on destinations with good deals in the next 90 days
+6. Be creative and diverse - avoid repetition
+7. Prioritize destinations that give maximum value and variety
+
+Return ONLY a JSON array of EXACTLY 2 airport codes, like: ["BCN", "DXB"]
 Do not include explanations or other text.`;
 
     const response = await openai.chat.completions.create({
@@ -775,7 +784,7 @@ Do not include explanations or other text.`;
       messages: [
         {
           role: 'system',
-          content: 'You are a travel expert AI that selects optimal flight destinations. Always respond with valid JSON arrays of airport codes only.'
+          content: 'You are a travel expert AI that selects optimal flight destinations. Choose 2 diverse, cheap destinations that offer the best deals - they can be from the same continent or different continents. Focus on value and variety. Be creative and avoid repetition. Always respond with valid JSON arrays of exactly 2 airport codes only.'
         },
         {
           role: 'user',
@@ -787,6 +796,8 @@ Do not include explanations or other text.`;
     });
 
     const aiResponse = response.choices[0]?.message?.content?.trim();
+    
+    
     if (!aiResponse) {
       console.warn('AI did not return destination selection, using original destinations');
       return dreamDestinations;
@@ -804,38 +815,38 @@ Do not include explanations or other text.`;
       return dreamDestinations;
     }
 
-    // Filter out preferred destinations that user already has deals for
-    const filteredPreferredDestinations = dreamDestinations.filter(dest => !existingDeals.includes(dest));
+    // HARD FILTER: Remove ANY destination that user already has deals for
+    const filteredPreferredDestinations = dreamDestinations.filter(dest => !existingDestinations.includes(dest));
+    const filteredAISelectedDestinations = selectedDestinations.filter(dest => !existingDestinations.includes(dest));
     
-    // Also filter out any AI-selected destinations that user already has deals for
-    const filteredAISelectedDestinations = selectedDestinations.filter(dest => !existingDeals.includes(dest));
-    
-    // Combine filtered preferred destinations with filtered AI-selected additional destinations
+    // Combine and ensure NO duplicates
     let finalDestinations = [...new Set([...filteredPreferredDestinations, ...filteredAISelectedDestinations])];
     
-    // If we have no destinations, fallback to original dream destinations (filtered)
+    // HARD FILTER AGAIN: Remove any remaining duplicates
+    finalDestinations = finalDestinations.filter(dest => !existingDestinations.includes(dest));
+    
+    // If we have no destinations, get alternatives that are NOT in existing deals
     if (finalDestinations.length === 0) {
-      finalDestinations = dreamDestinations.filter(dest => !existingDeals.includes(dest));
+      const alternatives = await getAdditionalAlternatives(homeAirports[0], [], existingDestinations, userId);
+      finalDestinations = alternatives.filter(dest => !existingDestinations.includes(dest));
     }
     
-    // If still no destinations, use original dream destinations as last resort
+    // If still no destinations, use fallback destinations that are NOT in existing deals
     if (finalDestinations.length === 0) {
-      finalDestinations = dreamDestinations;
+      const fallbackDestinations = ['DXB', 'NRT', 'SYD', 'BKK', 'ICN', 'SIN', 'HKG', 'DPS', 'MLE', 'CPT'];
+      finalDestinations = fallbackDestinations.filter(dest => !existingDestinations.includes(dest)).slice(0, 2);
     }
     
     // Ensure we only return EXACTLY 2 destinations
-    if (finalDestinations.length > 2) {
-      finalDestinations = finalDestinations.slice(0, 2);
+    finalDestinations = finalDestinations.slice(0, 2);
+    
+    // If we have less than 2 destinations, fill with more alternatives
+    if (finalDestinations.length < 2) {
+      const additionalAlternatives = await getAdditionalAlternatives(homeAirports[0], finalDestinations, existingDestinations, userId);
+      const newAlternatives = additionalAlternatives.filter(dest => !existingDestinations.includes(dest) && !finalDestinations.includes(dest));
+      finalDestinations = [...finalDestinations, ...newAlternatives].slice(0, 2);
     }
     
-    console.log('AI selected destinations:', {
-      original: dreamDestinations,
-      existingDeals: existingDeals,
-      filteredPreferred: filteredPreferredDestinations,
-      aiSelected: selectedDestinations,
-      filteredAISelected: filteredAISelectedDestinations,
-      final: finalDestinations
-    });
 
     return finalDestinations;
   } catch (error) {
@@ -845,28 +856,112 @@ Do not include explanations or other text.`;
 }
 
 /**
+ * Get additional alternative destinations when needed
+ */
+async function getAdditionalAlternatives(
+  homeAirport: string, 
+  currentDestinations: string[], 
+  existingDestinations: string[],
+  userId?: string
+): Promise<string[]> {
+  try {
+    const prompt = `You are a travel expert AI. The user needs more diverse, cheap flight destinations.
+
+User's home airport: ${homeAirport}
+Current destinations already selected: ${currentDestinations.join(', ')}
+Destinations user already has deals for: ${existingDestinations.length > 0 ? existingDestinations.join(', ') : 'None'}
+
+Your task:
+1. Suggest 2-3 diverse, cheap, popular destinations that offer the best deals
+2. Consider BOTH same continent and different continent destinations - cheap deals can be found anywhere
+3. Choose destinations that are typically affordable and have good deals
+4. Avoid destinations the user already has deals for
+5. Be creative and diverse - don't repeat the same regions
+6. Focus on popular tourist destinations with good flight connections
+7. Consider what destinations would complement the user's existing deals
+
+Return ONLY a JSON array of airport codes, like: ["BCN", "DXB", "NRT"]
+Do not include explanations or other text.`;
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a travel expert AI that suggests diverse, cheap flight destinations. Always respond with valid JSON arrays of airport codes only.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 150
+    });
+
+    const aiResponse = response.choices[0]?.message?.content?.trim();
+    if (!aiResponse) {
+      return ['DXB', 'NRT']; // Fallback alternatives
+    }
+
+    let alternatives: string[];
+    try {
+      alternatives = JSON.parse(aiResponse);
+      if (!Array.isArray(alternatives)) {
+        throw new Error('AI response is not an array');
+      }
+    } catch (parseError) {
+      console.warn('Failed to parse AI alternatives:', parseError);
+      return ['DXB', 'NRT']; // Fallback alternatives
+    }
+
+    // Filter out destinations user already has deals for
+    return alternatives.filter(dest => !existingDestinations.includes(dest));
+  } catch (error) {
+    console.error('Error getting additional alternatives:', error);
+    return ['DXB', 'NRT']; // Fallback alternatives
+  }
+}
+
+/**
  * Get existing user deals to avoid duplicates
  */
-async function getExistingUserDeals(homeAirport: string): Promise<string[]> {
+async function getExistingUserDeals(homeAirport: string, userId?: string): Promise<{ destinations: string[]; deals: any[] }> {
   try {
     // Import database here to avoid circular dependencies
     const { database } = await import('@repo/database');
     
-    // Get all active deals for this home airport
+    // Get all active deals for this home airport and user with full details
+    const whereClause = {
+      origin: homeAirport,
+      isActive: true,
+      userId: userId // Always filter by userId if provided
+    };
+    
+    
     const existingDeals = await database.flightRecommendation.findMany({
-      where: {
-        origin: homeAirport,
-        isActive: true
-      },
+      where: whereClause,
       select: {
-        destination: true
+        destination: true,
+        departureDate: true,
+        price: true,
+        currency: true,
+        airline: true,
+        dealQuality: true,
+        createdAt: true
       }
     });
     
-    return existingDeals.map((deal: { destination: string }) => deal.destination);
+    
+    const destinations = existingDeals.map((deal: { destination: string }) => deal.destination);
+    
+    return {
+      destinations,
+      deals: existingDeals
+    };
   } catch (error) {
     console.error('Error fetching existing user deals:', error);
-    return [];
+    return { destinations: [], deals: [] };
   }
 }
 
@@ -874,7 +969,8 @@ async function getExistingUserDeals(homeAirport: string): Promise<string[]> {
  * Get flight recommendations using Amadeus Flight Cheapest Date Search API
  */
 export async function getFlightRecommendations(
-  params: FlightSearchParams
+  params: FlightSearchParams,
+  userId?: string
 ): Promise<FlightRecommendationResponse> {
   try {
     const {
@@ -895,7 +991,8 @@ export async function getFlightRecommendations(
     const selectedDestinations = await selectOptimalDestinations(
       homeAirports,
       dreamDestinations,
-      currency
+      currency,
+      userId
     );
 
     console.log('AI-assisted destination conversion:', {

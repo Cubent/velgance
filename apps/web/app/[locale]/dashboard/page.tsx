@@ -69,6 +69,8 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isGeneratingDeals, setIsGeneratingDeals] = useState(false);
   const [isPreferencesModalOpen, setIsPreferencesModalOpen] = useState(false);
+  const [selectedDeals, setSelectedDeals] = useState<Set<string>>(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (isLoaded && !user) {
@@ -233,6 +235,55 @@ export default function DashboardPage() {
     }
   };
 
+  const handleSelectDeal = (dealId: string) => {
+    setSelectedDeals(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(dealId)) {
+        newSet.delete(dealId);
+      } else {
+        newSet.add(dealId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleSelectAll = () => {
+    if (selectedDeals.size === filteredAndSortedRecommendations.length) {
+      setSelectedDeals(new Set());
+    } else {
+      setSelectedDeals(new Set(filteredAndSortedRecommendations.map(rec => rec.id)));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedDeals.size === 0) return;
+    
+    try {
+      setIsDeleting(true);
+      const response = await fetch('/api/recommendations/bulk-delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ dealIds: Array.from(selectedDeals) }),
+      });
+      
+      if (response.ok) {
+        // Remove deleted deals from state
+        setRecommendations(prev => 
+          prev.filter(rec => !selectedDeals.has(rec.id))
+        );
+        setSelectedDeals(new Set());
+      } else {
+        console.error('Failed to delete deals');
+      }
+    } catch (error) {
+      console.error('Error deleting deals:', error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   // Filter and sort recommendations
   const filteredAndSortedRecommendations = recommendations
     .filter(rec => {
@@ -391,6 +442,41 @@ export default function DashboardPage() {
         </div>
 
 
+        {/* Bulk Actions */}
+        {filteredAndSortedRecommendations.length > 0 && (
+          <div className="px-4 sm:px-6 lg:px-8 mb-4">
+            <div className="max-w-4xl md:ml-48">
+              <div className="flex items-center justify-between bg-white rounded-lg border border-gray-200 p-4">
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedDeals.size === filteredAndSortedRecommendations.length && filteredAndSortedRecommendations.length > 0}
+                      onChange={handleSelectAll}
+                      className="w-4 h-4 text-[#045530] border-gray-300 rounded focus:ring-[#045530]"
+                    />
+                    <span className="text-sm font-medium text-gray-700">
+                      Select All ({selectedDeals.size} selected)
+                    </span>
+                  </label>
+                </div>
+                {selectedDeals.size > 0 && (
+                  <button
+                    onClick={handleBulkDelete}
+                    disabled={isDeleting}
+                    className="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    {isDeleting ? 'Deleting...' : `Delete ${selectedDeals.size} Deals`}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Recommendations Grid */}
         {filteredAndSortedRecommendations.length === 0 ? (
           <div className="px-4 sm:px-6 lg:px-8">
@@ -424,6 +510,8 @@ export default function DashboardPage() {
                 recommendation={recommendation}
                 onWatch={handleWatch}
                 onBook={handleBook}
+                isSelected={selectedDeals.has(recommendation.id)}
+                onSelect={handleSelectDeal}
               />
             ))}
             </div>

@@ -43,6 +43,8 @@ interface RecommendationCardProps {
   recommendation: FlightRecommendation;
   onWatch: (id: string) => void;
   onBook: (url: string) => void;
+  isSelected?: boolean;
+  onSelect?: (id: string) => void;
 }
 
 const AIRPORT_IMAGES: Record<string, string> = {
@@ -103,7 +105,9 @@ const getConfidenceColor = (score?: number) => {
 export default function RecommendationCard({ 
   recommendation, 
   onWatch, 
-  onBook 
+  onBook,
+  isSelected = false,
+  onSelect
 }: RecommendationCardProps) {
   const [imageError, setImageError] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -112,7 +116,21 @@ export default function RecommendationCard({
   const destinationImage = recommendation.cityImageUrl || AIRPORT_IMAGES[recommendation.destination] || '/images/cities/default.jpg';
 
   return (
-    <div className="bg-white rounded-lg transition-all duration-300 overflow-hidden border border-gray-100 relative">
+    <div className={`bg-white rounded-lg transition-all duration-300 overflow-hidden border border-gray-100 relative ${isSelected ? 'ring-2 ring-[#045530]' : ''}`}>
+      {/* Selection Checkbox */}
+      {onSelect && (
+        <div className="absolute top-2 right-2 z-10">
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isSelected}
+              onChange={() => onSelect(recommendation.id)}
+              className="w-4 h-4 text-[#045530] border-gray-300 rounded focus:ring-[#045530] bg-white"
+            />
+          </label>
+        </div>
+      )}
+      
       {/* Destination Image Section */}
       <div className="bg-white p-4">
         <div 
