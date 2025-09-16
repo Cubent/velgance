@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { database } from '@repo/database';
-import { createBillingPortalSession } from '@repo/payments';
+import { createBillingPortalSession, stripe } from '@repo/payments';
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,35 +23,68 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const subscription = user.stripeSubscription;
-
-    // Determine if user is in trial
-    const isInTrial = subscription?.status === 'trialing';
+    // Check Stripe directly for real-time subscription status
+    let hasActiveSubscription = false;
+    let subscriptionTier = 'FREE';
+    let subscriptionStatus = 'inactive';
+    let isInTrial = false;
     let trialEndDate = null;
     let daysRemaining = 0;
+    let stripeSubscriptionData = null;
 
-    if (isInTrial && subscription?.currentPeriodEnd) {
-      trialEndDate = subscription.currentPeriodEnd;
-      const now = new Date();
-      const timeDiff = trialEndDate.getTime() - now.getTime();
-      daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      if (daysRemaining < 0) daysRemaining = 0;
+    if (user.stripeSubscription?.stripeSubscriptionId) {
+      try {
+        // Get subscription directly from Stripe
+        const stripeSub = await stripe.subscriptions.retrieve(user.stripeSubscription.stripeSubscriptionId);
+        stripeSubscriptionData = stripeSub;
+        
+        // Check if subscription is active or trialing
+        if (stripeSub.status === 'active' || stripeSub.status === 'trialing') {
+          hasActiveSubscription = true;
+          subscriptionStatus = stripeSub.status;
+          
+          // Determine tier based on price lookup key
+          const priceId = stripeSub.items.data[0]?.price.id;
+          if (priceId) {
+            try {
+              const price = await stripe.prices.retrieve(priceId);
+              if (price.lookup_key === 'member_plan') {
+                subscriptionTier = 'MEMBER';
+              } else {
+                subscriptionTier = 'PRO'; // Default for other paid plans
+              }
+            } catch (error) {
+              console.error('Error retrieving price details:', error);
+              subscriptionTier = 'PRO'; // Default if price lookup fails
+            }
+          }
+          
+          // Check if in trial
+          if (stripeSub.status === 'trialing') {
+            isInTrial = true;
+            trialEndDate = new Date((stripeSub as any).current_period_end * 1000);
+            const now = new Date();
+            const timeDiff = trialEndDate.getTime() - now.getTime();
+            daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            if (daysRemaining < 0) daysRemaining = 0;
+          }
+        }
+      } catch (error) {
+        console.error('Error checking Stripe subscription:', error);
+      }
     }
 
     return NextResponse.json({ 
       success: true,
-      tier: user.subscriptionTier,
-      status: user.subscriptionStatus,
-      subscription: subscription ? {
-        status: subscription.status,
-        currentPeriodStart: subscription.currentPeriodStart,
-        currentPeriodEnd: subscription.currentPeriodEnd,
-        cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
-        amount: subscription.amount,
-        currency: subscription.currency,
-        interval: subscription.interval,
+      tier: subscriptionTier,
+      status: subscriptionStatus,
+      subscription: stripeSubscriptionData ? {
+        status: stripeSubscriptionData.status,
+        currentPeriodStart: new Date((stripeSubscriptionData as any).current_period_start * 1000),
+        currentPeriodEnd: new Date((stripeSubscriptionData as any).current_period_end * 1000),
+        cancelAtPeriodEnd: (stripeSubscriptionData as any).cancel_at_period_end,
       } : null,
-      hasActiveSubscription: subscription?.status === 'active' || subscription?.status === 'trialing',
+      hasActiveSubscription: hasActiveSubscription,
       isInTrial: isInTrial,
       trialEndDate: trialEndDate,
       daysRemaining: daysRemaining,

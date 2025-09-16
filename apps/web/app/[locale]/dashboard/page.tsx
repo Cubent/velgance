@@ -207,13 +207,6 @@ export default function DashboardPage() {
   const handleGenerateDeals = async () => {
     if (!preferences) return;
     
-    // Check subscription status before generating deals
-    if (!subscriptionStatus || (subscriptionStatus.tier !== 'MEMBER' && subscriptionStatus.tier !== 'PRO' && subscriptionStatus.tier !== 'ENTERPRISE')) {
-      // User doesn't have a paid subscription, redirect to pricing
-      router.push('/pricing');
-      return;
-    }
-    
     try {
       setIsGeneratingDeals(true);
       const response = await fetch('/api/recommendations/generate', {
@@ -230,7 +223,13 @@ export default function DashboardPage() {
       if (response.ok) {
         await fetchData();
       } else {
-        console.error('Failed to generate deals');
+        const errorData = await response.json();
+        if (errorData.requiresSubscription) {
+          // Redirect to pricing if subscription is required
+          router.push('/pricing');
+        } else {
+          console.error('Failed to generate deals:', errorData);
+        }
       }
     } catch (error) {
       console.error('Error generating deals:', error);
