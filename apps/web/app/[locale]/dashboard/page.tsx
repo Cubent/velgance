@@ -27,6 +27,8 @@ interface FlightRecommendation {
   otaUrl?: string;
   isWatched: boolean;
   isAlternative?: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface UserPreferences {
