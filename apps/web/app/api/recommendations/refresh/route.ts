@@ -21,14 +21,30 @@ export async function POST(request: NextRequest) {
       where: { clerkId: userId },
       include: {
         travelPreferences: true,
+        stripeSubscription: true,
       },
     });
 
-    console.log('User found:', { id: user?.id, email: user?.email, hasPreferences: !!user?.travelPreferences });
+    console.log('User found:', { id: user?.id, email: user?.email, hasPreferences: !!user?.travelPreferences, subscriptionTier: user?.subscriptionTier });
 
     if (!user) {
       console.log('User not found in database');
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    // Check if user has a valid subscription (MEMBER, PRO, or ENTERPRISE)
+    const hasValidSubscription = user.subscriptionTier === 'MEMBER' || 
+                                user.subscriptionTier === 'PRO' || 
+                                user.subscriptionTier === 'ENTERPRISE';
+
+    if (!hasValidSubscription) {
+      console.log('User does not have valid subscription:', user.subscriptionTier);
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Subscription required',
+        message: 'You need an active subscription to refresh flight deals. Please start your free trial.',
+        requiresSubscription: true
+      }, { status: 403 });
     }
 
     if (!user.travelPreferences) {

@@ -71,6 +71,13 @@ export default function DashboardPage() {
   const [isPreferencesModalOpen, setIsPreferencesModalOpen] = useState(false);
   const [selectedDeals, setSelectedDeals] = useState<Set<string>>(new Set());
   const [isDeleting, setIsDeleting] = useState(false);
+  const [subscriptionStatus, setSubscriptionStatus] = useState<{
+    tier: string;
+    status: string;
+    isInTrial: boolean;
+    trialEndDate?: Date;
+    daysRemaining?: number;
+  } | null>(null);
 
   useEffect(() => {
     if (isLoaded && !user) {
@@ -107,6 +114,18 @@ export default function DashboardPage() {
       }
 
       setPreferences(preferencesData.preferences);
+
+      // Fetch subscription status
+      try {
+        const subscriptionResponse = await fetch('/api/subscription/status');
+        if (subscriptionResponse.ok) {
+          const subscriptionData = await subscriptionResponse.json();
+          setSubscriptionStatus(subscriptionData);
+        }
+      } catch (subError) {
+        console.error('Error fetching subscription status:', subError);
+        // Continue without subscription status - don't block the page
+      }
 
       // Fetch flight recommendations
       try {
@@ -187,6 +206,13 @@ export default function DashboardPage() {
 
   const handleGenerateDeals = async () => {
     if (!preferences) return;
+    
+    // Check subscription status before generating deals
+    if (!subscriptionStatus || (subscriptionStatus.tier !== 'MEMBER' && subscriptionStatus.tier !== 'PRO' && subscriptionStatus.tier !== 'ENTERPRISE')) {
+      // User doesn't have a paid subscription, redirect to pricing
+      router.push('/pricing');
+      return;
+    }
     
     try {
       setIsGeneratingDeals(true);
@@ -419,6 +445,74 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Subscription Status Banner */}
+        {subscriptionStatus && (
+          <div className="px-4 sm:px-6 lg:px-8 py-4">
+            <div className="max-w-4xl md:ml-48">
+              {subscriptionStatus.tier === 'FREE' ? (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <span className="text-yellow-600 text-sm">⚠️</span>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-yellow-800">Subscription Required</h3>
+                        <p className="text-xs text-yellow-700">
+                          Start your 7-day free trial to generate personalized flight deals
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => router.push('/pricing')}
+                      className="bg-[#045530] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#034a2a] transition-colors"
+                    >
+                      Start Free Trial
+                    </button>
+                  </div>
+                </div>
+              ) : subscriptionStatus.isInTrial ? (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span className="text-blue-600 text-sm">🎉</span>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-blue-800">Free Trial Active</h3>
+                        <p className="text-xs text-blue-700">
+                          {subscriptionStatus.daysRemaining} days remaining in your trial
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-sm text-blue-600 font-medium">
+                      {subscriptionStatus.tier} Plan
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                        <span className="text-green-600 text-sm">✅</span>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-green-800">Subscription Active</h3>
+                        <p className="text-xs text-green-700">
+                          You have full access to all features
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-sm text-green-600 font-medium">
+                      {subscriptionStatus.tier} Plan
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Tot Saved Section - REMOVED */}
 

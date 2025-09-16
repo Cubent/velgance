@@ -21,13 +21,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find the user
+    // Find the user with subscription info
     const user = await db.user.findUnique({
       where: { clerkId: userId },
+      include: {
+        stripeSubscription: true,
+      },
     });
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    // Check if user has a valid subscription (MEMBER, PRO, or ENTERPRISE)
+    const hasValidSubscription = user.subscriptionTier === 'MEMBER' || 
+                                user.subscriptionTier === 'PRO' || 
+                                user.subscriptionTier === 'ENTERPRISE';
+
+    if (!hasValidSubscription) {
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Subscription required',
+        message: 'You need an active subscription to generate flight deals. Please start your free trial.',
+        requiresSubscription: true
+      }, { status: 403 });
     }
 
     // Convert user preferences to Amadeus flight search parameters

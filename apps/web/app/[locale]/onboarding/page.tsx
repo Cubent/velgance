@@ -138,7 +138,8 @@ export default function OnboardingPage() {
       });
 
       if (response.ok) {
-        router.push('/dashboard');
+        // After completing onboarding, redirect to pricing to start free trial
+        router.push('/pricing');
       } else {
         throw new Error('Failed to save preferences');
       }
