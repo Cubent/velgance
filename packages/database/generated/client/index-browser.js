@@ -275,6 +275,7 @@ exports.Prisma.UserPreferencesScalarFieldEnum = {
   preferredAirlines: 'preferredAirlines',
   travelFlexibility: 'travelFlexibility',
   currency: 'currency',
+  headerImageUrl: 'headerImageUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

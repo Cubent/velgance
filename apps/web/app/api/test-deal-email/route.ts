@@ -52,14 +52,17 @@ export async function POST(request: NextRequest) {
         userEmail,
         'Test User',
         sampleDeal,
-        'Test single deal notification - Great deal found!'
+        'Test single deal notification - Great deal found!',
+        'https://i.postimg.cc/Vvg0PqTx/Travira-12.png'
       );
     } else {
       success = await sendBatchDealAlert(
         userEmail,
         'Test User',
         sampleDeals,
-        'Test batch deal notification - Multiple great deals found!'
+        'Test batch deal notification - Multiple great deals found!',
+        undefined,
+        'https://i.postimg.cc/Vvg0PqTx/Travira-12.png'
       );
     }
 

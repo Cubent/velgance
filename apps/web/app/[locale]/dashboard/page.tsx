@@ -449,12 +449,20 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between bg-white rounded-lg border border-gray-200 p-4">
                 <div className="flex items-center gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={selectedDeals.size === filteredAndSortedRecommendations.length && filteredAndSortedRecommendations.length > 0}
-                      onChange={handleSelectAll}
-                      className="w-4 h-4 text-[#045530] border-gray-300 rounded focus:ring-[#045530]"
-                    />
+                    <div
+                      onClick={handleSelectAll}
+                      className={`w-4 h-4 border border-gray-200 rounded cursor-pointer flex items-center justify-center ${
+                        selectedDeals.size === filteredAndSortedRecommendations.length && filteredAndSortedRecommendations.length > 0 
+                          ? 'bg-gray-400' 
+                          : 'bg-[#f0eeea]'
+                      }`}
+                    >
+                      {selectedDeals.size === filteredAndSortedRecommendations.length && filteredAndSortedRecommendations.length > 0 && (
+                        <svg className="w-3 h-3 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
                     <span className="text-sm font-medium text-gray-700">
                       Select All ({selectedDeals.size} selected)
                     </span>

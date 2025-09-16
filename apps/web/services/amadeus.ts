@@ -767,14 +767,17 @@ Currency: ${currency}
 CRITICAL: The user already has deals for these destinations: ${existingDestinations.join(', ')}
 DO NOT SUGGEST ANY OF THESE DESTINATIONS: ${existingDestinations.join(', ')}
 
+HIGH-RISK COUNTRIES TO AVOID: Israel, Ukraine, Russia, Iran, North Korea, Syria, Afghanistan, Iraq, Yemen, Somalia, Libya, Sudan, Central African Republic, Democratic Republic of Congo, Mali, Niger, Burkina Faso, Chad, Nigeria (northern regions), Myanmar, Venezuela, Haiti (border areas).
+
 Your task:
 1. ALWAYS return EXACTLY 2 destinations total
 2. NEVER include these destinations: ${existingDestinations.join(', ')}
-3. Choose diverse, cheap, popular destinations that offer the best deals
-4. Consider BOTH same continent and different continent destinations - cheap deals can be found anywhere
-5. Focus on destinations with good deals in the next 90 days
-6. Be creative and diverse - avoid repetition
-7. Prioritize destinations that give maximum value and variety
+3. AVOID high-risk countries and regions listed above
+4. Choose diverse, cheap, popular destinations that offer the best deals
+5. Consider BOTH same continent and different continent destinations - cheap deals can be found anywhere
+6. Focus on destinations with good deals in the next 90 days
+7. Be creative and diverse - avoid repetition
+8. Prioritize destinations that give maximum value and variety
 
 Return ONLY a JSON array of EXACTLY 2 airport codes, like: ["BCN", "DXB"]
 Do not include explanations or other text.`;
@@ -871,14 +874,16 @@ User's home airport: ${homeAirport}
 Current destinations already selected: ${currentDestinations.join(', ')}
 Destinations user already has deals for: ${existingDestinations.length > 0 ? existingDestinations.join(', ') : 'None'}
 
+HIGH-RISK COUNTRIES TO AVOID: Israel, Ukraine, Russia, Iran, North Korea, Syria, Afghanistan, Iraq, Yemen, Somalia, Libya, Sudan, Central African Republic, Democratic Republic of Congo, Mali, Niger, Burkina Faso, Chad, Nigeria (northern regions), Myanmar, Venezuela, Haiti (border areas).
+
 Your task:
 1. Suggest 2-3 diverse, cheap, popular destinations that offer the best deals
 2. Consider BOTH same continent and different continent destinations - cheap deals can be found anywhere
 3. Choose destinations that are typically affordable and have good deals
 4. Avoid destinations the user already has deals for
-5. Be creative and diverse - don't repeat the same regions
-6. Focus on popular tourist destinations with good flight connections
-7. Consider what destinations would complement the user's existing deals
+6. Be creative and diverse - don't repeat the same regions
+7. Focus on popular tourist destinations with good flight connections
+8. Consider what destinations would complement the user's existing deals
 
 Return ONLY a JSON array of airport codes, like: ["BCN", "DXB", "NRT"]
 Do not include explanations or other text.`;

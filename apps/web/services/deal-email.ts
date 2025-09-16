@@ -65,11 +65,13 @@ export async function sendSingleDealAlert(
     cityImageUrl?: string;
     cityActivities?: string[];
   },
-  summary: string
+  summary: string,
+  headerImageUrl?: string
 ): Promise<boolean> {
   return sendDealNotificationEmail({
     userEmail,
     userName,
+    headerImageUrl,
     deals: [deal],
     summary,
   });
@@ -100,11 +102,13 @@ export async function sendBatchDealAlert(
       cityName: string;
       activities: string[];
     };
-  }
+  },
+  headerImageUrl?: string
 ): Promise<boolean> {
   return sendDealNotificationEmail({
     userEmail,
     userName,
+    headerImageUrl,
     deals,
     summary,
     cityData,

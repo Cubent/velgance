@@ -121,12 +121,18 @@ export default function RecommendationCard({
       {onSelect && (
         <div className="absolute top-2 right-2 z-10">
           <label className="flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              checked={isSelected}
-              onChange={() => onSelect(recommendation.id)}
-              className="w-4 h-4 text-[#045530] border-gray-300 rounded focus:ring-[#045530] bg-white"
-            />
+            <div
+              onClick={() => onSelect(recommendation.id)}
+              className={`w-4 h-4 border border-gray-200 rounded cursor-pointer flex items-center justify-center ${
+                isSelected ? 'bg-gray-400' : 'bg-[#f0eeea]'
+              }`}
+            >
+              {isSelected && (
+                <svg className="w-3 h-3 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
           </label>
         </div>
       )}

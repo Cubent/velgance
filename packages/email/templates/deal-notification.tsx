@@ -4,6 +4,7 @@ import { getCityNameFromAirportCode } from '../../../apps/web/lib/airport-utils'
 export interface DealNotificationData {
   userEmail: string;
   userName?: string;
+  headerImageUrl?: string;
   deals: {
     origin: string;
     destination: string;
@@ -29,6 +30,7 @@ export interface DealNotificationData {
 
 export const DealNotificationTemplate = ({
   userName,
+  headerImageUrl,
   deals,
   summary,
   cityData,
@@ -171,37 +173,24 @@ export const DealNotificationTemplate = ({
             style={{
               background: 'rgba(4, 85, 48, 0.95)',
               backdropFilter: 'blur(10px)',
-              borderRadius: '16px 16px 0 0',
-              padding: '40px 20px',
+              borderRadius: '0',
+              padding: '0',
               textAlign: 'center',
               border: '1px solid rgba(255, 255, 255, 0.1)',
+              overflow: 'hidden',
             }}
           >
-            <h1
-              className="header-title"
+            <img
+              src={headerImageUrl || "https://i.postimg.cc/Vvg0PqTx/Travira-12.png"}
+              alt="Travira"
               style={{
-                margin: '0 0 8px 0',
-                color: '#d5e27b',
-                fontSize: '36px',
-                fontWeight: '700',
-                textAlign: 'center',
-                letterSpacing: '1px',
-              }}
-            >
-              Travira
-            </h1>
-            <p
-              className="header-subtitle"
-              style={{
+                display: 'block',
+                width: '100%',
+                height: 'auto',
                 margin: 0,
-                color: '#fff0d2',
-                fontSize: '18px',
-                fontWeight: '500',
-                textAlign: 'center',
+                padding: 0,
               }}
-            >
-              {emailTitle}
-            </p>
+            />
           </div>
 
           {/* Content Card */}
@@ -209,7 +198,7 @@ export const DealNotificationTemplate = ({
             style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(10px)',
-              borderRadius: '0 0 16px 16px',
+              borderRadius: '0',
               padding: '32px 20px',
               border: '1px solid rgba(255, 255, 255, 0.2)',
               borderTop: 'none',
@@ -532,7 +521,7 @@ export const DealNotificationTemplate = ({
                       className="activities-title"
                       style={{
                         margin: '0 0 6px 0',
-                        color: '#045530',
+                        color: '#4b5563',
                         fontSize: '16px',
                         fontWeight: '600',
                       }}
