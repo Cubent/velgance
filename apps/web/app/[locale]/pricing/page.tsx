@@ -64,24 +64,6 @@ export default function PricingPage() {
           {/* Green background that extends further down */}
           <div className="absolute inset-0 bg-[#045530] h-80"></div>
           
-          {/* Decorative Images - Background Elements */}
-          {/* Left side - Airplane, papers and passport */}
-          <div className="absolute left-4 sm:left-8 top-4 z-0">
-            <img 
-              src="https://i.postimg.cc/Kzxzb352/Travira-15.png" 
-              alt="Airplane, papers and passport" 
-              className="w-40 sm:w-64 h-auto opacity-30"
-            />
-          </div>
-          
-          {/* Right side - Plane and destination */}
-          <div className="absolute right-4 sm:right-8 top-4 z-0">
-            <img 
-              src="https://i.postimg.cc/qM5zKRps/Travira-14.png" 
-              alt="Plane and destination" 
-              className="w-40 sm:w-64 h-auto opacity-30"
-            />
-          </div>
           
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 sm:mt-0 py-4 sm:py-4 py-0 relative z-10">
             <div className="flex justify-center">
@@ -101,8 +83,17 @@ export default function PricingPage() {
                     <span className="pb-2 text-gray-600">/mo</span>
                   </div>
 
-                  <div className="text-gray-700 mb-8">
-                    7-day free trial · Full refund if you don't save $500+
+                  <div className="text-gray-700 mb-8 flex items-center justify-center gap-2 text-sm">
+                    <span>7-day free trial · Full refund if you don't save $500+</span>
+                    <div className="relative group">
+                      <svg className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-help" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                      </svg>
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                        We guarantee you'll save at least $500 in your first year, or we'll refund you in full.
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Start Free Trial Button */}
