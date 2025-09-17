@@ -84,11 +84,11 @@ export default function PricingPage() {
           </div>
           
           {/* Center right - Airplane, papers and passport */}
-          <div className="absolute right-8 sm:right-16 top-36 z-0">
+          <div className="absolute right-8 sm:right-16 top-24 z-0">
             <img 
               src="https://i.postimg.cc/Kzxzb352/Travira-15.png" 
               alt="Airplane, papers and passport" 
-              className="w-36 sm:w-56 h-auto opacity-30"
+              className="w-28 sm:w-44 h-auto opacity-30"
             />
           </div>
           
