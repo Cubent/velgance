@@ -430,9 +430,11 @@ export default function DashboardPage() {
                   <h1 className="text-4xl font-bold text-[#045530]">
                     Welcome back{user?.firstName ? `, ${user.firstName}` : ''}
                   </h1>
-                  {preferences?.dreamDestinations && preferences.dreamDestinations.length > 0 && (
+                  {preferences?.deliveryFrequency && (
                   <p className="text-gray-600 mt-1">
-                      Personalized recommendations for {preferences.dreamDestinations.join(', ')}
+                      {preferences.deliveryFrequency === 'weekly' && "We will send you deals weekly"}
+                      {preferences.deliveryFrequency === 'every_3_days' && "We will send you deals every 3 days"}
+                      {preferences.deliveryFrequency === 'bi_weekly' && "We will send you deals bi-weekly"}
                     </p>
                   )}
                 </div>
@@ -444,55 +446,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Subscription Status Banner */}
-        {subscriptionStatus && (
-          <div className="px-4 sm:px-6 lg:px-8 py-2">
-            <div className="max-w-4xl md:ml-48">
-              {subscriptionStatus.tier === 'FREE' ? (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-yellow-600 text-sm">⚠️</span>
-                      <span className="text-sm font-medium text-yellow-800">Start your free trial to generate deals</span>
-                    </div>
-                    <button
-                      onClick={() => router.push('/pricing')}
-                      className="bg-[#045530] text-white text-xs font-medium px-3 py-1.5 rounded hover:bg-[#034a2a] transition-colors"
-                    >
-                      Start Trial
-                    </button>
-                  </div>
-                </div>
-              ) : subscriptionStatus.isInTrial ? (
-                <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-blue-600 text-sm">🎉</span>
-                      <span className="text-sm font-medium text-blue-800">
-                        Free Trial • {subscriptionStatus.daysRemaining} days left
-                      </span>
-                    </div>
-                    <span className="text-xs text-blue-600 font-medium">
-                      {subscriptionStatus.tier}
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <div className="bg-green-50 border border-green-200 rounded-md p-3 mb-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-green-600 text-sm">✅</span>
-                      <span className="text-sm font-medium text-green-800">Subscription Active</span>
-                    </div>
-                    <span className="text-xs text-green-600 font-medium">
-                      {subscriptionStatus.tier}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
 
         {/* Tot Saved Section - REMOVED */}
 

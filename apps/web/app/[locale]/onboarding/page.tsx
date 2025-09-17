@@ -138,8 +138,8 @@ export default function OnboardingPage() {
       });
 
     if (response.ok) {
-      // After completing onboarding, redirect to dashboard
-      router.push('/dashboard');
+      // After completing onboarding, redirect to pricing
+      router.push('/pricing');
     } else {
         throw new Error('Failed to save preferences');
       }
