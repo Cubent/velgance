@@ -65,21 +65,21 @@ export default function PricingPage() {
           <div className="absolute inset-0 bg-[#045530] h-80"></div>
           
           {/* Decorative Images - Background Elements */}
+          {/* Left side - Airplane, papers and passport */}
+          <div className="absolute left-4 sm:left-8 top-4 z-0">
+            <img 
+              src="https://i.postimg.cc/Kzxzb352/Travira-15.png" 
+              alt="Airplane, papers and passport" 
+              className="w-40 sm:w-64 h-auto opacity-30"
+            />
+          </div>
+          
           {/* Right side - Plane and destination */}
           <div className="absolute right-4 sm:right-8 top-4 z-0">
             <img 
               src="https://i.postimg.cc/qM5zKRps/Travira-14.png" 
               alt="Plane and destination" 
               className="w-40 sm:w-64 h-auto opacity-30"
-            />
-          </div>
-          
-          {/* Center right - Airplane, papers and passport */}
-          <div className="absolute right-8 sm:right-16 top-12 z-0">
-            <img 
-              src="https://i.postimg.cc/Kzxzb352/Travira-15.png" 
-              alt="Airplane, papers and passport" 
-              className="w-20 sm:w-32 h-auto opacity-30"
             />
           </div>
           
