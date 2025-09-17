@@ -41,7 +41,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   return (
     <header className="sticky top-0 z-40 w-full">
       <div className={`w-full ${isPricing ? 'bg-[#045530]' : 'bg-[#f0e8d4]'} backdrop-blur-none px-1 py-1`}>
-        <div className="relative w-full flex min-h-12 flex-row items-center justify-between px-2">
+        <div className="relative w-full max-w-7xl mx-auto flex min-h-12 flex-row items-center justify-between px-2">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Image 
               src={isPricing ? "/Travira-light.svg" : "/Travira-logo.svg"} 
