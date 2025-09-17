@@ -8,32 +8,20 @@
   },
   "crons": [
     {
-      "path": "/api/deals/generate-scheduled",
-      "schedule": "0 9 */3 * *",
-      "payload": {
-        "frequency": "every_3_days"
-      }
+      "path": "/api/deals/generate-scheduled?frequency=every_3_days",
+      "schedule": "0 9 */3 * *"
     },
     {
-      "path": "/api/deals/generate-scheduled",
-      "schedule": "0 9 * * 1",
-      "payload": {
-        "frequency": "weekly"
-      }
+      "path": "/api/deals/generate-scheduled?frequency=weekly",
+      "schedule": "0 9 * * 1"
     },
     {
-      "path": "/api/deals/generate-scheduled",
-      "schedule": "0 9 1,15 * *",
-      "payload": {
-        "frequency": "bi_weekly"
-      }
+      "path": "/api/deals/generate-scheduled?frequency=bi_weekly",
+      "schedule": "0 9 1,15 * *"
     },
     {
-      "path": "/api/deals/generate-scheduled",
-      "schedule": "0 9 1 * *",
-      "payload": {
-        "frequency": "monthly"
-      }
+      "path": "/api/deals/generate-scheduled?frequency=monthly",
+      "schedule": "0 9 1 * *"
     }
   ],
   "buildCommand": "cd ../../ && chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",

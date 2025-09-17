@@ -16,8 +16,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { frequency } = body; // 'daily', 'every_3_days', 'weekly', 'bi_weekly', 'monthly'
+    // Get frequency from URL query parameter
+    const url = new URL(request.url);
+    const frequency = url.searchParams.get('frequency');
 
     if (!frequency) {
       return NextResponse.json({ error: 'Frequency is required' }, { status: 400 });
