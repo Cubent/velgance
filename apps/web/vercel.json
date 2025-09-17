@@ -6,6 +6,36 @@
       "maxDuration": 90
     }
   },
+  "crons": [
+    {
+      "path": "/api/deals/generate-scheduled",
+      "schedule": "0 9 */3 * *",
+      "payload": {
+        "frequency": "every_3_days"
+      }
+    },
+    {
+      "path": "/api/deals/generate-scheduled",
+      "schedule": "0 9 * * 1",
+      "payload": {
+        "frequency": "weekly"
+      }
+    },
+    {
+      "path": "/api/deals/generate-scheduled",
+      "schedule": "0 9 1,15 * *",
+      "payload": {
+        "frequency": "bi_weekly"
+      }
+    },
+    {
+      "path": "/api/deals/generate-scheduled",
+      "schedule": "0 9 1 * *",
+      "payload": {
+        "frequency": "monthly"
+      }
+    }
+  ],
   "buildCommand": "cd ../../ && chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",
   "installCommand": "pnpm install"
 }
