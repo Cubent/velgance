@@ -120,13 +120,10 @@ export default function DashboardPage() {
         const subscriptionResponse = await fetch('/api/subscription/status');
         if (subscriptionResponse.ok) {
           const subscriptionData = await subscriptionResponse.json();
-          console.log('🔍 SUBSCRIPTION DATA FROM API:', subscriptionData);
           setSubscriptionStatus(subscriptionData);
-        } else {
-          console.error('❌ Subscription API error:', subscriptionResponse.status, await subscriptionResponse.text());
         }
       } catch (subError) {
-        console.error('❌ Error fetching subscription status:', subError);
+        console.error('Error fetching subscription status:', subError);
         // Continue without subscription status - don't block the page
       }
 
@@ -449,66 +446,47 @@ export default function DashboardPage() {
 
         {/* Subscription Status Banner */}
         {subscriptionStatus && (
-          <div className="px-4 sm:px-6 lg:px-8 py-4">
+          <div className="px-4 sm:px-6 lg:px-8 py-2">
             <div className="max-w-4xl md:ml-48">
               {subscriptionStatus.tier === 'FREE' ? (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                        <span className="text-yellow-600 text-sm">⚠️</span>
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-medium text-yellow-800">Subscription Required</h3>
-                        <p className="text-xs text-yellow-700">
-                          Start your 7-day free trial to generate personalized flight deals
-                        </p>
-                      </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-yellow-600 text-sm">⚠️</span>
+                      <span className="text-sm font-medium text-yellow-800">Start your free trial to generate deals</span>
                     </div>
                     <button
                       onClick={() => router.push('/pricing')}
-                      className="bg-[#045530] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#034a2a] transition-colors"
+                      className="bg-[#045530] text-white text-xs font-medium px-3 py-1.5 rounded hover:bg-[#034a2a] transition-colors"
                     >
-                      Start Free Trial
+                      Start Trial
                     </button>
                   </div>
                 </div>
               ) : subscriptionStatus.isInTrial ? (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <span className="text-blue-600 text-sm">🎉</span>
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-medium text-blue-800">Free Trial Active</h3>
-                        <p className="text-xs text-blue-700">
-                          {subscriptionStatus.daysRemaining} days remaining in your trial
-                        </p>
-                      </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-600 text-sm">🎉</span>
+                      <span className="text-sm font-medium text-blue-800">
+                        Free Trial • {subscriptionStatus.daysRemaining} days left
+                      </span>
                     </div>
-                    <div className="text-sm text-blue-600 font-medium">
-                      {subscriptionStatus.tier} Plan
-                    </div>
+                    <span className="text-xs text-blue-600 font-medium">
+                      {subscriptionStatus.tier}
+                    </span>
                   </div>
                 </div>
               ) : (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <div className="bg-green-50 border border-green-200 rounded-md p-3 mb-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                        <span className="text-green-600 text-sm">✅</span>
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-medium text-green-800">Subscription Active</h3>
-                        <p className="text-xs text-green-700">
-                          You have full access to all features
-                        </p>
-                      </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-green-600 text-sm">✅</span>
+                      <span className="text-sm font-medium text-green-800">Subscription Active</span>
                     </div>
-                    <div className="text-sm text-green-600 font-medium">
-                      {subscriptionStatus.tier} Plan
-                    </div>
+                    <span className="text-xs text-green-600 font-medium">
+                      {subscriptionStatus.tier}
+                    </span>
                   </div>
                 </div>
               )}

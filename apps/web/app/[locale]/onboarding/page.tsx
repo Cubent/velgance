@@ -137,10 +137,10 @@ export default function OnboardingPage() {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
-        // After completing onboarding, redirect to pricing to start free trial
-        router.push('/pricing');
-      } else {
+    if (response.ok) {
+      // After completing onboarding, redirect to dashboard
+      router.push('/dashboard');
+    } else {
         throw new Error('Failed to save preferences');
       }
     } catch (error) {

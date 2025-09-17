@@ -126,22 +126,43 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     },
   });
 
-  // Update Clerk user metadata to sync subscription status
-  try {
-    const client = await clerkClient();
-    await client.users.updateUserMetadata(stripeSubscription.user.clerkId, {
-      privateMetadata: {
-        stripeCustomerId: customerId,
-        stripeSubscriptionId: subscriptionId,
-        subscriptionStatus: subscription.status === 'trialing' ? 'trialing' : 'active',
-        planType: subscriptionTier.toLowerCase(),
-        subscriptionTier: subscriptionTier,
-      },
-    });
-    console.log(`✅ Updated Clerk metadata for user ${stripeSubscription.user.clerkId}`);
-  } catch (clerkError) {
-    console.error('❌ Failed to update Clerk metadata:', clerkError);
-  }
+      // Update Clerk user metadata to sync subscription status
+      try {
+        const client = await clerkClient();
+        await client.users.updateUserMetadata(stripeSubscription.user.clerkId, {
+          privateMetadata: {
+            stripeCustomerId: customerId,
+            stripeSubscriptionId: subscriptionId,
+            subscriptionStatus: subscription.status === 'trialing' ? 'trialing' : 'active',
+            planType: subscriptionTier.toLowerCase(),
+            subscriptionTier: subscriptionTier,
+          },
+        });
+        console.log(`✅ Updated Clerk metadata for user ${stripeSubscription.user.clerkId}`);
+
+        // Send trial started email if subscription is trialing
+        if (subscription.status === 'trialing') {
+          try {
+            const trialEndDate = new Date((subscription as any).current_period_end * 1000);
+            await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/email/trial-started`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                userEmail: stripeSubscription.user.email,
+                userName: stripeSubscription.user.name || 'Traveler',
+                trialEndDate: trialEndDate.toISOString(),
+              }),
+            });
+            console.log('✅ Trial started email sent');
+          } catch (emailError) {
+            console.error('❌ Failed to send trial email:', emailError);
+          }
+        }
+      } catch (clerkError) {
+        console.error('❌ Failed to update Clerk metadata:', clerkError);
+      }
 
   console.log(`Subscription created for user ${stripeSubscription.userId} with tier ${subscriptionTier}`);
 }

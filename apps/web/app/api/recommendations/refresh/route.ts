@@ -33,33 +33,39 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Check if user has an active Stripe subscription
-    let hasValidSubscription = false;
-    let subscriptionTier = 'FREE';
+    // Check if user has an active Stripe subscription by email
+    const { clerkClient } = await import('@clerk/nextjs/server');
+    const client = await clerkClient();
+    const clerkUser = await client.users.getUser(userId);
+    const userEmail = clerkUser.emailAddresses[0]?.emailAddress;
 
-    if (user.stripeSubscription?.stripeSubscriptionId) {
+    let hasValidSubscription = false;
+
+    if (userEmail) {
       try {
-        // Get subscription directly from Stripe
-        const stripeSub = await stripe.subscriptions.retrieve(user.stripeSubscription.stripeSubscriptionId);
-        
-        // Check if subscription is active or trialing
-        if (stripeSub.status === 'active' || stripeSub.status === 'trialing') {
-          hasValidSubscription = true;
-          
-          // Determine tier based on price lookup key
-          const priceId = stripeSub.items.data[0]?.price.id;
-          if (priceId) {
-            try {
-              const price = await stripe.prices.retrieve(priceId);
-              if (price.lookup_key === 'member_plan') {
-                subscriptionTier = 'MEMBER';
-              } else {
-                subscriptionTier = 'PRO'; // Default for other paid plans
-              }
-            } catch (error) {
-              console.error('Error retrieving price details:', error);
-              subscriptionTier = 'PRO'; // Default if price lookup fails
-            }
+        // Search for customer by email in Stripe
+        const customers = await stripe.customers.list({
+          email: userEmail,
+          limit: 1
+        });
+
+        if (customers.data.length > 0) {
+          const customer = customers.data[0];
+
+          // Get all subscriptions for this customer
+          const subscriptions = await stripe.subscriptions.list({
+            customer: customer.id,
+            status: 'all',
+            limit: 10
+          });
+
+          // Find the most recent active/trialing subscription
+          const activeSubscription = subscriptions.data.find(sub => 
+            sub.status === 'active' || sub.status === 'trialing'
+          );
+
+          if (activeSubscription) {
+            hasValidSubscription = true;
           }
         }
       } catch (error) {
@@ -68,7 +74,6 @@ export async function POST(request: NextRequest) {
     }
 
     if (!hasValidSubscription) {
-      console.log('User does not have valid subscription:', user.subscriptionTier);
       return NextResponse.json({ 
         success: false, 
         error: 'Subscription required',

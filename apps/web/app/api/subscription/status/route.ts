@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
     
     const userEmail = clerkUser.emailAddresses[0]?.emailAddress;
     
-    console.log('🔍 SEARCHING STRIPE FOR EMAIL:', userEmail);
 
     let hasActiveSubscription = false;
     let subscriptionTier = 'FREE';
@@ -36,11 +35,8 @@ export async function GET(request: NextRequest) {
           limit: 1
         });
 
-        console.log('🔍 STRIPE CUSTOMERS FOUND:', customers.data.length);
-
         if (customers.data.length > 0) {
           const customer = customers.data[0];
-          console.log('🔍 STRIPE CUSTOMER:', customer.id);
 
           // Get all subscriptions for this customer
           const subscriptions = await stripe.subscriptions.list({
@@ -49,19 +45,12 @@ export async function GET(request: NextRequest) {
             limit: 10
           });
 
-          console.log('🔍 STRIPE SUBSCRIPTIONS FOR CUSTOMER:', subscriptions.data.length);
-
           // Find the most recent active/trialing subscription
           const activeSubscription = subscriptions.data.find(sub => 
             sub.status === 'active' || sub.status === 'trialing'
           );
 
           if (activeSubscription) {
-            console.log('🔍 ACTIVE STRIPE SUBSCRIPTION:', {
-              id: activeSubscription.id,
-              status: activeSubscription.status,
-              priceId: activeSubscription.items.data[0]?.price.id
-            });
 
             stripeSubscriptionData = activeSubscription;
             hasActiveSubscription = true;
@@ -92,17 +81,11 @@ export async function GET(request: NextRequest) {
               daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
               if (daysRemaining < 0) daysRemaining = 0;
             }
-          } else {
-            console.log('🔍 NO ACTIVE SUBSCRIPTION FOUND');
           }
-        } else {
-          console.log('🔍 NO STRIPE CUSTOMER FOUND FOR EMAIL');
         }
       } catch (error) {
         console.error('Error checking Stripe subscriptions:', error);
       }
-    } else {
-      console.log('🔍 NO EMAIL FOUND IN CLERK USER');
     }
 
     const response = { 
@@ -121,7 +104,6 @@ export async function GET(request: NextRequest) {
       daysRemaining: daysRemaining,
     };
 
-    console.log('🔍 FINAL RESPONSE:', response);
     return NextResponse.json(response);
 
   } catch (error) {
