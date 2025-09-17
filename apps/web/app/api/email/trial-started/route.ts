@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Only initialize Resend if API key is available
+let resend: any = null;
+if (process.env.RESEND_TOKEN) {
+  const { Resend } = require('resend');
+  resend = new Resend(process.env.RESEND_TOKEN);
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,6 +13,11 @@ export async function POST(request: NextRequest) {
 
     if (!userEmail) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+    }
+
+    if (!resend) {
+      console.log('Resend not configured, skipping email send');
+      return NextResponse.json({ success: true, message: 'Email service not configured' });
     }
 
     const trialEnd = new Date(trialEndDate);
