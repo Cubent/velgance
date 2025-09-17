@@ -14,14 +14,6 @@
     {
       "path": "/api/deals/generate-scheduled?frequency=weekly",
       "schedule": "0 9 * * 1"
-    },
-    {
-      "path": "/api/deals/generate-scheduled?frequency=bi_weekly",
-      "schedule": "0 9 1,15 * *"
-    },
-    {
-      "path": "/api/deals/generate-scheduled?frequency=monthly",
-      "schedule": "0 9 1 * *"
     }
   ],
   "buildCommand": "cd ../../ && chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",

@@ -24,13 +24,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Frequency is required' }, { status: 400 });
     }
 
-    console.log(`Starting scheduled deal generation for frequency: ${frequency}`);
+    // Map bi_weekly and monthly to weekly
+    const normalizedFrequency = frequency === 'bi_weekly' || frequency === 'monthly' ? 'weekly' : frequency;
+
+    console.log(`Starting scheduled deal generation for frequency: ${frequency} (normalized to: ${normalizedFrequency})`);
 
     // Find users who should receive deals for this frequency
     const users = await db.user.findMany({
       where: {
         travelPreferences: {
-          deliveryFrequency: frequency,
+          deliveryFrequency: {
+            in: frequency === 'weekly' ? ['weekly', 'bi_weekly', 'monthly'] : [frequency]
+          },
         },
         stripeSubscription: {
           status: 'active', // Only send to active subscribers
