@@ -64,31 +64,31 @@ export default function PricingPage() {
           {/* Green background that extends further down */}
           <div className="absolute inset-0 bg-[#045530] h-80"></div>
           
-          {/* Decorative Images */}
+          {/* Decorative Images - Background Elements */}
           {/* Left side - World map */}
-          <div className="absolute left-4 sm:left-8 top-12 z-20">
+          <div className="absolute left-4 sm:left-8 top-12 z-0">
             <img 
               src="https://i.postimg.cc/V6KYcG6q/Travira-16.png" 
               alt="World map" 
-              className="w-32 sm:w-48 h-auto opacity-70"
+              className="w-32 sm:w-48 h-auto opacity-30"
             />
           </div>
           
           {/* Right side - Plane and destination */}
-          <div className="absolute right-4 sm:right-8 top-4 z-20">
+          <div className="absolute right-4 sm:right-8 top-4 z-0">
             <img 
               src="https://i.postimg.cc/qM5zKRps/Travira-14.png" 
               alt="Plane and destination" 
-              className="w-40 sm:w-64 h-auto opacity-70"
+              className="w-40 sm:w-64 h-auto opacity-30"
             />
           </div>
           
           {/* Center right - Airplane, papers and passport */}
-          <div className="absolute right-8 sm:right-16 top-36 z-20">
+          <div className="absolute right-8 sm:right-16 top-36 z-0">
             <img 
               src="https://i.postimg.cc/Kzxzb352/Travira-15.png" 
               alt="Airplane, papers and passport" 
-              className="w-36 sm:w-56 h-auto opacity-70"
+              className="w-36 sm:w-56 h-auto opacity-30"
             />
           </div>
           
