@@ -120,10 +120,13 @@ export default function DashboardPage() {
         const subscriptionResponse = await fetch('/api/subscription/status');
         if (subscriptionResponse.ok) {
           const subscriptionData = await subscriptionResponse.json();
+          console.log('🔍 SUBSCRIPTION DATA FROM API:', subscriptionData);
           setSubscriptionStatus(subscriptionData);
+        } else {
+          console.error('❌ Subscription API error:', subscriptionResponse.status, await subscriptionResponse.text());
         }
       } catch (subError) {
-        console.error('Error fetching subscription status:', subError);
+        console.error('❌ Error fetching subscription status:', subError);
         // Continue without subscription status - don't block the page
       }
 

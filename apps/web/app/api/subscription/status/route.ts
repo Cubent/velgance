@@ -11,19 +11,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Find the user by Clerk ID
-    const user = await database.user.findUnique({
-      where: { clerkId: userId },
-      include: {
-        stripeSubscription: true,
-      },
-    });
+    // Get user email from Clerk to search Stripe directly
+    const { clerkClient } = await import('@clerk/nextjs/server');
+    const client = await clerkClient();
+    const clerkUser = await client.users.getUser(userId);
+    
+    const userEmail = clerkUser.emailAddresses[0]?.emailAddress;
+    
+    console.log('🔍 SEARCHING STRIPE FOR EMAIL:', userEmail);
 
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    // Check Stripe directly for real-time subscription status
     let hasActiveSubscription = false;
     let subscriptionTier = 'FREE';
     let subscriptionStatus = 'inactive';
@@ -32,49 +28,84 @@ export async function GET(request: NextRequest) {
     let daysRemaining = 0;
     let stripeSubscriptionData = null;
 
-    if (user.stripeSubscription?.stripeSubscriptionId) {
+    if (userEmail) {
       try {
-        // Get subscription directly from Stripe
-        const stripeSub = await stripe.subscriptions.retrieve(user.stripeSubscription.stripeSubscriptionId);
-        stripeSubscriptionData = stripeSub;
-        
-        // Check if subscription is active or trialing
-        if (stripeSub.status === 'active' || stripeSub.status === 'trialing') {
-          hasActiveSubscription = true;
-          subscriptionStatus = stripeSub.status;
-          
-          // Determine tier based on price lookup key
-          const priceId = stripeSub.items.data[0]?.price.id;
-          if (priceId) {
-            try {
-              const price = await stripe.prices.retrieve(priceId);
-              if (price.lookup_key === 'member_plan') {
-                subscriptionTier = 'MEMBER';
-              } else {
-                subscriptionTier = 'PRO'; // Default for other paid plans
+        // Search for customer by email in Stripe
+        const customers = await stripe.customers.list({
+          email: userEmail,
+          limit: 1
+        });
+
+        console.log('🔍 STRIPE CUSTOMERS FOUND:', customers.data.length);
+
+        if (customers.data.length > 0) {
+          const customer = customers.data[0];
+          console.log('🔍 STRIPE CUSTOMER:', customer.id);
+
+          // Get all subscriptions for this customer
+          const subscriptions = await stripe.subscriptions.list({
+            customer: customer.id,
+            status: 'all',
+            limit: 10
+          });
+
+          console.log('🔍 STRIPE SUBSCRIPTIONS FOR CUSTOMER:', subscriptions.data.length);
+
+          // Find the most recent active/trialing subscription
+          const activeSubscription = subscriptions.data.find(sub => 
+            sub.status === 'active' || sub.status === 'trialing'
+          );
+
+          if (activeSubscription) {
+            console.log('🔍 ACTIVE STRIPE SUBSCRIPTION:', {
+              id: activeSubscription.id,
+              status: activeSubscription.status,
+              priceId: activeSubscription.items.data[0]?.price.id
+            });
+
+            stripeSubscriptionData = activeSubscription;
+            hasActiveSubscription = true;
+            subscriptionStatus = activeSubscription.status;
+            
+            // Determine tier based on price lookup key
+            const priceId = activeSubscription.items.data[0]?.price.id;
+            if (priceId) {
+              try {
+                const price = await stripe.prices.retrieve(priceId);
+                if (price.lookup_key === 'member_plan') {
+                  subscriptionTier = 'MEMBER';
+                } else {
+                  subscriptionTier = 'PRO'; // Default for other paid plans
+                }
+              } catch (error) {
+                console.error('Error retrieving price details:', error);
+                subscriptionTier = 'PRO'; // Default if price lookup fails
               }
-            } catch (error) {
-              console.error('Error retrieving price details:', error);
-              subscriptionTier = 'PRO'; // Default if price lookup fails
             }
+            
+            // Check if in trial
+            if (activeSubscription.status === 'trialing') {
+              isInTrial = true;
+              trialEndDate = new Date((activeSubscription as any).current_period_end * 1000);
+              const now = new Date();
+              const timeDiff = trialEndDate.getTime() - now.getTime();
+              daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+              if (daysRemaining < 0) daysRemaining = 0;
+            }
+          } else {
+            console.log('🔍 NO ACTIVE SUBSCRIPTION FOUND');
           }
-          
-          // Check if in trial
-          if (stripeSub.status === 'trialing') {
-            isInTrial = true;
-            trialEndDate = new Date((stripeSub as any).current_period_end * 1000);
-            const now = new Date();
-            const timeDiff = trialEndDate.getTime() - now.getTime();
-            daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            if (daysRemaining < 0) daysRemaining = 0;
-          }
+        } else {
+          console.log('🔍 NO STRIPE CUSTOMER FOUND FOR EMAIL');
         }
       } catch (error) {
-        console.error('Error checking Stripe subscription:', error);
+        console.error('Error checking Stripe subscriptions:', error);
       }
+    } else {
+      console.log('🔍 NO EMAIL FOUND IN CLERK USER');
     }
 
-    return NextResponse.json({ 
+    const response = { 
       success: true,
       tier: subscriptionTier,
       status: subscriptionStatus,
@@ -88,7 +119,10 @@ export async function GET(request: NextRequest) {
       isInTrial: isInTrial,
       trialEndDate: trialEndDate,
       daysRemaining: daysRemaining,
-    });
+    };
+
+    console.log('🔍 FINAL RESPONSE:', response);
+    return NextResponse.json(response);
 
   } catch (error) {
     console.error('Error fetching subscription status:', error);
