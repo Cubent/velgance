@@ -26,35 +26,37 @@ export async function POST(request: Request) {
     // Get Stripe customer ID from user metadata
     let stripeCustomerId = user.privateMetadata?.stripeCustomerId as string;
 
-    // If no Stripe customer exists, create one
+    // If no Stripe customer ID in metadata, check if customer exists by email
     if (!stripeCustomerId) {
-      console.log('No Stripe customer found, creating one for user:', userId);
-
-      const customerData: any = {
-        email: user.emailAddresses[0]?.emailAddress,
-        metadata: {
-          clerkUserId: userId,
-        },
-      };
-
-      // Add name if available
-      if (user.firstName || user.lastName) {
-        customerData.name = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+      const userEmail = user.emailAddresses[0]?.emailAddress;
+      
+      if (!userEmail) {
+        return NextResponse.json({ error: 'No email found' }, { status: 400 });
       }
 
-      // Create Stripe customer
-      const customer = await stripe.customers.create(customerData);
-      stripeCustomerId = customer.id;
-
-      // Update Clerk user metadata with new Stripe customer ID
-      await client.users.updateUserMetadata(userId, {
-        privateMetadata: {
-          ...user.privateMetadata,
-          stripeCustomerId: customer.id,
-        },
+      // Search for existing customer by email
+      const existingCustomers = await stripe.customers.list({
+        email: userEmail,
+        limit: 1
       });
 
-      console.log('Created Stripe customer:', customer.id);
+      if (existingCustomers.data.length > 0) {
+        // Use existing customer
+        stripeCustomerId = existingCustomers.data[0].id;
+        
+        // Update Clerk metadata with existing customer ID
+        await client.users.updateUserMetadata(userId, {
+          privateMetadata: {
+            ...user.privateMetadata,
+            stripeCustomerId: stripeCustomerId,
+          },
+        });
+        
+        console.log('Found existing Stripe customer:', stripeCustomerId);
+      } else {
+        // No customer exists, redirect to pricing
+        return NextResponse.json({ error: 'No subscription found' }, { status: 404 });
+      }
     }
 
     // Get the request URL to determine the return URL

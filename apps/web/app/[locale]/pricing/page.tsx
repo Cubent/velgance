@@ -66,29 +66,29 @@ export default function PricingPage() {
           
           {/* Decorative Images */}
           {/* Left side - World map */}
-          <div className="absolute left-8 top-12 z-20">
+          <div className="absolute left-4 sm:left-8 top-12 z-20">
             <img 
               src="https://i.postimg.cc/V6KYcG6q/Travira-16.png" 
               alt="World map" 
-              className="w-48 h-auto opacity-70"
+              className="w-32 sm:w-48 h-auto opacity-70"
             />
           </div>
           
           {/* Right side - Plane and destination */}
-          <div className="absolute right-8 top-4 z-20">
+          <div className="absolute right-4 sm:right-8 top-4 z-20">
             <img 
               src="https://i.postimg.cc/qM5zKRps/Travira-14.png" 
               alt="Plane and destination" 
-              className="w-64 h-auto opacity-70"
+              className="w-40 sm:w-64 h-auto opacity-70"
             />
           </div>
           
           {/* Center right - Airplane, papers and passport */}
-          <div className="absolute right-16 top-36 z-20">
+          <div className="absolute right-8 sm:right-16 top-36 z-20">
             <img 
               src="https://i.postimg.cc/Kzxzb352/Travira-15.png" 
               alt="Airplane, papers and passport" 
-              className="w-56 h-auto opacity-70"
+              className="w-36 sm:w-56 h-auto opacity-70"
             />
           </div>
           
@@ -227,7 +227,7 @@ export default function PricingPage() {
             {/* Left side - Title */}
             <div className="text-left">
               <h2 className="text-5xl font-bold text-[#045530] mb-4">FAQ</h2>
-              <p className="text-xl text-[#4a5565]">Everything you need to know</p>
+              <p className="text-xl text-gray-700">Everything you need to know</p>
             </div>
 
             {/* Right side - Compact FAQ */}
