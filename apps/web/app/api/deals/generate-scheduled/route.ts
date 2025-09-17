@@ -6,7 +6,15 @@ import { stripe } from '@repo/payments';
 import { clerkClient } from '@clerk/nextjs/server';
 
 // This endpoint should be called by cron jobs based on frequency
+export async function GET(request: NextRequest) {
+  return handleRequest(request);
+}
+
 export async function POST(request: NextRequest) {
+  return handleRequest(request);
+}
+
+async function handleRequest(request: NextRequest) {
   try {
     // Verify the request is from an authorized source (cron job)
     const authHeader = request.headers.get('authorization');
