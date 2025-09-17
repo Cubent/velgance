@@ -43,23 +43,9 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fff0d2]">
+    <div className="min-h-screen bg-[#f9f7ee]">
       {/* Header with background */}
       <div className="bg-[#045530] relative overflow-hidden">
-        {/* Decorative circles */}
-        <div className="absolute top-10 left-10 w-12 h-12 bg-[#045530] rounded-full opacity-20"></div>
-        <div className="absolute top-20 right-20 w-8 h-8 bg-[#d5e27b]/20 rounded-full"></div>
-        <div className="absolute bottom-20 left-1/4 w-10 h-10 bg-[#d5e27b]/10 rounded-full"></div>
-        <div className="absolute top-32 left-1/3 w-6 h-6 bg-[#045530] rounded-full opacity-15"></div>
-        <div className="absolute top-40 right-1/3 w-8 h-8 bg-[#d5e27b]/15 rounded-full"></div>
-        <div className="absolute bottom-32 right-10 w-7 h-7 bg-[#045530] rounded-full opacity-25"></div>
-        <div className="absolute top-16 left-1/2 w-5 h-5 bg-[#d5e27b]/30 rounded-full"></div>
-        <div className="absolute bottom-16 right-1/4 w-9 h-9 bg-[#045530] rounded-full opacity-10"></div>
-        <div className="absolute top-24 left-1/5 w-6 h-6 bg-[#d5e27b]/25 rounded-full"></div>
-        <div className="absolute top-36 right-1/5 w-7 h-7 bg-[#045530] rounded-full opacity-18"></div>
-        <div className="absolute bottom-24 left-1/6 w-8 h-8 bg-[#d5e27b]/12 rounded-full"></div>
-        <div className="absolute top-28 right-1/6 w-5 h-5 bg-[#045530] rounded-full opacity-22"></div>
-        
         {/* Hero */}
         <section className="relative z-10">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
@@ -75,22 +61,44 @@ export default function PricingPage() {
 
         {/* Pricing Cards */}
         <section className="relative">
-          {/* Green background that ends early */}
-          <div className="absolute inset-0 bg-[#045530] rounded-b-[50%] h-48"></div>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-10">
+          {/* Green background that extends further down */}
+          <div className="absolute inset-0 bg-[#045530] h-80"></div>
+          
+          {/* Decorative Images */}
+          {/* Left side - World map - moved much more to the left */}
+          <div className="absolute left-1/2 top-12 transform -translate-x-[32rem] z-20">
+            <img 
+              src="https://i.postimg.cc/V6KYcG6q/Travira-16.png" 
+              alt="World map" 
+              className="w-48 h-auto opacity-70"
+            />
+          </div>
+          
+          {/* Right side - Plane and destination - moved even higher */}
+          <div className="absolute left-1/2 top-4 transform translate-x-96 z-20">
+            <img 
+              src="https://i.postimg.cc/qM5zKRps/Travira-14.png" 
+              alt="Plane and destination" 
+              className="w-64 h-auto opacity-70"
+            />
+          </div>
+          
+          {/* Center right - Airplane, papers and passport - moved lower and made bigger */}
+          <div className="absolute left-1/2 top-36 transform translate-x-80 z-20">
+            <img 
+              src="https://i.postimg.cc/Kzxzb352/Travira-15.png" 
+              alt="Airplane, papers and passport" 
+              className="w-56 h-auto opacity-70"
+            />
+          </div>
+          
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 sm:mt-0 py-4 sm:py-4 py-0 relative z-10">
             <div className="flex justify-center">
               <div className="w-full max-w-md">
               {/* Member Plan Card */}
-              <div className="relative rounded-2xl bg-white p-8 shadow-lg border border-gray-200">
-                {/* Popular Badge */}
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-[#d5e27b] text-[#045530] px-4 py-1 rounded-full text-sm font-semibold">
-                    Popular
-                  </div>
-                </div>
-                
+              <div className="relative bg-white p-8 shadow-lg border border-gray-200">
                 {/* Main Content */}
-                <div className="pt-4 text-center">
+                <div className="text-center">
                   <h2 className="text-3xl font-bold text-[#045530] mb-2">Member Plan</h2>
                   <p className="text-lg text-gray-600 mb-6">
                     Perfect for regular travelers who want to save money on flights
@@ -98,7 +106,7 @@ export default function PricingPage() {
                   
                   {/* Price */}
                   <div className="flex items-end justify-center gap-2 mb-6">
-                    <span className="text-5xl font-bold text-[#045530]">$7.50</span>
+                    <span className="text-5xl font-semibold text-[#045530]" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>$7.50</span>
                     <span className="pb-2 text-gray-600">/mo</span>
                   </div>
 
@@ -106,8 +114,18 @@ export default function PricingPage() {
                     7-day free trial · Full refund if you don't save $500+
                   </div>
 
+                  {/* Start Free Trial Button */}
+                  <div className="mb-8">
+                    <button
+                      onClick={() => handleSubscribe()}
+                      className="w-full inline-flex items-center justify-center bg-[#d5e27b] px-6 py-3 font-semibold text-[#045530] shadow-sm hover:bg-[#c4d16a] text-base"
+                    >
+                      Start Free Trial
+                    </button>
+                  </div>
+
                   {/* Features List */}
-                  <div className="text-left mb-8">
+                  <div className="text-left">
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
@@ -119,7 +137,7 @@ export default function PricingPage() {
                         <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
                           <span className="text-[#045530] text-sm">✓</span>
                         </div>
-                        <span className="text-gray-700">AI finds deals up to 90% off regular prices</span>
+                        <span className="text-gray-700">We finds deals up to 90% off regular prices</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
@@ -147,18 +165,6 @@ export default function PricingPage() {
                       </div>
                     </div>
                   </div>
-
-                  <div className="flex flex-col gap-4">
-                    <button
-                      onClick={() => handleSubscribe()}
-                      className="w-full inline-flex items-center justify-center rounded-xl bg-[#045530] px-8 py-4 font-semibold text-white shadow-sm hover:bg-[#033f24] text-lg"
-                    >
-                      Start Free Trial
-                    </button>
-                    <button className="w-full inline-flex items-center justify-center rounded-xl border-2 border-[#045530] px-8 py-4 font-semibold text-[#045530] hover:bg-[#045530]/5 text-lg">
-                      Learn more
-                    </button>
-                  </div>
                 </div>
               </div>
               </div>
@@ -166,85 +172,86 @@ export default function PricingPage() {
           </div>
         </section>
 
-      {/* Estimated Savings Section - Separated */}
+
+      {/* Live a life rich with experiences section */}
       <section>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-              <div>
-                <div className="text-sm text-gray-600 mb-2">Estimated savings</div>
-                <div className="text-4xl font-bold text-[#045530]">$1,000</div>
-              </div>
-              <div>
-                <div className="text-sm text-gray-600 mb-3">How many flights per year?</div>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left side - Content */}
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#045530] mb-6">
+                Live a life rich with experiences, thanks to your smart savings.
+              </h2>
+              
+              <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <button 
-                    onClick={() => setFlightsPerYear(Math.max(1, flightsPerYear - 1))}
-                    className="w-10 h-10 rounded-lg border-2 border-[#045530] flex items-center justify-center text-[#045530] hover:bg-[#045530]/5"
-                  >
-                    -
-                  </button>
-                  <div className="w-20 text-center font-semibold text-lg">{flightsPerYear} flights</div>
-                  <button 
-                    onClick={() => setFlightsPerYear(flightsPerYear + 1)}
-                    className="w-10 h-10 rounded-lg border-2 border-[#045530] flex items-center justify-center text-[#045530] hover:bg-[#045530]/5"
-                  >
-                    +
-                  </button>
+                  <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                    <span className="text-[#045530] text-sm">✓</span>
+                  </div>
+                  <span className="text-[#4a5565]">We keep an eye on flights everywhere</span>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                    <span className="text-[#045530] text-sm">✓</span>
+                  </div>
+                  <span className="text-[#4a5565]">You get a heads-up the second a price drops</span>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
+                    <span className="text-[#045530] text-sm">✓</span>
+                  </div>
+                  <span className="text-[#4a5565]">We help you save your money for what matters</span>
                 </div>
               </div>
             </div>
-            <p className="mt-6 text-gray-600">
-              The average Travira member saves over $1,000 in their first year. We guarantee you'll save at least $500 or we'll refund you in full.
-            </p>
+            
+            {/* Right side - Image */}
+            <div>
+              <img 
+                src="https://i.postimg.cc/vmNx5FCK/Travira-18.png" 
+                alt="Live a life rich with experiences" 
+                className="w-full h-auto rounded-lg"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Real Stories, Real Savings</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[{
-              name: 'Marilena Perricci',
-              quote: 'Incredible travel deals, real discounts. Booked a flight for half the price thanks to Travira. Super easy to use!'
-            }, {
-              name: 'Bri Palermo',
-              quote: 'Found multiple extremely low prices for me and my family. Alerts that I can never find on my own.'
-            }, {
-              name: 'Emily Irene',
-              quote: 'For budget traveling, this is a great tool. Their algorithm does the searching and sends the deals.'
-            }].map((t) => (
-              <div key={t.name} className="rounded-xl border border-gray-200 p-6 bg-white">
-                <div className="font-semibold text-gray-900">{t.name}</div>
-                <p className="text-gray-700 mt-2">“{t.quote}”</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Why join */}
-      <section>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Why join the Club?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="rounded-xl border border-gray-200 p-6 bg-white">
-              <div className="font-semibold mb-2">Unbeatable prices</div>
-              <p className="text-gray-700">Our AI scans millions of fares in real time to detect major price drops, up to 90% off.</p>
+      {/* FAQ Section */}
+      <div className="py-20 bg-[#f9f7ee]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Left side - Title */}
+            <div className="text-left">
+              <h2 className="text-5xl font-bold text-[#045530] mb-4">FAQ</h2>
+              <p className="text-xl text-[#4a5565]">Everything you need to know</p>
             </div>
-            <div className="rounded-xl border border-gray-200 p-6 bg-white">
-              <div className="font-semibold mb-2">150+ deals per year</div>
-              <p className="text-gray-700">We send 2–3 flight deals per week, personalized to your home airport.</p>
-            </div>
-            <div className="rounded-xl border border-gray-200 p-6 bg-white">
-              <div className="font-semibold mb-2">More than just deals</div>
-              <p className="text-gray-700">Each destination includes insider tips from our community with hidden gems and trusted recs.</p>
+
+            {/* Right side - Compact FAQ */}
+            <div className="space-y-3">
+              {[
+                { q: 'How does it work?', a: 'Tell us where you fly from and where you want to go. Our AI finds the best prices and emails you personalized deals.' },
+                { q: 'How many deals will I receive?', a: 'On average 2–3 deals per week, tailored to your home airports and interests.' },
+                { q: 'Can I choose my destinations?', a: 'Yes! Add dream destinations during onboarding and update them anytime in your dashboard.' },
+                { q: 'Is there a free trial?', a: 'Yes, try Travira free for 7 days. Cancel anytime. Then $7.50/mo billed monthly.' },
+                { q: 'How do I book a flight deal?', a: 'We send direct booking links so you can book with the airline or a trusted OTA.' },
+                { q: 'How long do deals last?', a: 'Deal windows vary. Popular routes can sell out fast—book as soon as you see a match.' },
+              ].map((f, i) => (
+                <details key={f.q} className="bg-[#d5e27b] rounded-lg p-4 group">
+                  <summary className="font-semibold text-[#045530] cursor-pointer flex justify-between items-center text-sm">
+                    {f.q}
+                    <span className="text-[#045530] group-open:rotate-45 transition-transform">+</span>
+                  </summary>
+                  <p className="text-[#25201f] mt-3 leading-relaxed text-sm">{f.a}</p>
+                </details>
+              ))}
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

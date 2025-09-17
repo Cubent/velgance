@@ -1,10 +1,10 @@
 export default function TermsAndConditionsPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#f9f7ee]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="prose prose-lg max-w-none">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Terms and Conditions</h1>
-          <p className="text-gray-600 mb-8">Last updated: {new Date().toLocaleDateString()}</p>
+          <h1 className="text-4xl font-bold text-[#045530] mb-8">Terms and Conditions</h1>
+          <p className="text-[#045530] mb-8">Last updated: {new Date().toLocaleDateString()}</p>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Acceptance of Terms</h2>
