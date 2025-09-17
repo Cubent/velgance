@@ -65,8 +65,8 @@ export default function PricingPage() {
           <div className="absolute inset-0 bg-[#045530] h-80"></div>
           
           {/* Decorative Images */}
-          {/* Left side - World map - moved much more to the left */}
-          <div className="absolute left-1/2 top-12 transform -translate-x-[32rem] z-20">
+          {/* Left side - World map */}
+          <div className="absolute left-8 top-12 z-20">
             <img 
               src="https://i.postimg.cc/V6KYcG6q/Travira-16.png" 
               alt="World map" 
@@ -74,8 +74,8 @@ export default function PricingPage() {
             />
           </div>
           
-          {/* Right side - Plane and destination - moved even higher */}
-          <div className="absolute left-1/2 top-4 transform translate-x-96 z-20">
+          {/* Right side - Plane and destination */}
+          <div className="absolute right-8 top-4 z-20">
             <img 
               src="https://i.postimg.cc/qM5zKRps/Travira-14.png" 
               alt="Plane and destination" 
@@ -83,8 +83,8 @@ export default function PricingPage() {
             />
           </div>
           
-          {/* Center right - Airplane, papers and passport - moved lower and made bigger */}
-          <div className="absolute left-1/2 top-36 transform translate-x-80 z-20">
+          {/* Center right - Airplane, papers and passport */}
+          <div className="absolute right-16 top-36 z-20">
             <img 
               src="https://i.postimg.cc/Kzxzb352/Travira-15.png" 
               alt="Airplane, papers and passport" 
@@ -188,21 +188,21 @@ export default function PricingPage() {
                   <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
                     <span className="text-[#045530] text-sm">✓</span>
                   </div>
-                  <span className="text-[#4a5565]">We keep an eye on flights everywhere</span>
+                  <span className="text-gray-700">We keep an eye on flights everywhere</span>
                 </div>
                 
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
                     <span className="text-[#045530] text-sm">✓</span>
                   </div>
-                  <span className="text-[#4a5565]">You get a heads-up the second a price drops</span>
+                  <span className="text-gray-700">You get a heads-up the second a price drops</span>
                 </div>
                 
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full bg-[#d5e27b] flex items-center justify-center">
                     <span className="text-[#045530] text-sm">✓</span>
                   </div>
-                  <span className="text-[#4a5565]">We help you save your money for what matters</span>
+                  <span className="text-gray-700">We help you save your money for what matters</span>
                 </div>
               </div>
             </div>
