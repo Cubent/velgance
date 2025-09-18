@@ -118,8 +118,11 @@ async function handleCheckoutCompleted(session: any) {
     });
 
     // Schedule first deal generation if user has preferences
+    console.log('🔍 User preferences:', user.travelPreferences);
     if (user.travelPreferences?.deliveryFrequency) {
       const firstDealDate = calculateFirstDealDate(user.travelPreferences.deliveryFrequency);
+      
+      console.log(`📅 Scheduling deal for user ${user.id} with frequency ${user.travelPreferences.deliveryFrequency} on ${firstDealDate.toISOString()}`);
       
       await scheduleEvent('generate-deals', {
         userId: user.id,
@@ -127,6 +130,8 @@ async function handleCheckoutCompleted(session: any) {
       }, firstDealDate);
       
       console.log(`✅ Scheduled first deal for user ${user.id} on ${firstDealDate.toISOString()}`);
+    } else {
+      console.log('❌ No delivery frequency found for user:', user.id);
     }
 
   } catch (error) {
@@ -137,9 +142,13 @@ async function handleCheckoutCompleted(session: any) {
 async function handleSubscriptionCreated(subscription: any) {
   try {
     console.log('📅 Subscription created:', subscription.id);
+    console.log('📊 Subscription data:', JSON.stringify(subscription, null, 2));
     
     const customerId = subscription.customer;
+    console.log('🔍 Customer ID:', customerId);
+    
     const customer = await stripe.customers.retrieve(customerId);
+    console.log('👤 Customer data:', customer);
     
     if (customer.deleted) {
       console.log('❌ Customer is deleted');
@@ -147,6 +156,7 @@ async function handleSubscriptionCreated(subscription: any) {
     }
     
     const email = customer.email;
+    console.log('📧 Customer email:', email);
 
     if (!email) {
       console.log('❌ No email found for customer');
@@ -159,13 +169,16 @@ async function handleSubscriptionCreated(subscription: any) {
       include: { travelPreferences: true }
     });
 
+    console.log('👤 Found user:', user ? user.id : 'NOT FOUND');
+
     if (!user) {
       console.log('❌ User not found for email:', email);
       return;
     }
 
     // Create StripeSubscription record
-    await db.stripeSubscription.upsert({
+    console.log('💾 Creating/updating StripeSubscription record...');
+    const stripeSub = await db.stripeSubscription.upsert({
       where: { userId: user.id },
       update: {
         stripeCustomerId: customerId,
@@ -173,6 +186,9 @@ async function handleSubscriptionCreated(subscription: any) {
         status: subscription.status,
         currentPeriodStart: new Date(subscription.current_period_start * 1000),
         currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+        amount: subscription.items?.data?.[0]?.price?.unit_amount ? subscription.items.data[0].price.unit_amount / 100 : 99.00,
+        currency: subscription.currency?.toUpperCase() || 'USD',
+        interval: subscription.items?.data?.[0]?.price?.recurring?.interval || 'year'
       },
       create: {
         userId: user.id,
@@ -181,15 +197,19 @@ async function handleSubscriptionCreated(subscription: any) {
         status: subscription.status,
         currentPeriodStart: new Date(subscription.current_period_start * 1000),
         currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-        amount: 99.00,
-        currency: 'USD',
-        interval: 'year'
+        amount: subscription.items?.data?.[0]?.price?.unit_amount ? subscription.items.data[0].price.unit_amount / 100 : 99.00,
+        currency: subscription.currency?.toUpperCase() || 'USD',
+        interval: subscription.items?.data?.[0]?.price?.recurring?.interval || 'year'
       }
     });
+    console.log('✅ StripeSubscription created/updated:', stripeSub.id);
 
     // Schedule first deal generation if user has preferences
+    console.log('🔍 User preferences:', user.travelPreferences);
     if (user.travelPreferences?.deliveryFrequency) {
       const firstDealDate = calculateFirstDealDate(user.travelPreferences.deliveryFrequency);
+      
+      console.log(`📅 Scheduling deal for user ${user.id} with frequency ${user.travelPreferences.deliveryFrequency} on ${firstDealDate.toISOString()}`);
       
       await scheduleEvent('generate-deals', {
         userId: user.id,
@@ -197,6 +217,8 @@ async function handleSubscriptionCreated(subscription: any) {
       }, firstDealDate);
       
       console.log(`✅ Scheduled first deal for user ${user.id} on ${firstDealDate.toISOString()}`);
+    } else {
+      console.log('❌ No delivery frequency found for user:', user.id);
     }
 
   } catch (error) {
