@@ -184,8 +184,8 @@ async function handleSubscriptionCreated(subscription: any) {
         stripeCustomerId: customerId,
         stripeSubscriptionId: subscription.id,
         status: subscription.status,
-        currentPeriodStart: new Date(subscription.current_period_start * 1000),
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+        currentPeriodStart: new Date(Number(subscription.current_period_start) * 1000),
+        currentPeriodEnd: new Date(Number(subscription.current_period_end) * 1000),
         amount: subscription.items?.data?.[0]?.price?.unit_amount ? subscription.items.data[0].price.unit_amount / 100 : 99.00,
         currency: subscription.currency?.toUpperCase() || 'USD',
         interval: subscription.items?.data?.[0]?.price?.recurring?.interval || 'year'
@@ -195,8 +195,8 @@ async function handleSubscriptionCreated(subscription: any) {
         stripeCustomerId: customerId,
         stripeSubscriptionId: subscription.id,
         status: subscription.status,
-        currentPeriodStart: new Date(subscription.current_period_start * 1000),
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+        currentPeriodStart: new Date(Number(subscription.current_period_start) * 1000),
+        currentPeriodEnd: new Date(Number(subscription.current_period_end) * 1000),
         amount: subscription.items?.data?.[0]?.price?.unit_amount ? subscription.items.data[0].price.unit_amount / 100 : 99.00,
         currency: subscription.currency?.toUpperCase() || 'USD',
         interval: subscription.items?.data?.[0]?.price?.recurring?.interval || 'year'
@@ -235,8 +235,8 @@ async function handleSubscriptionUpdated(subscription: any) {
       where: { stripeSubscriptionId: subscription.id },
       data: {
         status: subscription.status,
-        currentPeriodStart: new Date(subscription.current_period_start * 1000),
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+        currentPeriodStart: new Date(Number(subscription.current_period_start) * 1000),
+        currentPeriodEnd: new Date(Number(subscription.current_period_end) * 1000),
       }
     });
 
