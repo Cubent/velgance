@@ -67,6 +67,18 @@ async function onGenerateDeals(data: { userId: string; frequency: string; user: 
       return;
     }
     
+    // Get user preferences for deal generation
+    const { database } = await import('@repo/database');
+    const userWithPrefs = await database.user.findUnique({
+      where: { id: userId },
+      include: { travelPreferences: true }
+    });
+    
+    if (!userWithPrefs?.travelPreferences) {
+      console.log(`❌ User ${userId} has no travel preferences, skipping deal generation`);
+      return;
+    }
+    
     // Generate deals by calling our existing API
     const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/recommendations/generate`, {
       method: 'POST',
@@ -74,7 +86,11 @@ async function onGenerateDeals(data: { userId: string; frequency: string; user: 
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.CRON_SECRET_TOKEN || 'internal'}`
       },
-      body: JSON.stringify({ userId })
+      body: JSON.stringify({ 
+        userId,
+        preferences: userWithPrefs.travelPreferences,
+        count: 3
+      })
     });
     
     if (!response.ok) {

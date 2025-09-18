@@ -7,13 +7,32 @@ import { stripe } from '@repo/payments';
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId } = await auth();
+    // Check for cron secret token first (for internal calls)
+    const authHeader = request.headers.get('authorization');
+    const cronToken = process.env.CRON_SECRET_TOKEN || 'internal';
     
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    let userId: string | null = null;
+    
+    const body = await request.json();
+    
+    if (authHeader === `Bearer ${cronToken}`) {
+      // Internal call from cron job
+      userId = body.userId;
+      
+      if (!userId) {
+        return NextResponse.json({ error: 'userId required for internal calls' }, { status: 400 });
+      }
+    } else {
+      // Regular user call
+      const authResult = await auth();
+      userId = authResult.userId;
+      
+      if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
     }
 
-    const { preferences, count } = await request.json();
+    const { preferences, count } = body;
 
     if (!preferences) {
       return NextResponse.json(
