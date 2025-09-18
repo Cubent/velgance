@@ -31,7 +31,10 @@ export async function sendDealNotificationEmail(data: DealNotificationData): Pro
     const emailSubject = `${originCity} to ${destinationCity} – ${cheapestDeal.price} ${cheapestDeal.currency}`;
     
     const result = await resend.emails.send({
-      from: process.env.RESEND_FROM || 'Travira <info@deals.travira.org>',
+      from: {
+        name: 'Travira',
+        email: 'info@deals.travira.org'
+      },
       to: [data.userEmail],
       subject: emailSubject,
       react: EmailComponent,
