@@ -120,7 +120,26 @@ async function handleCheckoutCompleted(session: any) {
     // Schedule first deal generation if user has preferences
     console.log('🔍 User preferences:', user.travelPreferences);
     if (user.travelPreferences?.deliveryFrequency) {
-      const firstDealDate = calculateFirstDealDate(user.travelPreferences.deliveryFrequency);
+      const now = new Date();
+      let firstDealDate: Date;
+      
+      // Schedule based on user's preference
+      switch (user.travelPreferences.deliveryFrequency) {
+        case 'every_3_days':
+          firstDealDate = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); // 3 days from now
+          break;
+        case 'weekly':
+          firstDealDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+          break;
+        case 'bi_weekly':
+          firstDealDate = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days from now
+          break;
+        case 'monthly':
+          firstDealDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days from now
+          break;
+        default:
+          firstDealDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // Default to weekly
+      }
       
       console.log(`📅 Scheduling deal for user ${user.id} with frequency ${user.travelPreferences.deliveryFrequency} on ${firstDealDate.toISOString()}`);
       
@@ -213,7 +232,26 @@ async function handleSubscriptionCreated(subscription: any) {
     // Schedule first deal generation if user has preferences
     console.log('🔍 User preferences:', user.travelPreferences);
     if (user.travelPreferences?.deliveryFrequency) {
-      const firstDealDate = calculateFirstDealDate(user.travelPreferences.deliveryFrequency);
+      const now = new Date();
+      let firstDealDate: Date;
+      
+      // Schedule based on user's preference
+      switch (user.travelPreferences.deliveryFrequency) {
+        case 'every_3_days':
+          firstDealDate = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); // 3 days from now
+          break;
+        case 'weekly':
+          firstDealDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+          break;
+        case 'bi_weekly':
+          firstDealDate = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days from now
+          break;
+        case 'monthly':
+          firstDealDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days from now
+          break;
+        default:
+          firstDealDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // Default to weekly
+      }
       
       console.log(`📅 Scheduling deal for user ${user.id} with frequency ${user.travelPreferences.deliveryFrequency} on ${firstDealDate.toISOString()}`);
       
