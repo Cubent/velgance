@@ -42,8 +42,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Find the user with subscription info
-    const user = await db.user.findUnique({
-      where: { clerkId: userId },
+    // For internal calls, userId is the database ID, for regular calls it's the clerkId
+    const user = await db.user.findFirst({
+      where: {
+        OR: [
+          { clerkId: userId },
+          { id: userId }
+        ]
+      },
       include: {
         stripeSubscription: true,
       },
