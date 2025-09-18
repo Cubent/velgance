@@ -449,8 +449,8 @@ export default function DashboardPage() {
 
         {/* Tot Saved Section - REMOVED */}
 
-        {/* Generate Deals Button */}
-        <div className="px-4 sm:px-6 lg:px-8 mb-8">
+        {/* Generate Deals Button - HIDDEN */}
+        {/* <div className="px-4 sm:px-6 lg:px-8 mb-8">
           <div className="max-w-4xl md:ml-48">
             <div className="text-center">
               <button
@@ -466,7 +466,7 @@ export default function DashboardPage() {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
 
 
         {/* Bulk Actions */}
