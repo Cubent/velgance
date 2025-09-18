@@ -86,7 +86,7 @@ export async function processScheduledEvents(): Promise<void> {
         
         // Emit the event
         await eventBus.emit(event.eventName, {
-          ...event.data,
+          ...(event.data as Record<string, any>),
           user: event.user
         });
         
