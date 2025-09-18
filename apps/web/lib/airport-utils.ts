@@ -37,6 +37,21 @@ export function getCityNameFromAirportCode(airportCode: string): string {
 }
 
 /**
+ * Get city and country from airport code (e.g., LAX → Los Angeles, United States)
+ */
+export function getCityCountryFromAirportCode(airportCode: string): string {
+  const airports = loadAirportsData();
+  const airport = airports.find(airport => airport.code === airportCode.toUpperCase());
+  
+  if (airport) {
+    return `${airport.city}, ${airport.country}`;
+  }
+
+  // Fallback to airport code if not found
+  return airportCode;
+}
+
+/**
  * Get all airport data for a given airport code
  */
 export function getAirportData(airportCode: string) {

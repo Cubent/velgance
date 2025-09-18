@@ -46,8 +46,8 @@ export const DealNotificationTemplate = ({
     }
     // Fallback to airport utils
     try {
-      const { getCityNameFromAirportCode } = require('../../../apps/web/lib/airport-utils');
-      return getCityNameFromAirportCode(airportCode);
+      const { getCityCountryFromAirportCode } = require('../../../apps/web/lib/airport-utils');
+      return getCityCountryFromAirportCode(airportCode);
     } catch {
       return airportCode;
     }
