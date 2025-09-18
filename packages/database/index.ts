@@ -121,7 +121,7 @@ if (typeof window === 'undefined') {
     const { setupEventMiddleware } = require('../../apps/web/lib/event-middleware-simple');
     setupEventMiddleware(database);
   } catch (error) {
-    console.log('Event middleware not available:', error.message);
+    console.log('Event middleware not available:', error instanceof Error ? error.message : 'Unknown error');
   }
 }
 
