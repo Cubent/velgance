@@ -90,30 +90,41 @@ async function checkUserSubscription(user: any): Promise<boolean> {
       return false;
     }
 
-    // Get customer by email
-    const customers = await stripe.customers.list({
-      email: user.email,
-      limit: 1
-    });
+    let hasValidSubscription = false;
 
-    if (customers.data.length === 0) {
-      return false;
+    if (user.email) {
+      try {
+        // Search for customer by email in Stripe (EXACT same as generate deals)
+        const customers = await stripe.customers.list({
+          email: user.email,
+          limit: 1
+        });
+
+        if (customers.data.length > 0) {
+          const customer = customers.data[0];
+
+          // Get all subscriptions for this customer (EXACT same as generate deals)
+          const subscriptions = await stripe.subscriptions.list({
+            customer: customer.id,
+            status: 'all',
+            limit: 10
+          });
+
+          // Find the most recent active/trialing subscription (EXACT same as generate deals)
+          const activeSubscription = subscriptions.data.find(sub => 
+            sub.status === 'active' || sub.status === 'trialing'
+          );
+
+          if (activeSubscription) {
+            hasValidSubscription = true;
+          }
+        }
+      } catch (error) {
+        console.error(`Error checking Stripe subscription for user ${user.id}:`, error);
+      }
     }
 
-    const customer = customers.data[0];
-
-    // Get active or trialing subscriptions
-    const subscriptions = await stripe.subscriptions.list({
-      customer: customer.id,
-      status: 'all',
-      limit: 10
-    });
-
-    const activeSubscription = subscriptions.data.find(sub => 
-      sub.status === 'active' || sub.status === 'trialing'
-    );
-
-    return !!activeSubscription;
+    return hasValidSubscription;
   } catch (error) {
     console.error('Error checking subscription:', error);
     return false;

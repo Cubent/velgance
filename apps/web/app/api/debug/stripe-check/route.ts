@@ -42,8 +42,8 @@ export async function GET() {
       subscriptions: subscriptions.data.map(sub => ({
         id: sub.id,
         status: sub.status,
-        currentPeriodStart: new Date(sub.current_period_start * 1000).toISOString(),
-        currentPeriodEnd: new Date(sub.current_period_end * 1000).toISOString(),
+        currentPeriodStart: sub.current_period_start ? new Date(sub.current_period_start * 1000).toISOString() : null,
+        currentPeriodEnd: sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : null,
         cancelAtPeriodEnd: sub.cancel_at_period_end
       })),
       hasActiveOrTrialing: subscriptions.data.some(sub => 
