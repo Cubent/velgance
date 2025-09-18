@@ -190,10 +190,7 @@ Update preferences: ${process.env.NEXT_PUBLIC_APP_URL}/onboarding
 export async function sendFlightDealsEmail(data: EmailNotificationData): Promise<boolean> {
   try {
     const result = await resend.emails.send({
-      from: {
-        name: 'Travira',
-        email: 'info@deals.travira.org'
-      },
+      from: 'Travira <info@deals.travira.org>',
       to: [data.userEmail],
       subject: `✈️ ${data.deals.length} New Flight Deal${data.deals.length > 1 ? 's' : ''} Found!`,
       html: generateFlightDealsEmailHTML(data),
@@ -250,10 +247,7 @@ export async function sendSubscriptionConfirmationEmail(
     };
 
     const result = await resend.emails.send({
-      from: {
-        name: 'Travira',
-        email: 'info@deals.travira.org'
-      },
+      from: 'Travira <info@deals.travira.org>',
       to: [userEmail],
       subject: msg.subject,
       html: msg.html,
