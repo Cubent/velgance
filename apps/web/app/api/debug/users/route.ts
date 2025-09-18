@@ -3,18 +3,16 @@ import { database as db } from '@repo/database';
 
 export async function GET() {
   try {
-    // Find all users with travel preferences
-    const users = await db.user.findMany({
-      where: {
-        travelPreferences: {
-          isNot: null
-        }
-      },
+    // Find ALL users
+    const allUsers = await db.user.findMany({
       include: {
         travelPreferences: true,
         stripeSubscription: true
       }
     });
+
+    // Filter users with travel preferences
+    const users = allUsers.filter(user => user.travelPreferences);
 
     // Check existing scheduled events
     const existingEvents = await db.scheduledEvent.findMany({
@@ -25,7 +23,7 @@ export async function GET() {
     });
 
     return NextResponse.json({
-      totalUsers: users.length,
+      totalUsers: allUsers.length,
       usersWithPreferences: users.length,
       existingScheduledEvents: existingEvents.length,
       users: users.map(user => ({
