@@ -24,7 +24,7 @@ export async function GET() {
 
     return NextResponse.json({
       totalUsers: allUsers.length,
-      usersWithPreferences: users.length,
+      usersWithPreferencesCount: users.length,
       existingScheduledEvents: existingEvents.length,
       allUsers: allUsers.map(user => ({
         id: user.id,
