@@ -9,7 +9,7 @@
   "crons": [
     {
       "path": "/api/events/process-scheduled",
-      "schedule": "*/5 * * * *"
+      "schedule": "0 9 * * *"
     }
   ],
   "buildCommand": "cd ../../ && chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",
