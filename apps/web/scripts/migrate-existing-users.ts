@@ -1,6 +1,57 @@
 import { database as db } from '@repo/database';
 import { scheduleEvent, calculateFirstDealDate } from '../lib/event-scheduler';
 
+// Calculate first deal date based on user's signup date and frequency
+function calculateFirstDealDateForUser(frequency: string, userCreatedAt: Date): Date {
+  const now = new Date();
+  const userSignupDate = new Date(userCreatedAt);
+  
+  // Calculate how many days since user signed up
+  const daysSinceSignup = Math.floor((now.getTime() - userSignupDate.getTime()) / (1000 * 60 * 60 * 24));
+  
+  switch (frequency) {
+    case 'every_3_days':
+      // Schedule for next 3-day interval from signup
+      const next3Day = new Date(userSignupDate);
+      const intervalsPassed = Math.floor(daysSinceSignup / 3);
+      next3Day.setDate(userSignupDate.getDate() + (intervalsPassed + 1) * 3);
+      next3Day.setHours(9, 0, 0, 0);
+      return next3Day;
+      
+    case 'weekly':
+      // Schedule for next 7-day interval from signup
+      const nextWeekly = new Date(userSignupDate);
+      const weeksPassed = Math.floor(daysSinceSignup / 7);
+      nextWeekly.setDate(userSignupDate.getDate() + (weeksPassed + 1) * 7);
+      nextWeekly.setHours(9, 0, 0, 0);
+      return nextWeekly;
+      
+    case 'bi_weekly':
+      // Schedule for next 14-day interval from signup
+      const nextBiWeekly = new Date(userSignupDate);
+      const biWeeksPassed = Math.floor(daysSinceSignup / 14);
+      nextBiWeekly.setDate(userSignupDate.getDate() + (biWeeksPassed + 1) * 14);
+      nextBiWeekly.setHours(9, 0, 0, 0);
+      return nextBiWeekly;
+      
+    case 'monthly':
+      // Schedule for next month from signup
+      const nextMonthly = new Date(userSignupDate);
+      const monthsPassed = Math.floor(daysSinceSignup / 30);
+      nextMonthly.setMonth(userSignupDate.getMonth() + monthsPassed + 1);
+      nextMonthly.setHours(9, 0, 0, 0);
+      return nextMonthly;
+      
+    default:
+      // Default to weekly
+      const nextDefault = new Date(userSignupDate);
+      const weeksPassedDefault = Math.floor(daysSinceSignup / 7);
+      nextDefault.setDate(userSignupDate.getDate() + (weeksPassedDefault + 1) * 7);
+      nextDefault.setHours(9, 0, 0, 0);
+      return nextDefault;
+  }
+}
+
 async function migrateExistingUsers() {
   console.log('🚀 Starting migration of existing users to event-driven system...');
 
@@ -50,9 +101,10 @@ async function migrateExistingUsers() {
           continue;
         }
 
-        // Calculate first deal date based on their preferences
-        const firstDealDate = calculateFirstDealDate(
-          user.travelPreferences!.deliveryFrequency
+        // Calculate first deal date based on their preferences and signup date
+        const firstDealDate = calculateFirstDealDateForUser(
+          user.travelPreferences!.deliveryFrequency,
+          user.createdAt
         );
 
         // Schedule their first deal generation
