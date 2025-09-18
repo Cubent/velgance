@@ -13,7 +13,15 @@ export async function getCityImageFromUnsplash(destination: string, cityName: st
     
     console.log(`Searching Unsplash for ${cityName}:`, unsplashUrl);
     
-    const response = await fetch(unsplashUrl);
+    // Add timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    
+    const response = await fetch(unsplashUrl, {
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
     
     if (!response.ok) {
       throw new Error(`Unsplash API error: ${response.status} - ${response.statusText}`);
@@ -48,7 +56,11 @@ export async function getCityImageFromUnsplash(destination: string, cityName: st
     console.log(`❌ No Unsplash image found for ${cityName}, using fallback:`, fallbackImage);
     return fallbackImage;
   } catch (error) {
-    console.error('Error getting city image from Unsplash:', error);
+    if (error.name === 'AbortError') {
+      console.error(`Unsplash API timeout for ${cityName}, using fallback`);
+    } else {
+      console.error('Error getting city image from Unsplash:', error);
+    }
     return getFallbackImage(cityName, destination);
   }
 }
