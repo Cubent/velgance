@@ -26,7 +26,15 @@ export async function GET() {
       totalUsers: allUsers.length,
       usersWithPreferences: users.length,
       existingScheduledEvents: existingEvents.length,
-      users: users.map(user => ({
+      allUsers: allUsers.map(user => ({
+        id: user.id,
+        email: user.email,
+        hasPreferences: !!user.travelPreferences,
+        deliveryFrequency: user.travelPreferences?.deliveryFrequency,
+        hasStripeSubscription: !!user.stripeSubscription,
+        stripeStatus: user.stripeSubscription?.status
+      })),
+      usersWithPreferences: users.map(user => ({
         id: user.id,
         email: user.email,
         hasPreferences: !!user.travelPreferences,
