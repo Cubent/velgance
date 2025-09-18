@@ -70,6 +70,12 @@ async function handleCheckoutCompleted(session: any) {
 
     // Get customer details
     const customer = await stripe.customers.retrieve(customerId);
+    
+    if (customer.deleted) {
+      console.log('❌ Customer is deleted');
+      return;
+    }
+    
     const email = customer.email;
 
     if (!email) {
@@ -134,6 +140,12 @@ async function handleSubscriptionCreated(subscription: any) {
     
     const customerId = subscription.customer;
     const customer = await stripe.customers.retrieve(customerId);
+    
+    if (customer.deleted) {
+      console.log('❌ Customer is deleted');
+      return;
+    }
+    
     const email = customer.email;
 
     if (!email) {
