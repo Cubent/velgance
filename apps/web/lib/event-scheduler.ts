@@ -1,4 +1,4 @@
-import { db } from '@repo/database';
+import { database as db } from '@repo/database';
 import { eventBus } from './event-bus';
 
 export interface ScheduledEventData {
