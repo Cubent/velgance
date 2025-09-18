@@ -48,7 +48,7 @@ export default function OnboardingPage() {
   const [data, setData] = useState<OnboardingData>({
     homeAirports: [],
     dreamDestinations: [],
-    deliveryFrequency: 'weekly',
+    deliveryFrequency: '',
     preferredAirlines: [],
     currency: 'USD',
   });
