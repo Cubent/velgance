@@ -202,7 +202,7 @@ export const DealNotificationTemplate = ({
             }}
           >
             <img
-              src={headerImageUrl || "https://i.postimg.cc/Vvg0PqTx/Travira-12.png"}
+              src={headerImageUrl || "https://static.wixstatic.com/media/4da6c5_e3a85f74ca1e4b4a97ce45121f1e792a~mv2.png"}
               alt="Travira"
               style={{
                 display: 'block',
@@ -443,7 +443,7 @@ export const DealNotificationTemplate = ({
                           }}
                         >
                           <img 
-                            src="https://i.postimg.cc/7ZqWqwR0/Travira-13.png" 
+                            src="https://static.wixstatic.com/media/4da6c5_05117d5ced1046ecbcecd325e8454cdc~mv2.png" 
                             alt="→" 
                             style={{ 
                               width: '22px', 

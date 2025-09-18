@@ -157,6 +157,19 @@ export function calculateFirstDealDate(frequency: string, timezone?: string): Da
 }
 
 export function calculateNextDealDate(frequency: string, timezone?: string): Date {
-  return calculateFirstDealDate(frequency, timezone);
+  const now = new Date();
+  
+  switch (frequency) {
+    case 'every_3_days':
+      return new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); // 3 days from now
+    case 'weekly':
+      return new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+    case 'bi_weekly':
+      return new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days from now
+    case 'monthly':
+      return new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days from now
+    default:
+      return new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // Default to weekly
+  }
 }
 
