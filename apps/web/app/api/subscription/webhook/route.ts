@@ -101,16 +101,16 @@ async function handleCheckoutCompleted(session: any) {
         stripeCustomerId: customerId,
         stripeSubscriptionId: subscriptionId,
         status: 'active',
-        currentPeriodStart: new Date(session.subscription_details?.current_period_start * 1000),
-        currentPeriodEnd: new Date(session.subscription_details?.current_period_end * 1000),
+        currentPeriodStart: new Date(),
+        currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year from now
       },
       create: {
         userId: user.id,
         stripeCustomerId: customerId,
         stripeSubscriptionId: subscriptionId,
         status: 'active',
-        currentPeriodStart: new Date(session.subscription_details?.current_period_start * 1000),
-        currentPeriodEnd: new Date(session.subscription_details?.current_period_end * 1000),
+        currentPeriodStart: new Date(),
+        currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year from now
         amount: 99.00,
         currency: 'USD',
         interval: 'year'
