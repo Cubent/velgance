@@ -58,6 +58,7 @@ model User {
   flightRecommendations FlightRecommendation[]
   stripeSubscription    StripeSubscription?
   emailNotifications    EmailNotification[]
+  scheduledEvents       ScheduledEvent[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -398,4 +399,27 @@ model EmailNotification {
   @@index([status])
   @@index([notificationType])
   @@index([sentAt])
+}
+
+model ScheduledEvent {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Event details
+  eventName String // "generate-deals", "send-reminder", etc.
+  data      Json   // Event payload data
+
+  // Scheduling
+  scheduledFor DateTime
+  processed    Boolean @default(false)
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([scheduledFor])
+  @@index([processed])
+  @@index([eventName])
 }

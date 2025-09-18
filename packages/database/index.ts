@@ -114,6 +114,17 @@ if (process.env.NODE_ENV !== 'production') {
   globalForPrisma[globalKey] = database;
 }
 
+// Setup event middleware for database events
+if (typeof window === 'undefined') {
+  // Only run on server side
+  try {
+    const { setupEventMiddleware } = require('../../apps/web/lib/event-middleware');
+    setupEventMiddleware(database);
+  } catch (error) {
+    console.log('Event middleware not available:', error.message);
+  }
+}
+
 export { database };
 
 export * from './generated/client';

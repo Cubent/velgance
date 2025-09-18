@@ -345,6 +345,17 @@ exports.Prisma.EmailNotificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ScheduledEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  eventName: 'eventName',
+  data: 'data',
+  scheduledFor: 'scheduledFor',
+  processed: 'processed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -390,7 +401,8 @@ exports.Prisma.ModelName = {
   UserPreferences: 'UserPreferences',
   FlightRecommendation: 'FlightRecommendation',
   StripeSubscription: 'StripeSubscription',
-  EmailNotification: 'EmailNotification'
+  EmailNotification: 'EmailNotification',
+  ScheduledEvent: 'ScheduledEvent'
 };
 
 /**

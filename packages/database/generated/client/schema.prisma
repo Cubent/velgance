@@ -58,6 +58,7 @@ model User {
   flightRecommendations FlightRecommendation[]
   stripeSubscription    StripeSubscription?
   emailNotifications    EmailNotification[]
+  scheduledEvents       ScheduledEvent[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -272,9 +273,10 @@ model UserPreferences {
 
   // Additional preferences
   maxBudget         Float?
-  preferredAirlines Json?  @default("[]") // ["Delta", "United"]
-  travelFlexibility Int    @default(3) // days of flexibility (reduced from 7)
-  currency          String @default("USD") // User's preferred currency
+  preferredAirlines Json?   @default("[]") // ["Delta", "United"]
+  travelFlexibility Int     @default(3) // days of flexibility (reduced from 7)
+  currency          String  @default("USD") // User's preferred currency
+  headerImageUrl    String? // Email header image URL
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -397,4 +399,27 @@ model EmailNotification {
   @@index([status])
   @@index([notificationType])
   @@index([sentAt])
+}
+
+model ScheduledEvent {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Event details
+  eventName String // "generate-deals", "send-reminder", etc.
+  data      Json // Event payload data
+
+  // Scheduling
+  scheduledFor DateTime
+  processed    Boolean  @default(false)
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([scheduledFor])
+  @@index([processed])
+  @@index([eventName])
 }

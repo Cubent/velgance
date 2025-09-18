@@ -8,12 +8,8 @@
   },
   "crons": [
     {
-      "path": "/api/deals/generate-scheduled?frequency=every_3_days",
-      "schedule": "0 9 */3 * *"
-    },
-    {
-      "path": "/api/deals/generate-scheduled?frequency=weekly",
-      "schedule": "0 9 * * 1"
+      "path": "/api/events/process-scheduled",
+      "schedule": "*/5 * * * *"
     }
   ],
   "buildCommand": "cd ../../ && chmod +x scripts/vercel-build.sh && ./scripts/vercel-build.sh",

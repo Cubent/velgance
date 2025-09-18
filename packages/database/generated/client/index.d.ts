@@ -83,6 +83,11 @@ export type StripeSubscription = $Result.DefaultSelection<Prisma.$StripeSubscrip
  * 
  */
 export type EmailNotification = $Result.DefaultSelection<Prisma.$EmailNotificationPayload>
+/**
+ * Model ScheduledEvent
+ * 
+ */
+export type ScheduledEvent = $Result.DefaultSelection<Prisma.$ScheduledEventPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -348,6 +353,16 @@ export class PrismaClient<
     * ```
     */
   get emailNotification(): Prisma.EmailNotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.scheduledEvent`: Exposes CRUD operations for the **ScheduledEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScheduledEvents
+    * const scheduledEvents = await prisma.scheduledEvent.findMany()
+    * ```
+    */
+  get scheduledEvent(): Prisma.ScheduledEventDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -801,7 +816,8 @@ export namespace Prisma {
     UserPreferences: 'UserPreferences',
     FlightRecommendation: 'FlightRecommendation',
     StripeSubscription: 'StripeSubscription',
-    EmailNotification: 'EmailNotification'
+    EmailNotification: 'EmailNotification',
+    ScheduledEvent: 'ScheduledEvent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -817,7 +833,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "extensionSession" | "usageMetrics" | "usageAnalytics" | "autocompleteAnalytics" | "autocompleteMetrics" | "apiKey" | "userProfile" | "pendingLogin" | "page" | "userPreferences" | "flightRecommendation" | "stripeSubscription" | "emailNotification"
+      modelProps: "user" | "extensionSession" | "usageMetrics" | "usageAnalytics" | "autocompleteAnalytics" | "autocompleteMetrics" | "apiKey" | "userProfile" | "pendingLogin" | "page" | "userPreferences" | "flightRecommendation" | "stripeSubscription" | "emailNotification" | "scheduledEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1857,6 +1873,80 @@ export namespace Prisma {
           }
         }
       }
+      ScheduledEvent: {
+        payload: Prisma.$ScheduledEventPayload<ExtArgs>
+        fields: Prisma.ScheduledEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScheduledEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScheduledEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>
+          }
+          findFirst: {
+            args: Prisma.ScheduledEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScheduledEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>
+          }
+          findMany: {
+            args: Prisma.ScheduledEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>[]
+          }
+          create: {
+            args: Prisma.ScheduledEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>
+          }
+          createMany: {
+            args: Prisma.ScheduledEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScheduledEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>[]
+          }
+          delete: {
+            args: Prisma.ScheduledEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>
+          }
+          update: {
+            args: Prisma.ScheduledEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.ScheduledEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScheduledEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScheduledEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.ScheduledEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScheduledEventPayload>
+          }
+          aggregate: {
+            args: Prisma.ScheduledEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScheduledEvent>
+          }
+          groupBy: {
+            args: Prisma.ScheduledEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScheduledEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScheduledEventCountArgs<ExtArgs>
+            result: $Utils.Optional<ScheduledEventCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1959,6 +2049,7 @@ export namespace Prisma {
     flightRecommendation?: FlightRecommendationOmit
     stripeSubscription?: StripeSubscriptionOmit
     emailNotification?: EmailNotificationOmit
+    scheduledEvent?: ScheduledEventOmit
   }
 
   /* Types for Logging */
@@ -2061,6 +2152,7 @@ export namespace Prisma {
     autocompleteMetrics: number
     flightRecommendations: number
     emailNotifications: number
+    scheduledEvents: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2072,6 +2164,7 @@ export namespace Prisma {
     autocompleteMetrics?: boolean | UserCountOutputTypeCountAutocompleteMetricsArgs
     flightRecommendations?: boolean | UserCountOutputTypeCountFlightRecommendationsArgs
     emailNotifications?: boolean | UserCountOutputTypeCountEmailNotificationsArgs
+    scheduledEvents?: boolean | UserCountOutputTypeCountScheduledEventsArgs
   }
 
   // Custom InputTypes
@@ -2139,6 +2232,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountEmailNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EmailNotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountScheduledEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledEventWhereInput
   }
 
 
@@ -2486,6 +2586,7 @@ export namespace Prisma {
     flightRecommendations?: boolean | User$flightRecommendationsArgs<ExtArgs>
     stripeSubscription?: boolean | User$stripeSubscriptionArgs<ExtArgs>
     emailNotifications?: boolean | User$emailNotificationsArgs<ExtArgs>
+    scheduledEvents?: boolean | User$scheduledEventsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2576,6 +2677,7 @@ export namespace Prisma {
     flightRecommendations?: boolean | User$flightRecommendationsArgs<ExtArgs>
     stripeSubscription?: boolean | User$stripeSubscriptionArgs<ExtArgs>
     emailNotifications?: boolean | User$emailNotificationsArgs<ExtArgs>
+    scheduledEvents?: boolean | User$scheduledEventsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2594,6 +2696,7 @@ export namespace Prisma {
       flightRecommendations: Prisma.$FlightRecommendationPayload<ExtArgs>[]
       stripeSubscription: Prisma.$StripeSubscriptionPayload<ExtArgs> | null
       emailNotifications: Prisma.$EmailNotificationPayload<ExtArgs>[]
+      scheduledEvents: Prisma.$ScheduledEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3022,6 +3125,7 @@ export namespace Prisma {
     flightRecommendations<T extends User$flightRecommendationsArgs<ExtArgs> = {}>(args?: Subset<T, User$flightRecommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlightRecommendationPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
     stripeSubscription<T extends User$stripeSubscriptionArgs<ExtArgs> = {}>(args?: Subset<T, User$stripeSubscriptionArgs<ExtArgs>>): Prisma__StripeSubscriptionClient<$Result.GetResult<Prisma.$StripeSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | null, null, ExtArgs, ClientOptions>
     emailNotifications<T extends User$emailNotificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$emailNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
+    scheduledEvents<T extends User$scheduledEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$scheduledEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "findMany", ClientOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3688,6 +3792,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EmailNotificationScalarFieldEnum | EmailNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.scheduledEvents
+   */
+  export type User$scheduledEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    where?: ScheduledEventWhereInput
+    orderBy?: ScheduledEventOrderByWithRelationInput | ScheduledEventOrderByWithRelationInput[]
+    cursor?: ScheduledEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduledEventScalarFieldEnum | ScheduledEventScalarFieldEnum[]
   }
 
   /**
@@ -19004,6 +19132,1099 @@ export namespace Prisma {
 
 
   /**
+   * Model ScheduledEvent
+   */
+
+  export type AggregateScheduledEvent = {
+    _count: ScheduledEventCountAggregateOutputType | null
+    _min: ScheduledEventMinAggregateOutputType | null
+    _max: ScheduledEventMaxAggregateOutputType | null
+  }
+
+  export type ScheduledEventMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    eventName: string | null
+    scheduledFor: Date | null
+    processed: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScheduledEventMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    eventName: string | null
+    scheduledFor: Date | null
+    processed: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ScheduledEventCountAggregateOutputType = {
+    id: number
+    userId: number
+    eventName: number
+    data: number
+    scheduledFor: number
+    processed: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ScheduledEventMinAggregateInputType = {
+    id?: true
+    userId?: true
+    eventName?: true
+    scheduledFor?: true
+    processed?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScheduledEventMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    eventName?: true
+    scheduledFor?: true
+    processed?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ScheduledEventCountAggregateInputType = {
+    id?: true
+    userId?: true
+    eventName?: true
+    data?: true
+    scheduledFor?: true
+    processed?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ScheduledEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScheduledEvent to aggregate.
+     */
+    where?: ScheduledEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledEvents to fetch.
+     */
+    orderBy?: ScheduledEventOrderByWithRelationInput | ScheduledEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScheduledEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ScheduledEvents
+    **/
+    _count?: true | ScheduledEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScheduledEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScheduledEventMaxAggregateInputType
+  }
+
+  export type GetScheduledEventAggregateType<T extends ScheduledEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateScheduledEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScheduledEvent[P]>
+      : GetScalarType<T[P], AggregateScheduledEvent[P]>
+  }
+
+
+
+
+  export type ScheduledEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduledEventWhereInput
+    orderBy?: ScheduledEventOrderByWithAggregationInput | ScheduledEventOrderByWithAggregationInput[]
+    by: ScheduledEventScalarFieldEnum[] | ScheduledEventScalarFieldEnum
+    having?: ScheduledEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScheduledEventCountAggregateInputType | true
+    _min?: ScheduledEventMinAggregateInputType
+    _max?: ScheduledEventMaxAggregateInputType
+  }
+
+  export type ScheduledEventGroupByOutputType = {
+    id: string
+    userId: string
+    eventName: string
+    data: JsonValue
+    scheduledFor: Date
+    processed: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ScheduledEventCountAggregateOutputType | null
+    _min: ScheduledEventMinAggregateOutputType | null
+    _max: ScheduledEventMaxAggregateOutputType | null
+  }
+
+  type GetScheduledEventGroupByPayload<T extends ScheduledEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScheduledEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScheduledEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScheduledEventGroupByOutputType[P]>
+            : GetScalarType<T[P], ScheduledEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScheduledEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventName?: boolean
+    data?: boolean
+    scheduledFor?: boolean
+    processed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scheduledEvent"]>
+
+  export type ScheduledEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventName?: boolean
+    data?: boolean
+    scheduledFor?: boolean
+    processed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scheduledEvent"]>
+
+  export type ScheduledEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    eventName?: boolean
+    data?: boolean
+    scheduledFor?: boolean
+    processed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["scheduledEvent"]>
+
+  export type ScheduledEventSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    eventName?: boolean
+    data?: boolean
+    scheduledFor?: boolean
+    processed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ScheduledEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "eventName" | "data" | "scheduledFor" | "processed" | "createdAt" | "updatedAt", ExtArgs["result"]["scheduledEvent"]>
+  export type ScheduledEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ScheduledEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ScheduledEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ScheduledEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ScheduledEvent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      eventName: string
+      data: Prisma.JsonValue
+      scheduledFor: Date
+      processed: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["scheduledEvent"]>
+    composites: {}
+  }
+
+  type ScheduledEventGetPayload<S extends boolean | null | undefined | ScheduledEventDefaultArgs> = $Result.GetResult<Prisma.$ScheduledEventPayload, S>
+
+  type ScheduledEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScheduledEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScheduledEventCountAggregateInputType | true
+    }
+
+  export interface ScheduledEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ScheduledEvent'], meta: { name: 'ScheduledEvent' } }
+    /**
+     * Find zero or one ScheduledEvent that matches the filter.
+     * @param {ScheduledEventFindUniqueArgs} args - Arguments to find a ScheduledEvent
+     * @example
+     * // Get one ScheduledEvent
+     * const scheduledEvent = await prisma.scheduledEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScheduledEventFindUniqueArgs>(args: SelectSubset<T, ScheduledEventFindUniqueArgs<ExtArgs>>): Prisma__ScheduledEventClient<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "findUnique", ClientOptions> | null, null, ExtArgs, ClientOptions>
+
+    /**
+     * Find one ScheduledEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScheduledEventFindUniqueOrThrowArgs} args - Arguments to find a ScheduledEvent
+     * @example
+     * // Get one ScheduledEvent
+     * const scheduledEvent = await prisma.scheduledEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScheduledEventFindUniqueOrThrowArgs>(args: SelectSubset<T, ScheduledEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScheduledEventClient<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Find the first ScheduledEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledEventFindFirstArgs} args - Arguments to find a ScheduledEvent
+     * @example
+     * // Get one ScheduledEvent
+     * const scheduledEvent = await prisma.scheduledEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScheduledEventFindFirstArgs>(args?: SelectSubset<T, ScheduledEventFindFirstArgs<ExtArgs>>): Prisma__ScheduledEventClient<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "findFirst", ClientOptions> | null, null, ExtArgs, ClientOptions>
+
+    /**
+     * Find the first ScheduledEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledEventFindFirstOrThrowArgs} args - Arguments to find a ScheduledEvent
+     * @example
+     * // Get one ScheduledEvent
+     * const scheduledEvent = await prisma.scheduledEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScheduledEventFindFirstOrThrowArgs>(args?: SelectSubset<T, ScheduledEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScheduledEventClient<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "findFirstOrThrow", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Find zero or more ScheduledEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ScheduledEvents
+     * const scheduledEvents = await prisma.scheduledEvent.findMany()
+     * 
+     * // Get first 10 ScheduledEvents
+     * const scheduledEvents = await prisma.scheduledEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scheduledEventWithIdOnly = await prisma.scheduledEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScheduledEventFindManyArgs>(args?: SelectSubset<T, ScheduledEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "findMany", ClientOptions>>
+
+    /**
+     * Create a ScheduledEvent.
+     * @param {ScheduledEventCreateArgs} args - Arguments to create a ScheduledEvent.
+     * @example
+     * // Create one ScheduledEvent
+     * const ScheduledEvent = await prisma.scheduledEvent.create({
+     *   data: {
+     *     // ... data to create a ScheduledEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScheduledEventCreateArgs>(args: SelectSubset<T, ScheduledEventCreateArgs<ExtArgs>>): Prisma__ScheduledEventClient<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "create", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Create many ScheduledEvents.
+     * @param {ScheduledEventCreateManyArgs} args - Arguments to create many ScheduledEvents.
+     * @example
+     * // Create many ScheduledEvents
+     * const scheduledEvent = await prisma.scheduledEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScheduledEventCreateManyArgs>(args?: SelectSubset<T, ScheduledEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ScheduledEvents and returns the data saved in the database.
+     * @param {ScheduledEventCreateManyAndReturnArgs} args - Arguments to create many ScheduledEvents.
+     * @example
+     * // Create many ScheduledEvents
+     * const scheduledEvent = await prisma.scheduledEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ScheduledEvents and only return the `id`
+     * const scheduledEventWithIdOnly = await prisma.scheduledEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScheduledEventCreateManyAndReturnArgs>(args?: SelectSubset<T, ScheduledEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "createManyAndReturn", ClientOptions>>
+
+    /**
+     * Delete a ScheduledEvent.
+     * @param {ScheduledEventDeleteArgs} args - Arguments to delete one ScheduledEvent.
+     * @example
+     * // Delete one ScheduledEvent
+     * const ScheduledEvent = await prisma.scheduledEvent.delete({
+     *   where: {
+     *     // ... filter to delete one ScheduledEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScheduledEventDeleteArgs>(args: SelectSubset<T, ScheduledEventDeleteArgs<ExtArgs>>): Prisma__ScheduledEventClient<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "delete", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Update one ScheduledEvent.
+     * @param {ScheduledEventUpdateArgs} args - Arguments to update one ScheduledEvent.
+     * @example
+     * // Update one ScheduledEvent
+     * const scheduledEvent = await prisma.scheduledEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScheduledEventUpdateArgs>(args: SelectSubset<T, ScheduledEventUpdateArgs<ExtArgs>>): Prisma__ScheduledEventClient<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "update", ClientOptions>, never, ExtArgs, ClientOptions>
+
+    /**
+     * Delete zero or more ScheduledEvents.
+     * @param {ScheduledEventDeleteManyArgs} args - Arguments to filter ScheduledEvents to delete.
+     * @example
+     * // Delete a few ScheduledEvents
+     * const { count } = await prisma.scheduledEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScheduledEventDeleteManyArgs>(args?: SelectSubset<T, ScheduledEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScheduledEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ScheduledEvents
+     * const scheduledEvent = await prisma.scheduledEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScheduledEventUpdateManyArgs>(args: SelectSubset<T, ScheduledEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ScheduledEvents and returns the data updated in the database.
+     * @param {ScheduledEventUpdateManyAndReturnArgs} args - Arguments to update many ScheduledEvents.
+     * @example
+     * // Update many ScheduledEvents
+     * const scheduledEvent = await prisma.scheduledEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ScheduledEvents and only return the `id`
+     * const scheduledEventWithIdOnly = await prisma.scheduledEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScheduledEventUpdateManyAndReturnArgs>(args: SelectSubset<T, ScheduledEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "updateManyAndReturn", ClientOptions>>
+
+    /**
+     * Create or update one ScheduledEvent.
+     * @param {ScheduledEventUpsertArgs} args - Arguments to update or create a ScheduledEvent.
+     * @example
+     * // Update or create a ScheduledEvent
+     * const scheduledEvent = await prisma.scheduledEvent.upsert({
+     *   create: {
+     *     // ... data to create a ScheduledEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ScheduledEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScheduledEventUpsertArgs>(args: SelectSubset<T, ScheduledEventUpsertArgs<ExtArgs>>): Prisma__ScheduledEventClient<$Result.GetResult<Prisma.$ScheduledEventPayload<ExtArgs>, T, "upsert", ClientOptions>, never, ExtArgs, ClientOptions>
+
+
+    /**
+     * Count the number of ScheduledEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledEventCountArgs} args - Arguments to filter ScheduledEvents to count.
+     * @example
+     * // Count the number of ScheduledEvents
+     * const count = await prisma.scheduledEvent.count({
+     *   where: {
+     *     // ... the filter for the ScheduledEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScheduledEventCountArgs>(
+      args?: Subset<T, ScheduledEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScheduledEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ScheduledEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScheduledEventAggregateArgs>(args: Subset<T, ScheduledEventAggregateArgs>): Prisma.PrismaPromise<GetScheduledEventAggregateType<T>>
+
+    /**
+     * Group by ScheduledEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduledEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScheduledEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScheduledEventGroupByArgs['orderBy'] }
+        : { orderBy?: ScheduledEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScheduledEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScheduledEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ScheduledEvent model
+   */
+  readonly fields: ScheduledEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ScheduledEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScheduledEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", ClientOptions> | Null, Null, ExtArgs, ClientOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ScheduledEvent model
+   */ 
+  interface ScheduledEventFieldRefs {
+    readonly id: FieldRef<"ScheduledEvent", 'String'>
+    readonly userId: FieldRef<"ScheduledEvent", 'String'>
+    readonly eventName: FieldRef<"ScheduledEvent", 'String'>
+    readonly data: FieldRef<"ScheduledEvent", 'Json'>
+    readonly scheduledFor: FieldRef<"ScheduledEvent", 'DateTime'>
+    readonly processed: FieldRef<"ScheduledEvent", 'Boolean'>
+    readonly createdAt: FieldRef<"ScheduledEvent", 'DateTime'>
+    readonly updatedAt: FieldRef<"ScheduledEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ScheduledEvent findUnique
+   */
+  export type ScheduledEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledEvent to fetch.
+     */
+    where: ScheduledEventWhereUniqueInput
+  }
+
+  /**
+   * ScheduledEvent findUniqueOrThrow
+   */
+  export type ScheduledEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledEvent to fetch.
+     */
+    where: ScheduledEventWhereUniqueInput
+  }
+
+  /**
+   * ScheduledEvent findFirst
+   */
+  export type ScheduledEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledEvent to fetch.
+     */
+    where?: ScheduledEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledEvents to fetch.
+     */
+    orderBy?: ScheduledEventOrderByWithRelationInput | ScheduledEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScheduledEvents.
+     */
+    cursor?: ScheduledEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScheduledEvents.
+     */
+    distinct?: ScheduledEventScalarFieldEnum | ScheduledEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledEvent findFirstOrThrow
+   */
+  export type ScheduledEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledEvent to fetch.
+     */
+    where?: ScheduledEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledEvents to fetch.
+     */
+    orderBy?: ScheduledEventOrderByWithRelationInput | ScheduledEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ScheduledEvents.
+     */
+    cursor?: ScheduledEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ScheduledEvents.
+     */
+    distinct?: ScheduledEventScalarFieldEnum | ScheduledEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledEvent findMany
+   */
+  export type ScheduledEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ScheduledEvents to fetch.
+     */
+    where?: ScheduledEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ScheduledEvents to fetch.
+     */
+    orderBy?: ScheduledEventOrderByWithRelationInput | ScheduledEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ScheduledEvents.
+     */
+    cursor?: ScheduledEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ScheduledEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ScheduledEvents.
+     */
+    skip?: number
+    distinct?: ScheduledEventScalarFieldEnum | ScheduledEventScalarFieldEnum[]
+  }
+
+  /**
+   * ScheduledEvent create
+   */
+  export type ScheduledEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ScheduledEvent.
+     */
+    data: XOR<ScheduledEventCreateInput, ScheduledEventUncheckedCreateInput>
+  }
+
+  /**
+   * ScheduledEvent createMany
+   */
+  export type ScheduledEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ScheduledEvents.
+     */
+    data: ScheduledEventCreateManyInput | ScheduledEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ScheduledEvent createManyAndReturn
+   */
+  export type ScheduledEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many ScheduledEvents.
+     */
+    data: ScheduledEventCreateManyInput | ScheduledEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScheduledEvent update
+   */
+  export type ScheduledEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ScheduledEvent.
+     */
+    data: XOR<ScheduledEventUpdateInput, ScheduledEventUncheckedUpdateInput>
+    /**
+     * Choose, which ScheduledEvent to update.
+     */
+    where: ScheduledEventWhereUniqueInput
+  }
+
+  /**
+   * ScheduledEvent updateMany
+   */
+  export type ScheduledEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ScheduledEvents.
+     */
+    data: XOR<ScheduledEventUpdateManyMutationInput, ScheduledEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ScheduledEvents to update
+     */
+    where?: ScheduledEventWhereInput
+    /**
+     * Limit how many ScheduledEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScheduledEvent updateManyAndReturn
+   */
+  export type ScheduledEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * The data used to update ScheduledEvents.
+     */
+    data: XOR<ScheduledEventUpdateManyMutationInput, ScheduledEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ScheduledEvents to update
+     */
+    where?: ScheduledEventWhereInput
+    /**
+     * Limit how many ScheduledEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ScheduledEvent upsert
+   */
+  export type ScheduledEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ScheduledEvent to update in case it exists.
+     */
+    where: ScheduledEventWhereUniqueInput
+    /**
+     * In case the ScheduledEvent found by the `where` argument doesn't exist, create a new ScheduledEvent with this data.
+     */
+    create: XOR<ScheduledEventCreateInput, ScheduledEventUncheckedCreateInput>
+    /**
+     * In case the ScheduledEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScheduledEventUpdateInput, ScheduledEventUncheckedUpdateInput>
+  }
+
+  /**
+   * ScheduledEvent delete
+   */
+  export type ScheduledEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+    /**
+     * Filter which ScheduledEvent to delete.
+     */
+    where: ScheduledEventWhereUniqueInput
+  }
+
+  /**
+   * ScheduledEvent deleteMany
+   */
+  export type ScheduledEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ScheduledEvents to delete
+     */
+    where?: ScheduledEventWhereInput
+    /**
+     * Limit how many ScheduledEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ScheduledEvent without action
+   */
+  export type ScheduledEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScheduledEvent
+     */
+    select?: ScheduledEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ScheduledEvent
+     */
+    omit?: ScheduledEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduledEventInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -19287,6 +20508,20 @@ export namespace Prisma {
   export type EmailNotificationScalarFieldEnum = (typeof EmailNotificationScalarFieldEnum)[keyof typeof EmailNotificationScalarFieldEnum]
 
 
+  export const ScheduledEventScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    eventName: 'eventName',
+    data: 'data',
+    scheduledFor: 'scheduledFor',
+    processed: 'processed',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ScheduledEventScalarFieldEnum = (typeof ScheduledEventScalarFieldEnum)[keyof typeof ScheduledEventScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -19456,6 +20691,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationListRelationFilter
     stripeSubscription?: XOR<StripeSubscriptionNullableScalarRelationFilter, StripeSubscriptionWhereInput> | null
     emailNotifications?: EmailNotificationListRelationFilter
+    scheduledEvents?: ScheduledEventListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -19491,6 +20727,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationOrderByRelationAggregateInput
     stripeSubscription?: StripeSubscriptionOrderByWithRelationInput
     emailNotifications?: EmailNotificationOrderByRelationAggregateInput
+    scheduledEvents?: ScheduledEventOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -19529,6 +20766,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationListRelationFilter
     stripeSubscription?: XOR<StripeSubscriptionNullableScalarRelationFilter, StripeSubscriptionWhereInput> | null
     emailNotifications?: EmailNotificationListRelationFilter
+    scheduledEvents?: ScheduledEventListRelationFilter
   }, "id" | "clerkId" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -20813,6 +22051,76 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"EmailNotification"> | Date | string
   }
 
+  export type ScheduledEventWhereInput = {
+    AND?: ScheduledEventWhereInput | ScheduledEventWhereInput[]
+    OR?: ScheduledEventWhereInput[]
+    NOT?: ScheduledEventWhereInput | ScheduledEventWhereInput[]
+    id?: StringFilter<"ScheduledEvent"> | string
+    userId?: StringFilter<"ScheduledEvent"> | string
+    eventName?: StringFilter<"ScheduledEvent"> | string
+    data?: JsonFilter<"ScheduledEvent">
+    scheduledFor?: DateTimeFilter<"ScheduledEvent"> | Date | string
+    processed?: BoolFilter<"ScheduledEvent"> | boolean
+    createdAt?: DateTimeFilter<"ScheduledEvent"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduledEvent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ScheduledEventOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventName?: SortOrder
+    data?: SortOrder
+    scheduledFor?: SortOrder
+    processed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ScheduledEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScheduledEventWhereInput | ScheduledEventWhereInput[]
+    OR?: ScheduledEventWhereInput[]
+    NOT?: ScheduledEventWhereInput | ScheduledEventWhereInput[]
+    userId?: StringFilter<"ScheduledEvent"> | string
+    eventName?: StringFilter<"ScheduledEvent"> | string
+    data?: JsonFilter<"ScheduledEvent">
+    scheduledFor?: DateTimeFilter<"ScheduledEvent"> | Date | string
+    processed?: BoolFilter<"ScheduledEvent"> | boolean
+    createdAt?: DateTimeFilter<"ScheduledEvent"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduledEvent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ScheduledEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventName?: SortOrder
+    data?: SortOrder
+    scheduledFor?: SortOrder
+    processed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ScheduledEventCountOrderByAggregateInput
+    _max?: ScheduledEventMaxOrderByAggregateInput
+    _min?: ScheduledEventMinOrderByAggregateInput
+  }
+
+  export type ScheduledEventScalarWhereWithAggregatesInput = {
+    AND?: ScheduledEventScalarWhereWithAggregatesInput | ScheduledEventScalarWhereWithAggregatesInput[]
+    OR?: ScheduledEventScalarWhereWithAggregatesInput[]
+    NOT?: ScheduledEventScalarWhereWithAggregatesInput | ScheduledEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ScheduledEvent"> | string
+    userId?: StringWithAggregatesFilter<"ScheduledEvent"> | string
+    eventName?: StringWithAggregatesFilter<"ScheduledEvent"> | string
+    data?: JsonWithAggregatesFilter<"ScheduledEvent">
+    scheduledFor?: DateTimeWithAggregatesFilter<"ScheduledEvent"> | Date | string
+    processed?: BoolWithAggregatesFilter<"ScheduledEvent"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ScheduledEvent"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ScheduledEvent"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     clerkId: string
@@ -20846,6 +22154,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -20881,6 +22190,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -20916,6 +22226,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -20951,6 +22262,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -22436,6 +23748,82 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ScheduledEventCreateInput = {
+    id?: string
+    eventName: string
+    data: JsonNullValueInput | InputJsonValue
+    scheduledFor: Date | string
+    processed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutScheduledEventsInput
+  }
+
+  export type ScheduledEventUncheckedCreateInput = {
+    id?: string
+    userId: string
+    eventName: string
+    data: JsonNullValueInput | InputJsonValue
+    scheduledFor: Date | string
+    processed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutScheduledEventsNestedInput
+  }
+
+  export type ScheduledEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledEventCreateManyInput = {
+    id?: string
+    userId: string
+    eventName: string
+    data: JsonNullValueInput | InputJsonValue
+    scheduledFor: Date | string
+    processed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -22585,6 +23973,12 @@ export namespace Prisma {
     none?: EmailNotificationWhereInput
   }
 
+  export type ScheduledEventListRelationFilter = {
+    every?: ScheduledEventWhereInput
+    some?: ScheduledEventWhereInput
+    none?: ScheduledEventWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -22619,6 +24013,10 @@ export namespace Prisma {
   }
 
   export type EmailNotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScheduledEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23661,6 +25059,37 @@ export namespace Prisma {
     flightCount?: SortOrder
   }
 
+  export type ScheduledEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventName?: SortOrder
+    data?: SortOrder
+    scheduledFor?: SortOrder
+    processed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScheduledEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventName?: SortOrder
+    scheduledFor?: SortOrder
+    processed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ScheduledEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    eventName?: SortOrder
+    scheduledFor?: SortOrder
+    processed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type ExtensionSessionCreateNestedManyWithoutUserInput = {
     create?: XOR<ExtensionSessionCreateWithoutUserInput, ExtensionSessionUncheckedCreateWithoutUserInput> | ExtensionSessionCreateWithoutUserInput[] | ExtensionSessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ExtensionSessionCreateOrConnectWithoutUserInput | ExtensionSessionCreateOrConnectWithoutUserInput[]
@@ -23729,6 +25158,13 @@ export namespace Prisma {
     connect?: EmailNotificationWhereUniqueInput | EmailNotificationWhereUniqueInput[]
   }
 
+  export type ScheduledEventCreateNestedManyWithoutUserInput = {
+    create?: XOR<ScheduledEventCreateWithoutUserInput, ScheduledEventUncheckedCreateWithoutUserInput> | ScheduledEventCreateWithoutUserInput[] | ScheduledEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScheduledEventCreateOrConnectWithoutUserInput | ScheduledEventCreateOrConnectWithoutUserInput[]
+    createMany?: ScheduledEventCreateManyUserInputEnvelope
+    connect?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+  }
+
   export type ExtensionSessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<ExtensionSessionCreateWithoutUserInput, ExtensionSessionUncheckedCreateWithoutUserInput> | ExtensionSessionCreateWithoutUserInput[] | ExtensionSessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ExtensionSessionCreateOrConnectWithoutUserInput | ExtensionSessionCreateOrConnectWithoutUserInput[]
@@ -23795,6 +25231,13 @@ export namespace Prisma {
     connectOrCreate?: EmailNotificationCreateOrConnectWithoutUserInput | EmailNotificationCreateOrConnectWithoutUserInput[]
     createMany?: EmailNotificationCreateManyUserInputEnvelope
     connect?: EmailNotificationWhereUniqueInput | EmailNotificationWhereUniqueInput[]
+  }
+
+  export type ScheduledEventUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ScheduledEventCreateWithoutUserInput, ScheduledEventUncheckedCreateWithoutUserInput> | ScheduledEventCreateWithoutUserInput[] | ScheduledEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScheduledEventCreateOrConnectWithoutUserInput | ScheduledEventCreateOrConnectWithoutUserInput[]
+    createMany?: ScheduledEventCreateManyUserInputEnvelope
+    connect?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -23957,6 +25400,20 @@ export namespace Prisma {
     deleteMany?: EmailNotificationScalarWhereInput | EmailNotificationScalarWhereInput[]
   }
 
+  export type ScheduledEventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ScheduledEventCreateWithoutUserInput, ScheduledEventUncheckedCreateWithoutUserInput> | ScheduledEventCreateWithoutUserInput[] | ScheduledEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScheduledEventCreateOrConnectWithoutUserInput | ScheduledEventCreateOrConnectWithoutUserInput[]
+    upsert?: ScheduledEventUpsertWithWhereUniqueWithoutUserInput | ScheduledEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ScheduledEventCreateManyUserInputEnvelope
+    set?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+    disconnect?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+    delete?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+    connect?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+    update?: ScheduledEventUpdateWithWhereUniqueWithoutUserInput | ScheduledEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ScheduledEventUpdateManyWithWhereWithoutUserInput | ScheduledEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ScheduledEventScalarWhereInput | ScheduledEventScalarWhereInput[]
+  }
+
   export type ExtensionSessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<ExtensionSessionCreateWithoutUserInput, ExtensionSessionUncheckedCreateWithoutUserInput> | ExtensionSessionCreateWithoutUserInput[] | ExtensionSessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ExtensionSessionCreateOrConnectWithoutUserInput | ExtensionSessionCreateOrConnectWithoutUserInput[]
@@ -24087,6 +25544,20 @@ export namespace Prisma {
     update?: EmailNotificationUpdateWithWhereUniqueWithoutUserInput | EmailNotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: EmailNotificationUpdateManyWithWhereWithoutUserInput | EmailNotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: EmailNotificationScalarWhereInput | EmailNotificationScalarWhereInput[]
+  }
+
+  export type ScheduledEventUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ScheduledEventCreateWithoutUserInput, ScheduledEventUncheckedCreateWithoutUserInput> | ScheduledEventCreateWithoutUserInput[] | ScheduledEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ScheduledEventCreateOrConnectWithoutUserInput | ScheduledEventCreateOrConnectWithoutUserInput[]
+    upsert?: ScheduledEventUpsertWithWhereUniqueWithoutUserInput | ScheduledEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ScheduledEventCreateManyUserInputEnvelope
+    set?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+    disconnect?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+    delete?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+    connect?: ScheduledEventWhereUniqueInput | ScheduledEventWhereUniqueInput[]
+    update?: ScheduledEventUpdateWithWhereUniqueWithoutUserInput | ScheduledEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ScheduledEventUpdateManyWithWhereWithoutUserInput | ScheduledEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ScheduledEventScalarWhereInput | ScheduledEventScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutExtensionSessionsInput = {
@@ -24243,6 +25714,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutEmailNotificationsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEmailNotificationsInput, UserUpdateWithoutEmailNotificationsInput>, UserUncheckedUpdateWithoutEmailNotificationsInput>
+  }
+
+  export type UserCreateNestedOneWithoutScheduledEventsInput = {
+    create?: XOR<UserCreateWithoutScheduledEventsInput, UserUncheckedCreateWithoutScheduledEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutScheduledEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutScheduledEventsNestedInput = {
+    create?: XOR<UserCreateWithoutScheduledEventsInput, UserUncheckedCreateWithoutScheduledEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutScheduledEventsInput
+    upsert?: UserUpsertWithoutScheduledEventsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutScheduledEventsInput, UserUpdateWithoutScheduledEventsInput>, UserUncheckedUpdateWithoutScheduledEventsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -24926,6 +26411,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ScheduledEventCreateWithoutUserInput = {
+    id?: string
+    eventName: string
+    data: JsonNullValueInput | InputJsonValue
+    scheduledFor: Date | string
+    processed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledEventUncheckedCreateWithoutUserInput = {
+    id?: string
+    eventName: string
+    data: JsonNullValueInput | InputJsonValue
+    scheduledFor: Date | string
+    processed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledEventCreateOrConnectWithoutUserInput = {
+    where: ScheduledEventWhereUniqueInput
+    create: XOR<ScheduledEventCreateWithoutUserInput, ScheduledEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type ScheduledEventCreateManyUserInputEnvelope = {
+    data: ScheduledEventCreateManyUserInput | ScheduledEventCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ExtensionSessionUpsertWithWhereUniqueWithoutUserInput = {
     where: ExtensionSessionWhereUniqueInput
     update: XOR<ExtensionSessionUpdateWithoutUserInput, ExtensionSessionUncheckedUpdateWithoutUserInput>
@@ -25305,6 +26820,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string
   }
 
+  export type ScheduledEventUpsertWithWhereUniqueWithoutUserInput = {
+    where: ScheduledEventWhereUniqueInput
+    update: XOR<ScheduledEventUpdateWithoutUserInput, ScheduledEventUncheckedUpdateWithoutUserInput>
+    create: XOR<ScheduledEventCreateWithoutUserInput, ScheduledEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type ScheduledEventUpdateWithWhereUniqueWithoutUserInput = {
+    where: ScheduledEventWhereUniqueInput
+    data: XOR<ScheduledEventUpdateWithoutUserInput, ScheduledEventUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ScheduledEventUpdateManyWithWhereWithoutUserInput = {
+    where: ScheduledEventScalarWhereInput
+    data: XOR<ScheduledEventUpdateManyMutationInput, ScheduledEventUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ScheduledEventScalarWhereInput = {
+    AND?: ScheduledEventScalarWhereInput | ScheduledEventScalarWhereInput[]
+    OR?: ScheduledEventScalarWhereInput[]
+    NOT?: ScheduledEventScalarWhereInput | ScheduledEventScalarWhereInput[]
+    id?: StringFilter<"ScheduledEvent"> | string
+    userId?: StringFilter<"ScheduledEvent"> | string
+    eventName?: StringFilter<"ScheduledEvent"> | string
+    data?: JsonFilter<"ScheduledEvent">
+    scheduledFor?: DateTimeFilter<"ScheduledEvent"> | Date | string
+    processed?: BoolFilter<"ScheduledEvent"> | boolean
+    createdAt?: DateTimeFilter<"ScheduledEvent"> | Date | string
+    updatedAt?: DateTimeFilter<"ScheduledEvent"> | Date | string
+  }
+
   export type UserCreateWithoutExtensionSessionsInput = {
     id?: string
     clerkId: string
@@ -25337,6 +26882,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExtensionSessionsInput = {
@@ -25371,6 +26917,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExtensionSessionsInput = {
@@ -25421,6 +26968,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExtensionSessionsInput = {
@@ -25455,6 +27003,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUsageMetricsInput = {
@@ -25489,6 +27038,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUsageMetricsInput = {
@@ -25523,6 +27073,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUsageMetricsInput = {
@@ -25573,6 +27124,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsageMetricsInput = {
@@ -25607,6 +27159,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUsageAnalyticsInput = {
@@ -25641,6 +27194,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUsageAnalyticsInput = {
@@ -25675,6 +27229,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUsageAnalyticsInput = {
@@ -25725,6 +27280,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsageAnalyticsInput = {
@@ -25759,6 +27315,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAutocompleteAnalyticsInput = {
@@ -25793,6 +27350,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAutocompleteAnalyticsInput = {
@@ -25827,6 +27385,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAutocompleteAnalyticsInput = {
@@ -25877,6 +27436,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAutocompleteAnalyticsInput = {
@@ -25911,6 +27471,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAutocompleteMetricsInput = {
@@ -25945,6 +27506,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAutocompleteMetricsInput = {
@@ -25979,6 +27541,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAutocompleteMetricsInput = {
@@ -26029,6 +27592,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAutocompleteMetricsInput = {
@@ -26063,6 +27627,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutApiKeysInput = {
@@ -26097,6 +27662,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutApiKeysInput = {
@@ -26131,6 +27697,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutApiKeysInput = {
@@ -26181,6 +27748,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApiKeysInput = {
@@ -26215,6 +27783,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTravelPreferencesInput = {
@@ -26249,6 +27818,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTravelPreferencesInput = {
@@ -26283,6 +27853,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTravelPreferencesInput = {
@@ -26333,6 +27904,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTravelPreferencesInput = {
@@ -26367,6 +27939,7 @@ export namespace Prisma {
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFlightRecommendationsInput = {
@@ -26401,6 +27974,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesCreateNestedOneWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFlightRecommendationsInput = {
@@ -26435,6 +28009,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFlightRecommendationsInput = {
@@ -26485,6 +28060,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFlightRecommendationsInput = {
@@ -26519,6 +28095,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutStripeSubscriptionInput = {
@@ -26553,6 +28130,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesCreateNestedOneWithoutUserInput
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStripeSubscriptionInput = {
@@ -26587,6 +28165,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStripeSubscriptionInput = {
@@ -26637,6 +28216,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStripeSubscriptionInput = {
@@ -26671,6 +28251,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutEmailNotificationsInput = {
@@ -26705,6 +28286,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesCreateNestedOneWithoutUserInput
     flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
+    scheduledEvents?: ScheduledEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEmailNotificationsInput = {
@@ -26739,6 +28321,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
     stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
+    scheduledEvents?: ScheduledEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEmailNotificationsInput = {
@@ -26789,6 +28372,7 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailNotificationsInput = {
@@ -26823,6 +28407,163 @@ export namespace Prisma {
     travelPreferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
     stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    scheduledEvents?: ScheduledEventUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutScheduledEventsInput = {
+    id?: string
+    clerkId: string
+    email: string
+    name?: string | null
+    picture?: string | null
+    extensionApiKey?: string | null
+    sessionToken?: string | null
+    lastExtensionSync?: Date | string | null
+    lastSettingsSync?: Date | string | null
+    extensionEnabled?: boolean
+    lastActiveAt?: Date | string | null
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
+    subscriptionTier?: string
+    subscriptionStatus?: string
+    cubentUnitsUsed?: number
+    cubentUnitsLimit?: number
+    unitsResetDate?: Date | string | null
+    extensionSettings?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extensionSessions?: ExtensionSessionCreateNestedManyWithoutUserInput
+    usageMetrics?: UsageMetricsCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    usageAnalytics?: UsageAnalyticsCreateNestedManyWithoutUserInput
+    autocompleteAnalytics?: AutocompleteAnalyticsCreateNestedManyWithoutUserInput
+    autocompleteMetrics?: AutocompleteMetricsCreateNestedManyWithoutUserInput
+    travelPreferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    flightRecommendations?: FlightRecommendationCreateNestedManyWithoutUserInput
+    stripeSubscription?: StripeSubscriptionCreateNestedOneWithoutUserInput
+    emailNotifications?: EmailNotificationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutScheduledEventsInput = {
+    id?: string
+    clerkId: string
+    email: string
+    name?: string | null
+    picture?: string | null
+    extensionApiKey?: string | null
+    sessionToken?: string | null
+    lastExtensionSync?: Date | string | null
+    lastSettingsSync?: Date | string | null
+    extensionEnabled?: boolean
+    lastActiveAt?: Date | string | null
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
+    subscriptionTier?: string
+    subscriptionStatus?: string
+    cubentUnitsUsed?: number
+    cubentUnitsLimit?: number
+    unitsResetDate?: Date | string | null
+    extensionSettings?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    extensionSessions?: ExtensionSessionUncheckedCreateNestedManyWithoutUserInput
+    usageMetrics?: UsageMetricsUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    usageAnalytics?: UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
+    autocompleteAnalytics?: AutocompleteAnalyticsUncheckedCreateNestedManyWithoutUserInput
+    autocompleteMetrics?: AutocompleteMetricsUncheckedCreateNestedManyWithoutUserInput
+    travelPreferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    flightRecommendations?: FlightRecommendationUncheckedCreateNestedManyWithoutUserInput
+    stripeSubscription?: StripeSubscriptionUncheckedCreateNestedOneWithoutUserInput
+    emailNotifications?: EmailNotificationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutScheduledEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutScheduledEventsInput, UserUncheckedCreateWithoutScheduledEventsInput>
+  }
+
+  export type UserUpsertWithoutScheduledEventsInput = {
+    update: XOR<UserUpdateWithoutScheduledEventsInput, UserUncheckedUpdateWithoutScheduledEventsInput>
+    create: XOR<UserCreateWithoutScheduledEventsInput, UserUncheckedCreateWithoutScheduledEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutScheduledEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutScheduledEventsInput, UserUncheckedUpdateWithoutScheduledEventsInput>
+  }
+
+  export type UserUpdateWithoutScheduledEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    picture?: NullableStringFieldUpdateOperationsInput | string | null
+    extensionApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastExtensionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSettingsSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    extensionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    cubentUnitsUsed?: FloatFieldUpdateOperationsInput | number
+    cubentUnitsLimit?: FloatFieldUpdateOperationsInput | number
+    unitsResetDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    extensionSettings?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extensionSessions?: ExtensionSessionUpdateManyWithoutUserNestedInput
+    usageMetrics?: UsageMetricsUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    usageAnalytics?: UsageAnalyticsUpdateManyWithoutUserNestedInput
+    autocompleteAnalytics?: AutocompleteAnalyticsUpdateManyWithoutUserNestedInput
+    autocompleteMetrics?: AutocompleteMetricsUpdateManyWithoutUserNestedInput
+    travelPreferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    flightRecommendations?: FlightRecommendationUpdateManyWithoutUserNestedInput
+    stripeSubscription?: StripeSubscriptionUpdateOneWithoutUserNestedInput
+    emailNotifications?: EmailNotificationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutScheduledEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    picture?: NullableStringFieldUpdateOperationsInput | string | null
+    extensionApiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastExtensionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastSettingsSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    extensionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    cubentUnitsUsed?: FloatFieldUpdateOperationsInput | number
+    cubentUnitsLimit?: FloatFieldUpdateOperationsInput | number
+    unitsResetDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    extensionSettings?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    extensionSessions?: ExtensionSessionUncheckedUpdateManyWithoutUserNestedInput
+    usageMetrics?: UsageMetricsUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    usageAnalytics?: UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
+    autocompleteAnalytics?: AutocompleteAnalyticsUncheckedUpdateManyWithoutUserNestedInput
+    autocompleteMetrics?: AutocompleteMetricsUncheckedUpdateManyWithoutUserNestedInput
+    travelPreferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    flightRecommendations?: FlightRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    stripeSubscription?: StripeSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    emailNotifications?: EmailNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ExtensionSessionCreateManyUserInput = {
@@ -26952,6 +28693,16 @@ export namespace Prisma {
     failedAt?: Date | string | null
     errorMessage?: string | null
     sendGridMessageId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ScheduledEventCreateManyUserInput = {
+    id?: string
+    eventName: string
+    data: JsonNullValueInput | InputJsonValue
+    scheduledFor: Date | string
+    processed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -27345,6 +29096,36 @@ export namespace Prisma {
     failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     sendGridMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledEventUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledEventUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduledEventUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventName?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    scheduledFor?: DateTimeFieldUpdateOperationsInput | Date | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
