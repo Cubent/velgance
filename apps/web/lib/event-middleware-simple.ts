@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import { eventBus } from './event-bus';
 
 export function setupEventMiddleware(prisma: any) {
@@ -42,4 +41,3 @@ export function setupEventMiddleware(prisma: any) {
   
   console.log('✅ Event middleware setup complete');
 }
-
