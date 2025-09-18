@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { eventBus } from '../../../lib/event-bus';
-import { scheduleEvent } from '../../../lib/event-scheduler';
+import { eventBus } from '../../../../lib/event-bus';
+import { scheduleEvent } from '../../../../lib/event-scheduler';
 // Initialize event handlers
 import '../../../../lib/event-handlers';
 
