@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { migrateExistingUsers } from '../../../../scripts/migrate-existing-users';
+import { migrateExistingUsers } from '../../../scripts/migrate-existing-users';
 // Initialize event handlers
 import '../../../../lib/event-handlers';
 
