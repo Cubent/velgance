@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { database as db } from '@repo/database';
-import { scheduleEvent, calculateFirstDealDate } from '../../../lib/event-scheduler';
+import { scheduleEvent, calculateFirstDealDate } from '../../../../lib/event-scheduler';
 import { stripe } from '@repo/payments';
 import { headers } from 'next/headers';
 
