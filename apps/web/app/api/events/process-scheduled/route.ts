@@ -1,4 +1,6 @@
-import { processScheduledEvents } from '../../../lib/event-scheduler';
+import { processScheduledEvents } from '../../../../lib/event-scheduler';
+// Initialize event handlers
+import '../../../../lib/event-handlers';
 
 export async function GET() {
   try {
