@@ -52,8 +52,7 @@ async function migrateExistingUsers() {
 
         // Calculate first deal date based on their preferences
         const firstDealDate = calculateFirstDealDate(
-          user.travelPreferences!.deliveryFrequency,
-          user.travelPreferences!.timezone
+          user.travelPreferences!.deliveryFrequency
         );
 
         // Schedule their first deal generation

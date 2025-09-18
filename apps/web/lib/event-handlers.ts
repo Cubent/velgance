@@ -9,8 +9,7 @@ async function onUserCreated(user: any) {
   
   if (travelPreferences?.deliveryFrequency) {
     const firstDealDate = calculateNextDealDate(
-      travelPreferences.deliveryFrequency,
-      travelPreferences.timezone
+      travelPreferences.deliveryFrequency
     );
     
     await scheduleEvent('generate-deals', {
