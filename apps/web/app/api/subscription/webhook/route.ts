@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       case 'checkout.session.completed':
         await handleCheckoutCompleted(event.data.object);
         break;
-        
+      
       case 'customer.subscription.created':
         await handleSubscriptionCreated(event.data.object);
         break;
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       case 'customer.subscription.updated':
         await handleSubscriptionUpdated(event.data.object);
         break;
-        
+      
       case 'customer.subscription.deleted':
         await handleSubscriptionDeleted(event.data.object);
         break;
@@ -73,9 +73,9 @@ async function handleCheckoutCompleted(session: any) {
     
     if (customer.deleted) {
       console.log('❌ Customer is deleted');
-      return;
-    }
-    
+    return;
+  }
+
     const email = customer.email;
 
     if (!email) {
@@ -91,15 +91,15 @@ async function handleCheckoutCompleted(session: any) {
 
     if (!user) {
       console.log('❌ User not found for email:', email);
-      return;
-    }
+    return;
+  }
 
     // Create or update StripeSubscription record
     await db.stripeSubscription.upsert({
       where: { userId: user.id },
       update: {
         stripeCustomerId: customerId,
-        stripeSubscriptionId: subscriptionId,
+      stripeSubscriptionId: subscriptionId,
         status: 'active',
         currentPeriodStart: new Date(),
         currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year from now
@@ -152,9 +152,9 @@ async function handleSubscriptionCreated(subscription: any) {
     
     if (customer.deleted) {
       console.log('❌ Customer is deleted');
-      return;
-    }
-    
+    return;
+  }
+
     const email = customer.email;
     console.log('📧 Customer email:', email);
 
@@ -173,19 +173,25 @@ async function handleSubscriptionCreated(subscription: any) {
 
     if (!user) {
       console.log('❌ User not found for email:', email);
-      return;
-    }
+    return;
+  }
 
     // Create StripeSubscription record
     console.log('💾 Creating/updating StripeSubscription record...');
+    console.log('🔍 Timestamps:', {
+      current_period_start: subscription.current_period_start,
+      current_period_end: subscription.current_period_end,
+      startDate: new Date(Number(subscription.current_period_start) * 1000),
+      endDate: new Date(Number(subscription.current_period_end) * 1000)
+    });
     const stripeSub = await db.stripeSubscription.upsert({
       where: { userId: user.id },
       update: {
         stripeCustomerId: customerId,
         stripeSubscriptionId: subscription.id,
         status: subscription.status,
-        currentPeriodStart: new Date(Number(subscription.current_period_start) * 1000),
-        currentPeriodEnd: new Date(Number(subscription.current_period_end) * 1000),
+        currentPeriodStart: new Date(),
+        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
         amount: subscription.items?.data?.[0]?.price?.unit_amount ? subscription.items.data[0].price.unit_amount / 100 : 99.00,
         currency: subscription.currency?.toUpperCase() || 'USD',
         interval: subscription.items?.data?.[0]?.price?.recurring?.interval || 'year'
@@ -195,8 +201,8 @@ async function handleSubscriptionCreated(subscription: any) {
         stripeCustomerId: customerId,
         stripeSubscriptionId: subscription.id,
         status: subscription.status,
-        currentPeriodStart: new Date(Number(subscription.current_period_start) * 1000),
-        currentPeriodEnd: new Date(Number(subscription.current_period_end) * 1000),
+        currentPeriodStart: new Date(),
+        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
         amount: subscription.items?.data?.[0]?.price?.unit_amount ? subscription.items.data[0].price.unit_amount / 100 : 99.00,
         currency: subscription.currency?.toUpperCase() || 'USD',
         interval: subscription.items?.data?.[0]?.price?.recurring?.interval || 'year'
@@ -235,8 +241,8 @@ async function handleSubscriptionUpdated(subscription: any) {
       where: { stripeSubscriptionId: subscription.id },
       data: {
         status: subscription.status,
-        currentPeriodStart: new Date(Number(subscription.current_period_start) * 1000),
-        currentPeriodEnd: new Date(Number(subscription.current_period_end) * 1000),
+        currentPeriodStart: new Date(),
+        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
       }
     });
 
