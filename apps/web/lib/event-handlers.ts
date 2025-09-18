@@ -130,14 +130,19 @@ async function checkUserSubscription(user: any): Promise<boolean> {
     
     const customer = customers.data[0];
     
-    // Get active subscriptions
+    // Get active or trialing subscriptions
     const subscriptions = await stripe.subscriptions.list({
       customer: customer.id,
-      status: 'active',
-      limit: 1
+      status: 'all',
+      limit: 10
     });
     
-    return subscriptions.data.length > 0;
+    // Check for active or trialing subscriptions
+    const activeOrTrialing = subscriptions.data.find(sub => 
+      sub.status === 'active' || sub.status === 'trialing'
+    );
+    
+    return !!activeOrTrialing;
   } catch (error) {
     console.error('Error checking subscription:', error);
     return false;
