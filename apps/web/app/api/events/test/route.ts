@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { eventBus } from '../../../lib/event-bus';
-import { scheduleEvent } from '../../../lib/event-scheduler';
+import { eventBus } from '../../../../lib/event-bus';
+import { scheduleEvent } from '../../../../lib/event-scheduler';
 
 export async function POST(request: NextRequest) {
   try {

@@ -112,7 +112,7 @@ async function onGenerateDeals(data: { userId: string; frequency: string; user: 
 async function checkUserSubscription(user: any): Promise<boolean> {
   try {
     // Check Stripe directly for active subscription
-    const stripe = require('@repo/payments').stripe;
+    const { stripe } = await import('@repo/payments');
     
     if (!stripe) {
       console.error('Stripe not available');

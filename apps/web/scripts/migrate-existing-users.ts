@@ -1,6 +1,5 @@
 import { database as db } from '@repo/database';
 import { scheduleEvent, calculateFirstDealDate } from '../lib/event-scheduler';
-import { stripe } from '@repo/payments';
 
 async function migrateExistingUsers() {
   console.log('🚀 Starting migration of existing users to event-driven system...');
@@ -85,6 +84,8 @@ async function migrateExistingUsers() {
 
 async function checkUserSubscription(user: any): Promise<boolean> {
   try {
+    const { stripe } = await import('@repo/payments');
+    
     if (!stripe) {
       console.error('Stripe not available');
       return false;

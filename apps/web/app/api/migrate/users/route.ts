@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { migrateExistingUsers } from '../../../scripts/migrate-existing-users';
+import { migrateExistingUsers } from '../../../../scripts/migrate-existing-users';
 
 export async function POST(request: NextRequest) {
   try {
