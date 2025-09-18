@@ -56,7 +56,7 @@ export async function getCityImageFromUnsplash(destination: string, cityName: st
     console.log(`❌ No Unsplash image found for ${cityName}, using fallback:`, fallbackImage);
     return fallbackImage;
   } catch (error) {
-    if (error.name === 'AbortError') {
+    if (error instanceof Error && error.name === 'AbortError') {
       console.error(`Unsplash API timeout for ${cityName}, using fallback`);
     } else {
       console.error('Error getting city image from Unsplash:', error);
