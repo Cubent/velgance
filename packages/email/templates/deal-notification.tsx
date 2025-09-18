@@ -276,8 +276,13 @@ export const DealNotificationTemplate = ({
               // Get city name from airport database
               const getCityName = (airportCode: string) => {
                 console.log(`Getting city name for ${airportCode} from airport database`);
-                // Use airport database directly for city names
-                return getCityNameFromAirportCode(airportCode);
+                // Use airport database directly for city names with country
+                try {
+                  const { getCityCountryFromAirportCode } = require('../../../apps/web/lib/airport-utils');
+                  return getCityCountryFromAirportCode(airportCode);
+                } catch {
+                  return getCityNameFromAirportCode(airportCode);
+                }
               };
 
               // Get city image based on destination

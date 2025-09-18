@@ -24,9 +24,9 @@ export async function sendDealNotificationEmail(data: DealNotificationData): Pro
     );
     
     // Get city names from airport codes
-    const { getCityCountryFromAirportCode } = await import('../lib/airport-utils');
-    const originCity = getCityCountryFromAirportCode(cheapestDeal.origin);
-    const destinationCity = getCityCountryFromAirportCode(cheapestDeal.destination);
+    const { getCityNameFromAirportCode } = await import('../lib/airport-utils');
+    const originCity = getCityNameFromAirportCode(cheapestDeal.origin);
+    const destinationCity = getCityNameFromAirportCode(cheapestDeal.destination);
     
     const emailSubject = `${originCity} to ${destinationCity} – ${cheapestDeal.price} ${cheapestDeal.currency}`;
     
