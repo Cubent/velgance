@@ -3,7 +3,7 @@
   "ignoreCommand": "node scripts/skip-ci.js",
   "functions": {
     "app/api/**/*.ts": {
-      "maxDuration": 90
+      "maxDuration": 300
     }
   },
   "crons": [

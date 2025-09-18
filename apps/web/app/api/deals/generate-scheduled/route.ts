@@ -39,24 +39,6 @@ async function handleRequest(request: NextRequest) {
 
     console.log(`Starting scheduled deal generation for frequency: ${frequency} (normalized to: ${normalizedFrequency})`);
 
-    // First, let's check all users with travel preferences
-    const allUsersWithPrefs = await db.user.findMany({
-      where: {
-        travelPreferences: {
-          isNot: null,
-        },
-      },
-      include: {
-        travelPreferences: true,
-        stripeSubscription: true,
-      },
-    });
-
-    console.log(`Total users with preferences: ${allUsersWithPrefs.length}`);
-    allUsersWithPrefs.forEach(user => {
-      console.log(`User ${user.id}: frequency=${user.travelPreferences?.deliveryFrequency}, subscription=${user.stripeSubscription?.status}`);
-    });
-
     // Find users who should receive deals for this frequency
     const users = await db.user.findMany({
       where: {
