@@ -60,10 +60,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user has an active Stripe subscription by email
-    const { clerkClient } = await import('@clerk/nextjs/server');
-    const client = await clerkClient();
-    const clerkUser = await client.users.getUser(userId);
-    const userEmail = clerkUser.emailAddresses[0]?.emailAddress;
+    const userEmail = user.email;
 
     let hasValidSubscription = false;
 

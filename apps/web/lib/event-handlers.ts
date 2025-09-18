@@ -81,7 +81,8 @@ async function onGenerateDeals(data: { userId: string; frequency: string; user: 
     
     // Generate deals by calling our existing API
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'https://travira.org';
-    const apiUrl = `${baseUrl}/api/recommendations/generate`;
+    const cleanBaseUrl = baseUrl.replace(/\/$/, ''); // Remove trailing slash
+    const apiUrl = `${cleanBaseUrl}/api/recommendations/generate`;
     console.log(`🌐 Calling API: ${apiUrl}`);
     
     const response = await fetch(apiUrl, {
