@@ -69,6 +69,33 @@
   color: #045530 !important;
 }
 
+/* Force description/excerpt text to be dark */
+.text-\[#4a5565\] {
+  color: #4a5565 !important;
+}
+
+.text-xl.text-\[#4a5565\] {
+  color: #4a5565 !important;
+  font-weight: 500;
+}
+
+.text-lg.text-\[#4a5565\] {
+  color: #4a5565 !important;
+  font-weight: 500;
+}
+
+/* Blog post excerpt specifically */
+.text-xl.text-\[#4a5565\].mb-6.leading-relaxed {
+  color: #4a5565 !important;
+  font-weight: 500;
+}
+
+/* Blog page excerpt specifically */
+.text-\[#4a5565\].text-lg.mb-4.leading-relaxed {
+  color: #4a5565 !important;
+  font-weight: 500;
+}
+
 /* Line clamp utilities */
 .line-clamp-2 {
   display: -webkit-box;
