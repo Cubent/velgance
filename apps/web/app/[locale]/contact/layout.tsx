@@ -1,30 +1,14 @@
-import { getDictionary } from '@repo/internationalization';
-import { createMetadata } from '@repo/seo/metadata';
-import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
+import { Metadata } from 'next';
 
-type ContactLayoutProps = {
-  readonly children: ReactNode;
-  readonly params: Promise<{
-    locale: string;
-  }>;
+export const metadata: Metadata = {
+  title: 'Contact | Travira',
+  description: 'Get in touch with Travira for support, questions, or feedback about our flight deal notification service.',
 };
 
-export const generateMetadata = async ({
-  params,
-}: ContactLayoutProps): Promise<Metadata> => {
-  const { locale } = await params;
-  const dictionary = await getDictionary(locale);
-
-  return createMetadata(dictionary.web.contact.meta);
-};
-
-const ContactLayout = ({ children }: ContactLayoutProps) => {
-  return (
-    <div className="min-h-screen">
-      {children}
-    </div>
-  );
-};
-
-export default ContactLayout;
+export default function ContactLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return children;
+}

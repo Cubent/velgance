@@ -1,3 +1,10 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Terms and Conditions | Travira',
+  description: 'Terms and conditions for using Travira\'s flight deal notification service.',
+};
+
 export default function TermsAndConditionsPage() {
   return (
     <div className="min-h-screen bg-[#f9f7ee]">

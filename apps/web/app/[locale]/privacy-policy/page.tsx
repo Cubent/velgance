@@ -1,3 +1,10 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy | Travira',
+  description: 'Privacy policy for Travira\'s flight deal notification service. Learn how we protect your personal information.',
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-[#f9f7ee]">
