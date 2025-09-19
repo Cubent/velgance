@@ -5,6 +5,7 @@ import { TextHoverEffect } from '../(home)/components/TextHoverEffect';
 export const Footer = () => {
   const navigationItems = [
     { title: 'Pricing', href: '/pricing' },
+    { title: 'Blog', href: '/blog' },
     { title: 'Contact', href: '/contact' },
     { title: 'FAQ', href: '/#faq' },
     { title: 'Terms', href: '/terms-and-conditions' },
