@@ -243,9 +243,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <h1 className="text-4xl md:text-5xl font-bold text-[#045530] mb-6 leading-tight">
               {post.title}
             </h1>
-            <p className="text-xl text-[#4a5565] mb-6 leading-relaxed">
-              {post.excerpt}
-            </p>
             <div className="mb-8">
               <img 
                 src="https://i.postimg.cc/8PksCwcY/Best-Hacks-to-Find-Cheap-Flights-to-Europe-1.png" 

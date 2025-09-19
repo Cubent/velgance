@@ -56,9 +56,6 @@ export default function BlogPage() {
                   <h2 className="text-3xl font-bold text-[#045530] mb-4 group-hover:text-[#045530]/80 transition-colors">
                     {post.title}
                   </h2>
-                  <p className="text-[#4a5565] text-lg mb-4 leading-relaxed">
-                    {post.excerpt}
-                  </p>
                   <div className="mb-6">
                     <img 
                       src="https://i.postimg.cc/8PksCwcY/Best-Hacks-to-Find-Cheap-Flights-to-Europe-1.png" 
