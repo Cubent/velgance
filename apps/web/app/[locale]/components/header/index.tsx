@@ -146,7 +146,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                   Sign In
                 </Link>
                 <Button asChild className="bg-[#d5e27b] text-[#045530] hover:bg-[#c4d16a] h-10 rounded-lg px-4 font-semibold">
-                  <Link href="/sign-up?redirect_url=/pricing">
+                  <Link href="/dashboard">
                     Get Started
                   </Link>
                 </Button>

@@ -72,7 +72,7 @@ const Home = async ({ params }: HomeProps) => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center sm:justify-start mb-8">
               <Link
-                href="/mailing-list"
+                href="/dashboard"
                 className="bg-[#d5e27b] text-[#045530] px-8 py-3 sm:px-7 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-[#c4d16a] transition-colors shadow-lg w-fit mx-auto sm:mx-0 text-center min-w-[200px] sm:min-w-0"
               >
                 Start Your Journey
@@ -621,7 +621,7 @@ const Home = async ({ params }: HomeProps) => {
             Join thousands of travelers who save hundreds on every trip with Travira's AI-powered flight deals.
           </p>
           <Link
-            href="/mailing-list"
+            href="/dashboard"
             className="bg-[#045530] text-[#d5e27b] px-8 py-4 rounded-lg text-lg font-semibold hover:bg-[#045530]/90 transition-colors shadow-lg inline-block"
           >
             Get Started
