@@ -857,7 +857,7 @@ const getHardcodedAirports = (): Airport[] => {
     { iata: 'BLN', icao: 'YBLA', name: 'Benalla', cityName: 'Benalla', countryName: 'Australia', popular: false },
     { iata: 'BLO', icao: 'BIBL', name: 'Blonduos', cityName: 'Blonduos', countryName: 'Iceland', popular: false },
     { iata: 'BLP', icao: 'SPBL', name: 'Bellavista', cityName: 'Kelluyo', countryName: 'Peru', popular: false },
-    { iata: 'BLQ', icao: 'LIPE', name: 'Guglielmo Marconi Airport', cityName: 'Trebbo', countryName: 'Italy', popular: false },
+    { iata: 'BLQ', icao: 'LIPE', name: 'Guglielmo Marconi Airport', cityName: 'Bologna', countryName: 'Italy', popular: false },
     { iata: 'BLR', icao: 'VOBL', name: 'Kempegowda International Airport', cityName: 'Devanhalli', countryName: 'India', popular: false },
     { iata: 'BLS', icao: 'YBLL', name: 'Bollon', cityName: 'Bollon', countryName: 'Australia', popular: false },
     { iata: 'BLT', icao: 'YBTR', name: 'Blackwater', cityName: 'Blackwater', countryName: 'Australia', popular: false },
