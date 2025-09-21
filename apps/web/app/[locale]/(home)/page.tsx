@@ -35,30 +35,30 @@ export const generateMetadata = async ({
 
 const Home = async ({ params }: HomeProps) => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ backgroundColor: '#f0e8d4' }}>
       {/* Hero Section */}
       <div className="relative overflow-hidden min-h-[80vh] sm:min-h-screen">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-2xl mx-2 sm:mx-4 mb-4 mt-2"
           style={{
             backgroundImage: 'url(https://images.unsplash.com/photo-1621762003306-97bb12dde975?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'
           }}
         ></div>
         
         {/* Grainy Filter Overlay */}
-        <div className="absolute inset-0 bg-black/20" style={{
+        <div className="absolute inset-0 bg-black/20 rounded-2xl mx-2 sm:mx-4 mb-4 mt-2" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E")`,
           mixBlendMode: 'overlay'
         }}></div>
         
         {/* Dark Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-black/30 rounded-2xl mx-2 sm:mx-4 mb-4 mt-2"></div>
 
         <div className="relative max-w-7xl mx-auto pl-4 pr-4 sm:pl-4 sm:pr-6 lg:pl-6 lg:pr-8 pt-24 pb-8 z-10">
           <div className="text-center sm:text-left">
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
+            <h1 className="text-[2.375rem] sm:text-6xl md:text-8xl font-bold text-[#f0e8d4] mb-4 leading-tight">
               Never Miss a Great
               <br />
               <span className="text-[#d5e27b]">Flight Deal</span> Again

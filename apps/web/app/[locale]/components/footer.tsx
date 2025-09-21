@@ -7,6 +7,7 @@ export const Footer = () => {
     { title: 'Pricing', href: '/pricing' },
     { title: 'Blog', href: '/blog' },
     { title: 'Contact', href: '/contact' },
+    { title: 'Partnership', href: '/partnership' },
     { title: 'FAQ', href: '/#faq' },
     { title: 'Terms', href: '/terms-and-conditions' },
     { title: 'Privacy', href: '/privacy-policy' },
