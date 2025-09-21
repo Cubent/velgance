@@ -10,7 +10,7 @@ export type { Stripe } from 'stripe';
 
 // Travira-specific Stripe functionality
 export const TRAVIRA_PRICE_ID = process.env.STRIPE_TRAVIRA_PRICE_ID || 'price_travira_yearly_99';
-export const MEMBER_PLAN_LOOKUP_KEY = 'member_plan';
+export const MEMBER_PLAN_LOOKUP_KEY = 'member_plan_annual';
 
 export interface CreateSubscriptionParams {
   customerId: string;
@@ -107,7 +107,7 @@ export async function createMemberPlanCheckoutSession(params: CreateSubscription
     allow_promotion_codes: true,
     billing_address_collection: 'required',
     metadata: {
-      product: 'member_plan',
+      product: 'member_plan_annual',
       userId: params.customerId,
     },
   });

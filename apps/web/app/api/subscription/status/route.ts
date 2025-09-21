@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
             if (priceId) {
               try {
                 const price = await stripe.prices.retrieve(priceId);
-                if (price.lookup_key === 'member_plan') {
+                if (price.lookup_key === 'member_plan_annual') {
                   subscriptionTier = 'MEMBER';
                 } else {
                   subscriptionTier = 'PRO'; // Default for other paid plans
