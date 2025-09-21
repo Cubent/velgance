@@ -11,17 +11,17 @@ interface Airport {
   icao: string;
   lat: string;
   lon: string;
-  state: string;
+  state: string | null;
   woeid: string;
   tz: string;
-  phone: string;
+  phone: string | null;
   type: string;
-  email: string;
-  url: string;
+  email: string | null;
+  url: string | null;
   runway_length: string | null;
   elev: string | null;
-  direct_flights: string;
-  carriers: string;
+  direct_flights: string | null;
+  carriers: string | null;
 }
 
 interface AirportSearchProps {
@@ -84,7 +84,7 @@ export function AirportSearch({
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent"
           style={{ color: '#045530' }}
           onKeyPress={(e) => {
-            if (e.key === 'Enter' && filteredAirports.length > 0 && !airportLoading) {
+            if (e.key === 'Enter' && filteredAirports.length > 0) {
               handleAirportSelect(filteredAirports[0]);
             }
           }}

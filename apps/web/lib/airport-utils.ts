@@ -5,7 +5,20 @@ interface Airport {
   city: string;
   name: string;
   country: string;
-  state: string;
+  state: string | null;
+  icao: string;
+  lat: string;
+  lon: string;
+  woeid: string;
+  tz: string;
+  phone: string | null;
+  type: string;
+  email: string | null;
+  url: string | null;
+  runway_length: string | null;
+  elev: string | null;
+  direct_flights: string | null;
+  carriers: string | null;
 }
 
 // Cache the airports data for better performance
