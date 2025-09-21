@@ -12,7 +12,8 @@ export const metadata: Metadata = {
   },
 };
 
-// Blog posts data - in a real app, this would come from a CMS or database
+// Blog posts data - in a real app, this would come from a CMS or database 
+// This is a placeholder for the blog posts
 const blogPosts = [
   {
     slug: 'best-hacks-find-cheap-flights-europe',
