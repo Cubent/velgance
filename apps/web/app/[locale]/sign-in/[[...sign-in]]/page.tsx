@@ -89,6 +89,49 @@ const SignInPage = () => {
                 },
                 userProfilePrimaryButton: {
                   margin: '0 auto'
+                },
+                // OTP/Code input styling for email verification
+                otpCodeFieldInput: {
+                  backgroundColor: '#f0f0f0',
+                  borderColor: '#d1d5db',
+                  color: '#374151',
+                  '&:focus': {
+                    backgroundColor: '#e5e7eb',
+                    borderColor: '#d5e27b',
+                    boxShadow: '0 0 0 2px rgba(213, 226, 123, 0.2)'
+                  }
+                },
+                // Alternative OTP input selectors
+                codeInput: {
+                  backgroundColor: '#f0f0f0',
+                  borderColor: '#d1d5db',
+                  color: '#374151',
+                  '&:focus': {
+                    backgroundColor: '#e5e7eb',
+                    borderColor: '#d5e27b',
+                    boxShadow: '0 0 0 2px rgba(213, 226, 123, 0.2)'
+                  }
+                },
+                verificationCodeInput: {
+                  backgroundColor: '#f0f0f0',
+                  borderColor: '#d1d5db',
+                  color: '#374151',
+                  '&:focus': {
+                    backgroundColor: '#e5e7eb',
+                    borderColor: '#d5e27b',
+                    boxShadow: '0 0 0 2px rgba(213, 226, 123, 0.2)'
+                  }
+                },
+                // Generic input styling for verification codes
+                input: {
+                  backgroundColor: '#f0f0f0',
+                  borderColor: '#d1d5db',
+                  color: '#374151',
+                  '&:focus': {
+                    backgroundColor: '#e5e7eb',
+                    borderColor: '#d5e27b',
+                    boxShadow: '0 0 0 2px rgba(213, 226, 123, 0.2)'
+                  }
                 }
               }
             }}

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { X, Settings, Plus, Trash2 } from 'lucide-react';
+import { AirportSearch } from '@/components/AirportSearch';
+import DestinationSearch from '@/components/DestinationSearch';
 
 interface UserPreferences {
   homeAirports: string[];
@@ -29,8 +31,6 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
     currency: 'USD'
   });
 
-  const [newAirport, setNewAirport] = useState('');
-  const [newDestination, setNewDestination] = useState('');
   const [newAirline, setNewAirline] = useState('');
 
   useEffect(() => {
@@ -44,39 +44,22 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
     onClose();
   };
 
-  const addAirport = () => {
-    if (newAirport.trim() && !formData.homeAirports.includes(newAirport.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        homeAirports: [...prev.homeAirports, newAirport.trim()]
-      }));
-      setNewAirport('');
-    }
-  };
-
-  const removeAirport = (airport: string) => {
-    setFormData(prev => ({
+  const toggleAirport = (airport: string) => {
+    setFormData(prev => {
+      if (prev.homeAirports.includes(airport)) {
+        return {
       ...prev,
       homeAirports: prev.homeAirports.filter(a => a !== airport)
-    }));
+        };
+      } else {
+        return {
+          ...prev,
+          homeAirports: [...prev.homeAirports, airport]
+        };
+      }
+    });
   };
 
-  const addDestination = () => {
-    if (newDestination.trim() && !formData.dreamDestinations.includes(newDestination.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        dreamDestinations: [...prev.dreamDestinations, newDestination.trim()]
-      }));
-      setNewDestination('');
-    }
-  };
-
-  const removeDestination = (destination: string) => {
-    setFormData(prev => ({
-      ...prev,
-      dreamDestinations: prev.dreamDestinations.filter(d => d !== destination)
-    }));
-  };
 
   const addAirline = () => {
     if (newAirline.trim() && !formData.preferredAirlines.includes(newAirline.trim())) {
@@ -99,9 +82,9 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-xl w-full max-h-[80vh] overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl max-w-xl w-full max-h-[80vh] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar-thumb]:bg-[#d5e27b] [&::-webkit-scrollbar-thumb]:rounded-full">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b">
+        <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-2">
             <Settings className="w-4 h-4 text-[#045530]" />
             <h2 className="text-lg font-semibold text-[#045530]">Edit Preferences</h2>
@@ -118,26 +101,15 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
         <div className="p-4 space-y-4">
           {/* Home Airports */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium mb-2" style={{ color: '#045530' }}>
               Home Airports
             </label>
-            <div className="flex gap-2 mb-2">
-              <input
-                type="text"
-                value={newAirport}
-                onChange={(e) => setNewAirport(e.target.value)}
-                placeholder="Enter airport code (e.g., JFK)"
-                className="flex-1 px-3 py-1.5 text-sm text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent"
-                onKeyPress={(e) => e.key === 'Enter' && addAirport()}
-              />
-              <button
-                onClick={addAirport}
-                className="bg-[#d5e27b] text-[#045530] px-3 py-1.5 text-sm rounded-md hover:bg-[#c4d16a] transition-colors flex items-center gap-1"
-              >
-                <Plus className="w-3 h-3" />
-                Add
-              </button>
-            </div>
+            <AirportSearch
+              selectedAirports={formData.homeAirports}
+              onAirportToggle={toggleAirport}
+              placeholder="Search for airport (e.g., Los Angeles, LAX, John F Kennedy)"
+              className="mb-3"
+            />
             <div className="flex flex-wrap gap-2">
               {formData.homeAirports.map((airport) => (
                 <span
@@ -146,7 +118,7 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
                 >
                   {airport}
                   <button
-                    onClick={() => removeAirport(airport)}
+                    onClick={() => toggleAirport(airport)}
                     className="hover:text-red-600 transition-colors"
                   >
                     <X className="w-3 h-3" />
@@ -157,44 +129,24 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
           </div>
 
           {/* Dream Destinations */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Dream Destinations
-            </label>
-            <div className="flex gap-2 mb-2">
-              <input
-                type="text"
-                value={newDestination}
-                onChange={(e) => setNewDestination(e.target.value)}
-                placeholder="Enter destination (e.g., Tokyo)"
-                className="flex-1 px-3 py-1.5 text-sm text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#d5e27b] focus:border-transparent"
-                onKeyPress={(e) => e.key === 'Enter' && addDestination()}
-              />
-              <button
-                onClick={addDestination}
-                className="bg-[#d5e27b] text-[#045530] px-3 py-1.5 text-sm rounded-md hover:bg-[#c4d16a] transition-colors flex items-center gap-1"
-              >
-                <Plus className="w-3 h-3" />
-                Add
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {formData.dreamDestinations.map((destination) => (
-                <span
-                  key={destination}
-                  className="inline-flex items-center gap-1 bg-[#d5e27b] text-[#045530] px-3 py-1 rounded-full text-sm font-medium"
-                >
-                  {destination}
-                  <button
-                    onClick={() => removeDestination(destination)}
-                    className="hover:text-red-600 transition-colors"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              ))}
-            </div>
-          </div>
+          <DestinationSearch
+            selectedDestinations={formData.dreamDestinations}
+            onToggleDestination={(destination) => {
+              setFormData(prev => {
+                if (prev.dreamDestinations.includes(destination)) {
+                  return {
+                    ...prev,
+                    dreamDestinations: prev.dreamDestinations.filter(d => d !== destination)
+                  };
+                } else {
+                  return {
+                    ...prev,
+                    dreamDestinations: [...prev.dreamDestinations, destination]
+                  };
+                }
+              });
+            }}
+          />
 
           {/* Delivery Frequency */}
           <div>
@@ -329,7 +281,7 @@ export function PreferencesModal({ isOpen, onClose, preferences, onSave }: Prefe
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-2 p-4 border-t bg-gray-50">
+        <div className="flex justify-end gap-2 p-4 bg-gray-50">
           <button
             onClick={onClose}
             className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 transition-colors"
