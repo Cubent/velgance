@@ -18,8 +18,8 @@ interface Airport {
   type: string;
   email: string;
   url: string;
-  runway_length: string;
-  elev: string;
+  runway_length: string | null;
+  elev: string | null;
   direct_flights: string;
   carriers: string;
 }
