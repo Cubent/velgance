@@ -97,6 +97,7 @@ export const DESTINATIONS: Destination[] = [
   { name: 'Dubai', country: 'United Arab Emirates', type: 'city', popular: true },
   { name: 'Singapore', country: 'Singapore', type: 'city', popular: true },
   { name: 'Bangkok', country: 'Thailand', type: 'city', popular: true },
+  { name: 'Jakarta', country: 'Indonesia', type: 'city', popular: true },
   { name: 'Seoul', country: 'South Korea', type: 'city', popular: true },
   { name: 'Sydney', country: 'Australia', type: 'city', popular: true },
   
