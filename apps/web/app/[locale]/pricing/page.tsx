@@ -83,6 +83,16 @@ export default function PricingPage() {
                     <span className="pb-2 text-gray-600">/mo</span>
                   </div>
 
+                  {/* Start Free Trial Button */}
+                  <div className="mb-8">
+                    <button
+                      onClick={() => handleSubscribe()}
+                      className="w-full inline-flex items-center justify-center bg-[#d5e27b] px-6 py-3 font-semibold text-[#045530] shadow-sm hover:bg-[#c4d16a] text-base"
+                    >
+                      Start Free Trial
+                    </button>
+                  </div>
+
                   <div className="text-gray-700 mb-8 flex flex-col items-center justify-center gap-1 text-base">
                     <span>Billed annually at $89</span>
                     <div className="flex items-center justify-center gap-2">
@@ -97,16 +107,6 @@ export default function PricingPage() {
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Start Free Trial Button */}
-                  <div className="mb-8">
-                    <button
-                      onClick={() => handleSubscribe()}
-                      className="w-full inline-flex items-center justify-center bg-[#d5e27b] px-6 py-3 font-semibold text-[#045530] shadow-sm hover:bg-[#c4d16a] text-base"
-                    >
-                      Start Free Trial
-                    </button>
                   </div>
 
                   {/* Features List */}
