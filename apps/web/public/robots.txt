@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://cubent.dev/sitemap.xml
+Sitemap: https://travira.org/sitemap.xml
 
 # Disallow sensitive areas
 Disallow: /api/
@@ -10,6 +10,8 @@ Disallow: /_next/
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /login/
+Disallow: /sign-up/
+Disallow: /sign-in/
 
 # Allow important pages
 Allow: /
