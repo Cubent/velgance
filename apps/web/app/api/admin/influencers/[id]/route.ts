@@ -5,7 +5,7 @@ import { database as db } from '@repo/database';
 // PUT - Update influencer
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -16,9 +16,10 @@ export async function PUT(
 
     const body = await request.json();
     const { name, email, platform, handle, isActive } = body;
+    const { id } = await params;
 
     const influencer = await db.influencer.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         email,
@@ -45,7 +46,7 @@ export async function PUT(
 // DELETE - Delete influencer
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -54,8 +55,10 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+
     await db.influencer.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ 
