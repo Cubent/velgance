@@ -1,6 +1,6 @@
-import { SignIn } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ReferralSignIn } from '../../../../components/ReferralSignIn';
 
 const SignInPage = () => {
   return (
@@ -42,100 +42,7 @@ const SignInPage = () => {
         </div>
         
         <div className="rounded-lg sm:rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-4 sm:p-6 shadow-sm">
-        <SignIn
-          routing="path"
-          path="/sign-in"
-          signUpUrl="/sign-up"
-          afterSignInUrl="/onboarding"
-          afterSignUpUrl="/onboarding"
-            appearance={{
-              elements: {
-                headerTitle: {
-                  display: 'none'
-                },
-                headerSubtitle: {
-                  display: 'none'
-                },
-                formButtonPrimary: {
-                  backgroundColor: '#d5e27b',
-                  borderColor: '#d5e27b',
-                  color: '#333333',
-                  '&:hover': {
-                    backgroundColor: '#c4d16a',
-                    borderColor: '#c4d16a'
-                  }
-                },
-                socialButtonsBlockButton: {
-                  backgroundColor: '#fff0d2',
-                  borderColor: '#fff0d2',
-                  color: '#045530',
-                  '&:hover': {
-                    backgroundColor: '#f0e0b8',
-                    borderColor: '#f0e0b8'
-                  }
-                },
-                formFieldInput: {
-                  backgroundColor: '#f9f7ee',
-                  borderColor: '#e5e5e5'
-                },
-                userProfile: {
-                  textAlign: 'center'
-                },
-                userProfileCard: {
-                  textAlign: 'center'
-                },
-                userProfileImage: {
-                  margin: '0 auto'
-                },
-                userProfilePrimaryButton: {
-                  margin: '0 auto'
-                },
-                // OTP/Code input styling for email verification
-                otpCodeFieldInput: {
-                  backgroundColor: '#f0f0f0',
-                  borderColor: '#d1d5db',
-                  color: '#374151',
-                  '&:focus': {
-                    backgroundColor: '#e5e7eb',
-                    borderColor: '#d5e27b',
-                    boxShadow: '0 0 0 2px rgba(213, 226, 123, 0.2)'
-                  }
-                },
-                // Alternative OTP input selectors
-                codeInput: {
-                  backgroundColor: '#f0f0f0',
-                  borderColor: '#d1d5db',
-                  color: '#374151',
-                  '&:focus': {
-                    backgroundColor: '#e5e7eb',
-                    borderColor: '#d5e27b',
-                    boxShadow: '0 0 0 2px rgba(213, 226, 123, 0.2)'
-                  }
-                },
-                verificationCodeInput: {
-                  backgroundColor: '#f0f0f0',
-                  borderColor: '#d1d5db',
-                  color: '#374151',
-                  '&:focus': {
-                    backgroundColor: '#e5e7eb',
-                    borderColor: '#d5e27b',
-                    boxShadow: '0 0 0 2px rgba(213, 226, 123, 0.2)'
-                  }
-                },
-                // Generic input styling for verification codes
-                input: {
-                  backgroundColor: '#f0f0f0',
-                  borderColor: '#d1d5db',
-                  color: '#374151',
-                  '&:focus': {
-                    backgroundColor: '#e5e7eb',
-                    borderColor: '#d5e27b',
-                    boxShadow: '0 0 0 2px rgba(213, 226, 123, 0.2)'
-                  }
-                }
-              }
-            }}
-          />
+          <ReferralSignIn />
         </div>
         
         {/* Privacy Disclaimer */}

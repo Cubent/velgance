@@ -15,6 +15,7 @@ import { ConditionalHeaderFooter } from './components/conditional-header-footer'
 import { PerformanceOptimizer } from '../../components/performance-optimizer';
 import { PerformanceHints } from '../../components/seo-optimizer';
 import { ErrorBoundary, ConsoleErrorSuppressor } from '../../components/error-boundary';
+import { ReferralTracker } from '../../components/ReferralTracker';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 
@@ -76,6 +77,7 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
           })
         }}
       />
+      <ReferralTracker />
       <ErrorBoundary>
         <AnalyticsProvider>
           <DesignSystemProvider>

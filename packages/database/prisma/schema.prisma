@@ -284,6 +284,22 @@ model UserPreferences {
   @@index([userId])
 }
 
+model Influencer {
+  id          String   @id @default(cuid())
+  name        String   // Influencer name
+  code        String   @unique // Unique referral code (e.g., "influencer123")
+  email       String?  // Contact email
+  platform    String?  // Social media platform
+  handle      String?  // Social media handle
+  isActive    Boolean  @default(true)
+  totalSignups Int     @default(0) // Track total signups
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([code])
+  @@index([isActive])
+}
+
 model FlightRecommendation {
   id     String @id @default(cuid())
   userId String

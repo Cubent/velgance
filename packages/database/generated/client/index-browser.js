@@ -280,6 +280,19 @@ exports.Prisma.UserPreferencesScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.InfluencerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  email: 'email',
+  platform: 'platform',
+  handle: 'handle',
+  isActive: 'isActive',
+  totalSignups: 'totalSignups',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FlightRecommendationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -399,6 +412,7 @@ exports.Prisma.ModelName = {
   PendingLogin: 'PendingLogin',
   Page: 'Page',
   UserPreferences: 'UserPreferences',
+  Influencer: 'Influencer',
   FlightRecommendation: 'FlightRecommendation',
   StripeSubscription: 'StripeSubscription',
   EmailNotification: 'EmailNotification',
