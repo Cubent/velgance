@@ -24,9 +24,6 @@ export const Footer = () => {
                 Velgance Agency
               </p>
             </div>
-            <p className="text-xs text-gray-400 mb-4">
-              since 2009
-            </p>
             <p className="text-xs text-gray-300 leading-relaxed max-w-md">
               Siamo più di una semplice agenzia: una community che valorizza la diversità, la professionalità e la creatività. Scopri come trasformare la tua carriera nel mondo della moda con noi.
             </p>

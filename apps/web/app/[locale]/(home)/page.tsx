@@ -34,7 +34,7 @@ const Home = async ({ params }: HomeProps) => {
         </div>
         
         {/* Elegant Title - Top Left */}
-        <div className="absolute top-20 left-8 z-10 max-w-xs sm:max-w-sm lg:max-w-md">
+        <div className="absolute top-16 sm:top-20 left-8 z-10 max-w-[280px] sm:max-w-sm lg:max-w-md">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extralight text-[#212121] tracking-wide leading-tight italic" style={{ fontFamily: 'serif' }}>
             Trasformiamo il talento in opportunità
           </h1>

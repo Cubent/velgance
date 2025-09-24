@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@repo/design-system/components/ui/button';
-import { ChevronDown, User, LayoutDashboard, LogOut } from 'lucide-react';
+import { ChevronDown, User, LayoutDashboard, LogOut, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { useUser, useClerk } from '@clerk/nextjs';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import type { Dictionary } from '@repo/internationalization';
 import Image from 'next/image';
@@ -18,8 +18,12 @@ type HeaderProps = {
 export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
+  const router = useRouter();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchResults, setShowSearchResults] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const isPricing = isPricingPage || pathname.includes('/pricing') || pathname.includes('/dashboard') || pathname.includes('/profile') || pathname.includes('/onboarding');
 
@@ -42,11 +46,47 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
     <header className="sticky top-0 z-40 w-full">
       <div className="w-full bg-white/90 backdrop-blur-sm px-4 py-3">
         <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <p className="whitespace-nowrap font-normal text-lg text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>Velgance Agency</p>
-          </Link>
-          {/* Center nav removed */}
-          <div className="hidden lg:flex"></div>
+          <div className="flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <p className="whitespace-nowrap font-normal text-lg text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>Velgance Agency</p>
+            </Link>
+            <Link 
+              href="/models" 
+              className="hidden sm:block text-sm text-black hover:text-gray-600 transition-colors"
+            >
+              Modelli
+            </Link>
+          </div>
+          {/* Center Search Bar */}
+          <div className="flex-1 max-w-md mx-4">
+            <div className="relative" ref={searchRef}>
+              <input
+                type="text"
+                placeholder="Cerca modelli..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setShowSearchResults(true)}
+                className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
+              />
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+              {showSearchResults && searchQuery && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                  <div className="p-2 text-xs text-gray-500">
+                    Risultati per "{searchQuery}"
+                  </div>
+                  <div className="p-2 text-sm text-gray-500">
+                    <Link 
+                      href={`/models?search=${encodeURIComponent(searchQuery)}`}
+                      className="block hover:bg-gray-100 p-2 rounded"
+                      onClick={() => setShowSearchResults(false)}
+                    >
+                      Vedi tutti i risultati
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
           {/* Right side - Desktop and Mobile */}
           <div className="flex items-center gap-2">
             {/* Sign In / User Profile */}

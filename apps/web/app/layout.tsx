@@ -6,12 +6,15 @@ import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Travira | Save 50-90% off Flight Deals',
-  description: 'Find incredible flight deals with AI-powered search. Save 50-90% on flights worldwide.',
+  title: 'Velgance - Trasformiamo il talento in opportunità',
+  description: 'Academy Model Management - Connettiamo talenti unici con le migliori opportunità del settore della moda.',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.png',
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+      { url: '/favicon.ico', type: 'image/x-icon' }
+    ],
+    shortcut: '/favicon.png',
+    apple: '/apple-touch-icon.png',
   },
 };
 
@@ -23,7 +26,7 @@ export default function RootLayout({
   return (
     <html className={cn(fonts, 'scroll-smooth')}>
       <head>
-        <link rel="canonical" href="https://cubent.dev" />
+        <link rel="canonical" href="https://velgance.com" />
       </head>
       <body style={{ backgroundColor: '#f9f7ee' }}>
         <DesignSystemProvider>
