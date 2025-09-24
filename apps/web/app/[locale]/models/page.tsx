@@ -62,23 +62,12 @@ export default function ModelsPage() {
       <div className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-black mb-6 italic" style={{ fontFamily: 'serif' }}>
+            <h1 className="text-5xl sm:text-5xl lg:text-6xl font-light text-black mb-6 italic" style={{ fontFamily: 'serif' }}>
               I nostri modelli
             </h1>
-            <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto mb-8">
+            <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto mb-8">
               Scopri i talenti della nostra agenzia
             </p>
-            
-            {/* Search Bar */}
-            <div className="max-w-md mx-auto">
-              <input
-                type="text"
-                placeholder="Cerca per nome..."
-                value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="w-full px-4 py-3 border-b border-black focus:outline-none focus:border-gray-400 bg-transparent text-center"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -95,14 +84,14 @@ export default function ModelsPage() {
               <p className="text-gray-500 text-lg">Nessun modello trovato</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12">
               {models.map((model) => (
                 <div
                   key={model.id}
                   onClick={() => setSelectedModel(model)}
                   className="group cursor-pointer"
                 >
-                  <div className="relative overflow-hidden rounded-lg aspect-[3/4] mb-3">
+                  <div className="relative overflow-hidden rounded-lg aspect-square mb-3">
                     <img
                       src={model.image}
                       alt={`${model.firstName} ${model.lastName}`}
@@ -110,7 +99,7 @@ export default function ModelsPage() {
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
                   </div>
-                  <h3 className="text-sm font-medium text-black text-center">
+                  <h3 className="text-lg font-light text-gray-600 text-center italic" style={{ fontFamily: 'serif' }}>
                     {model.firstName} {model.lastName}
                   </h3>
                 </div>
@@ -128,9 +117,9 @@ export default function ModelsPage() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedModel(null)}
-                className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full"
+                className="absolute top-4 left-4 text-gray-500 hover:text-gray-700 transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
 
               {/* Model Image */}
@@ -138,7 +127,7 @@ export default function ModelsPage() {
                 <img
                   src={selectedModel.image}
                   alt={`${selectedModel.firstName} ${selectedModel.lastName}`}
-                  className="w-full h-96 object-cover rounded-lg"
+                  className="w-full h-96 object-cover object-top rounded-lg"
                 />
               </div>
 
