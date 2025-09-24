@@ -35,7 +35,7 @@ const Home = async ({ params }: HomeProps) => {
         
         {/* Elegant Title - Top Left */}
         <div className="absolute top-16 sm:top-20 left-8 z-10 max-w-[280px] sm:max-w-sm lg:max-w-md">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extralight text-[#212121] tracking-wide leading-tight italic" style={{ fontFamily: 'serif' }}>
+          <h1 className="text-5xl sm:text-4xl lg:text-5xl font-extralight text-[#212121] tracking-wide leading-tight italic" style={{ fontFamily: 'serif' }}>
             Trasformiamo il talento in opportunità
           </h1>
         </div>
@@ -58,39 +58,19 @@ const Home = async ({ params }: HomeProps) => {
           <div className="relative overflow-hidden">
             <div className="flex space-x-8 sm:space-x-16 items-center animate-scroll">
               {[
-                { name: 'American Airlines', logo: 'https://i.postimg.cc/6qphD90N/AMERICAN-AIRLINES.png' },
-                { name: 'Delta', logo: 'https://i.postimg.cc/6qphD90N/DELTA.png' },
-                { name: 'United Airlines', logo: 'https://i.postimg.cc/rFzJjws1/UNITED-AIRLINES.png' },
-                { name: 'Southwest', logo: 'https://i.postimg.cc/wxw2Dmqx/SOUTHWEST.png' },
-                { name: 'JetBlue', logo: 'https://i.postimg.cc/6qphD90N/JETBLUE.png' },
-                { name: 'Alaska Airlines', logo: 'https://i.postimg.cc/6qphD90N/ALASKA-AIRLINES.png' },
-                { name: 'Spirit', logo: 'https://i.postimg.cc/6qphD90N/SPIRIT.png' },
-                { name: 'Frontier', logo: 'https://i.postimg.cc/6qphD90N/FRONTIER.png' },
-                { name: 'British Airways', logo: 'https://i.postimg.cc/6qphD90N/BRITISH-AIRWAYS.png' },
-                { name: 'Lufthansa', logo: 'https://i.postimg.cc/6qphD90N/LUFTHANSA.png' },
-                { name: 'Air France', logo: 'https://i.postimg.cc/6qphD90N/AIR-FRANCE.png' },
-                { name: 'Emirates', logo: 'https://i.postimg.cc/6qphD90N/EMIRATES.png' },
-                { name: 'Qatar Airways', logo: 'https://i.postimg.cc/Bb7C3dYP/QATAR-AIRWAYS.png' },
-                { name: 'Singapore Airlines', logo: 'https://i.postimg.cc/6qphD90N/SINGAPORE-AIRLINE.png' },
-                { name: 'Southwest', logo: 'https://i.postimg.cc/wxw2Dmqx/SOUTHWEST.png' },
-                { name: 'United Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' }
+                { name: 'Velgance 1', logo: 'https://i.postimg.cc/Wz7xdmRv/Velgance-10.png' },
+                { name: 'Velgance 2', logo: 'https://i.postimg.cc/XJdRbSQX/Velgance-11.png' },
+                { name: 'Velgance 3', logo: 'https://i.postimg.cc/fTB6Zvj7/Velgance-5.png' },
+                { name: 'Velgance 4', logo: 'https://i.postimg.cc/Y2N5D7vs/Velgance-6.png' },
+                { name: 'Velgance 5', logo: 'https://i.postimg.cc/5yJZ97Rg/Velgance-7.png' },
+                { name: 'Velgance 6', logo: 'https://i.postimg.cc/X7VTTPF7/Velgance-8.png' }
               ].concat([
-                { name: 'American Airlines', logo: 'https://i.postimg.cc/6qphD90N/AMERICAN-AIRLINES.png' },
-                { name: 'Delta', logo: 'https://i.postimg.cc/6qphD90N/DELTA.png' },
-                { name: 'United Airlines', logo: 'https://i.postimg.cc/rFzJjws1/UNITED-AIRLINES.png' },
-                { name: 'Southwest', logo: 'https://i.postimg.cc/wxw2Dmqx/SOUTHWEST.png' },
-                { name: 'JetBlue', logo: 'https://i.postimg.cc/6qphD90N/JETBLUE.png' },
-                { name: 'Alaska Airlines', logo: 'https://i.postimg.cc/6qphD90N/ALASKA-AIRLINES.png' },
-                { name: 'Spirit', logo: 'https://i.postimg.cc/6qphD90N/SPIRIT.png' },
-                { name: 'Frontier', logo: 'https://i.postimg.cc/6qphD90N/FRONTIER.png' },
-                { name: 'British Airways', logo: 'https://i.postimg.cc/6qphD90N/BRITISH-AIRWAYS.png' },
-                { name: 'Lufthansa', logo: 'https://i.postimg.cc/6qphD90N/LUFTHANSA.png' },
-                { name: 'Air France', logo: 'https://i.postimg.cc/6qphD90N/AIR-FRANCE.png' },
-                { name: 'Emirates', logo: 'https://i.postimg.cc/6qphD90N/EMIRATES.png' },
-                { name: 'Qatar Airways', logo: 'https://i.postimg.cc/Bb7C3dYP/QATAR-AIRWAYS.png' },
-                { name: 'Singapore Airlines', logo: 'https://i.postimg.cc/6qphD90N/SINGAPORE-AIRLINE.png' },
-                { name: 'Southwest', logo: 'https://i.postimg.cc/wxw2Dmqx/SOUTHWEST.png' },
-                { name: 'United Airlines', logo: 'https://i.postimg.cc/rFzJjws1/TURKISH-LINES.png' }
+                { name: 'Velgance 1', logo: 'https://i.postimg.cc/Wz7xdmRv/Velgance-10.png' },
+                { name: 'Velgance 2', logo: 'https://i.postimg.cc/XJdRbSQX/Velgance-11.png' },
+                { name: 'Velgance 3', logo: 'https://i.postimg.cc/fTB6Zvj7/Velgance-5.png' },
+                { name: 'Velgance 4', logo: 'https://i.postimg.cc/Y2N5D7vs/Velgance-6.png' },
+                { name: 'Velgance 5', logo: 'https://i.postimg.cc/5yJZ97Rg/Velgance-7.png' },
+                { name: 'Velgance 6', logo: 'https://i.postimg.cc/X7VTTPF7/Velgance-8.png' }
               ]).map((airline, i) => (
                 <div key={`duplicate-${i}`} className="flex-shrink-0 flex items-center justify-center h-28 w-56 overflow-hidden">
                   <img

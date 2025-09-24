@@ -77,7 +77,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
       <div className="w-full bg-white/90 backdrop-blur-sm px-4 py-3">
         <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <p className="whitespace-nowrap font-normal text-lg text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>Velgance Agency</p>
             </Link>
             <Link 
@@ -187,7 +187,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                              onClick={() => setShowSearchResults(false)}
                            >
                              Vedi tutti i risultati ({searchResults.length})
-                           </Link>
+          </Link>
                          )}
                        </div>
                      )}
@@ -300,7 +300,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
              )}
              
              {/* Mobile Hamburger Menu - after Contattaci */}
-             <div className="sm:hidden ml-2" ref={mobileMenuRef}>
+             <div className="sm:hidden ml-1" ref={mobileMenuRef}>
                <button
                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                  className="p-2 text-black hover:text-gray-600 transition-colors"
@@ -308,41 +308,76 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                  <Menu className="w-5 h-5" />
                </button>
                {isMobileMenuOpen && (
-                 <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                   <div className="py-2">
+                 <div className="fixed inset-0 z-50 animate-in fade-in-0 duration-300 bg-white" style={{ backgroundColor: 'white !important' }}>
+                   {/* Header */}
+                   <div className="flex justify-between items-center p-6 border-b border-gray-300" style={{ backgroundColor: '#fafafa' }}>
+                     <h2 className="text-2xl font-medium text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>
+                       Menu
+                     </h2>
+                       <button
+                         onClick={() => setIsMobileMenuOpen(false)}
+                         className="p-3 hover:bg-gray-200 rounded-full transition-colors"
+                       >
+                         <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                         </svg>
+                       </button>
+                   </div>
+                   
+                   {/* Menu Items - Centered */}
+                   <div className="flex flex-col justify-center items-center h-[calc(100vh-120px)] p-6 space-y-2 bg-white" style={{ backgroundColor: 'white !important' }}>
                      <Link
                        href="/models"
-                       className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors"
+                       className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
                        onClick={() => setIsMobileMenuOpen(false)}
+                       style={{ fontFamily: 'Raleway, sans-serif' }}
                      >
                        Modelli
                      </Link>
+                     
+                     <div className="h-px bg-gray-300 my-4 w-48"></div>
+                     
                      {!isLoaded ? (
-                       <div className="px-4 py-2">
-                         <div className="h-6 w-16 animate-pulse bg-gray-200 rounded"></div>
+                       <div className="px-6 py-6">
+                         <div className="h-8 w-24 animate-pulse bg-gray-200 rounded"></div>
                        </div>
                      ) : user ? (
                        <Link
                          href="/dashboard"
-                         className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors"
+                         className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
                          onClick={() => setIsMobileMenuOpen(false)}
+                         style={{ fontFamily: 'Raleway, sans-serif' }}
                        >
                          Dashboard
                        </Link>
-                     ) : (
-                       <Link
-                         href="/sign-in"
-                         className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors"
-                         onClick={() => setIsMobileMenuOpen(false)}
-                       >
-                         Entra
-                       </Link>
-                     )}
+                      ) : (
+                        <>
+                          <Link
+                            href="/sign-in"
+                            className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            style={{ fontFamily: 'Raleway, sans-serif' }}
+                          >
+                            Entra
+                          </Link>
+                          
+                          <div className="h-px bg-gray-300 my-4 w-48"></div>
+                          
+                          <Link
+                            href="/dashboard"
+                            className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            style={{ fontFamily: 'Raleway, sans-serif' }}
+                          >
+                            Contattaci
+                          </Link>
+                        </>
+                      )}
                    </div>
-                 </div>
-               )}
-             </div>
-             </div>
+              </div>
+            )}
+            </div>
+            </div>
           </div>
         </div>
       </div>
