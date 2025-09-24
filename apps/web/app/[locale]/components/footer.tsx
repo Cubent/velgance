@@ -3,61 +3,34 @@ import Image from 'next/image';
 import { TextHoverEffect } from '../(home)/components/TextHoverEffect';
 
 export const Footer = () => {
-  const navigationItems = [
-    { title: 'Pricing', href: '/pricing' },
-    { title: 'Blog', href: '/blog' },
-    { title: 'Contact', href: '/contact' },
-    { title: 'Partnership', href: '/partnership' },
-    { title: 'FAQ', href: '/#faq' },
-    { title: 'Terms', href: '/terms-and-conditions' },
-    { title: 'Privacy', href: '/privacy-policy' },
-  ];
-
   return (
-    <footer className="bg-[#045530] border-t border-gray-200">
+    <footer className="bg-black border-t border-gray-200">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
-        {/* Contact section on top */}
-        <div className="flex flex-col items-center gap-4 mb-12">
-          <div className="flex items-center gap-2 mb-4">
-            <Image src="/Travira-light.svg" alt="Travira Logo" width={48} height={48} />
-            <h3 className="text-xl font-bold text-[#fff0d2]">Travira</h3>
-          </div>
-          <Link
-            href="mailto:support@travira.org"
-            className="text-[#fff0d2] hover:text-[#d5e27b] transition-colors text-lg font-medium"
-          >
-            support@travira.org
-          </Link>
-
-        </div>
-
-        {/* Navigation links */}
-        <div className="flex justify-center mb-12">
-          <div className="flex flex-wrap justify-center gap-8">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="text-sm text-[#fff0d2] hover:text-[#d5e27b] transition-colors font-medium"
-              >
-                {item.title}
-              </Link>
-            ))}
+        {/* Main content */}
+        <div className="mb-12">
+          {/* Title */}
+          <div className="flex flex-col justify-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6 italic" style={{ fontFamily: 'serif' }}>
+              Connettendo talento e opportunità
+            </h2>
           </div>
         </div>
 
-        {/* Status and Copyright */}
-        <div className="flex flex-col items-center gap-6">
-          <div className="flex items-center gap-3 font-medium text-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-            </span>
-            <span className="text-[#fff0d2]">All Systems Operational</span>
+        {/* Bottom - Logo and Description */}
+        <div className="flex justify-start">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2 mb-2">
+              <p className="whitespace-nowrap font-normal text-lg text-white" style={{ fontFamily: 'Raleway, sans-serif' }}>
+                Velgance Agency
+              </p>
+            </div>
+            <p className="text-xs text-gray-400 mb-4">
+              since 2009
+            </p>
+            <p className="text-xs text-gray-300 leading-relaxed max-w-md">
+              Siamo più di una semplice agenzia: una community che valorizza la diversità, la professionalità e la creatività. Scopri come trasformare la tua carriera nel mondo della moda con noi.
+            </p>
           </div>
-          <p className="text-sm text-[#fff0d2]">
-            © {new Date().getFullYear()} Travira. All rights reserved.
-          </p>
         </div>
       </div>
     </footer>

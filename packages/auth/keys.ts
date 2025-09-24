@@ -5,7 +5,6 @@ export const keys = () =>
   createEnv({
     server: {
       CLERK_SECRET_KEY: z.string().startsWith('sk_'),
-      CLERK_WEBHOOK_SECRET: z.string().startsWith('whsec_').optional(),
     },
     client: {
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().startsWith('pk_'),
@@ -17,7 +16,6 @@ export const keys = () =>
     },
     runtimeEnv: {
       CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-      CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
         process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
       NEXT_PUBLIC_CLERK_DOMAIN: process.env.NEXT_PUBLIC_CLERK_DOMAIN,

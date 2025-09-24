@@ -21,7 +21,7 @@ export const TrustedBy = ({ dictionary }: TrustedByProps) => {
       }
 
       .animate-scroll-companies {
-        animation: scroll-companies 20s linear infinite;
+        animation: scroll-companies 40s linear infinite;
       }
     `;
     document.head.appendChild(style);

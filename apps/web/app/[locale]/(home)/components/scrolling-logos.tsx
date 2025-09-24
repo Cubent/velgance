@@ -58,7 +58,7 @@ export const ScrollingLogos = () => {
         to { transform: translateX(-50%); }
       }
       .animate-scroll {
-        animation: scroll 40s linear infinite;
+        animation: scroll 80s linear infinite;
         will-change: transform;
       }
       .scrolling-container {

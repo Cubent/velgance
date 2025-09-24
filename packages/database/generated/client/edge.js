@@ -401,7 +401,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\Travira\\packages\\database\\generated\\client",
+      "value": "D:\\velgance\\Travira\\packages\\database\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -425,12 +425,11 @@ const config = {
     "previewFeatures": [
       "driverAdapters"
     ],
-    "sourceFilePath": "D:\\Travira\\packages\\database\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\velgance\\Travira\\packages\\database\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.4.1",
@@ -439,6 +438,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

@@ -113,8 +113,8 @@ export const Mockup = () => {
 
         {/* Top section - Animated title and description */}
         <AnimatedScrollText
-          title="An AI that vibes with your code and keeps up with your flow."
-          description="Cubent transforms how developers work by providing intelligent, context-aware assistance that learns from your codebase. From instant screenshot-to-code conversion to deep architectural understanding, we're building the future of software development."
+          title="I nostri modelli e modelle"
+          description="Modelle e modelli professionisti per sfilate, presentazioni aziendali, shooting, video commerciali, show-room e fiere. Connettiamo talenti unici con le migliori opportunità del settore."
         />
 
       {/* Vertical lines section */}

@@ -40,16 +40,10 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
 
   return (
     <header className="sticky top-0 z-40 w-full">
-      <div className={`w-full ${isPricing ? 'bg-[#045530]' : 'bg-[#f0e8d4]'} backdrop-blur-none px-1 py-1`}>
-        <div className="relative w-full max-w-7xl mx-auto flex min-h-12 flex-row items-center justify-between px-2">
+      <div className="w-full bg-white/90 backdrop-blur-sm px-4 py-3">
+        <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Image 
-              src={isPricing ? "/Travira-light.svg" : "/Travira-logo.svg"} 
-              alt="Travira Logo" 
-              width={40} 
-              height={40} 
-            />
-            <p className={`whitespace-nowrap font-bold text-2xl ${isPricing ? 'text-[#d5e27b]' : 'text-[#045530]'}`}>Travira</p>
+            <p className="whitespace-nowrap font-normal text-lg text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>Velgance Agency</p>
           </Link>
           {/* Center nav removed */}
           <div className="hidden lg:flex"></div>
@@ -141,15 +135,17 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               <div className="flex items-center gap-2">
                 <Link 
                   href="/sign-in"
-                  className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${isPricing ? 'text-[#d5e27b] hover:text-[#d5e27b]' : 'text-[#045530] hover:text-[#045530]'} h-10 px-4 py-2 hover:bg-transparent`}
+                  className="inline-flex items-center justify-center rounded-md text-xs font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-black hover:text-black h-6 px-2 py-1 sm:h-10 sm:px-4 sm:py-2 sm:text-sm hover:bg-transparent"
                 >
-                  Sign In
+                  Entra
                 </Link>
-                <Button asChild className="bg-[#d5e27b] text-[#045530] hover:bg-[#c4d16a] h-10 rounded-lg px-4 font-semibold">
-                  <Link href="/dashboard">
-                    Get Started
-                  </Link>
-                </Button>
+                <Link 
+                  href="/dashboard"
+                  className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
+                  style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}
+                >
+                  Contattaci
+                </Link>
               </div>
             )}
             </div>
