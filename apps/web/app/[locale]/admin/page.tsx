@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getModels, createModel, type Model } from '../../../lib/models';
+import type { Model } from '../../../lib/models';
 import { Plus, X, Instagram, Mail } from 'lucide-react';
 
 export default function AdminPage() {
@@ -22,25 +22,46 @@ export default function AdminPage() {
 
   const loadModels = async () => {
     setIsLoading(true);
-    const allModels = await getModels();
-    setModels(allModels);
-    setIsLoading(false);
+    try {
+      const response = await fetch('/api/models');
+      if (response.ok) {
+        const data = await response.json();
+        setModels(data);
+      } else {
+        console.error('Failed to fetch models');
+      }
+    } catch (error) {
+      console.error('Error loading models:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
-      await createModel(formData);
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        igProfileLink: '',
-        image: '',
+      const response = await fetch('/api/models', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      setShowAddForm(false);
-      loadModels(); // Reload the list
+
+      if (response.ok) {
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          igProfileLink: '',
+          image: '',
+        });
+        setShowAddForm(false);
+        loadModels(); // Reload the list
+      } else {
+        console.error('Failed to create model');
+      }
     } catch (error) {
       console.error('Error creating model:', error);
     }

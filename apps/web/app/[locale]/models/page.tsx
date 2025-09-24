@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getModels, searchModels, type Model } from '../../../lib/models';
+import type { Model } from '../../../lib/models';
 import { X, Instagram, Mail } from 'lucide-react';
 
 export default function ModelsPage() {
@@ -16,15 +16,24 @@ export default function ModelsPage() {
       const urlParams = new URLSearchParams(window.location.search);
       const search = urlParams.get('search');
       
-      if (search) {
-        setSearchQuery(search);
-        const results = await searchModels(search);
-        setModels(results);
-      } else {
-        const allModels = await getModels();
-        setModels(allModels);
+      try {
+        const url = search ? `/api/models?search=${encodeURIComponent(search)}` : '/api/models';
+        const response = await fetch(url);
+        
+        if (response.ok) {
+          const data = await response.json();
+          setModels(data);
+          if (search) {
+            setSearchQuery(search);
+          }
+        } else {
+          console.error('Failed to fetch models');
+        }
+      } catch (error) {
+        console.error('Error loading models:', error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     loadModels();
@@ -32,12 +41,18 @@ export default function ModelsPage() {
 
   const handleSearch = async (query: string) => {
     setSearchQuery(query);
-    if (query.trim()) {
-      const results = await searchModels(query);
-      setModels(results);
-    } else {
-      const allModels = await getModels();
-      setModels(allModels);
+    try {
+      const url = query.trim() ? `/api/models?search=${encodeURIComponent(query)}` : '/api/models';
+      const response = await fetch(url);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setModels(data);
+      } else {
+        console.error('Failed to search models');
+      }
+    } catch (error) {
+      console.error('Error searching models:', error);
     }
   };
 
