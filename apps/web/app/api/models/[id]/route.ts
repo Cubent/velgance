@@ -21,10 +21,10 @@ export async function GET(
         lastName: true,
         image: true,
         location: true,
-        bio: true,
-        instagram: true,
-        phone: true,
+        igProfileLink: true,
         email: true,
+        height: true,
+        weight: true,
         isActive: true,
       },
     });
