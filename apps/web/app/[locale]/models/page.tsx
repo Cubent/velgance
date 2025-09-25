@@ -68,6 +68,12 @@ export default function ModelsPage() {
             <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto mb-8">
               Scopri i talenti della nostra agenzia
             </p>
+            <Link
+              href="/models/application"
+              className="inline-block bg-black text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+            >
+              Candidati come Modello
+            </Link>
           </div>
         </div>
       </div>

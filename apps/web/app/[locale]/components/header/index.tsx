@@ -88,67 +88,14 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
             </Link>
           </div>
 
-          {/* Search - Desktop only */}
-          <div className="hidden sm:flex flex-1 max-w-md mx-4">
-            <div className="flex items-center gap-6 w-full">
-              <Link 
-                href="/models" 
-                className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
-              >
-                Modelli
-              </Link>
-              <div className="relative w-full" ref={searchRef}>
-                <input
-                  type="text"
-                  placeholder="Cerca modelli..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setShowSearchResults(true)}
-                  className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
-                />
-                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                {showSearchResults && searchQuery && (
-                  <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                    {searchResults.length > 0 ? (
-                      <>
-                        {searchResults.slice(0, 5).map((model) => (
-                          <Link
-                            key={model.id}
-                            href={`/models?search=${encodeURIComponent(model.firstName + ' ' + model.lastName)}`}
-                            className="flex items-center gap-3 p-3 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
-                            onClick={() => setShowSearchResults(false)}
-                          >
-                            <img
-                              src={model.image}
-                              alt={`${model.firstName} ${model.lastName}`}
-                              className="w-10 h-10 rounded-full object-cover"
-                            />
-                            <div>
-                              <p className="font-medium text-sm text-black">
-                                {model.firstName} {model.lastName}
-                              </p>
-                            </div>
-                          </Link>
-                        ))}
-                        {searchResults.length > 5 && (
-                          <Link 
-                            href={`/models?search=${encodeURIComponent(searchQuery)}`}
-                            className="block p-3 text-sm text-gray-600 hover:bg-gray-100 border-t border-gray-100"
-                            onClick={() => setShowSearchResults(false)}
-                          >
-                            Vedi tutti i risultati ({searchResults.length})
-                          </Link>
-                        )}
-                      </>
-                    ) : (
-                      <div className="p-3 text-sm text-gray-500">
-                        Nessun modello trovato
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
+          {/* Modelli Link - Centered */}
+          <div className="hidden sm:flex flex-1 justify-center">
+            <Link 
+              href="/models" 
+              className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+            >
+              Modelli
+            </Link>
           </div>
 
           {/* Mobile Search Icon */}
@@ -289,21 +236,68 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               </div>
             )}
 
-            {/* Desktop Entra Button - Left of Contattaci */}
-            <Link 
-              href="/sign-in"
-              className="hidden sm:inline-flex items-center justify-center text-sm text-black hover:text-gray-600 transition-colors px-6 py-3 font-medium h-10"
-            >
-              Entra
-            </Link>
+            {/* Desktop Search Bar - Right side */}
+            <div className="hidden sm:block">
+              <div className="relative w-64" ref={searchRef}>
+                <input
+                  type="text"
+                  placeholder="Cerca modelli..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setShowSearchResults(true)}
+                  className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
+                />
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                {showSearchResults && searchQuery && (
+                  <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                    {searchResults.length > 0 ? (
+                      <>
+                        {searchResults.slice(0, 5).map((model) => (
+                          <Link
+                            key={model.id}
+                            href={`/models?search=${encodeURIComponent(model.firstName + ' ' + model.lastName)}`}
+                            className="flex items-center gap-3 p-3 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
+                            onClick={() => setShowSearchResults(false)}
+                          >
+                            <img
+                              src={model.image}
+                              alt={`${model.firstName} ${model.lastName}`}
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                            <div>
+                              <p className="font-medium text-sm text-black">
+                                {model.firstName} {model.lastName}
+                              </p>
+                            </div>
+                          </Link>
+                        ))}
+                        {searchResults.length > 5 && (
+                          <Link 
+                            href={`/models?search=${encodeURIComponent(searchQuery)}`}
+                            className="block p-3 text-sm text-gray-600 hover:bg-gray-100 border-t border-gray-100"
+                            onClick={() => setShowSearchResults(false)}
+                          >
+                            Vedi tutti i risultati ({searchResults.length})
+                          </Link>
+                        )}
+                      </>
+                    ) : (
+                      <div className="p-3 text-sm text-gray-500">
+                        Nessun modello trovato
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
 
-            {/* Contattaci button */}
+            {/* Candidati button */}
             <Link 
-              href="/dashboard"
+              href="/models/application"
               className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
               style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}
             >
-              Contattaci
+              Candidati
             </Link>
             
             {/* Mobile Hamburger Menu */}
