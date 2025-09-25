@@ -26,7 +26,7 @@ export default function ModelsPage() {
               href="/female-models"
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4">
+              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4" style={{ minHeight: '400px' }}>
                 <div 
                   className="w-full h-full bg-cover bg-center bg-no-repeat"
                   style={{ 
@@ -58,7 +58,7 @@ export default function ModelsPage() {
               href="/male-models"
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4">
+              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4" style={{ minHeight: '400px' }}>
                 <div 
                   className="w-full h-full bg-cover bg-center bg-no-repeat"
                   style={{ 
