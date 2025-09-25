@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@repo/database/generated/client';
-
-const prisma = new PrismaClient();
+import { database as db } from '@repo/database';
 
 export async function GET(
   request: NextRequest,
@@ -9,65 +7,43 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const model = await prisma.model.findUnique({
-      where: { id }
+
+    if (!id) {
+      return NextResponse.json({ error: 'Model ID is required' }, { status: 400 });
+    }
+
+    // Find the model by ID
+    const model = await db.model.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        image: true,
+        location: true,
+        bio: true,
+        instagram: true,
+        phone: true,
+        email: true,
+        isActive: true,
+      },
     });
 
     if (!model) {
       return NextResponse.json({ error: 'Model not found' }, { status: 404 });
     }
 
+    if (!model.isActive) {
+      return NextResponse.json({ error: 'Model is not active' }, { status: 404 });
+    }
+
     return NextResponse.json(model);
+
   } catch (error) {
     console.error('Error fetching model:', error);
-    return NextResponse.json({ error: 'Failed to fetch model' }, { status: 500 });
-  }
-}
-
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
-    const body = await request.json();
-    const { firstName, lastName, email, igProfileLink, image, height, weight, location } = body;
-
-    const model = await prisma.model.update({
-      where: { id },
-      data: {
-        ...(firstName && { firstName }),
-        ...(lastName && { lastName }),
-        ...(email && { email }),
-        ...(igProfileLink !== undefined && { igProfileLink: igProfileLink || null }),
-        ...(image && { image }),
-        ...(height !== undefined && { height: height || null }),
-        ...(weight !== undefined && { weight: weight || null }),
-        ...(location !== undefined && { location: location || null })
-      }
-    });
-
-    return NextResponse.json(model);
-  } catch (error) {
-    console.error('Error updating model:', error);
-    return NextResponse.json({ error: 'Failed to update model' }, { status: 500 });
-  }
-}
-
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params;
-    await prisma.model.update({
-      where: { id },
-      data: { isActive: false }
-    });
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error deleting model:', error);
-    return NextResponse.json({ error: 'Failed to delete model' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch model' },
+      { status: 500 }
+    );
   }
 }
