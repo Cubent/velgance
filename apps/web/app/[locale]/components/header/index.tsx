@@ -208,13 +208,8 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
 
           {/* Right side - Desktop and Mobile */}
           <div className="flex items-center gap-2">
-            {/* Sign In / User Profile */}
-            {!isLoaded ? (
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-16 animate-pulse bg-gray-200 rounded"></div>
-                <div className="h-8 w-20 animate-pulse bg-gray-200 rounded"></div>
-              </div>
-            ) : user ? (
+            {/* User Profile - Only show when authenticated */}
+            {user && (
               <div className="flex items-center gap-2">
                 {/* Active Deals Button - only show when logged in */}
                 <Link
@@ -292,36 +287,28 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                   )}
                 </div>
               </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                {/* Old Entra Button - Hidden on desktop */}
-                <Link 
-                  href="/sign-in"
-                  className="hidden sm:hidden items-center justify-center rounded-md text-sm font-medium text-black hover:text-gray-600 transition-colors px-4 py-2"
-                >
-                  Entra
-                </Link>
-                
-                {/* New Entra Button - Black text, no background */}
-                <Link 
-                  href="/sign-in"
-                  className="hidden sm:inline-flex items-center justify-center text-xs sm:text-sm text-black hover:text-gray-600 transition-colors px-3 py-1 sm:px-6 sm:py-3 font-medium h-6 sm:h-10"
-                >
-                  Entra
-                </Link>
-                
-                <Link 
-                  href="/dashboard"
-                  className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
-                  style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}
-                >
-                  Contattaci
-                </Link>
-              </div>
             )}
+
+            {/* Entra and Contattaci buttons - Always show */}
+            <div className="flex items-center gap-2">
+              <Link 
+                href="/sign-in"
+                className="hidden sm:inline-flex items-center justify-center text-xs sm:text-sm text-black hover:text-gray-600 transition-colors px-3 py-1 sm:px-6 sm:py-3 font-medium h-6 sm:h-10"
+              >
+                Entra
+              </Link>
+              
+              <Link 
+                href="/dashboard"
+                className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
+                style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}
+              >
+                Contattaci
+              </Link>
+            </div>
             
             {/* Mobile Hamburger Menu */}
-            <div className="sm:hidden ml-1" ref={mobileMenuRef}>
+            <div className="sm:hidden" ref={mobileMenuRef}>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="p-2 text-black hover:text-gray-600 transition-colors"
