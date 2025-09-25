@@ -19,6 +19,11 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
+  
+  // Debug authentication state
+  if (typeof window !== 'undefined') {
+    console.log('[HEADER] Auth state:', { isLoaded, hasUser: !!user, user: user?.id });
+  }
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -204,7 +209,10 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
           <div className="flex items-center gap-2">
             {/* Sign In / User Profile */}
             {!isLoaded ? (
-              <div className="h-10 w-10 animate-pulse bg-gray-200 rounded-full"></div>
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-16 animate-pulse bg-gray-200 rounded"></div>
+                <div className="h-8 w-20 animate-pulse bg-gray-200 rounded"></div>
+              </div>
             ) : user ? (
               <div className="flex items-center gap-2">
                 {/* Active Deals Button - only show when logged in */}
@@ -285,10 +293,9 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                {/* Desktop Entra Button */}
                 <Link 
                   href="/sign-in"
-                  className="hidden sm:inline-flex items-center justify-center rounded-md text-xs font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-black hover:text-black h-6 px-2 py-1 sm:h-10 sm:px-4 sm:py-2 sm:text-sm hover:bg-transparent"
+                  className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium text-black hover:text-gray-600 transition-colors px-4 py-2"
                 >
                   Entra
                 </Link>

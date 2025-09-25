@@ -93,21 +93,123 @@ export default function ModelPageClient({ params }: Props) {
 
       {/* Model Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
-        {/* Mobile Name - Show on top on mobile only */}
-        <div className="lg:hidden mb-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-light text-black mb-4 italic" style={{ fontFamily: 'serif' }}>
-            {model.firstName} {model.lastName}
-          </h1>
-          <p className="text-lg text-gray-600">
-            Modello professionale
-          </p>
+        {/* Mobile Layout - Image First */}
+        <div className="lg:hidden space-y-8">
+          {/* Mobile Image */}
+          <div className="relative w-full aspect-square">
+            <img
+              src={model.image}
+              alt={`${model.firstName} ${model.lastName}`}
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
+
+          {/* Mobile Name - After Image */}
+          <div className="text-center">
+            <h1 className="text-4xl sm:text-5xl font-light text-black mb-4 italic" style={{ fontFamily: 'serif' }}>
+              {model.firstName} {model.lastName}
+            </h1>
+            <p className="text-lg text-gray-600">
+              Modello professionale
+            </p>
+          </div>
+
+          {/* Mobile Stats */}
+          <div className="space-y-6">
+            {/* Contact Info */}
+            <div className="space-y-4">
+              <h2 className="text-2xl font-light text-black italic" style={{ fontFamily: 'serif' }}>
+                Contatti
+              </h2>
+              
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-gray-400" />
+                  <a
+                    href={`mailto:${model.email}`}
+                    className="text-gray-700 hover:text-black transition-colors"
+                  >
+                    {model.email}
+                  </a>
+                </div>
+
+                {model.igProfileLink && (
+                  <div className="flex items-center gap-3">
+                    <Instagram className="w-5 h-5 text-gray-400" />
+                    <a
+                      href={model.igProfileLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-700 hover:text-black transition-colors"
+                    >
+                      @{model.igProfileLink.split('/').pop()?.replace('@', '')}
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Physical Stats */}
+            {(model.height || model.weight || model.location) && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-light text-black italic" style={{ fontFamily: 'serif' }}>
+                  Dettagli
+                </h2>
+                
+                <div className="space-y-3">
+                  {model.height && (
+                    <div className="flex items-center gap-3">
+                      <Ruler className="w-5 h-5 text-gray-400" />
+                      <span className="text-gray-700">{model.height}</span>
+                    </div>
+                  )}
+
+                  {model.weight && (
+                    <div className="flex items-center gap-3">
+                      <Weight className="w-5 h-5 text-gray-400" />
+                      <span className="text-gray-700">{model.weight}</span>
+                    </div>
+                  )}
+
+                  {model.location && (
+                    <div className="flex items-center gap-3">
+                      <MapPin className="w-5 h-5 text-gray-400" />
+                      <span className="text-gray-700">{model.location}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Mobile Action Buttons */}
+            <div className="pt-8 flex flex-col gap-3">
+              <a
+                href={`mailto:${model.email}`}
+                className="inline-block bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium"
+              >
+                Contatta Modello
+              </a>
+              
+              {model.igProfileLink && (
+                <a
+                  href={model.igProfileLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+                >
+                  Visualizza Instagram
+                </a>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        {/* Desktop Layout */}
+        <div className="hidden lg:grid grid-cols-2 gap-8 items-start">
           {/* Left Side - Model Info */}
           <div className="space-y-8">
-            {/* Desktop Name - Hidden on mobile */}
-            <div className="hidden lg:block">
+            {/* Desktop Name */}
+            <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-black mb-4 italic" style={{ fontFamily: 'serif' }}>
                 {model.firstName} {model.lastName}
               </h1>
@@ -204,7 +306,7 @@ export default function ModelPageClient({ params }: Props) {
           </div>
 
           {/* Right Side - Model Image */}
-          <div className="order-first lg:order-last -mr-4 lg:-mr-8">
+          <div className="-mr-8">
             <div className="relative h-full min-h-[600px]">
               <img
                 src={model.image}
