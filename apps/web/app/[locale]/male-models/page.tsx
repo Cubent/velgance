@@ -3,7 +3,22 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import type { Model } from '../../../../lib/models';
+// Define Model type locally
+interface Model {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  igProfileLink?: string;
+  image: string;
+  height?: string;
+  weight?: string;
+  location?: string;
+  gender: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function MaleModelsPage() {
   const [models, setModels] = useState<Model[]>([]);
