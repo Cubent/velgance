@@ -12,6 +12,7 @@ interface FormData {
   location: string;
   height: string;
   weight: string;
+  gender: string;
   instagram: string;
   portfolio: File | null;
   experience: string;
@@ -31,6 +32,7 @@ export default function ModelApplicationClient() {
     location: '',
     height: '',
     weight: '',
+    gender: 'female',
     instagram: '',
     portfolio: null,
     experience: '',
@@ -153,6 +155,20 @@ export default function ModelApplicationClient() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-black"
                 required
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Genere *
+              </label>
+              <select
+                value={formData.gender}
+                onChange={(e) => handleInputChange('gender', e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-black"
+                required
+              >
+                <option value="female">Donna</option>
+                <option value="male">Uomo</option>
+              </select>
             </div>
           </div>
         );

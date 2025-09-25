@@ -90,12 +90,73 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
 
           {/* Navigation Menu - Centered */}
           <div className="hidden sm:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
-            <Link 
-              href="/models" 
-              className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
-            >
-              Modelli
-            </Link>
+            <div className="relative group">
+              <Link 
+                href="/models" 
+                className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+              >
+                Modelli
+              </Link>
+              
+              {/* Dropdown Menu */}
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-[600px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+                  <div className="grid grid-cols-2 gap-6">
+                    {/* Female Models Card */}
+                    <Link
+                      href="/female-models"
+                      className="group/card cursor-pointer"
+                    >
+                      <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3">
+                        <div 
+                          className="w-full h-full bg-cover bg-center bg-no-repeat"
+                          style={{ 
+                            backgroundImage: 'url(https://i.postimg.cc/kXskQ6Z7/Full-Body-Picture-3.png)'
+                          }}
+                        ></div>
+                        <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/30 transition-colors duration-300"></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-center">
+                            <h3 className="text-xl font-light text-white mb-3 italic" style={{ fontFamily: 'serif' }}>
+                              Talento Femminile
+                            </h3>
+                            <p className="text-base text-white">
+                              Scopri i talenti femminili
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+
+                    {/* Male Models Card */}
+                    <Link
+                      href="/male-models"
+                      className="group/card cursor-pointer"
+                    >
+                      <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3">
+                        <div 
+                          className="w-full h-full bg-cover bg-center bg-no-repeat"
+                          style={{ 
+                            backgroundImage: 'url(https://i.postimg.cc/fLq97LMk/Full-Body-Picture-2.png)'
+                          }}
+                        ></div>
+                        <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/30 transition-colors duration-300"></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-center">
+                            <h3 className="text-xl font-light text-white mb-3 italic" style={{ fontFamily: 'serif' }}>
+                              Talento Maschile
+                            </h3>
+                            <p className="text-base text-white">
+                              Scopri i talenti maschili
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
             <Link 
               href="/contact" 
               className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
@@ -357,17 +418,6 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                     <div className="h-px bg-gray-300 my-2 w-48"></div>
                     
                     <Link
-                      href="/contact"
-                      className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      style={{ fontFamily: 'Raleway, sans-serif' }}
-                    >
-                      Contattaci
-                    </Link>
-                    
-                    <div className="h-px bg-gray-300 my-2 w-48"></div>
-                    
-                    <Link
                       href="/magazine"
                       className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -413,10 +463,10 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                           Entra
                         </Link>
                         
-                        <div className="h-px bg-gray-300 my-4 w-48"></div>
+                        <div className="h-px bg-gray-300 my-2 w-48"></div>
                         
                         <Link
-                          href="/dashboard"
+                          href="/contact"
                           className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
                           onClick={() => setIsMobileMenuOpen(false)}
                           style={{ fontFamily: 'Raleway, sans-serif' }}

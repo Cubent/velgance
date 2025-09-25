@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
     const location = formData.get('location') as string;
     const height = formData.get('height') as string;
     const weight = formData.get('weight') as string;
+    const gender = formData.get('gender') as string;
     const instagram = formData.get('instagram') as string;
     const experience = formData.get('experience') as string;
     const availability = formData.get('availability') as string;
@@ -42,6 +43,7 @@ export async function POST(request: NextRequest) {
         height: height || null,
         weight: weight || null,
         location: location || null,
+        gender: gender || 'female',
         isActive: false, // Applications start as inactive until approved
       }
     });

@@ -379,6 +379,7 @@ exports.Prisma.ModelScalarFieldEnum = {
   height: 'height',
   weight: 'weight',
   location: 'location',
+  gender: 'gender',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

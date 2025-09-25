@@ -7,32 +7,33 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search');
+    const gender = searchParams.get('gender');
 
-    let models;
+    let whereClause: any = { isActive: true };
     
-    if (search) {
-      models = await prisma.model.findMany({
-        where: {
-          isActive: true,
-          OR: [
-            { firstName: { contains: search, mode: 'insensitive' } },
-            { lastName: { contains: search, mode: 'insensitive' } },
-            {
-              AND: [
-                { firstName: { contains: search.split(' ')[0] || '', mode: 'insensitive' } },
-                { lastName: { contains: search.split(' ')[1] || '', mode: 'insensitive' } }
-              ]
-            }
-          ]
-        },
-        orderBy: { createdAt: 'desc' }
-      });
-    } else {
-      models = await prisma.model.findMany({
-        where: { isActive: true },
-        orderBy: { createdAt: 'desc' }
-      });
+    // Add gender filter if provided
+    if (gender && (gender === 'male' || gender === 'female')) {
+      whereClause.gender = gender;
     }
+    
+    // Add search filter if provided
+    if (search) {
+      whereClause.OR = [
+        { firstName: { contains: search, mode: 'insensitive' } },
+        { lastName: { contains: search, mode: 'insensitive' } },
+        {
+          AND: [
+            { firstName: { contains: search.split(' ')[0] || '', mode: 'insensitive' } },
+            { lastName: { contains: search.split(' ')[1] || '', mode: 'insensitive' } }
+          ]
+        }
+      ];
+    }
+
+    const models = await prisma.model.findMany({
+      where: whereClause,
+      orderBy: { createdAt: 'desc' }
+    });
 
     return NextResponse.json(models);
   } catch (error) {

@@ -1,120 +1,92 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import type { Model } from '../../../lib/models';
 
 export default function ModelsPage() {
-  const [models, setModels] = useState<Model[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const loadModels = async () => {
-      setIsLoading(true);
-      const urlParams = new URLSearchParams(window.location.search);
-      const search = urlParams.get('search');
-      
-      try {
-        const url = search ? `/api/models?search=${encodeURIComponent(search)}` : '/api/models';
-        const response = await fetch(url);
-        
-        if (response.ok) {
-          const data = await response.json();
-          setModels(data);
-          if (search) {
-            setSearchQuery(search);
-          }
-        } else {
-          console.error('Failed to fetch models');
-        }
-      } catch (error) {
-        console.error('Error loading models:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadModels();
-  }, []);
-
-  const handleSearch = async (query: string) => {
-    setSearchQuery(query);
-    try {
-      const url = query.trim() ? `/api/models?search=${encodeURIComponent(query)}` : '/api/models';
-      const response = await fetch(url);
-      
-      if (response.ok) {
-        const data = await response.json();
-        setModels(data);
-      } else {
-        console.error('Failed to search models');
-      }
-    } catch (error) {
-      console.error('Error searching models:', error);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-gray-50 py-16">
+      {/* Header - Hidden on mobile */}
+      <div className="hidden md:block py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl sm:text-5xl lg:text-6xl font-light text-black mb-6 italic" style={{ fontFamily: 'serif' }}>
               I nostri modelli
             </h1>
-            <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto mb-8">
+            <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto">
               Scopri i talenti della nostra agenzia
             </p>
-            <Link
-              href="/models/application"
-              className="inline-block bg-black text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-colors"
-            >
-              Candidati come Modello
-            </Link>
           </div>
         </div>
       </div>
 
-      {/* Models Grid */}
-      <div className="py-16">
+      {/* Model Categories */}
+      <div className="py-8 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {isLoading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto"></div>
-            </div>
-          ) : models.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">Nessun modello trovato</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12">
-              {models.map((model) => (
-                <Link
-                  key={model.id}
-                  href={`/models/${model.id}`}
-                  className="group cursor-pointer"
-                >
-                  <div className="relative overflow-hidden rounded-lg aspect-square mb-3">
-                    <img
-                      src={model.image}
-                      alt={`${model.firstName} ${model.lastName}`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-12 max-w-6xl mx-auto">
+            {/* Female Models Card */}
+            <Link
+              href="/female-models"
+              className="group cursor-pointer"
+            >
+              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4">
+                <div 
+                  className="w-full h-full bg-cover bg-center bg-no-repeat"
+                  style={{ 
+                    backgroundImage: 'url(https://i.postimg.cc/kXskQ6Z7/Full-Body-Picture-3.png)'
+                  }}
+                ></div>
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <h2 className="text-4xl sm:text-5xl font-light text-white mb-4 italic" style={{ fontFamily: 'serif' }}>
+                      Talento Femminile
+                    </h2>
+                    <p className="text-lg text-white mb-6">
+                      Scopri i talenti femminili
+                    </p>
+                    <button className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-lg">
+                      Esplora
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
                   </div>
-                  <h3 className="text-lg font-light text-gray-600 text-center italic" style={{ fontFamily: 'serif' }}>
-                    {model.firstName} {model.lastName}
-                  </h3>
-                </Link>
-              ))}
-            </div>
-          )}
+                </div>
+              </div>
+            </Link>
+
+            {/* Male Models Card */}
+            <Link
+              href="/male-models"
+              className="group cursor-pointer"
+            >
+              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4">
+                <div 
+                  className="w-full h-full bg-cover bg-center bg-no-repeat"
+                  style={{ 
+                    backgroundImage: 'url(https://i.postimg.cc/fLq97LMk/Full-Body-Picture-2.png)'
+                  }}
+                ></div>
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <h2 className="text-4xl sm:text-5xl font-light text-white mb-4 italic" style={{ fontFamily: 'serif' }}>
+                      Talento Maschile
+                    </h2>
+                    <p className="text-lg text-white mb-6">
+                      Scopri i talenti maschili
+                    </p>
+                    <button className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-lg">
+                      Esplora
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
-
     </div>
   );
 }

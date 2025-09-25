@@ -21520,6 +21520,7 @@ export namespace Prisma {
     height: string | null
     weight: string | null
     location: string | null
+    gender: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -21535,6 +21536,7 @@ export namespace Prisma {
     height: string | null
     weight: string | null
     location: string | null
+    gender: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -21550,6 +21552,7 @@ export namespace Prisma {
     height: number
     weight: number
     location: number
+    gender: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -21567,6 +21570,7 @@ export namespace Prisma {
     height?: true
     weight?: true
     location?: true
+    gender?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -21582,6 +21586,7 @@ export namespace Prisma {
     height?: true
     weight?: true
     location?: true
+    gender?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -21597,6 +21602,7 @@ export namespace Prisma {
     height?: true
     weight?: true
     location?: true
+    gender?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -21685,6 +21691,7 @@ export namespace Prisma {
     height: string | null
     weight: string | null
     location: string | null
+    gender: string
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -21717,6 +21724,7 @@ export namespace Prisma {
     height?: boolean
     weight?: boolean
     location?: boolean
+    gender?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -21732,6 +21740,7 @@ export namespace Prisma {
     height?: boolean
     weight?: boolean
     location?: boolean
+    gender?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -21747,6 +21756,7 @@ export namespace Prisma {
     height?: boolean
     weight?: boolean
     location?: boolean
+    gender?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -21762,12 +21772,13 @@ export namespace Prisma {
     height?: boolean
     weight?: boolean
     location?: boolean
+    gender?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ModelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "igProfileLink" | "image" | "height" | "weight" | "location" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["model"]>
+  export type ModelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "igProfileLink" | "image" | "height" | "weight" | "location" | "gender" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["model"]>
 
   export type $ModelPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Model"
@@ -21782,6 +21793,7 @@ export namespace Prisma {
       height: string | null
       weight: string | null
       location: string | null
+      gender: string
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -22217,6 +22229,7 @@ export namespace Prisma {
     readonly height: FieldRef<"Model", 'String'>
     readonly weight: FieldRef<"Model", 'String'>
     readonly location: FieldRef<"Model", 'String'>
+    readonly gender: FieldRef<"Model", 'String'>
     readonly isActive: FieldRef<"Model", 'Boolean'>
     readonly createdAt: FieldRef<"Model", 'DateTime'>
     readonly updatedAt: FieldRef<"Model", 'DateTime'>
@@ -22910,6 +22923,7 @@ export namespace Prisma {
     height: 'height',
     weight: 'weight',
     location: 'location',
+    gender: 'gender',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -24609,6 +24623,7 @@ export namespace Prisma {
     height?: StringNullableFilter<"Model"> | string | null
     weight?: StringNullableFilter<"Model"> | string | null
     location?: StringNullableFilter<"Model"> | string | null
+    gender?: StringFilter<"Model"> | string
     isActive?: BoolFilter<"Model"> | boolean
     createdAt?: DateTimeFilter<"Model"> | Date | string
     updatedAt?: DateTimeFilter<"Model"> | Date | string
@@ -24624,6 +24639,7 @@ export namespace Prisma {
     height?: SortOrderInput | SortOrder
     weight?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
+    gender?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24642,6 +24658,7 @@ export namespace Prisma {
     height?: StringNullableFilter<"Model"> | string | null
     weight?: StringNullableFilter<"Model"> | string | null
     location?: StringNullableFilter<"Model"> | string | null
+    gender?: StringFilter<"Model"> | string
     isActive?: BoolFilter<"Model"> | boolean
     createdAt?: DateTimeFilter<"Model"> | Date | string
     updatedAt?: DateTimeFilter<"Model"> | Date | string
@@ -24657,6 +24674,7 @@ export namespace Prisma {
     height?: SortOrderInput | SortOrder
     weight?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
+    gender?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24678,6 +24696,7 @@ export namespace Prisma {
     height?: StringNullableWithAggregatesFilter<"Model"> | string | null
     weight?: StringNullableWithAggregatesFilter<"Model"> | string | null
     location?: StringNullableWithAggregatesFilter<"Model"> | string | null
+    gender?: StringWithAggregatesFilter<"Model"> | string
     isActive?: BoolWithAggregatesFilter<"Model"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Model"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Model"> | Date | string
@@ -26487,6 +26506,7 @@ export namespace Prisma {
     height?: string | null
     weight?: string | null
     location?: string | null
+    gender?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26502,6 +26522,7 @@ export namespace Prisma {
     height?: string | null
     weight?: string | null
     location?: string | null
+    gender?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26517,6 +26538,7 @@ export namespace Prisma {
     height?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26532,6 +26554,7 @@ export namespace Prisma {
     height?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26547,6 +26570,7 @@ export namespace Prisma {
     height?: string | null
     weight?: string | null
     location?: string | null
+    gender?: string
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26562,6 +26586,7 @@ export namespace Prisma {
     height?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26577,6 +26602,7 @@ export namespace Prisma {
     height?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27905,6 +27931,7 @@ export namespace Prisma {
     height?: SortOrder
     weight?: SortOrder
     location?: SortOrder
+    gender?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27920,6 +27947,7 @@ export namespace Prisma {
     height?: SortOrder
     weight?: SortOrder
     location?: SortOrder
+    gender?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27935,6 +27963,7 @@ export namespace Prisma {
     height?: SortOrder
     weight?: SortOrder
     location?: SortOrder
+    gender?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder

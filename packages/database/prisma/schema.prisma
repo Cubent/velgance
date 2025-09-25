@@ -451,6 +451,7 @@ model Model {
   height        String?  // e.g., "175cm", "5'9""
   weight        String?  // e.g., "65kg", "143lbs"
   location      String?  // e.g., "Milano, Italia", "New York, USA"
+  gender        String   @default("female") // "male" or "female"
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -460,4 +461,5 @@ model Model {
   @@index([email])
   @@index([isActive])
   @@index([location])
+  @@index([gender])
 }
