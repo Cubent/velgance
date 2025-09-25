@@ -201,10 +201,9 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
           {/* Right side - Desktop and Mobile */}
           <div className="flex items-center gap-2">
             {/* Sign In / User Profile */}
-            <div className="flex justify-end">
-              {!isLoaded ? (
-                <div className="h-10 w-10 animate-pulse bg-gray-200 rounded-full"></div>
-              ) : user ? (
+            {!isLoaded ? (
+              <div className="h-10 w-10 animate-pulse bg-gray-200 rounded-full"></div>
+            ) : user ? (
               <div className="flex items-center gap-2">
                 {/* Active Deals Button - only show when logged in */}
                 <Link
