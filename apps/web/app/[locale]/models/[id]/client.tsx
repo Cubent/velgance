@@ -182,7 +182,7 @@ export default function ModelPageClient({ params }: Props) {
             )}
 
             {/* Action Buttons */}
-            <div className="pt-8 space-y-3">
+            <div className="pt-8 flex flex-col sm:flex-row gap-3">
               <a
                 href={`mailto:${model.email}`}
                 className="inline-block bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium"
@@ -195,7 +195,7 @@ export default function ModelPageClient({ params }: Props) {
                   href={model.igProfileLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block ml-6 bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+                  className="inline-block bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
                 >
                   Visualizza Instagram
                 </a>
@@ -283,7 +283,7 @@ export default function ModelPageClient({ params }: Props) {
           )}
 
           {/* Mobile Action Buttons */}
-          <div className="pt-8 space-y-3">
+          <div className="pt-8 flex flex-col gap-3">
             <a
               href={`mailto:${model.email}`}
               className="inline-block bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium"
@@ -296,7 +296,7 @@ export default function ModelPageClient({ params }: Props) {
                 href={model.igProfileLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block ml-6 bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+                className="inline-block bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
               >
                 Visualizza Instagram
               </a>
