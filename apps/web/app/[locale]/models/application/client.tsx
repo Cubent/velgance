@@ -395,7 +395,7 @@ export default function ModelApplicationClient() {
             {steps.map((step, index) => {
               const Icon = step.icon;
               const isActive = currentStep === step.number;
-              const isCompleted = currentStep > step.number;
+              const isCompleted = currentStep > step.number || (currentStep === 2 && step.number === 1);
               const isTextAbove = index % 2 === 0; // Alternate: even indices above, odd below
               
               return (
@@ -412,7 +412,7 @@ export default function ModelApplicationClient() {
                   
                   <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                     isActive ? 'border-black bg-black text-white' :
-                    isCompleted ? 'border-green-700 bg-green-700 text-white' :
+                    isCompleted ? 'border-green-800 bg-green-800 text-white' :
                     'border-gray-300 text-gray-400'
                   }`}>
                     {isCompleted ? (
