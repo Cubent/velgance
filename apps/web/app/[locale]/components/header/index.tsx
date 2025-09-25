@@ -289,23 +289,22 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               </div>
             )}
 
-            {/* Entra and Contattaci buttons - Always show */}
-            <div className="flex items-center gap-2">
-              <Link 
-                href="/sign-in"
-                className="hidden sm:inline-flex items-center justify-center text-xs sm:text-sm text-black hover:text-gray-600 transition-colors px-3 py-1 sm:px-6 sm:py-3 font-medium h-6 sm:h-10"
-              >
-                Entra
-              </Link>
-              
-              <Link 
-                href="/dashboard"
-                className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
-                style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}
-              >
-                Contattaci
-              </Link>
-            </div>
+            {/* Entra button - Desktop only */}
+            <Link 
+              href="/sign-in"
+              className="hidden sm:inline-flex items-center justify-center text-xs sm:text-sm text-black hover:text-gray-600 transition-colors px-3 py-1 sm:px-6 sm:py-3 font-medium h-6 sm:h-10"
+            >
+              Entra
+            </Link>
+            
+            {/* Contattaci button */}
+            <Link 
+              href="/dashboard"
+              className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
+              style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}
+            >
+              Contattaci
+            </Link>
             
             {/* Mobile Hamburger Menu */}
             <div className="sm:hidden" ref={mobileMenuRef}>
