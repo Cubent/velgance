@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import type { Model } from '../../../lib/models';
-import { Plus, X, Instagram, Mail } from 'lucide-react';
+import { Plus, X, Instagram, Mail, Edit } from 'lucide-react';
 
 export default function AdminPage() {
   const [models, setModels] = useState<Model[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [editingModel, setEditingModel] = useState<Model | null>(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -44,8 +45,11 @@ export default function AdminPage() {
     e.preventDefault();
     
     try {
-      const response = await fetch('/api/models', {
-        method: 'POST',
+      const url = editingModel ? `/api/models/${editingModel.id}` : '/api/models';
+      const method = editingModel ? 'PUT' : 'POST';
+      
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -64,12 +68,13 @@ export default function AdminPage() {
           location: '',
         });
         setShowAddForm(false);
+        setEditingModel(null);
         loadModels(); // Reload the list
       } else {
-        console.error('Failed to create model');
+        console.error('Failed to save model');
       }
     } catch (error) {
-      console.error('Error creating model:', error);
+      console.error('Error saving model:', error);
     }
   };
 
@@ -78,6 +83,36 @@ export default function AdminPage() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleEdit = (model: Model) => {
+    setFormData({
+      firstName: model.firstName,
+      lastName: model.lastName,
+      email: model.email,
+      igProfileLink: model.igProfileLink || '',
+      image: model.image,
+      height: model.height || '',
+      weight: model.weight || '',
+      location: model.location || '',
+    });
+    setEditingModel(model);
+    setShowAddForm(true);
+  };
+
+  const handleCancel = () => {
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      igProfileLink: '',
+      image: '',
+      height: '',
+      weight: '',
+      location: '',
+    });
+    setShowAddForm(false);
+    setEditingModel(null);
   };
 
   return (
@@ -142,8 +177,17 @@ export default function AdminPage() {
                         )}
                       </div>
                     </div>
-                    <div className="text-sm text-gray-500">
-                      Aggiunto: {new Date(model.createdAt).toLocaleDateString('it-IT')}
+                    <div className="flex items-center gap-3">
+                      <div className="text-sm text-gray-500">
+                        Aggiunto: {new Date(model.createdAt).toLocaleDateString('it-IT')}
+                      </div>
+                      <button
+                        onClick={() => handleEdit(model)}
+                        className="p-2 text-gray-500 hover:text-black hover:bg-gray-100 rounded-lg transition-colors"
+                        title="Modifica modello"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -160,14 +204,14 @@ export default function AdminPage() {
             <div className="p-6">
               {/* Close Button */}
               <button
-                onClick={() => setShowAddForm(false)}
+                onClick={handleCancel}
                 className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full"
               >
                 <X className="w-5 h-5" />
               </button>
 
               <h2 className="text-2xl font-light text-black mb-6 italic" style={{ fontFamily: 'serif' }}>
-                Aggiungi Modello
+                {editingModel ? 'Modifica Modello' : 'Aggiungi Modello'}
               </h2>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -251,7 +295,7 @@ export default function AdminPage() {
                     name="height"
                     value={formData.height}
                     onChange={handleInputChange}
-                    placeholder="es. 175cm, 5'9""
+                    placeholder="es. 175cm, 5'9"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                   />
                 </div>
@@ -289,11 +333,11 @@ export default function AdminPage() {
                     type="submit"
                     className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors"
                   >
-                    Aggiungi Modello
+                    {editingModel ? 'Salva Modifiche' : 'Aggiungi Modello'}
                   </button>
                   <button
                     type="button"
-                    onClick={() => setShowAddForm(false)}
+                    onClick={handleCancel}
                     className="w-full bg-gray-200 text-black py-3 rounded-lg hover:bg-gray-300 transition-colors"
                   >
                     Annulla
