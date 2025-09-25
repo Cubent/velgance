@@ -289,14 +289,14 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               </div>
             )}
 
-            {/* Entra button - Desktop only */}
+            {/* Desktop Entra Button - Left of Contattaci */}
             <Link 
               href="/sign-in"
-              className="hidden sm:inline-flex items-center justify-center text-xs sm:text-sm text-black hover:text-gray-600 transition-colors px-3 py-1 sm:px-6 sm:py-3 font-medium h-6 sm:h-10"
+              className="hidden sm:inline-flex items-center justify-center text-sm text-black hover:text-gray-600 transition-colors px-6 py-3 font-medium h-10"
             >
               Entra
             </Link>
-            
+
             {/* Contattaci button */}
             <Link 
               href="/dashboard"
