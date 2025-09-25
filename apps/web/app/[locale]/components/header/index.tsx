@@ -76,29 +76,30 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
     <header className="sticky top-0 z-40 w-full">
       <div className="w-full bg-white/90 backdrop-blur-sm px-4 py-3">
         <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
-          <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <p className="whitespace-nowrap font-normal text-lg text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>Velgance Agency</p>
-            </Link>
-            <Link 
-              href="/models" 
-              className="hidden sm:block text-sm text-black hover:text-gray-600 transition-colors"
-            >
-              Modelli
-            </Link>
-          </div>
-           {/* Search - Desktop only */}
-           <div className="hidden sm:flex flex-1 max-w-md mx-4">
-             <div className="relative w-full" ref={searchRef}>
-               <input
-                 type="text"
-                 placeholder="Cerca modelli..."
-                 value={searchQuery}
-                 onChange={(e) => setSearchQuery(e.target.value)}
-                 onFocus={() => setShowSearchResults(true)}
-                 className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
-               />
-               <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                <div className="flex items-center gap-6">
+                  <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <p className="whitespace-nowrap font-normal text-lg text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>Velgance Agency</p>
+                  </Link>
+                </div>
+                {/* Search - Desktop only */}
+                <div className="hidden sm:flex flex-1 max-w-md mx-4">
+                  <div className="flex items-center gap-6 w-full">
+                    <Link 
+                      href="/models" 
+                      className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+                    >
+                      Modelli
+                    </Link>
+                    <div className="relative w-full" ref={searchRef}>
+                      <input
+                        type="text"
+                        placeholder="Cerca modelli..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onFocus={() => setShowSearchResults(true)}
+                        className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
+                      />
+                      <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
                {showSearchResults && searchQuery && (
                  <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
                    {searchResults.length > 0 ? (
@@ -141,6 +142,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                )}
              </div>
            </div>
+         </div>
            
            {/* Mobile Search Icon */}
            <div className="sm:hidden ml-auto">

@@ -21517,6 +21517,9 @@ export namespace Prisma {
     email: string | null
     igProfileLink: string | null
     image: string | null
+    height: string | null
+    weight: string | null
+    location: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -21529,6 +21532,9 @@ export namespace Prisma {
     email: string | null
     igProfileLink: string | null
     image: string | null
+    height: string | null
+    weight: string | null
+    location: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -21541,6 +21547,9 @@ export namespace Prisma {
     email: number
     igProfileLink: number
     image: number
+    height: number
+    weight: number
+    location: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -21555,6 +21564,9 @@ export namespace Prisma {
     email?: true
     igProfileLink?: true
     image?: true
+    height?: true
+    weight?: true
+    location?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -21567,6 +21579,9 @@ export namespace Prisma {
     email?: true
     igProfileLink?: true
     image?: true
+    height?: true
+    weight?: true
+    location?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -21579,6 +21594,9 @@ export namespace Prisma {
     email?: true
     igProfileLink?: true
     image?: true
+    height?: true
+    weight?: true
+    location?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -21664,6 +21682,9 @@ export namespace Prisma {
     email: string
     igProfileLink: string | null
     image: string
+    height: string | null
+    weight: string | null
+    location: string | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -21693,6 +21714,9 @@ export namespace Prisma {
     email?: boolean
     igProfileLink?: boolean
     image?: boolean
+    height?: boolean
+    weight?: boolean
+    location?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -21705,6 +21729,9 @@ export namespace Prisma {
     email?: boolean
     igProfileLink?: boolean
     image?: boolean
+    height?: boolean
+    weight?: boolean
+    location?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -21717,6 +21744,9 @@ export namespace Prisma {
     email?: boolean
     igProfileLink?: boolean
     image?: boolean
+    height?: boolean
+    weight?: boolean
+    location?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -21729,12 +21759,15 @@ export namespace Prisma {
     email?: boolean
     igProfileLink?: boolean
     image?: boolean
+    height?: boolean
+    weight?: boolean
+    location?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ModelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "igProfileLink" | "image" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["model"]>
+  export type ModelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "igProfileLink" | "image" | "height" | "weight" | "location" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["model"]>
 
   export type $ModelPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Model"
@@ -21746,6 +21779,9 @@ export namespace Prisma {
       email: string
       igProfileLink: string | null
       image: string
+      height: string | null
+      weight: string | null
+      location: string | null
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -22178,6 +22214,9 @@ export namespace Prisma {
     readonly email: FieldRef<"Model", 'String'>
     readonly igProfileLink: FieldRef<"Model", 'String'>
     readonly image: FieldRef<"Model", 'String'>
+    readonly height: FieldRef<"Model", 'String'>
+    readonly weight: FieldRef<"Model", 'String'>
+    readonly location: FieldRef<"Model", 'String'>
     readonly isActive: FieldRef<"Model", 'Boolean'>
     readonly createdAt: FieldRef<"Model", 'DateTime'>
     readonly updatedAt: FieldRef<"Model", 'DateTime'>
@@ -22868,6 +22907,9 @@ export namespace Prisma {
     email: 'email',
     igProfileLink: 'igProfileLink',
     image: 'image',
+    height: 'height',
+    weight: 'weight',
+    location: 'location',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -24564,6 +24606,9 @@ export namespace Prisma {
     email?: StringFilter<"Model"> | string
     igProfileLink?: StringNullableFilter<"Model"> | string | null
     image?: StringFilter<"Model"> | string
+    height?: StringNullableFilter<"Model"> | string | null
+    weight?: StringNullableFilter<"Model"> | string | null
+    location?: StringNullableFilter<"Model"> | string | null
     isActive?: BoolFilter<"Model"> | boolean
     createdAt?: DateTimeFilter<"Model"> | Date | string
     updatedAt?: DateTimeFilter<"Model"> | Date | string
@@ -24576,6 +24621,9 @@ export namespace Prisma {
     email?: SortOrder
     igProfileLink?: SortOrderInput | SortOrder
     image?: SortOrder
+    height?: SortOrderInput | SortOrder
+    weight?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24591,6 +24639,9 @@ export namespace Prisma {
     lastName?: StringFilter<"Model"> | string
     igProfileLink?: StringNullableFilter<"Model"> | string | null
     image?: StringFilter<"Model"> | string
+    height?: StringNullableFilter<"Model"> | string | null
+    weight?: StringNullableFilter<"Model"> | string | null
+    location?: StringNullableFilter<"Model"> | string | null
     isActive?: BoolFilter<"Model"> | boolean
     createdAt?: DateTimeFilter<"Model"> | Date | string
     updatedAt?: DateTimeFilter<"Model"> | Date | string
@@ -24603,6 +24654,9 @@ export namespace Prisma {
     email?: SortOrder
     igProfileLink?: SortOrderInput | SortOrder
     image?: SortOrder
+    height?: SortOrderInput | SortOrder
+    weight?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24621,6 +24675,9 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Model"> | string
     igProfileLink?: StringNullableWithAggregatesFilter<"Model"> | string | null
     image?: StringWithAggregatesFilter<"Model"> | string
+    height?: StringNullableWithAggregatesFilter<"Model"> | string | null
+    weight?: StringNullableWithAggregatesFilter<"Model"> | string | null
+    location?: StringNullableWithAggregatesFilter<"Model"> | string | null
     isActive?: BoolWithAggregatesFilter<"Model"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Model"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Model"> | Date | string
@@ -26427,6 +26484,9 @@ export namespace Prisma {
     email: string
     igProfileLink?: string | null
     image: string
+    height?: string | null
+    weight?: string | null
+    location?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26439,6 +26499,9 @@ export namespace Prisma {
     email: string
     igProfileLink?: string | null
     image: string
+    height?: string | null
+    weight?: string | null
+    location?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26451,6 +26514,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     igProfileLink?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
+    height?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26463,6 +26529,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     igProfileLink?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
+    height?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26475,6 +26544,9 @@ export namespace Prisma {
     email: string
     igProfileLink?: string | null
     image: string
+    height?: string | null
+    weight?: string | null
+    location?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26487,6 +26559,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     igProfileLink?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
+    height?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26499,6 +26574,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     igProfileLink?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
+    height?: NullableStringFieldUpdateOperationsInput | string | null
+    weight?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27824,6 +27902,9 @@ export namespace Prisma {
     email?: SortOrder
     igProfileLink?: SortOrder
     image?: SortOrder
+    height?: SortOrder
+    weight?: SortOrder
+    location?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27836,6 +27917,9 @@ export namespace Prisma {
     email?: SortOrder
     igProfileLink?: SortOrder
     image?: SortOrder
+    height?: SortOrder
+    weight?: SortOrder
+    location?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27848,6 +27932,9 @@ export namespace Prisma {
     email?: SortOrder
     igProfileLink?: SortOrder
     image?: SortOrder
+    height?: SortOrder
+    weight?: SortOrder
+    location?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder

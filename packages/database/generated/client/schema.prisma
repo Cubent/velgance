@@ -448,6 +448,9 @@ model Model {
   email         String   @unique
   igProfileLink String?
   image         String
+  height        String? // e.g., "175cm", "5'9""
+  weight        String? // e.g., "65kg", "143lbs"
+  location      String? // e.g., "Milano, Italia", "New York, USA"
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -456,4 +459,5 @@ model Model {
   @@index([lastName])
   @@index([email])
   @@index([isActive])
+  @@index([location])
 }

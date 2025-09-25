@@ -14,6 +14,9 @@ export default function AdminPage() {
     email: '',
     igProfileLink: '',
     image: '',
+    height: '',
+    weight: '',
+    location: '',
   });
 
   useEffect(() => {
@@ -56,6 +59,9 @@ export default function AdminPage() {
           email: '',
           igProfileLink: '',
           image: '',
+          height: '',
+          weight: '',
+          location: '',
         });
         setShowAddForm(false);
         loadModels(); // Reload the list
@@ -232,6 +238,48 @@ export default function AdminPage() {
                     onChange={handleInputChange}
                     required
                     placeholder="https://example.com/image.jpg"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Altezza (opzionale)
+                  </label>
+                  <input
+                    type="text"
+                    name="height"
+                    value={formData.height}
+                    onChange={handleInputChange}
+                    placeholder="es. 175cm, 5'9""
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Peso (opzionale)
+                  </label>
+                  <input
+                    type="text"
+                    name="weight"
+                    value={formData.weight}
+                    onChange={handleInputChange}
+                    placeholder="es. 65kg, 143lbs"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Località (opzionale)
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleInputChange}
+                    placeholder="es. Milano, Italia"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                   />
                 </div>

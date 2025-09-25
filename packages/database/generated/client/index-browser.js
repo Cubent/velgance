@@ -376,6 +376,9 @@ exports.Prisma.ModelScalarFieldEnum = {
   email: 'email',
   igProfileLink: 'igProfileLink',
   image: 'image',
+  height: 'height',
+  weight: 'weight',
+  location: 'location',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

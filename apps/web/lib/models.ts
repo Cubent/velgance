@@ -9,6 +9,9 @@ export interface Model {
   email: string;
   igProfileLink?: string | null;
   image: string;
+  height?: string | null;
+  weight?: string | null;
+  location?: string | null;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -20,6 +23,9 @@ export interface CreateModelData {
   email: string;
   igProfileLink?: string;
   image: string;
+  height?: string;
+  weight?: string;
+  location?: string;
 }
 
 export const getModels = async (): Promise<Model[]> => {
