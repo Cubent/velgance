@@ -195,7 +195,7 @@ export default function ModelPageClient({ params }: Props) {
                   href={model.igProfileLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block ml-4 bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+                  className="inline-block ml-6 bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
                 >
                   Visualizza Instagram
                 </a>
@@ -296,7 +296,7 @@ export default function ModelPageClient({ params }: Props) {
                 href={model.igProfileLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block ml-4 bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+                className="inline-block ml-6 bg-gray-100 text-black px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
               >
                 Visualizza Instagram
               </a>
