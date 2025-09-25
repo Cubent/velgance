@@ -93,7 +93,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
             <div className="relative group">
               <Link 
                 href="/models" 
-                className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+                className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap py-4"
               >
                 Modelli
               </Link>
