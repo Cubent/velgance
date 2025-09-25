@@ -47,6 +47,12 @@ nextConfig.images?.remotePatterns?.push({
   hostname: 'assets.basehub.com',
 });
 
+// Add i.postimg.cc for model images
+nextConfig.images?.remotePatterns?.push({
+  protocol: 'https',
+  hostname: 'i.postimg.cc',
+});
+
 // Performance optimizations
 nextConfig.experimental = {
   ...nextConfig.experimental,

@@ -126,13 +126,12 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                       onClick={() => setIsModelliDropdownOpen(false)}
                     >
                       <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3" style={{ minHeight: '200px' }}>
-                        <div 
-                          className="w-full h-full bg-cover bg-center bg-no-repeat"
-                          style={{ 
-                            backgroundImage: 'url(https://i.postimg.cc/kXskQ6Z7/Full-Body-Picture-3.png)',
-                            minHeight: '200px'
-                          }}
-                        ></div>
+                        <img 
+                          src="https://i.postimg.cc/kXskQ6Z7/Full-Body-Picture-3.png"
+                          alt="Talento Femminile"
+                          className="w-full h-full object-cover"
+                          style={{ minHeight: '200px' }}
+                        />
                         <div className="absolute inset-0 bg-black/20 hover:bg-black/30 transition-colors duration-300"></div>
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="text-center">
@@ -154,13 +153,12 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                       onClick={() => setIsModelliDropdownOpen(false)}
                     >
                       <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3" style={{ minHeight: '200px' }}>
-                        <div 
-                          className="w-full h-full bg-cover bg-center bg-no-repeat"
-                          style={{ 
-                            backgroundImage: 'url(https://i.postimg.cc/fLq97LMk/Full-Body-Picture-2.png)',
-                            minHeight: '200px'
-                          }}
-                        ></div>
+                        <img 
+                          src="https://i.postimg.cc/fLq97LMk/Full-Body-Picture-2.png"
+                          alt="Talento Maschile"
+                          className="w-full h-full object-cover"
+                          style={{ minHeight: '200px' }}
+                        />
                         <div className="absolute inset-0 bg-black/20 hover:bg-black/30 transition-colors duration-300"></div>
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="text-center">
