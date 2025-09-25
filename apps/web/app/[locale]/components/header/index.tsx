@@ -294,12 +294,22 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               </div>
             ) : (
               <div className="flex items-center gap-2">
+                {/* Old Entra Button - Hidden on desktop */}
                 <Link 
                   href="/sign-in"
-                  className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium text-black hover:text-gray-600 transition-colors px-4 py-2 bg-gray-100 hover:bg-gray-200"
+                  className="hidden sm:hidden items-center justify-center rounded-md text-sm font-medium text-black hover:text-gray-600 transition-colors px-4 py-2"
                 >
                   Entra
                 </Link>
+                
+                {/* New Entra Button - Black text, no background */}
+                <Link 
+                  href="/sign-in"
+                  className="hidden sm:inline-flex items-center justify-center text-xs sm:text-sm text-black hover:text-gray-600 transition-colors px-3 py-1 sm:px-6 sm:py-3 font-medium h-6 sm:h-10"
+                >
+                  Entra
+                </Link>
+                
                 <Link 
                   href="/dashboard"
                   className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
