@@ -48,7 +48,7 @@ export default function ModelApplicationClient() {
     { number: 6, title: 'Informazioni Aggiuntive', icon: User }
   ];
 
-  const handleInputChange = (field: keyof FormData, value: string | File) => {
+  const handleInputChange = (field: keyof FormData, value: string | File | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
