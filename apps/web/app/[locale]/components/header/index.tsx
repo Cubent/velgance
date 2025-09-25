@@ -30,7 +30,6 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   const pathname = usePathname();
   const isPricing = isPricingPage || pathname.includes('/pricing') || pathname.includes('/dashboard') || pathname.includes('/profile') || pathname.includes('/onboarding');
 
-
   // Search functionality
   useEffect(() => {
     const searchModels = async () => {
@@ -76,128 +75,131 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
     <header className="sticky top-0 z-40 w-full">
       <div className="w-full bg-white/90 backdrop-blur-sm px-4 py-3">
         <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
-                <div className="flex items-center gap-6">
-                  <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <p className="whitespace-nowrap font-normal text-lg text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>Velgance Agency</p>
-                  </Link>
+          {/* Left side - Logo */}
+          <div className="flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <p className="whitespace-nowrap font-normal text-lg text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>Velgance Agency</p>
+            </Link>
+          </div>
+
+          {/* Search - Desktop only */}
+          <div className="hidden sm:flex flex-1 max-w-md mx-4">
+            <div className="flex items-center gap-6 w-full">
+              <Link 
+                href="/models" 
+                className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+              >
+                Modelli
+              </Link>
+              <div className="relative w-full" ref={searchRef}>
+                <input
+                  type="text"
+                  placeholder="Cerca modelli..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setShowSearchResults(true)}
+                  className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
+                />
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                {showSearchResults && searchQuery && (
+                  <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                    {searchResults.length > 0 ? (
+                      <>
+                        {searchResults.slice(0, 5).map((model) => (
+                          <Link
+                            key={model.id}
+                            href={`/models?search=${encodeURIComponent(model.firstName + ' ' + model.lastName)}`}
+                            className="flex items-center gap-3 p-3 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
+                            onClick={() => setShowSearchResults(false)}
+                          >
+                            <img
+                              src={model.image}
+                              alt={`${model.firstName} ${model.lastName}`}
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                            <div>
+                              <p className="font-medium text-sm text-black">
+                                {model.firstName} {model.lastName}
+                              </p>
+                            </div>
+                          </Link>
+                        ))}
+                        {searchResults.length > 5 && (
+                          <Link 
+                            href={`/models?search=${encodeURIComponent(searchQuery)}`}
+                            className="block p-3 text-sm text-gray-600 hover:bg-gray-100 border-t border-gray-100"
+                            onClick={() => setShowSearchResults(false)}
+                          >
+                            Vedi tutti i risultati ({searchResults.length})
+                          </Link>
+                        )}
+                      </>
+                    ) : (
+                      <div className="p-3 text-sm text-gray-500">
+                        Nessun modello trovato
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Search Icon */}
+          <div className="sm:hidden ml-auto">
+            <div className="relative" ref={searchRef}>
+              <button
+                onClick={() => setShowSearchResults(!showSearchResults)}
+                className="p-2 text-black hover:text-gray-600 transition-colors"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+              {showSearchResults && (
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <div className="p-3">
+                    <input
+                      type="text"
+                      placeholder="Cerca modelli..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full px-3 py-2 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
+                    />
+                    {searchQuery && searchResults.length > 0 && (
+                      <div className="mt-2 max-h-48 overflow-y-auto">
+                        {searchResults.slice(0, 3).map((model) => (
+                          <Link
+                            key={model.id}
+                            href={`/models?search=${encodeURIComponent(model.firstName + ' ' + model.lastName)}`}
+                            className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded"
+                            onClick={() => setShowSearchResults(false)}
+                          >
+                            <img
+                              src={model.image}
+                              alt={`${model.firstName} ${model.lastName}`}
+                              className="w-8 h-8 rounded-full object-cover"
+                            />
+                            <span className="text-sm text-black">
+                              {model.firstName} {model.lastName}
+                            </span>
+                          </Link>
+                        ))}
+                        {searchResults.length > 3 && (
+                          <Link
+                            href={`/models?search=${encodeURIComponent(searchQuery)}`}
+                            className="block p-2 text-sm text-gray-600 hover:bg-gray-100 rounded mt-1"
+                            onClick={() => setShowSearchResults(false)}
+                          >
+                            Vedi tutti i risultati ({searchResults.length})
+                          </Link>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-                {/* Search - Desktop only */}
-                <div className="hidden sm:flex flex-1 max-w-md mx-4">
-                  <div className="flex items-center gap-6 w-full">
-                    <Link 
-                      href="/models" 
-                      className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
-                    >
-                      Modelli
-                    </Link>
-                    <div className="relative w-full" ref={searchRef}>
-                      <input
-                        type="text"
-                        placeholder="Cerca modelli..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onFocus={() => setShowSearchResults(true)}
-                        className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
-                      />
-                      <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-               {showSearchResults && searchQuery && (
-                 <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                   {searchResults.length > 0 ? (
-                     <>
-                       {searchResults.slice(0, 5).map((model) => (
-                         <Link
-                           key={model.id}
-                           href={`/models?search=${encodeURIComponent(model.firstName + ' ' + model.lastName)}`}
-                           className="flex items-center gap-3 p-3 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
-                           onClick={() => setShowSearchResults(false)}
-                         >
-                           <img
-                             src={model.image}
-                             alt={`${model.firstName} ${model.lastName}`}
-                             className="w-10 h-10 rounded-full object-cover"
-                           />
-                           <div>
-                             <p className="font-medium text-sm text-black">
-                               {model.firstName} {model.lastName}
-                             </p>
-                           </div>
-                         </Link>
-                       ))}
-                       {searchResults.length > 5 && (
-                         <Link 
-                           href={`/models?search=${encodeURIComponent(searchQuery)}`}
-                           className="block p-3 text-sm text-gray-600 hover:bg-gray-100 border-t border-gray-100"
-                           onClick={() => setShowSearchResults(false)}
-                         >
-                           Vedi tutti i risultati ({searchResults.length})
-                         </Link>
-                       )}
-                     </>
-                   ) : (
-                     <div className="p-3 text-sm text-gray-500">
-                       Nessun modello trovato
-                     </div>
-                   )}
-                 </div>
-               )}
-             </div>
-           </div>
-         </div>
-           
-           {/* Mobile Search Icon */}
-           <div className="sm:hidden ml-auto">
-             <div className="relative" ref={searchRef}>
-               <button
-                 onClick={() => setShowSearchResults(!showSearchResults)}
-                 className="p-2 text-black hover:text-gray-600 transition-colors"
-               >
-                 <Search className="w-5 h-5" />
-               </button>
-               {showSearchResults && (
-                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                   <div className="p-3">
-                     <input
-                       type="text"
-                       placeholder="Cerca modelli..."
-                       value={searchQuery}
-                       onChange={(e) => setSearchQuery(e.target.value)}
-                       className="w-full px-3 py-2 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
-                     />
-                     {searchQuery && searchResults.length > 0 && (
-                       <div className="mt-2 max-h-48 overflow-y-auto">
-                         {searchResults.slice(0, 3).map((model) => (
-                           <Link
-                             key={model.id}
-                             href={`/models?search=${encodeURIComponent(model.firstName + ' ' + model.lastName)}`}
-                             className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded"
-                             onClick={() => setShowSearchResults(false)}
-                           >
-                             <img
-                               src={model.image}
-                               alt={`${model.firstName} ${model.lastName}`}
-                               className="w-8 h-8 rounded-full object-cover"
-                             />
-                             <span className="text-sm text-black">
-                               {model.firstName} {model.lastName}
-                             </span>
-                           </Link>
-                         ))}
-                         {searchResults.length > 3 && (
-                           <Link
-                             href={`/models?search=${encodeURIComponent(searchQuery)}`}
-                             className="block p-2 text-sm text-gray-600 hover:bg-gray-100 rounded mt-1"
-                             onClick={() => setShowSearchResults(false)}
-                           >
-                             Vedi tutti i risultati ({searchResults.length})
-          </Link>
-                         )}
-                       </div>
-                     )}
-                   </div>
-                 </div>
-               )}
-             </div>
-           </div>
+              )}
+            </div>
+          </div>
+
           {/* Right side - Desktop and Mobile */}
           <div className="flex items-center gap-2">
             {/* Sign In / User Profile */}
@@ -290,94 +292,93 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                 >
                   Entra
                 </Link>
-                 <Link 
-                   href="/dashboard"
-                   className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
-                   style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}
-                 >
-                   Contattaci
-                 </Link>
-               </div>
-             )}
-             
-             {/* Mobile Hamburger Menu - after Contattaci */}
-             <div className="sm:hidden ml-1" ref={mobileMenuRef}>
-               <button
-                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                 className="p-2 text-black hover:text-gray-600 transition-colors"
-               >
-                 <Menu className="w-5 h-5" />
-               </button>
-               {isMobileMenuOpen && (
-                 <div className="fixed inset-0 z-50 animate-in fade-in-0 duration-300 bg-white" style={{ backgroundColor: 'white !important' }}>
-                   {/* Header */}
-                   <div className="flex justify-between items-center p-6 border-b border-gray-300" style={{ backgroundColor: '#fafafa' }}>
-                     <h2 className="text-2xl font-medium text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>
-                       Menu
-                     </h2>
-                       <button
-                         onClick={() => setIsMobileMenuOpen(false)}
-                         className="p-3 hover:bg-gray-200 rounded-full transition-colors"
-                       >
-                         <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                         </svg>
-                       </button>
-                   </div>
-                   
-                   {/* Menu Items - Centered */}
-                   <div className="flex flex-col justify-center items-center h-[calc(100vh-120px)] p-6 space-y-2 bg-white" style={{ backgroundColor: 'white !important' }}>
-                     <Link
-                       href="/models"
-                       className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
-                       onClick={() => setIsMobileMenuOpen(false)}
-                       style={{ fontFamily: 'Raleway, sans-serif' }}
-                     >
-                       Modelli
-                     </Link>
-                     
-                     <div className="h-px bg-gray-300 my-4 w-48"></div>
-                     
-                     {!isLoaded ? (
-                       <div className="px-6 py-6">
-                         <div className="h-8 w-24 animate-pulse bg-gray-200 rounded"></div>
-                       </div>
-                     ) : user ? (
-                       <Link
-                         href="/dashboard"
-                         className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
-                         onClick={() => setIsMobileMenuOpen(false)}
-                         style={{ fontFamily: 'Raleway, sans-serif' }}
-                       >
-                         Dashboard
-                       </Link>
-                      ) : (
-                        <>
-                          <Link
-                            href="/sign-in"
-                            className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            style={{ fontFamily: 'Raleway, sans-serif' }}
-                          >
-                            Entra
-                          </Link>
-                          
-                          <div className="h-px bg-gray-300 my-4 w-48"></div>
-                          
-                          <Link
-                            href="/dashboard"
-                            className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            style={{ fontFamily: 'Raleway, sans-serif' }}
-                          >
-                            Contattaci
-                          </Link>
-                        </>
-                      )}
-                   </div>
+                <Link 
+                  href="/dashboard"
+                  className="bg-black text-white px-3 py-1 sm:px-6 sm:py-3 rounded-lg font-medium hover:bg-gray-700 shadow-lg h-6 sm:h-10 inline-flex items-center justify-center text-xs sm:text-sm"
+                  style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}
+                >
+                  Contattaci
+                </Link>
               </div>
             )}
-            </div>
+            
+            {/* Mobile Hamburger Menu */}
+            <div className="sm:hidden ml-1" ref={mobileMenuRef}>
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 text-black hover:text-gray-600 transition-colors"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+              {isMobileMenuOpen && (
+                <div className="fixed inset-0 z-50 animate-in fade-in-0 duration-300 bg-white" style={{ backgroundColor: 'white !important' }}>
+                  {/* Header */}
+                  <div className="flex justify-between items-center p-6 border-b border-gray-300" style={{ backgroundColor: '#fafafa' }}>
+                    <h2 className="text-2xl font-medium text-black" style={{ fontFamily: 'Raleway, sans-serif' }}>
+                      Menu
+                    </h2>
+                    <button
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="p-3 hover:bg-gray-200 rounded-full transition-colors"
+                    >
+                      <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Menu Items - Centered */}
+                  <div className="flex flex-col justify-center items-center h-[calc(100vh-120px)] p-6 space-y-2 bg-white" style={{ backgroundColor: 'white !important' }}>
+                    <Link
+                      href="/models"
+                      className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      style={{ fontFamily: 'Raleway, sans-serif' }}
+                    >
+                      Modelli
+                    </Link>
+                    
+                    <div className="h-px bg-gray-300 my-4 w-48"></div>
+                    
+                    {!isLoaded ? (
+                      <div className="px-6 py-6">
+                        <div className="h-8 w-24 animate-pulse bg-gray-200 rounded"></div>
+                      </div>
+                    ) : user ? (
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        style={{ fontFamily: 'Raleway, sans-serif' }}
+                      >
+                        Dashboard
+                      </Link>
+                    ) : (
+                      <>
+                        <Link
+                          href="/sign-in"
+                          className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          style={{ fontFamily: 'Raleway, sans-serif' }}
+                        >
+                          Entra
+                        </Link>
+                        
+                        <div className="h-px bg-gray-300 my-4 w-48"></div>
+                        
+                        <Link
+                          href="/dashboard"
+                          className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          style={{ fontFamily: 'Raleway, sans-serif' }}
+                        >
+                          Contattaci
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
