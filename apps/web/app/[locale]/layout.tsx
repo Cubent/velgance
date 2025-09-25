@@ -1,6 +1,7 @@
 // Main layout component for the Cubent website
 import './styles.css';
 import { AnalyticsProvider } from '@repo/analytics';
+import { AuthProvider } from '@repo/auth/provider';
 
 import { DesignSystemProvider } from '@repo/design-system';
 import { fonts } from '@repo/design-system/lib/fonts';
@@ -82,17 +83,19 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
       />
       <ReferralTracker />
       <ErrorBoundary>
-        <AnalyticsProvider>
-          <DesignSystemProvider>
-            <PerformanceOptimizer />
-            <PageWrapper>
-              <ConditionalHeaderFooter dictionary={dictionary} isPricingPage={isPricingPage}>
-                {children}
-              </ConditionalHeaderFooter>
-            </PageWrapper>
-          </DesignSystemProvider>
-          <Toolbar />
-        </AnalyticsProvider>
+        <AuthProvider>
+          <AnalyticsProvider>
+            <DesignSystemProvider>
+              <PerformanceOptimizer />
+              <PageWrapper>
+                <ConditionalHeaderFooter dictionary={dictionary} isPricingPage={isPricingPage}>
+                  {children}
+                </ConditionalHeaderFooter>
+              </PageWrapper>
+            </DesignSystemProvider>
+            <Toolbar />
+          </AnalyticsProvider>
+        </AuthProvider>
       </ErrorBoundary>
     </>
   );
