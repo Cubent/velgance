@@ -205,7 +205,8 @@ export default function ModelPageClient({ params }: Props) {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden lg:grid grid-cols-2 gap-8 items-start">
+        <div className="hidden lg:block">
+          <div className="grid grid-cols-2 gap-8 items-start">
           {/* Left Side - Model Info */}
           <div className="space-y-8">
             {/* Desktop Name */}
@@ -314,6 +315,7 @@ export default function ModelPageClient({ params }: Props) {
                 className="w-full h-full object-cover rounded-lg"
               />
             </div>
+          </div>
           </div>
         </div>
 
