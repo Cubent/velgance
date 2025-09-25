@@ -31,7 +31,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { firstName, lastName, email, igProfileLink, image } = body;
+    const { firstName, lastName, email, igProfileLink, image, height, weight, location } = body;
 
     const model = await prisma.model.update({
       where: { id },
@@ -40,7 +40,10 @@ export async function PUT(
         ...(lastName && { lastName }),
         ...(email && { email }),
         ...(igProfileLink !== undefined && { igProfileLink: igProfileLink || null }),
-        ...(image && { image })
+        ...(image && { image }),
+        ...(height !== undefined && { height: height || null }),
+        ...(weight !== undefined && { weight: weight || null }),
+        ...(location !== undefined && { location: location || null })
       }
     });
 
