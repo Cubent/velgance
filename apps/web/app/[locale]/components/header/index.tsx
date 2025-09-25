@@ -26,11 +26,13 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
     console.log('[HEADER] Should show Entra:', !isLoaded || !user);
   }
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isModelliDropdownOpen, setIsModelliDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const modelliDropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -57,11 +59,14 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
     return () => clearTimeout(debounceTimer);
   }, [searchQuery]);
 
-  // Close user menu, search, and mobile menu when clicking outside
+  // Close user menu, search, mobile menu, and modelli dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setIsUserMenuOpen(false);
+      }
+      if (modelliDropdownRef.current && !modelliDropdownRef.current.contains(event.target as Node)) {
+        setIsModelliDropdownOpen(false);
       }
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setShowSearchResults(false);
@@ -90,22 +95,35 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
 
           {/* Navigation Menu - Centered */}
           <div className="hidden sm:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
-            <div className="relative group">
-              <Link 
-                href="/models" 
-                className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap py-4"
+            <div 
+              className="relative"
+              ref={modelliDropdownRef}
+              onMouseEnter={() => setIsModelliDropdownOpen(true)}
+              onMouseLeave={() => setIsModelliDropdownOpen(false)}
+            >
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (isModelliDropdownOpen) {
+                    router.push('/models');
+                  } else {
+                    setIsModelliDropdownOpen(true);
+                  }
+                }}
+                className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap py-4 bg-transparent border-none cursor-pointer"
               >
                 Modelli
-              </Link>
+              </button>
               
               {/* Dropdown Menu */}
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-[600px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+              <div className={`absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-[600px] transition-all duration-300 z-50 ${isModelliDropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
                   <div className="grid grid-cols-2 gap-6">
                     {/* Female Models Card */}
                     <Link
                       href="/female-models"
-                      className="group/card cursor-pointer"
+                      className="cursor-pointer block hover:scale-105 transition-transform duration-300"
+                      onClick={() => setIsModelliDropdownOpen(false)}
                     >
                       <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3" style={{ minHeight: '200px' }}>
                         <div 
@@ -115,7 +133,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                             minHeight: '200px'
                           }}
                         ></div>
-                        <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/30 transition-colors duration-300"></div>
+                        <div className="absolute inset-0 bg-black/20 hover:bg-black/30 transition-colors duration-300"></div>
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="text-center">
                             <h3 className="text-xl font-light text-white mb-3 italic" style={{ fontFamily: 'serif' }}>
@@ -132,7 +150,8 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                     {/* Male Models Card */}
                     <Link
                       href="/male-models"
-                      className="group/card cursor-pointer"
+                      className="cursor-pointer block hover:scale-105 transition-transform duration-300"
+                      onClick={() => setIsModelliDropdownOpen(false)}
                     >
                       <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3" style={{ minHeight: '200px' }}>
                         <div 
@@ -142,7 +161,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                             minHeight: '200px'
                           }}
                         ></div>
-                        <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/30 transition-colors duration-300"></div>
+                        <div className="absolute inset-0 bg-black/20 hover:bg-black/30 transition-colors duration-300"></div>
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="text-center">
                             <h3 className="text-xl font-light text-white mb-3 italic" style={{ fontFamily: 'serif' }}>
