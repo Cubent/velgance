@@ -19,11 +19,6 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
-  
-  // Debug logging for production
-  if (typeof window !== 'undefined') {
-    console.log('[HEADER DEBUG] isLoaded:', isLoaded, 'user:', !!user);
-  }
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
