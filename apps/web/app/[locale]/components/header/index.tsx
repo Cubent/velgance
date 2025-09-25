@@ -88,13 +88,31 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
             </Link>
           </div>
 
-          {/* Modelli Link - Centered */}
-          <div className="hidden sm:flex flex-1 justify-center">
+          {/* Navigation Menu - Centered */}
+          <div className="hidden sm:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
             <Link 
               href="/models" 
               className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
             >
               Modelli
+            </Link>
+            <Link 
+              href="/contact" 
+              className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+            >
+              Contattaci
+            </Link>
+            <Link 
+              href="/magazine" 
+              className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+            >
+              Magazine
+            </Link>
+            <Link 
+              href="/portfolio" 
+              className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+            >
+              Portfolio
             </Link>
           </div>
 
@@ -237,8 +255,8 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
             )}
 
             {/* Desktop Search Bar - Right side */}
-            <div className="hidden sm:block">
-              <div className="relative w-64" ref={searchRef}>
+            <div className="hidden sm:block mr-6">
+              <div className="relative w-48" ref={searchRef}>
                 <input
                   type="text"
                   placeholder="Cerca modelli..."
@@ -334,6 +352,39 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                       style={{ fontFamily: 'Raleway, sans-serif' }}
                     >
                       Modelli
+                    </Link>
+                    
+                    <div className="h-px bg-gray-300 my-2 w-48"></div>
+                    
+                    <Link
+                      href="/contact"
+                      className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      style={{ fontFamily: 'Raleway, sans-serif' }}
+                    >
+                      Contattaci
+                    </Link>
+                    
+                    <div className="h-px bg-gray-300 my-2 w-48"></div>
+                    
+                    <Link
+                      href="/magazine"
+                      className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      style={{ fontFamily: 'Raleway, sans-serif' }}
+                    >
+                      Magazine
+                    </Link>
+                    
+                    <div className="h-px bg-gray-300 my-2 w-48"></div>
+                    
+                    <Link
+                      href="/portfolio"
+                      className="flex items-center px-6 py-6 text-2xl text-black hover:bg-gray-100/50 rounded-xl transition-all duration-200"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      style={{ fontFamily: 'Raleway, sans-serif' }}
+                    >
+                      Portfolio
                     </Link>
                     
                     <div className="h-px bg-gray-300 my-4 w-48"></div>
