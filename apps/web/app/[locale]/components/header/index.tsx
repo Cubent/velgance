@@ -107,11 +107,12 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                       href="/female-models"
                       className="group/card cursor-pointer"
                     >
-                      <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3">
+                      <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3" style={{ minHeight: '200px' }}>
                         <div 
                           className="w-full h-full bg-cover bg-center bg-no-repeat"
                           style={{ 
-                            backgroundImage: 'url(https://i.postimg.cc/kXskQ6Z7/Full-Body-Picture-3.png)'
+                            backgroundImage: 'url(https://i.postimg.cc/kXskQ6Z7/Full-Body-Picture-3.png)',
+                            minHeight: '200px'
                           }}
                         ></div>
                         <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/30 transition-colors duration-300"></div>
@@ -133,11 +134,12 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                       href="/male-models"
                       className="group/card cursor-pointer"
                     >
-                      <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3">
+                      <div className="relative overflow-hidden rounded-lg aspect-[4/3] mb-3" style={{ minHeight: '200px' }}>
                         <div 
                           className="w-full h-full bg-cover bg-center bg-no-repeat"
                           style={{ 
-                            backgroundImage: 'url(https://i.postimg.cc/fLq97LMk/Full-Body-Picture-2.png)'
+                            backgroundImage: 'url(https://i.postimg.cc/fLq97LMk/Full-Body-Picture-2.png)',
+                            minHeight: '200px'
                           }}
                         ></div>
                         <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/30 transition-colors duration-300"></div>

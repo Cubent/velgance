@@ -26,11 +26,12 @@ export default function ModelsPage() {
               href="/female-models"
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4" style={{ minHeight: '400px' }}>
+              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4" style={{ minHeight: '250px' }}>
                 <div 
                   className="w-full h-full bg-cover bg-center bg-no-repeat"
                   style={{ 
-                    backgroundImage: 'url(https://i.postimg.cc/kXskQ6Z7/Full-Body-Picture-3.png)'
+                    backgroundImage: 'url(https://i.postimg.cc/kXskQ6Z7/Full-Body-Picture-3.png)',
+                    minHeight: '250px'
                   }}
                 ></div>
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
@@ -58,11 +59,12 @@ export default function ModelsPage() {
               href="/male-models"
               className="group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4" style={{ minHeight: '400px' }}>
+              <div className="relative overflow-hidden rounded-lg aspect-[4/3] md:aspect-[4/3] mb-4" style={{ minHeight: '250px' }}>
                 <div 
                   className="w-full h-full bg-cover bg-center bg-no-repeat"
                   style={{ 
-                    backgroundImage: 'url(https://i.postimg.cc/fLq97LMk/Full-Body-Picture-2.png)'
+                    backgroundImage: 'url(https://i.postimg.cc/fLq97LMk/Full-Body-Picture-2.png)',
+                    minHeight: '250px'
                   }}
                 ></div>
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
