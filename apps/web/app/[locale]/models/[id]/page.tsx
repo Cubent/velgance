@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { database as db } from '@repo/database';
 import ModelPageClient from './client';
 
 type Props = {
@@ -10,9 +11,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/models/${id}`);
-    if (response.ok) {
-      const model = await response.json();
+    // Direct database call to find model by ID
+    const model = await db.model.findUnique({
+      where: { 
+        id: id,
+        isActive: true
+      },
+      select: {
+        firstName: true,
+        lastName: true,
+        image: true,
+        location: true,
+        isActive: true,
+      },
+    });
+
+    if (model && model.isActive) {
       return {
         title: `${model.firstName} ${model.lastName} - Velgance Agency`,
         description: `Modello professionale ${model.firstName} ${model.lastName} presso Velgance Agency. ${model.location ? `Basato a ${model.location}.` : ''} Contatta per booking e collaborazioni.`,

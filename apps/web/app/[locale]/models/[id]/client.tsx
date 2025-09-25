@@ -5,6 +5,25 @@ import { useRouter } from 'next/navigation';
 import type { Model } from '../../../../lib/models';
 import { ArrowLeft, Instagram, Mail, MapPin, Ruler, Weight } from 'lucide-react';
 
+// Helper function to extract Instagram username from URL
+const getInstagramUsername = (url: string): string => {
+  if (!url) return '';
+  
+  // Remove trailing slash and extract username
+  const cleanUrl = url.replace(/\/$/, '');
+  const parts = cleanUrl.split('/');
+  
+  // Find the username (usually the last non-empty part)
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const part = parts[i];
+    if (part && part !== 'instagram.com' && part !== 'www.instagram.com' && part !== 'https:' && part !== 'http:') {
+      return part.replace('@', '');
+    }
+  }
+  
+  return '';
+};
+
 type Props = {
   params: Promise<{ id: string; locale: string }>;
 };
@@ -142,7 +161,7 @@ export default function ModelPageClient({ params }: Props) {
                       rel="noopener noreferrer"
                       className="text-gray-700 hover:text-black transition-colors"
                     >
-                      @{model.igProfileLink.split('/').pop()?.replace('@', '')}
+                      @{getInstagramUsername(model.igProfileLink)}
                     </a>
                   </div>
                 )}
@@ -245,7 +264,7 @@ export default function ModelPageClient({ params }: Props) {
                       rel="noopener noreferrer"
                       className="text-gray-700 hover:text-black transition-colors"
                     >
-                      @{model.igProfileLink.split('/').pop()?.replace('@', '')}
+                      @{getInstagramUsername(model.igProfileLink)}
                     </a>
                   </div>
                 )}
