@@ -24,12 +24,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Generate slug from firstName and lastName
-    const slug = `${firstName.toLowerCase()}-${lastName.toLowerCase()}`
-      .replace(/[^a-z0-9\-]/g, '-')
-      .replace(/\-+/g, '-')
-      .replace(/^\-|\-$/g, '');
-
     // Handle file upload (you might want to upload to a cloud storage service)
     let portfolioUrl = '';
     if (portfolio && portfolio.size > 0) {
@@ -42,7 +36,6 @@ export async function POST(request: NextRequest) {
       data: {
         firstName,
         lastName,
-        slug,
         email,
         igProfileLink: instagram || null,
         image: portfolioUrl || 'https://via.placeholder.com/400x600?text=No+Image',
