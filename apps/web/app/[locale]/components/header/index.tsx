@@ -87,7 +87,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
     <>
       {/* Top Announcement Banner - Sticky */}
       {!isAnnouncementClosed && (
-        <div className="sticky top-0 z-50 w-full text-[#212121] py-2 px-4 text-center" style={{ backgroundColor: '#fcf7ed', position: 'sticky', top: 0, zIndex: 50, width: '100%' }}>
+        <div className="sticky top-0 z-50 w-full text-[#212121] px-4 text-center flex items-center justify-center" style={{ backgroundColor: '#fcf7ed', position: 'sticky', top: 0, zIndex: 50, width: '100%', minHeight: '40px' }}>
           <div className="max-w-7xl mx-auto flex items-center justify-center relative">
             <Link href="/magazine/i-100-modelli-piu-influenti-europa-2025" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
               <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,19 +100,11 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
-            <button
-              onClick={() => setIsAnnouncementClosed(true)}
-              className="absolute right-4 p-1 hover:bg-gray-200 rounded-full transition-colors hidden sm:block"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
           </div>
         </div>
       )}
       
-      <header className={`sticky z-40 w-full ${!isAnnouncementClosed ? 'top-[36px]' : 'top-0'}`} style={{ position: 'sticky', zIndex: 40, top: !isAnnouncementClosed ? '36px' : '0', width: '100%' }}>
+      <header className={`sticky z-40 w-full ${!isAnnouncementClosed ? 'top-[40px]' : 'top-0'}`} style={{ position: 'sticky', zIndex: 40, top: !isAnnouncementClosed ? '40px' : '0', width: '100%' }}>
         <div className="w-full bg-white/95 backdrop-blur-md px-4 py-3">
         <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
           {/* Left side - Logo */}
