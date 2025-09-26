@@ -58,26 +58,33 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Cubent",
-            "description": "Lightning-Fast AI Code Assistant for developers. Purpose-built for full-code generation, codebase-aware autocomplete and terminal-ready actions.",
-            "url": "https://cubent.dev",
-            "logo": "https://cubent.dev/favicon.svg",
+            "name": "Velgance Agency",
+            "description": "Dal 1998 trasformiamo il talento in opportunità. Agenzia di modelli professionisti per sfilate, shooting, video commerciali e eventi aziendali.",
+            "url": "https://velgance.com",
+            "logo": "https://velgance.com/favicon.svg",
             "sameAs": [
-              "https://twitter.com/cubent",
-              "https://github.com/cubent"
+              "https://instagram.com/velgance_agency",
+              "https://facebook.com/velgance"
             ],
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "customer service",
-              "url": "https://cubent.dev/contact"
+              "url": "https://velgance.com/contact",
+              "email": "info@velgance.com"
             },
             "founder": {
-              "@type": "Organization",
-              "name": "Cubent Team"
+              "@type": "Person",
+              "name": "Velgance Founder"
             },
-            "foundingDate": "2024",
-            "industry": "Software Development Tools",
-            "keywords": "AI code assistant, code generation, autocomplete, developer tools, artificial intelligence, programming assistant"
+            "foundingDate": "1998",
+            "industry": "Entertainment & Fashion",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "IT",
+              "addressLocality": "Milano",
+              "streetAddress": "Via della Moda, 123"
+            },
+            "keywords": "agenzia modelli, modelle, casting, sfilate, shooting fotografici, video commerciali, eventi, hostess, steward, influencer marketing, fashion week, milano"
           })
         }}
       />

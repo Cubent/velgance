@@ -197,10 +197,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Travira",
+      "name": "Velgance Agency",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://i.postimg.cc/KjR55hC6/Travira-9.png",
+        "url": "https://velgance.com/favicon.svg",
       },
     },
     "datePublished": post.publishedAt,

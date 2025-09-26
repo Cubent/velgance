@@ -124,14 +124,14 @@ export const generateStructuredData = (type: 'Organization' | 'WebSite' | 'Artic
         description: data.description,
         author: {
           '@type': 'Organization',
-          name: 'Cubent Team',
+          name: 'Velgance Agency',
         },
         publisher: {
           '@type': 'Organization',
-          name: 'Cubent',
+          name: 'Velgance Agency',
           logo: {
             '@type': 'ImageObject',
-            url: 'https://cubent.dev/favicon.svg',
+            url: 'https://velgance.com/favicon.svg',
           },
         },
         datePublished: data.publishedAt,
@@ -142,17 +142,17 @@ export const generateStructuredData = (type: 'Organization' | 'WebSite' | 'Artic
     case 'Product':
       return {
         ...baseStructuredData,
-        name: 'Cubent AI Code Assistant',
-        description: 'AI-native coding assistant for developers with full-code generation and autocomplete',
+        name: 'Velgance Agency Services',
+        description: 'Professional modeling and entertainment services for fashion, advertising and events',
         brand: {
           '@type': 'Brand',
-          name: 'Cubent',
+          name: 'Velgance Agency',
         },
-        category: 'Software Development Tools',
+        category: 'Entertainment & Fashion',
         offers: {
           '@type': 'Offer',
-          url: 'https://cubent.dev/pricing',
-          priceCurrency: 'USD',
+          url: 'https://velgance.com/contact',
+          priceCurrency: 'EUR',
           availability: 'https://schema.org/InStock',
         },
         ...data,
