@@ -87,7 +87,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
     <>
       {/* Top Announcement Banner - Sticky */}
       {!isAnnouncementClosed && (
-        <div className="fixed top-0 left-0 right-0 z-50 w-full bg-[#fcf7ed] text-[#212121] py-2 px-4 text-center">
+        <div className="sticky top-0 z-50 w-full bg-[#fcf7ed] text-[#212121] py-2 px-4 text-center">
           <div className="max-w-7xl mx-auto flex items-center justify-center relative">
             <Link href="/magazine/i-100-modelli-piu-influenti-europa-2025" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
               <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
