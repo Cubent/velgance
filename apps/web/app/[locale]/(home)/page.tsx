@@ -339,7 +339,7 @@ const Home = ({ params }: HomeProps) => {
               Servizi per le aziende
             </h2>
           <p className="text-lg sm:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
-            Academy Model Management offre soluzioni su misura per le esigenze di promozione e rappresentanza delle aziende: dalle modelle e modelli per eventi e sfilate, ai promoter e influencer per campagne pubblicitarie.
+            Velgance Agency offre soluzioni su misura per le esigenze di promozione e rappresentanza delle aziende: dalle modelle e modelli per eventi e sfilate, ai promoter e influencer per campagne pubblicitarie.
           </p>
         </div>
       </div>
