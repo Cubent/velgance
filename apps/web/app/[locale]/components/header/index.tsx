@@ -84,7 +84,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   }, []);
 
   return (
-    <>
+    <div className="relative">
       {/* Top Announcement Banner - Sticky */}
       {!isAnnouncementClosed && (
         <div className="sticky top-0 z-50 w-full bg-[#fcf7ed] text-[#212121] py-2 px-4 text-center">
@@ -531,6 +531,6 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
         </div>
       </div>
     </header>
-    </>
+    </div>
   );
 };
