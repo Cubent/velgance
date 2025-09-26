@@ -14,7 +14,7 @@ interface FormData {
   weight: string;
   gender: string;
   instagram: string;
-  portfolio: File | null;
+  portfolio: File[];
   experience: string;
   availability: string;
   additionalInfo: string;
@@ -34,7 +34,7 @@ export default function ModelApplicationClient() {
     weight: '',
     gender: 'female',
     instagram: '',
-    portfolio: null,
+    portfolio: [],
     experience: '',
     availability: '',
     additionalInfo: ''
@@ -50,13 +50,13 @@ export default function ModelApplicationClient() {
     { number: 6, title: 'Informazioni Aggiuntive', icon: User }
   ];
 
-  const handleInputChange = (field: keyof FormData, value: string | File | null) => {
+  const handleInputChange = (field: keyof FormData, value: string | File[] | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    handleInputChange('portfolio', file);
+    const files = Array.from(e.target.files || []);
+    handleInputChange('portfolio', files);
   };
 
   const validateCurrentStep = () => {
@@ -70,7 +70,7 @@ export default function ModelApplicationClient() {
       case 4:
         return true; // Instagram is optional
       case 5:
-        return formData.portfolio !== null;
+        return formData.portfolio.length > 0;
       case 6:
         return true; // All fields are optional
       default:
@@ -105,7 +105,12 @@ export default function ModelApplicationClient() {
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        if (value !== null && value !== '') {
+        if (key === 'portfolio' && Array.isArray(value)) {
+          // Handle multiple files
+          value.forEach((file, index) => {
+            formDataToSend.append(`portfolio_${index}`, file);
+          });
+        } else if (value !== null && value !== '' && !Array.isArray(value)) {
           formDataToSend.append(key, value);
         }
       });
@@ -273,7 +278,7 @@ export default function ModelApplicationClient() {
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                 <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
                 <p className="text-sm text-gray-600 mb-2">
-                  Carica una foto a figura intera che mostri il tuo corpo completo
+                  Carica le tue migliori foto portfolio (minimo 3, massimo 10)
                 </p>
                 <input
                   type="file"
@@ -281,18 +286,28 @@ export default function ModelApplicationClient() {
                   onChange={handleFileChange}
                   className="hidden"
                   id="portfolio-upload"
+                  multiple
                   required
                 />
                 <label
                   htmlFor="portfolio-upload"
                   className="inline-block bg-black text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-800 transition-colors"
                 >
-                  Scegli File
+                  Scegli Foto
                 </label>
-                {formData.portfolio && (
-                  <p className="text-sm text-green-600 mt-2">
-                    File selezionato: {formData.portfolio.name}
-                  </p>
+                {formData.portfolio.length > 0 && (
+                  <div className="mt-4">
+                    <p className="text-sm text-green-600 mb-2">
+                      {formData.portfolio.length} foto selezionate:
+                    </p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {formData.portfolio.map((file, index) => (
+                        <div key={index} className="text-xs text-gray-600 p-2 bg-gray-100 rounded">
+                          {file.name}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
               

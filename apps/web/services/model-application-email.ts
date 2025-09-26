@@ -16,8 +16,8 @@ export interface ModelApplicationData {
   experience?: string;
   availability?: string;
   additionalInfo?: string;
-  portfolioUrl?: string;
-  portfolioFile?: File | null;
+  portfolioUrls?: string[];
+  portfolioFiles?: File[];
 }
 
 /**
@@ -153,20 +153,24 @@ function generateModelApplicationAdminEmailHTML(data: ModelApplicationData): str
           ` : ''}
 
           <!-- Portfolio -->
-          ${data.portfolioUrl ? `
+          ${data.portfolioUrls && data.portfolioUrls.length > 0 ? `
           <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 16px; background: white;">
             <h4 style="margin: 0 0 12px 0; color: #1f2937; font-size: 16px; font-weight: 600;">
-              Portfolio
+              Portfolio (${data.portfolioUrls.length} foto)
             </h4>
-            <p style="margin: 0 0 12px 0; color: #1f2937; font-size: 14px;">
-              📎 <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://velgance.com'}${data.portfolioUrl}" target="_blank" style="color: #059669; text-decoration: none;">
-                Visualizza Immagine Portfolio
-              </a>
-            </p>
-            <div style="text-align: center; margin-top: 12px;">
-              <img src="${process.env.NEXT_PUBLIC_APP_URL || 'https://velgance.com'}${data.portfolioUrl}" 
-                   alt="Portfolio ${data.firstName} ${data.lastName}" 
-                   style="max-width: 300px; max-height: 400px; border-radius: 8px; border: 1px solid #e5e7eb;" />
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px;">
+              ${data.portfolioUrls.map((url, index) => `
+                <div style="text-align: center;">
+                  <img src="${url}" 
+                       alt="Portfolio ${data.firstName} ${data.lastName} - Foto ${index + 1}" 
+                       style="max-width: 200px; max-height: 300px; border-radius: 8px; border: 1px solid #e5e7eb; object-fit: cover;" />
+                  <p style="margin: 8px 0 0 0; font-size: 12px; color: #6b7280;">
+                    <a href="${url}" target="_blank" style="color: #059669; text-decoration: none;">
+                      Foto ${index + 1} - Visualizza Full Size
+                    </a>
+                  </p>
+                </div>
+              `).join('')}
             </div>
           </div>
           ` : ''}

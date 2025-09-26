@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@repo/database/generated/client';
 import { sendModelApplicationAdminEmail } from '../../../../services/model-application-email';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
+import { uploadMultipleImagesToCloudinary } from '../../../../services/cloudinary';
 
 const prisma = new PrismaClient();
 
@@ -22,51 +21,48 @@ export async function POST(request: NextRequest) {
     const experience = formData.get('experience') as string;
     const availability = formData.get('availability') as string;
     const additionalInfo = formData.get('additionalInfo') as string;
-    const portfolio = formData.get('portfolio') as File;
+    
+    // Get multiple portfolio files
+    const portfolioFiles: File[] = [];
+    let index = 0;
+    while (true) {
+      const file = formData.get(`portfolio_${index}`) as File;
+      if (!file) break;
+      portfolioFiles.push(file);
+      index++;
+    }
 
     if (!firstName || !lastName || !email || !location || !height) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Handle file upload to website public folder
-    let portfolioUrl = '';
-    let portfolioFile: File | null = null;
-    if (portfolio && portfolio.size > 0) {
+    // Upload multiple images to Cloudinary
+    let portfolioUrls: string[] = [];
+    
+    if (portfolioFiles.length > 0) {
       try {
-        // Create filename with timestamp
-        const timestamp = Date.now();
-        const fileExtension = portfolio.name.split('.').pop();
-        const fileName = `${firstName.toLowerCase()}-${lastName.toLowerCase()}-${timestamp}.${fileExtension}`;
+        console.log(`Uploading ${portfolioFiles.length} images to Cloudinary...`);
+        const uploadResults = await uploadMultipleImagesToCloudinary(
+          portfolioFiles,
+          `velgance/portfolios/${firstName.toLowerCase()}-${lastName.toLowerCase()}`
+        );
         
-        // Create uploads directory if it doesn't exist
-        const uploadsDir = join(process.cwd(), 'public', 'uploads', 'portfolios');
-        await mkdir(uploadsDir, { recursive: true });
-        
-        // Convert file to buffer and save
-        const bytes = await portfolio.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const filePath = join(uploadsDir, fileName);
-        await writeFile(filePath, buffer);
-        
-        // Create public URL
-        portfolioUrl = `/uploads/portfolios/${fileName}`;
-        portfolioFile = portfolio;
-        
-        console.log(`File uploaded successfully: ${portfolioUrl}`);
+        portfolioUrls = uploadResults.map(result => result.secure_url);
+        console.log(`Successfully uploaded ${portfolioUrls.length} images to Cloudinary`);
       } catch (uploadError) {
-        console.error('Error uploading file:', uploadError);
-        // Continue without file if upload fails
+        console.error('Error uploading images to Cloudinary:', uploadError);
+        return NextResponse.json({ error: 'Failed to upload portfolio images' }, { status: 500 });
       }
     }
 
-    // Create model application (you might want to create a separate table for applications)
+    // Create database entry (file upload already handled above)
     const application = await prisma.model.create({
       data: {
         firstName,
         lastName,
         email,
         igProfileLink: instagram || null,
-        image: portfolioUrl || 'https://via.placeholder.com/400x600?text=No+Image',
+        image: portfolioUrls.length > 0 ? portfolioUrls[0] : 'https://via.placeholder.com/400x600?text=No+Image',
         height: height || null,
         weight: weight || null,
         location: location || null,
@@ -89,8 +85,8 @@ export async function POST(request: NextRequest) {
       experience: experience || undefined,
       availability: availability || undefined,
       additionalInfo: additionalInfo || undefined,
-      portfolioUrl: portfolioUrl || undefined,
-      portfolioFile: portfolioFile,
+      portfolioUrls: portfolioUrls,
+      portfolioFiles: portfolioFiles,
     };
 
     // Send notification to admin only
