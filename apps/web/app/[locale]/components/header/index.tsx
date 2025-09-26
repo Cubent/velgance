@@ -113,7 +113,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
       )}
       
       <header className={`sticky z-40 w-full ${!isAnnouncementClosed ? 'top-[36px]' : 'top-0'}`}>
-        <div className="w-full bg-white/90 backdrop-blur-sm px-4 py-3">
+        <div className="w-full bg-white/95 backdrop-blur-md px-4 py-3">
         <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
           {/* Left side - Logo */}
           <div className="flex items-center gap-6">
