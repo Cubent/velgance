@@ -222,7 +222,7 @@ const Home = ({ params }: HomeProps) => {
               <div className="relative z-10">
                 <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">Modelli in Evidenza</h3>
                 <div className="mb-4">
-                  <span className="text-8xl sm:text-9xl font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif' }}>15</span>
+                  <span className="font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>15</span>
                 </div>
                 <p className="text-sm text-gray-700 leading-relaxed font-medium">
                   talenti <strong className="text-black">Featured</strong> su copertine globali nel <strong className="text-black">2024</strong>.
@@ -237,7 +237,7 @@ const Home = ({ params }: HomeProps) => {
               <div className="flex-1 relative z-10">
                 <h3 className="text-xs font-bold text-white mb-6 tracking-widest uppercase transform -rotate-90 origin-left absolute left-0 top-0">Quota Mercato</h3>
                 <div className="mt-8">
-                  <span className="text-9xl font-light text-white block leading-none" style={{ fontFamily: 'Inter, sans-serif' }}>41</span>
+                  <span className="font-light text-white block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>41</span>
                   <span className="text-3xl font-bold text-white">%</span>
                 </div>
               </div>
@@ -254,7 +254,7 @@ const Home = ({ params }: HomeProps) => {
               <div className="relative z-10">
                 <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">La Nostra Portata</h3>
                 <div className="mb-4">
-                  <span className="text-8xl sm:text-9xl font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif' }}>75</span>
+                  <span className="font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>75</span>
                   <span className="text-2xl font-bold text-gray-600">%</span>
                 </div>
                 <p className="text-sm text-gray-700 leading-relaxed font-medium">
@@ -271,7 +271,7 @@ const Home = ({ params }: HomeProps) => {
                 <h3 className="text-xs font-bold text-gray-400 mb-4 tracking-widest uppercase">Settore Moda Italia</h3>
                 <div className="mb-4 flex items-baseline">
                   <span className="text-2xl font-bold text-gray-400">€</span>
-                  <span className="text-8xl sm:text-9xl font-light block leading-none" style={{ fontFamily: 'Inter, sans-serif' }}>102</span>
+                  <span className="font-light block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>102</span>
                   <span className="text-3xl font-bold text-gray-400 ml-1">B</span>
                 </div>
                 <p className="text-sm text-gray-300 leading-relaxed font-medium">
