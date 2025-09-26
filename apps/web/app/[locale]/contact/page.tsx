@@ -99,7 +99,7 @@ export default function ContactPage() {
                       id="firstName"
                       name="firstName"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-black"
                     />
                   </div>
                   <div>
@@ -111,7 +111,7 @@ export default function ContactPage() {
                       id="lastName"
                       name="lastName"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-black"
                     />
                   </div>
                 </div>

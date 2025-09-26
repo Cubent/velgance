@@ -91,13 +91,13 @@ export const ContactForm = ({ dictionary }: ContactFormProps) => {
                 <Label htmlFor="firstname">
                   {dictionary.web.contact.hero.form.firstName}
                 </Label>
-                <Input id="firstname" type="text" />
+                <Input id="firstname" type="text" className="text-black" />
               </div>
               <div className="grid w-full max-w-sm items-center gap-1">
                 <Label htmlFor="lastname">
                   {dictionary.web.contact.hero.form.lastName}
                 </Label>
-                <Input id="lastname" type="text" />
+                <Input id="lastname" type="text" className="text-black" />
               </div>
               <div className="grid w-full max-w-sm items-center gap-1">
                 <Label htmlFor="picture">

@@ -104,57 +104,12 @@ const Home = ({ params }: HomeProps) => {
         </div>
       </div>
 
-      {/* I nostri modelli e modelle Section */}
-      <div className="py-16 sm:py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-black mb-6 italic" style={{ fontFamily: 'serif' }}>
-            I nostri modelli e modelle
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto mb-12">
-            Modelle e modelli professionisti per sfilate, presentazioni aziendali, shooting, video commerciali, show-room e fiere.
-          </p>
-          
-          {/* Two Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Uomini Card */}
-            <Link href="/male-models" className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <img 
-                  src="https://i.postimg.cc/5yJNtfhT/image.png" 
-                  alt="Uomini" 
-                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-light" style={{ fontFamily: 'Raleway, sans-serif' }}>Uomini</h3>
-                </div>
-              </div>
-            </Link>
-
-            {/* Donne Card */}
-            <Link href="/female-models" className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <img 
-                  src="https://i.postimg.cc/7LbCvY4N/image.png" 
-                  alt="Donne" 
-                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-light" style={{ fontFamily: 'Raleway, sans-serif' }}>Donne</h3>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Il nostro Portfolio Section */}
+      {/* I Nostri Lavori Più Recenti Section */}
       <div className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-black mb-6 italic" style={{ fontFamily: 'serif' }}>
-              Il nostro Portfolio
+              I Nostri Lavori Più Recenti
             </h2>
             <p className="text-lg sm:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
               Scopri i nostri lavori attraverso le riviste di settore e i progetti realizzati con i nostri talenti.
@@ -257,6 +212,126 @@ const Home = ({ params }: HomeProps) => {
         </div>
       </div>
 
+      {/* Elegant Stats Section */}
+      <div className="py-8 sm:py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-0 auto-rows-fr border border-gray-200">
+            
+            {/* Card 1 - Modelli in Evidenza (Mobile First) */}
+            <div className="md:col-span-2 lg:col-span-2 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden">
+              <div className="relative z-10">
+                <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">Modelli in Evidenza</h3>
+                <div className="mb-4">
+                  <span className="text-7xl sm:text-8xl font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif' }}>15</span>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed font-medium">
+                  talenti <strong className="text-black">Featured</strong> su copertine globali nel <strong className="text-black">2024</strong>.
+                </p>
+              </div>
+              <div className="absolute -bottom-4 -right-4 text-6xl font-black text-gray-200 opacity-30 select-none">★</div>
+            </div>
+
+            {/* Card 2 - Quota Mercato Italia (Mobile Second) */}
+            <div className="md:col-span-4 lg:col-span-1 md:row-span-2 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 flex flex-col relative overflow-hidden" style={{ backgroundImage: 'url(https://i.postimg.cc/jdQY0jgT/Full-Body-Picture-14.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <div className="absolute inset-0 bg-black/40"></div>
+              <div className="flex-1 relative z-10">
+                <h3 className="text-xs font-bold text-white mb-6 tracking-widest uppercase transform -rotate-90 origin-left absolute left-0 top-0">Quota Mercato</h3>
+                <div className="mt-8">
+                  <span className="text-9xl font-light text-white block leading-none" style={{ fontFamily: 'Inter, sans-serif' }}>41</span>
+                  <span className="text-3xl font-bold text-white">%</span>
+                </div>
+              </div>
+              <div className="mt-auto relative z-10">
+                <p className="text-xs text-white leading-relaxed font-medium">
+                  <strong>Italia #1</strong> in Europa. La quota di fatturato moda generata dall'Italia.
+                </p>
+              </div>
+              <div className="absolute -bottom-6 -right-6 text-8xl font-black text-gray-100 opacity-30 select-none">IT</div>
+            </div>
+
+            {/* Card 3 - La Nostra Portata EU (Mobile Third) */}
+            <div className="md:col-span-2 lg:col-span-3 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden">
+              <div className="relative z-10">
+                <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">La Nostra Portata</h3>
+                <div className="mb-4">
+                  <span className="text-7xl sm:text-8xl font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif' }}>75</span>
+                  <span className="text-2xl font-bold text-gray-600">%</span>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed font-medium">
+                  dei nostri modelli ha lavorato su <strong>progetti internazionali</strong> in Europa nell'ultimo anno.
+                </p>
+              </div>
+              <div className="absolute -bottom-4 -right-4 text-9xl font-black text-gray-100 opacity-30 select-none">EU</div>
+            </div>
+
+            {/* Card 4 - Settore Moda Italia */}
+            <div className="md:col-span-2 lg:col-span-3 bg-[#25201f] border-r border-b border-gray-200 p-6 sm:p-10 text-white hover:bg-[#2a2520] transition-colors duration-300 relative overflow-hidden" style={{ backgroundImage: 'url(https://i.postimg.cc/J7HRgMCX/Full-Body-Picture-15.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <div className="absolute inset-0 bg-black/50"></div>
+              <div className="relative z-10">
+                <h3 className="text-xs font-bold text-gray-400 mb-4 tracking-widest uppercase">Settore Moda Italia</h3>
+                <div className="mb-4 flex items-baseline">
+                  <span className="text-2xl font-bold text-gray-400">€</span>
+                  <span className="text-7xl sm:text-8xl font-light block leading-none" style={{ fontFamily: 'Inter, sans-serif' }}>102</span>
+                  <span className="text-3xl font-bold text-gray-400 ml-1">B</span>
+                </div>
+                <p className="text-sm text-gray-300 leading-relaxed font-medium">
+                  Fatturato <strong className="text-white">previsto</strong> del settore moda italiano per il <strong className="text-white">2024</strong>.
+                </p>
+              </div>
+              <div className="absolute -bottom-4 -right-4 text-7xl font-black text-gray-300 opacity-40 select-none">€</div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      {/* I nostri modelli e modelle Section */}
+      <div className="py-16 sm:py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-black mb-6 italic" style={{ fontFamily: 'serif' }}>
+            I nostri modelli e modelle
+          </h2>
+          <p className="text-lg sm:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto mb-12">
+            Modelle e modelli professionisti per sfilate, presentazioni aziendali, shooting, video commerciali, show-room e fiere.
+          </p>
+          
+          {/* Two Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Uomini Card */}
+            <Link href="/male-models" className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <img 
+                  src="https://i.postimg.cc/5yJNtfhT/image.png" 
+                  alt="Uomini" 
+                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-2xl font-light" style={{ fontFamily: 'Raleway, sans-serif' }}>Uomini</h3>
+                </div>
+              </div>
+            </Link>
+
+            {/* Donne Card */}
+            <Link href="/female-models" className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <img 
+                  src="https://i.postimg.cc/7LbCvY4N/image.png" 
+                  alt="Donne" 
+                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-2xl font-light" style={{ fontFamily: 'Raleway, sans-serif' }}>Donne</h3>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+
       {/* Servizi per le aziende Section */}
       <div className="py-16 sm:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -282,10 +357,10 @@ const Home = ({ params }: HomeProps) => {
                 <p className="text-lg sm:text-xl text-gray-700 leading-relaxed max-w-md mb-6">
                   Selezioniamo e proponiamo influencer in linea con l'immagine e i valori delle aziende.
                 </p>
-                <button className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors">
+                <Link href="/contact" className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors">
                   <span>Scopri di più</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
           </div>
 
               {/* Right Column - Image */}
@@ -327,10 +402,10 @@ const Home = ({ params }: HomeProps) => {
                 <p className="text-lg sm:text-xl text-gray-700 leading-relaxed max-w-md mb-6">
                   Offriamo servizio di hostess/steward per aziende che organizzano eventi, fiere e manifestazioni.
                 </p>
-                <button className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors">
+                <Link href="/contact" className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors">
                   <span>Scopri di più</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>
