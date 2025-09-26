@@ -17,6 +17,7 @@ export interface ModelApplicationData {
   availability?: string;
   additionalInfo?: string;
   portfolioUrl?: string;
+  portfolioFile?: File | null;
 }
 
 /**
@@ -157,9 +158,16 @@ function generateModelApplicationAdminEmailHTML(data: ModelApplicationData): str
             <h4 style="margin: 0 0 12px 0; color: #1f2937; font-size: 16px; font-weight: 600;">
               Portfolio
             </h4>
-            <p style="margin: 0; color: #1f2937; font-size: 14px;">
-              📎 File allegato: ${data.portfolioUrl}
+            <p style="margin: 0 0 12px 0; color: #1f2937; font-size: 14px;">
+              📎 <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://velgance.com'}${data.portfolioUrl}" target="_blank" style="color: #059669; text-decoration: none;">
+                Visualizza Immagine Portfolio
+              </a>
             </p>
+            <div style="text-align: center; margin-top: 12px;">
+              <img src="${process.env.NEXT_PUBLIC_APP_URL || 'https://velgance.com'}${data.portfolioUrl}" 
+                   alt="Portfolio ${data.firstName} ${data.lastName}" 
+                   style="max-width: 300px; max-height: 400px; border-radius: 8px; border: 1px solid #e5e7eb;" />
+            </div>
           </div>
           ` : ''}
 

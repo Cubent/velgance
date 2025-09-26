@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@repo/database/generated/client';
-import { sendModelApplicationAdminEmail, sendModelApplicationConfirmationEmail } from '../../../../services/model-application-email';
+import { sendModelApplicationAdminEmail } from '../../../../services/model-application-email';
+import { writeFile, mkdir } from 'fs/promises';
+import { join } from 'path';
 
 const prisma = new PrismaClient();
 
@@ -26,11 +28,35 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Handle file upload (you might want to upload to a cloud storage service)
+    // Handle file upload to website public folder
     let portfolioUrl = '';
+    let portfolioFile: File | null = null;
     if (portfolio && portfolio.size > 0) {
-      // For now, we'll store the filename. In production, upload to cloud storage
-      portfolioUrl = `uploads/${Date.now()}-${portfolio.name}`;
+      try {
+        // Create filename with timestamp
+        const timestamp = Date.now();
+        const fileExtension = portfolio.name.split('.').pop();
+        const fileName = `${firstName.toLowerCase()}-${lastName.toLowerCase()}-${timestamp}.${fileExtension}`;
+        
+        // Create uploads directory if it doesn't exist
+        const uploadsDir = join(process.cwd(), 'public', 'uploads', 'portfolios');
+        await mkdir(uploadsDir, { recursive: true });
+        
+        // Convert file to buffer and save
+        const bytes = await portfolio.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const filePath = join(uploadsDir, fileName);
+        await writeFile(filePath, buffer);
+        
+        // Create public URL
+        portfolioUrl = `/uploads/portfolios/${fileName}`;
+        portfolioFile = portfolio;
+        
+        console.log(`File uploaded successfully: ${portfolioUrl}`);
+      } catch (uploadError) {
+        console.error('Error uploading file:', uploadError);
+        // Continue without file if upload fails
+      }
     }
 
     // Create model application (you might want to create a separate table for applications)
@@ -64,13 +90,11 @@ export async function POST(request: NextRequest) {
       availability: availability || undefined,
       additionalInfo: additionalInfo || undefined,
       portfolioUrl: portfolioUrl || undefined,
+      portfolioFile: portfolioFile,
     };
 
-    // Send notification to admin
+    // Send notification to admin only
     await sendModelApplicationAdminEmail(emailData);
-    
-    // Send confirmation to applicant
-    await sendModelApplicationConfirmationEmail(emailData);
 
     return NextResponse.json({ 
       success: true, 
