@@ -84,8 +84,16 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   }, []);
 
   return (
-    <div className="relative">
-      {/* Top Announcement Banner - Sticky */}
+    <>
+      {/* Body padding for fixed elements */}
+      {!isAnnouncementClosed && (
+        <div className="h-[76px] w-full"></div>
+      )}
+      {isAnnouncementClosed && (
+        <div className="h-[40px] w-full"></div>
+      )}
+      
+      {/* Top Announcement Banner - Fixed */}
       {!isAnnouncementClosed && (
         <div className="fixed top-0 left-0 right-0 z-50 w-full bg-[#fcf7ed] text-[#212121] py-2 px-4 text-center">
           <div className="max-w-7xl mx-auto flex items-center justify-center relative">
@@ -531,6 +539,6 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
         </div>
       </div>
     </header>
-    </div>
+    </>
   );
 };
