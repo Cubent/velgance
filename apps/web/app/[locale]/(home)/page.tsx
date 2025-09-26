@@ -13,7 +13,7 @@ type HomeProps = {
 const HeroImageCarousel = () => {
   const images = [
     'https://i.postimg.cc/N0xr7rpp/Velgance.png', // Original image
-    'https://i.postimg.cc/sg4KXNgx/10.png',
+    'https://i.postimg.cc/2SmHgGhk/Full-Body-Picture-8.png',
     'https://i.postimg.cc/BvZp1Bjg/11.png',
     'https://i.postimg.cc/g2WNGWd1/12.png',
     'https://i.postimg.cc/6Q10Qt5Y/8.png',
@@ -53,9 +53,9 @@ const Home = ({ params }: HomeProps) => {
         </div>
         
         {/* Elegant Title - Top Left */}
-        <div className="absolute top-16 sm:top-20 left-8 z-10 max-w-[280px] sm:max-w-sm lg:max-w-md">
-          <h1 className="text-5xl sm:text-4xl lg:text-5xl font-extralight text-[#212121] tracking-wide leading-tight italic" style={{ fontFamily: 'serif' }}>
-            Trasformiamo il talento in opportunità
+        <div className="absolute top-8 sm:top-20 left-8 z-10 max-w-[280px] sm:max-w-sm lg:max-w-md">
+          <h1 className="text-4xl sm:text-4xl lg:text-5xl font-extralight text-[#212121] tracking-wide leading-tight italic" style={{ fontFamily: 'serif' }}>
+            Dal 1998 trasformiamo il talento in opportunità
           </h1>
         </div>
         
