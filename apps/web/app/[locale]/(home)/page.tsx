@@ -215,10 +215,10 @@ const Home = ({ params }: HomeProps) => {
       {/* Elegant Stats Section */}
       <div className="py-8 sm:py-12 bg-white">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-0 auto-rows-fr border border-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-0 border border-gray-200" style={{ gridAutoRows: 'minmax(200px, auto)', display: 'grid' }}>
             
             {/* Card 1 - Modelli in Evidenza (Mobile First) */}
-            <div className="md:col-span-2 lg:col-span-2 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden">
+            <div className="md:col-span-2 lg:col-span-2 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden min-h-[200px]">
               <div className="relative z-10">
                 <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">Modelli in Evidenza</h3>
                 <div className="mb-4">
@@ -232,7 +232,7 @@ const Home = ({ params }: HomeProps) => {
             </div>
 
             {/* Card 2 - Quota Mercato Italia (Mobile Second) */}
-            <div className="md:col-span-4 lg:col-span-1 md:row-span-2 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 flex flex-col relative overflow-hidden" style={{ backgroundImage: 'url(https://i.postimg.cc/jdQY0jgT/Full-Body-Picture-14.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <div className="md:col-span-4 lg:col-span-1 md:row-span-2 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 flex flex-col relative overflow-hidden min-h-[200px] md:min-h-[400px]" style={{ backgroundImage: 'url(https://i.postimg.cc/jdQY0jgT/Full-Body-Picture-14.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
               <div className="absolute inset-0 bg-black/40"></div>
               <div className="flex-1 relative z-10">
                 <h3 className="text-xs font-bold text-white mb-6 tracking-widest uppercase transform -rotate-90 origin-left absolute left-0 top-0">Quota Mercato</h3>
@@ -250,7 +250,7 @@ const Home = ({ params }: HomeProps) => {
             </div>
 
             {/* Card 3 - La Nostra Portata EU (Mobile Third) */}
-            <div className="md:col-span-2 lg:col-span-3 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden">
+            <div className="md:col-span-2 lg:col-span-3 bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden min-h-[200px]">
               <div className="relative z-10">
                 <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">La Nostra Portata</h3>
                 <div className="mb-4">
@@ -265,7 +265,7 @@ const Home = ({ params }: HomeProps) => {
             </div>
 
             {/* Card 4 - Settore Moda Italia */}
-            <div className="md:col-span-2 lg:col-span-3 bg-[#25201f] border-r border-b border-gray-200 p-6 sm:p-10 text-white hover:bg-[#2a2520] transition-colors duration-300 relative overflow-hidden" style={{ backgroundImage: 'url(https://i.postimg.cc/J7HRgMCX/Full-Body-Picture-15.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <div className="md:col-span-2 lg:col-span-3 bg-[#25201f] border-r border-b border-gray-200 p-6 sm:p-10 text-white hover:bg-[#2a2520] transition-colors duration-300 relative overflow-hidden min-h-[200px]" style={{ backgroundImage: 'url(https://i.postimg.cc/J7HRgMCX/Full-Body-Picture-15.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
               <div className="absolute inset-0 bg-black/50"></div>
               <div className="relative z-10">
                 <h3 className="text-xs font-bold text-gray-400 mb-4 tracking-widest uppercase">Settore Moda Italia</h3>
