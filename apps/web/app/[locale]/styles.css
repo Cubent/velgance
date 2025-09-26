@@ -203,6 +203,15 @@
   .md\:grid-cols-2 > div:nth-child(4) {
     border-bottom: none !important;
   }
+  
+  /* Reorder cards on desktop: Settore Moda Italia (4th) to 3rd position, La Nostra Portata (3rd) to 4th position */
+  .md\:grid-cols-2 > div:nth-child(3) {
+    order: 4 !important;
+  }
+  
+  .md\:grid-cols-2 > div:nth-child(4) {
+    order: 3 !important;
+  }
 }
 
 /* Ensure grid display and auto-rows work */

@@ -218,67 +218,67 @@ const Home = ({ params }: HomeProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-0 border border-gray-200">
             
             {/* Card 1 - Modelli in Evidenza (Mobile First) */}
-            <div className="bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden">
+            <div className="bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden" style={{ backgroundImage: 'url(https://i.postimg.cc/jdQY0jgT/Full-Body-Picture-14.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <div className="absolute inset-0 bg-black/40"></div>
               <div className="relative z-10">
-                <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">Modelli in Evidenza</h3>
+                <h3 className="text-xs font-bold text-white mb-4 tracking-widest uppercase">Modelli in Evidenza</h3>
                 <div className="mb-4">
-                  <span className="font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>15</span>
+                  <span className="font-light text-white block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>15</span>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed font-medium">
-                  talenti <strong className="text-black">Featured</strong> su copertine globali nel <strong className="text-black">2024</strong>.
+                <p className="text-sm text-white leading-relaxed font-medium">
+                  talenti <strong className="text-white">Featured</strong> su copertine globali nel <strong className="text-white">2024</strong>.
                 </p>
               </div>
-              <div className="absolute -bottom-4 -right-4 text-6xl font-black text-gray-200 opacity-30 select-none">★</div>
+              <div className="absolute -bottom-4 -right-4 text-6xl font-black text-gray-100 opacity-30 select-none">★</div>
             </div>
 
             {/* Card 2 - Quota Mercato Italia (Mobile Second) */}
-            <div className="bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 flex flex-col relative overflow-hidden" style={{ backgroundImage: 'url(https://i.postimg.cc/jdQY0jgT/Full-Body-Picture-14.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-              <div className="absolute inset-0 bg-black/40"></div>
+            <div className="bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 flex flex-col relative overflow-hidden">
               <div className="flex-1 relative z-10">
-                <h3 className="text-xs font-bold text-white mb-6 tracking-widest uppercase transform -rotate-90 origin-left absolute left-0 top-0">Quota Mercato</h3>
+                <h3 className="text-xs font-bold text-gray-900 mb-6 tracking-widest uppercase transform -rotate-90 origin-left absolute left-0 top-0">Quota Mercato</h3>
                 <div className="mt-8">
-                  <span className="font-light text-white block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>41</span>
-                  <span className="text-3xl font-bold text-white">%</span>
+                  <span className="font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>41</span>
+                  <span className="text-3xl font-bold text-gray-700">%</span>
                 </div>
               </div>
               <div className="mt-auto relative z-10">
-                <p className="text-xs text-white leading-relaxed font-medium">
-                  <strong>Italia #1</strong> in Europa. La quota di fatturato moda generata dall'Italia.
+                <p className="text-xs text-gray-700 leading-relaxed font-medium">
+                  <strong className="text-black">Italia #1</strong> in Europa. La quota di fatturato moda generata dall'Italia.
                 </p>
               </div>
-              <div className="absolute -bottom-6 -right-6 text-8xl font-black text-gray-100 opacity-30 select-none">IT</div>
+              <div className="absolute -bottom-6 -right-6 text-8xl font-black text-gray-200 opacity-30 select-none">IT</div>
             </div>
 
             {/* Card 3 - La Nostra Portata EU (Mobile Third) */}
-            <div className="bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden">
+            <div className="bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden" style={{ backgroundImage: 'url(https://i.postimg.cc/J7HRgMCX/Full-Body-Picture-15.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <div className="absolute inset-0 bg-black/40"></div>
               <div className="relative z-10">
-                <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">La Nostra Portata</h3>
+                <h3 className="text-xs font-bold text-white mb-4 tracking-widest uppercase">La Nostra Portata</h3>
                 <div className="mb-4">
-                  <span className="font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>75</span>
-                  <span className="text-2xl font-bold text-gray-600">%</span>
+                  <span className="font-light text-white block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>75</span>
+                  <span className="text-2xl font-bold text-white">%</span>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed font-medium">
-                  dei nostri modelli ha lavorato su <strong>progetti internazionali</strong> in Europa nell'ultimo anno.
+                <p className="text-sm text-white leading-relaxed font-medium">
+                  dei nostri modelli ha lavorato su <strong className="text-white">progetti internazionali</strong> in Europa nell'ultimo anno.
                 </p>
               </div>
               <div className="absolute -bottom-4 -right-4 text-9xl font-black text-gray-100 opacity-30 select-none">EU</div>
             </div>
 
             {/* Card 4 - Settore Moda Italia */}
-            <div className="bg-[#25201f] border-r border-b border-gray-200 p-6 sm:p-10 text-white hover:bg-[#2a2520] transition-colors duration-300 relative overflow-hidden" style={{ backgroundImage: 'url(https://i.postimg.cc/J7HRgMCX/Full-Body-Picture-15.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-              <div className="absolute inset-0 bg-black/50"></div>
+            <div className="bg-white border-r border-b border-gray-200 p-6 sm:p-10 hover:bg-gray-50 transition-colors duration-300 relative overflow-hidden">
               <div className="relative z-10">
-                <h3 className="text-xs font-bold text-gray-400 mb-4 tracking-widest uppercase">Settore Moda Italia</h3>
+                <h3 className="text-xs font-bold text-gray-900 mb-4 tracking-widest uppercase">Settore Moda Italia</h3>
                 <div className="mb-4 flex items-baseline">
-                  <span className="text-2xl font-bold text-gray-400">€</span>
-                  <span className="font-light block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>102</span>
-                  <span className="text-3xl font-bold text-gray-400 ml-1">B</span>
+                  <span className="text-2xl font-bold text-gray-700">€</span>
+                  <span className="font-light text-black block leading-none" style={{ fontFamily: 'Inter, sans-serif', fontSize: '6rem', lineHeight: '1' }}>102</span>
+                  <span className="text-3xl font-bold text-gray-700 ml-1">B</span>
                 </div>
-                <p className="text-sm text-gray-300 leading-relaxed font-medium">
-                  Fatturato <strong className="text-white">previsto</strong> del settore moda italiano per il <strong className="text-white">2024</strong>.
+                <p className="text-sm text-gray-700 leading-relaxed font-medium">
+                  Fatturato <strong className="text-black">previsto</strong> del settore moda italiano per il <strong className="text-black">2024</strong>.
                 </p>
               </div>
-              <div className="absolute -bottom-4 -right-4 text-7xl font-black text-gray-300 opacity-40 select-none">€</div>
+              <div className="absolute -bottom-4 -right-4 text-7xl font-black text-gray-200 opacity-40 select-none">€</div>
             </div>
 
 
