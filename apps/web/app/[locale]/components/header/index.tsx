@@ -31,6 +31,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAnnouncementClosed, setIsAnnouncementClosed] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const modelliDropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -83,8 +84,36 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full">
-      <div className="w-full bg-white/90 backdrop-blur-sm px-4 py-3">
+    <>
+      {/* Top Announcement Banner - Sticky */}
+      {!isAnnouncementClosed && (
+        <div className="sticky top-0 z-50 w-full bg-[#faf8f5] text-[#212121] py-2 px-4 text-center">
+          <div className="max-w-7xl mx-auto flex items-center justify-center relative">
+            <Link href="/magazine/i-100-modelli-piu-influenti-europa-2025" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-sm font-medium">
+                I 100 modelli più influenti d'Europa - Classifica 2025
+              </p>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+            <button
+              onClick={() => setIsAnnouncementClosed(true)}
+              className="absolute right-4 p-1 hover:bg-gray-200 rounded-full transition-colors hidden sm:block"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+      
+      <header className={`sticky z-40 w-full ${!isAnnouncementClosed ? 'top-[36px]' : 'top-0'}`}>
+        <div className="w-full bg-white/90 backdrop-blur-sm px-4 py-3">
         <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
           {/* Left side - Logo */}
           <div className="flex items-center gap-6">
@@ -177,12 +206,6 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               </div>
             </div>
             <Link 
-              href="/contact" 
-              className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
-            >
-              Contattaci
-            </Link>
-            <Link 
               href="/magazine" 
               className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
             >
@@ -193,6 +216,12 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
               className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
             >
               Portfolio
+            </Link>
+            <Link 
+              href="/contact" 
+              className="text-sm text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+            >
+              Contatti
             </Link>
           </div>
 
@@ -213,14 +242,14 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                       placeholder="Cerca modelli..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
+                      className="w-full px-3 py-2 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent text-black"
                     />
                     {searchQuery && searchResults.length > 0 && (
                       <div className="mt-2 max-h-48 overflow-y-auto">
                         {searchResults.slice(0, 3).map((model) => (
                           <Link
                             key={model.id}
-                            href={`/models?search=${encodeURIComponent(model.firstName + ' ' + model.lastName)}`}
+                            href={`/models/${model.id}`}
                             className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded"
                             onClick={() => setShowSearchResults(false)}
                           >
@@ -343,7 +372,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setShowSearchResults(true)}
-                  className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent"
+                  className="w-full px-3 py-2 pl-10 text-sm border-b border-black focus:outline-none focus:border-gray-400 bg-transparent text-black"
                 />
                 <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
                 {showSearchResults && searchQuery && (
@@ -353,7 +382,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
                         {searchResults.slice(0, 5).map((model) => (
                           <Link
                             key={model.id}
-                            href={`/models?search=${encodeURIComponent(model.firstName + ' ' + model.lastName)}`}
+                            href={`/models/${model.id}`}
                             className="flex items-center gap-3 p-3 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
                             onClick={() => setShowSearchResults(false)}
                           >
@@ -502,5 +531,6 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
         </div>
       </div>
     </header>
+    </>
   );
 };

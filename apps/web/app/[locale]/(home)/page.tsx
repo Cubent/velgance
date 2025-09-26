@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 type HomeProps = {
@@ -10,18 +10,37 @@ type HomeProps = {
   }>;
 };
 
-const HeroImage = () => {
+const HeroImageCarousel = () => {
+  const images = [
+    'https://i.postimg.cc/N0xr7rpp/Velgance.png', // Original image
+    'https://i.postimg.cc/sg4KXNgx/10.png',
+    'https://i.postimg.cc/BvZp1Bjg/11.png',
+    'https://i.postimg.cc/g2WNGWd1/12.png',
+    'https://i.postimg.cc/6Q10Qt5Y/8.png',
+    'https://i.postimg.cc/cJDm7tYN/9.png'
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 1500); // Change image every 1.5 seconds for faster rotation
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
     <div 
-      className="w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] lg:w-[700px] lg:h-[700px] bg-contain bg-center bg-no-repeat mx-auto"
+      className="w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] lg:w-[700px] lg:h-[700px] bg-contain bg-center bg-no-repeat mx-auto transition-all duration-1000 ease-in-out"
       style={{
-        backgroundImage: 'url(https://i.postimg.cc/N0xr7rpp/Velgance.png)'
+        backgroundImage: `url(${images[currentImageIndex]})`
       }}
     />
   );
 };
 
-const Home = async ({ params }: HomeProps) => {
+const Home = ({ params }: HomeProps) => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'white' }}>
       {/* Hero Section */}
@@ -30,7 +49,7 @@ const Home = async ({ params }: HomeProps) => {
         <div 
           className="absolute inset-0 flex items-center justify-center"
         >
-          <HeroImage />
+          <HeroImageCarousel />
         </div>
         
         {/* Elegant Title - Top Left */}
@@ -98,7 +117,7 @@ const Home = async ({ params }: HomeProps) => {
           {/* Two Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Uomini Card */}
-            <div className="group cursor-pointer">
+            <Link href="/male-models" className="group cursor-pointer">
               <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <img 
                   src="https://i.postimg.cc/5yJNtfhT/image.png" 
@@ -110,10 +129,10 @@ const Home = async ({ params }: HomeProps) => {
                   <h3 className="text-2xl font-light" style={{ fontFamily: 'Raleway, sans-serif' }}>Uomini</h3>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* Donne Card */}
-            <div className="group cursor-pointer">
+            <Link href="/female-models" className="group cursor-pointer">
               <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <img 
                   src="https://i.postimg.cc/7LbCvY4N/image.png" 
@@ -123,9 +142,9 @@ const Home = async ({ params }: HomeProps) => {
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                   <h3 className="text-2xl font-light" style={{ fontFamily: 'Raleway, sans-serif' }}>Donne</h3>
-            </div>
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
