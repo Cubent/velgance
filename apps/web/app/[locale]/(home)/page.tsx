@@ -149,6 +149,107 @@ const Home = ({ params }: HomeProps) => {
         </div>
       </div>
 
+      {/* Il nostro Portfolio Section */}
+      <div className="py-16 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-black mb-6 italic" style={{ fontFamily: 'serif' }}>
+              Il nostro Portfolio
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
+              Scopri i nostri lavori attraverso le riviste di settore e i progetti realizzati con i nostri talenti.
+            </p>
+          </div>
+          
+          {/* Magazine Cards - Horizontal Scroll on All Devices */}
+          <div className="overflow-x-auto scrollbar-subtle">
+            <div className="flex gap-6 pb-4">
+              {/* Magazine Card 1 */}
+              <div className="group cursor-pointer flex-shrink-0 w-64 sm:w-64">
+                <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                  <img 
+                    src="https://i.postimg.cc/KjZ157PL/1.png" 
+                    alt="Magazine 1" 
+                    className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 className="text-white font-medium text-sm">Magazine Feature</h3>
+                  </div>
+                </div>
+              </div>
+
+              {/* Magazine Card 2 */}
+              <div className="group cursor-pointer flex-shrink-0 w-64 sm:w-64">
+                <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                  <img 
+                    src="https://i.postimg.cc/L5HJVkty/2.png" 
+                    alt="Magazine 2" 
+                    className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 className="text-white font-medium text-sm">Editorial Spread</h3>
+                  </div>
+                </div>
+              </div>
+
+              {/* Magazine Card 3 */}
+              <div className="group cursor-pointer flex-shrink-0 w-64 sm:w-64">
+                <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                  <img 
+                    src="https://i.postimg.cc/wM074t2Q/3.png" 
+                    alt="Magazine 3" 
+                    className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 className="text-white font-medium text-sm">Fashion Story</h3>
+                  </div>
+                </div>
+              </div>
+
+              {/* Magazine Card 4 */}
+              <div className="group cursor-pointer flex-shrink-0 w-64 sm:w-64">
+                <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                  <img 
+                    src="https://i.postimg.cc/hvSX08LZ/4.png" 
+                    alt="Magazine 4" 
+                    className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 className="text-white font-medium text-sm">Cover Story</h3>
+                  </div>
+                </div>
+              </div>
+
+              {/* Magazine Card 5 */}
+              <div className="group cursor-pointer flex-shrink-0 w-64 sm:w-64">
+                <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                  <img 
+                    src="https://i.postimg.cc/8c17bdRn/5.png" 
+                    alt="Magazine 5" 
+                    className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 className="text-white font-medium text-sm">Portfolio Feature</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* View More Text */}
+          <div className="text-center mt-12">
+            <Link href="/portfolio" className="text-gray-600 hover:text-black transition-colors text-lg">
+              e molto altro...
+            </Link>
+          </div>
+        </div>
+      </div>
+
       {/* Servizi per le aziende Section */}
       <div className="py-16 sm:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

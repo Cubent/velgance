@@ -141,3 +141,35 @@
 [data-clerk-component] * {
   box-shadow: none !important;
 }
+
+/* Subtle scrollbar for mobile portfolio scrolling */
+.scrollbar-subtle {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.8) rgba(0, 0, 0, 0.15);
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollbar-subtle::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  min-height: 20px;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 1);
+}
