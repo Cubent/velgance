@@ -53,7 +53,7 @@ const Home = ({ params }: HomeProps) => {
         </div>
         
         {/* Elegant Title - Top Left */}
-        <div className="absolute top-8 sm:top-20 left-8 z-10 max-w-[280px] sm:max-w-sm lg:max-w-md">
+        <div className="absolute top-4 sm:top-20 left-8 z-10 max-w-[280px] sm:max-w-sm lg:max-w-md">
           <h1 className="text-4xl sm:text-4xl lg:text-5xl font-extralight text-[#212121] tracking-wide leading-tight italic" style={{ fontFamily: 'serif' }}>
             Dal 1998 trasformiamo il talento in opportunità
           </h1>
