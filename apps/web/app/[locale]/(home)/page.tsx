@@ -162,7 +162,14 @@ const Home = ({ params }: HomeProps) => {
           </div>
           
           {/* Magazine Cards - Horizontal Scroll on All Devices */}
-          <div className="overflow-x-auto scrollbar-subtle">
+          <div 
+            className="overflow-x-auto scrollbar-subtle" 
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(255, 255, 255, 0.9) rgba(0, 0, 0, 0.2)',
+              WebkitOverflowScrolling: 'touch'
+            }}
+          >
             <div className="flex gap-6 pb-4">
               {/* Magazine Card 1 */}
               <div className="group cursor-pointer flex-shrink-0 w-64 sm:w-64">
