@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@repo/database/generated/client';
+import { sendModelApplicationAdminEmail, sendModelApplicationConfirmationEmail } from '../../../../services/model-application-email';
 
 const prisma = new PrismaClient();
 
@@ -48,8 +49,28 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // TODO: Send email notification to admin
-    // TODO: Send confirmation email to applicant
+    // Send email notifications
+    const emailData = {
+      firstName,
+      lastName,
+      email,
+      phone: phone || undefined,
+      location,
+      height,
+      weight: weight || undefined,
+      gender,
+      instagram: instagram || undefined,
+      experience: experience || undefined,
+      availability: availability || undefined,
+      additionalInfo: additionalInfo || undefined,
+      portfolioUrl: portfolioUrl || undefined,
+    };
+
+    // Send notification to admin
+    await sendModelApplicationAdminEmail(emailData);
+    
+    // Send confirmation to applicant
+    await sendModelApplicationConfirmationEmail(emailData);
 
     return NextResponse.json({ 
       success: true, 
