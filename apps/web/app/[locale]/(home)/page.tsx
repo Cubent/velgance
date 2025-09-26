@@ -145,7 +145,7 @@ const Home = ({ params }: HomeProps) => {
               <div className="group cursor-pointer flex-shrink-0 w-64 sm:w-64">
                 <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                   <img 
-                    src="https://i.postimg.cc/L5HJVkty/2.png" 
+                    src="https://edicolaonline.store/cdn/shop/files/VI_2405COVER_PASSEPARTOUT.webp?v=1746351936" 
                     alt="Magazine 2" 
                     className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
