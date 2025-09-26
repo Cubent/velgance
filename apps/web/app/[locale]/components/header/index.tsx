@@ -87,7 +87,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
     <>
       {/* Top Announcement Banner - Sticky */}
       {!isAnnouncementClosed && (
-        <div className="sticky top-0 z-50 w-full bg-[#fcf7ed] text-[#212121] py-2 px-4 text-center">
+        <div className="sticky top-0 z-50 w-full text-[#212121] py-2 px-4 text-center" style={{ backgroundColor: '#fcf7ed', position: 'sticky', top: 0, zIndex: 50, width: '100%' }}>
           <div className="max-w-7xl mx-auto flex items-center justify-center relative">
             <Link href="/magazine/i-100-modelli-piu-influenti-europa-2025" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
               <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,7 +112,7 @@ export const Header = ({ dictionary, isPricingPage = false }: HeaderProps) => {
         </div>
       )}
       
-      <header className={`sticky z-40 w-full ${!isAnnouncementClosed ? 'top-[36px]' : 'top-0'}`}>
+      <header className={`sticky z-40 w-full ${!isAnnouncementClosed ? 'top-[36px]' : 'top-0'}`} style={{ position: 'sticky', zIndex: 40, top: !isAnnouncementClosed ? '36px' : '0', width: '100%' }}>
         <div className="w-full bg-white/95 backdrop-blur-md px-4 py-3">
         <div className="relative w-full max-w-[98%] mx-auto flex min-h-12 flex-row items-center justify-between">
           {/* Left side - Logo */}
